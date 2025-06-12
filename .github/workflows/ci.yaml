@@ -79,4 +79,4 @@ jobs:
         run: cargo clippy --all-targets $( [ "${{ matrix.target }}" = "common" ] || echo "--features ${{ matrix.target }}" )
 
       - name: Test
-        run: cargo test $( [ "${{ matrix.target }}" = "common" ] || echo "--features ${{ matrix.target }}" )
+        run: cargo test $( [ "${{ matrix.target }}" = "common" ] || echo "--features ${{ matrix.target }} ${{ matrix.target }}" ) -- --test-threads=1
