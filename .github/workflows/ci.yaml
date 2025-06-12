@@ -32,6 +32,8 @@ jobs:
           # Check each client dynamically
           for client in src/*; do
             CLIENT_NAME=$(basename "$client")
+            [ -d "$client" ] || continue
+            
             if ! git diff --quiet "$BASE_COMMIT" HEAD -- "$client"; then
               echo "Changes detected in $CLIENT_NAME"
               MODIFIED_TARGETS+=("$CLIENT_NAME")
