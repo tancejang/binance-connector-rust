@@ -35,6 +35,17 @@ jobs:
           components: rustfmt, clippy
           rustflags: ""
 
+      - name: Cache cargo registry & build
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
+
       - name: Run Format
         run: |
             find examples/ -name "*.rs" -exec rustfmt --check -- {} +
