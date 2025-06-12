@@ -1,255 +1,92 @@
-# Binance Public API Connector Rust
+# Binance Rust Connector
 
-This is a lightweight library that works as a connector to [Binance public API](https://github.com/binance/binance-spot-api-docs)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/binance/binance-connector-rust/ci.yaml)](https://github.com/binance/binance-connector-rust/actions)
+[![Open Issues](https://img.shields.io/github/issues/binance/binance-connector-rust)](https://github.com/binance/binance-connector-rust/issues)
+[![Crates.io](https://img.shields.io/crates/v/binance-sdk)](https://crates.io/crates/binance-sdk)
+[![docs.rs](https://img.shields.io/docsrs/binance_sdk)](https://docs.rs/binance_sdk)
+[![Known Vulnerabilities](https://snyk.io/test/github/binance/binance-connector-rust/badge.svg)](https://snyk.io/test/github/binance/binance-connector-rust)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-- Supported APIs:
-  - `/api/*`
-  - `/sapi/*`
-  - Spot Websocket Market Stream
-  - Spot User Data Stream
-- Test cases and examples
-- Customizable base URL and request timeout
-- Blocking and Non-blocking clients
-- Response Metadata
-- Supports HMAC and ED25519 authentications but not RSA authentication.
+Official collection of auto-generated Rust SDK modules for Binance APIs.
 
-## RESTful APIs
+## Migration Guide
 
-The Binance Rust Connector exposes two abstraction layers to integrete with Binance RESTful APIs; a high level
-abstraction consisting of maintained functions mapped one-to-one with Binance API endpoints, and a low level
-generic abstraction for more control over the request.
+If you're upgrading from the previous connector, refer to our [Migration Guide](./MIGRATION.md) for detailed steps on transitioning to the new modular structure. The legacy connector will still be available for a limited time. You can find the code for the old connector in the `legacy` branch.
 
-**High Level Usage Example**
+## Prerequisites
 
-```rust
-use env_logger::Builder;
-use binance_spot_connector_rust::{
-    http::Credentials,
-    hyper::{BinanceHttpClient, Error},
-    market::{self, klines::KlineInterval},
-    trade
-};
+Before using the connector, ensure you have:
 
-#[tokio::main]
-async fn main() -> Result<(), Error> {
-    Builder::from_default_env()
-        .filter(None, log::LevelFilter::Info)
-        .init();
+* **Rust** (version 1.86.0 or later)
+* **cargo** (comes with Rust)
 
-    let credentials = Credentials::from_hmac("api-key".to_owned(), "api-secret".to_owned());
-    let client = BinanceHttpClient::default().credentials(credentials);
-
-    // Get candlesticks for BTCUSDT with a 1 minute interval
-    let data = client.send(market::klines("BTCUSDT", KlineInterval::Minutes1)).await
-        .expect("Request failed")
-        .into_body_str().await
-        .expect("Failed to read response body");
-    log::info!("{}", data);
-
-    // Get the last 10 candlesticks for BTCUSDT with a 1 hour interval
-    let data = client.send(market::klines("BTCUSDT", KlineInterval::Hours1).limit(10)).await
-        .expect("Request failed")
-        .into_body_str().await
-        .expect("Failed to read response body");
-    log::info!("{}", data);
-
-    // Get account information
-    let data = client.send(trade::account()).await
-        .expect("Request failed")
-        .into_body_str().await
-        .expect("Failed to read response body");
-    log::info!("{}", data);
-
-    Ok(())
-}
-```
-
-Examples for other endpoints are available in the `examples` folder.
-
-**Low Level Usage Example**
-
-```rust
-use binance_spot_connector_rust::{
-    http::{request::RequestBuilder, Method},
-    hyper::{BinanceHttpClient, Error},
-};
-use env_logger::Builder;
-
-#[tokio::main]
-async fn main() -> Result<(), Error> {
-    Builder::from_default_env()
-        .filter(None, log::LevelFilter::Info)
-        .init();
-
-    let client = BinanceHttpClient::default();
-
-    let builder = RequestBuilder::new(Method::Get, "/api/v3/klines")
-        .params(vec![("symbol", "BTCUSDT"), ("interval", "1m")]);
-
-    // Get candlesticks for BTCUSDT with a 1 minute interval
-    let data = client
-        .send(builder)
-        .await
-        .expect("Request failed")
-        .into_body_str()
-        .await
-        .expect("Failed to read response body");
-    log::info!("{}", data);
-
-    Ok(())
-}
-```
-
-## Websocket
-
-```rust
-use binance_spot_connector_rust::{
-    market::klines::KlineInterval, market_stream::kline::KlineStream,
-    tokio_tungstenite::BinanceWebSocketClient,
-};
-use std::time::Duration;
-use env_logger::Builder;
-use futures_util::StreamExt;
-
-#[tokio::main]
-async fn main() {
-    Builder::from_default_env()
-        .filter(None, log::LevelFilter::Info)
-        .init();
-    // Establish connection
-    let (mut conn, _) = BinanceWebSocketClient::connect_async_default()
-        .await
-        .expect("Failed to connect");
-    // Subscribe to streams
-    conn.subscribe(vec![
-        &KlineStream::new("BTCUSDT", KlineInterval::Minutes1).into()
-    ])
-    .await;
-    // Start a timer for 10 seconds
-    let timer = tokio::time::Instant::now();
-    let duration = Duration::new(10, 0);
-    // Read messages
-    while let Some(message) = conn.as_mut().next().await {
-        if timer.elapsed() >= duration {
-            log::info!("10 seconds elapsed, exiting loop.");
-            break; // Exit the loop after 10 seconds
-        }
-        match message {
-            Ok(message) => {
-                let binary_data = message.into_data();
-                let data = std::str::from_utf8(&binary_data).expect("Failed to parse message");
-                log::info!("{:?}", data);
-            }
-            Err(_) => break,
-        }
-    }
-    // Disconnect
-    conn.close().await.expect("Failed to disconnect");
-}
-
-```
-
-Examples for other websocket streams are available in the `examples` folder.
-
-### Heartbeat
-
-Once connected, the websocket server sends a ping frame every 3 minutes and requires a response pong frame back within
-a 10 minutes period. This package handles the pong responses automatically.
-
-### Testnet
-
-`/api/*` endpoints can be tested in [Spot Testnet](https://testnet.binance.vision/). `/sapi/*` endpoints are not supported.
-
-```rust
-let client = BinanceHttpClient::with_url("https://testnet.binance.vision");
-```
-
-### Base URL
-
-It's recommended to pass in the `baseUrl` parameter, even in production as Binance provides alternative URLs
-in case of performance issues:
-
-- `https://api1.binance.com`
-- `https://api2.binance.com`
-- `https://api3.binance.com`
-
-### Timeout
-
-The default timeout is 100,000 milliseconds (100 seconds).
-
-### Logging
-
-This library implements the standard rust logging framework which works with a variety of built-in and third-party logging providers.
-
-For more information on how to configure logging in Rust, visit [Rust Log](https://docs.rs/log/latest/log/)
-
-**Usage Example**
-
-```rust
-use binance_spot_connector_rust::{
-    http::Credentials,
-    hyper::{BinanceHttpClient, Error},
-    wallet,
-};
-use env_logger::Builder;
-
-#[tokio::main]
-async fn main() -> Result<(), Error> {
-    Builder::from_default_env()
-        .filter(None, log::LevelFilter::Debug)
-        .init();
-
-    let credentials = Credentials::from_hmac("api-key".to_owned(), "api-secret".to_owned());
-    let client = BinanceHttpClient::default().credentials(credentials);
-
-    // Get candlesticks for BTCUSDT with a 1 minute interval
-    let data = client
-        .send(wallet::system_status())
-        .await
-        .expect("Request failed")
-        .into_body_str()
-        .await
-        .expect("Failed to read response body");
-
-    Ok(())
-}
-```
-
-**Sample Output**
-
-```
-[2022-02-22T00:00:00Z DEBUG binance_spot_connector_rust::hyper::client] https://api.binance.com/sapi/v1/system/status
-[2022-02-22T00:00:00Z DEBUG binance_spot_connector_rust::hyper::client] 200 OK
-[2022-02-22T00:00:00Z INFO  binance_spot_connector_rust::hyper::client] {"status":0,"msg":"normal"}
-```
-
-## Test Cases
+Install or update Rust via [rustup](https://rustup.rs/):
 
 ```bash
-cargo test
+rustup install 1.86.0
+rustup default 1.86.0
 ```
 
-## Examples
+## Available Modules
 
-All snippets for spot endpoints and streams can be found in the `examples` folder. Example names are a concatanation of the example directory name and the example file name separated by an underscore.
+All connectors are bundled within the single `binance-sdk` crate. Enable only the modules you need by specifying feature flags. Available features are:
 
-```bash
-cd examples && cargo run --example market_exchange_info
+* [`algo`](./src/algo) – Algo Trading connector
+* [`c2c`](./src/c2c) – C2C connector
+* [`convert`](./src/convert) – Convert connector
+* [`copy_trading`](./src/copy_trading) – Copy Trading connector
+* [`crypto_loan`](./src/crypto_loan) – Crypto Loan connector
+* [`derivatives_trading_coin_futures`](./src/futures_coin) – Derivatives Trading (COIN-M Futures) connector
+* [`derivatives_trading_options`](./src/futures_options) – Derivatives Trading (Options) connector
+* [`derivatives_trading_portfolio_margin`](./src/portfolio_margin) – Derivatives Trading (Portfolio Margin) connector
+* [`derivatives_trading_portfolio_margin_pro`](./src/portfolio_margin_pro) – Derivatives Trading (Portfolio Margin Pro) connector
+* [`derivatives_trading_usds_futures`](./src/futures_usds) – Derivatives Trading (USDS-M Futures) connector
+* [`dual_investment`](./src/dual_investment) – Dual Investment connector
+* [`fiat`](./src/fiat) – Fiat connector
+* [`gift_card`](./src/gift_card) – Gift Card connector
+* [`margin_trading`](./src/margin_trading) – Margin Trading connector
+* [`mining`](./src/mining) – Mining connector
+* [`nft`](./src/nft) – NFT connector
+* [`pay`](./src/pay) – Pay connector
+* [`rebate`](./src/rebate) – Rebate connector
+* [`simple_earn`](./src/simple_earn) – Simple Earn connector
+* [`spot`](./src/spot) – Spot Trading connector
+* [`staking`](./src/staking) – Staking connector
+* [`sub_account`](./src/sub_account) – Sub Account connector
+* [`vip_loan`](./src/vip_loan) – VIP Loan connector
+* [`wallet`](./src/wallet) – Wallet connector
+
+## Documentation
+
+* **Crate documentation:** [docs.rs/binance_sdk](https://docs.rs/binance_sdk)
+* **Official Binance API docs:** [Binance API Documentation](https://developers.binance.com)
+
+## Installation
+
+Add `binance-sdk` to your `Cargo.toml`, enabling only the features you need. For example, to include `Spot` and `USDS-M Futures` modules:
+
+```toml
+[dependencies]
+binance-sdk = { version = "0.1.0", features = ["derivatives_trading_usds_futures", "spot"] }
 ```
 
-## Limitations
+If you require all available connectors:
 
-Futures and Vanilla Options APIs are not supported:
-
-- /fapi/\*
-- /dapi/\*
-- /vapi/\*
-- Associated Websocket Market and User Data Streams
+```toml
+[dependencies]
+binance-sdk = { version = "0.1.0", features = ["all"] }
+```
 
 ## Contributing
 
-Contributions are welcome.
+This repository contains auto-generated code using OpenAPI Generator. To contribute or request changes:
 
-If you've found a bug within this project, please open an issue to discuss what you would like to change.
+1. **Open a GitHub issue** to discuss new features, bugs, or enhancements.
+2. **Fork the repository**, make your changes, and submit a pull request.
+3. **Respect the code generation workflow** — manual edits to generated files will be overwritten.
 
-If it's an issue with the API, please open a topic at [Binance Developer Community](https://dev.binance.vision)
+Please ensure all new code is covered by existing or new tests. We follow [Rust API Guidelines](https://rust-lang.github.io/api-guidelines/) for naming and documentation.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENCE](./LICENCE) file for details.

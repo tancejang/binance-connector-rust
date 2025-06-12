@@ -1,0 +1,17 @@
+# Retries Configuration
+
+```rust
+use binance_sdk::margin_trading;
+use binance_sdk::config;
+
+let configuration = config::ConfigurationRestApi::builder()
+    .api_key("your-api-key")
+    .api_secret("your-api-secret")
+    .retries(5) // Retry up to 5 times
+    .backoff(2000) // 2 seconds between retries
+    .build()?;
+
+let client = margin_trading::MarginTradingRestApi::production(configuration);
+let params = margin_trading::rest_api::GetSummaryOfMarginAccountParams::default();
+let response = client.get_summary_of_margin_account(params).await?;
+```
