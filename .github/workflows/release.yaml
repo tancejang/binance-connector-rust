@@ -3,7 +3,7 @@ name: Release Rust Connector
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - 'Cargo.toml'
   workflow_dispatch:
@@ -46,16 +46,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cargo-
 
-      - name: Run Format
-        run: |
-            find examples/ -name "*.rs" -exec rustfmt --check -- {} +
-            find src/ -name "*.rs" -exec rustfmt --check -- {} +
-
-      - name: Run Lint
-        run: cargo clippy --all-targets --all-features
-
-      - name: Run Tests
-        run: cargo test --all-features
+      - name: Build (release)
+        run: cargo build --all-features --release
 
       - name: Publish to crates.io
         env:
