@@ -1,0 +1,63 @@
+name: Release Rust Connector
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'Cargo.toml'
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+    
+      - name: Compare versions
+        id: version
+        run: |
+          old_version=$(git show HEAD^:Cargo.toml | grep '^version' | head -1 | sed -E 's/version = "(.*)"/\1/')
+          new_version=$(grep '^version' Cargo.toml | head -1 | sed -E 's/version = "(.*)"/\1/')
+          
+          if [ "$old_version" = "$new_version" ]; then
+            echo "::error ::Version was not bumped in Cargo.toml — skipping release"
+            exit 1
+          fi
+
+      - name: Set up Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: 1.86.0
+          components: rustfmt, clippy
+          rustflags: ""
+
+      - name: Cache cargo registry & build
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
+
+      - name: Run Format
+        run: |
+            find examples/ -name "*.rs" -exec rustfmt --check -- {} +
+            find src/ -name "*.rs" -exec rustfmt --check -- {} +
+
+      - name: Run Lint
+        run: cargo clippy --all-targets --all-features
+
+      - name: Run Tests
+        run: cargo test --all-features
+
+      - name: Publish to crates.io
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: cargo publish --token $CARGO_REGISTRY_TOKEN

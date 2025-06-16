@@ -1,173 +1,46 @@
-//! Market Data
+pub mod rest_api;
 
-pub mod account_info;
-pub mod account_snapshot;
-pub mod account_status;
-pub mod api_key_permission;
-pub mod api_trading_status;
-pub mod asset_detail;
-pub mod asset_dividend_record;
-pub mod balance;
-pub mod coin_info;
-pub mod delist_schedule;
-pub mod deposit_address;
-pub mod deposit_address_list;
-pub mod deposit_credit_apply;
-pub mod deposit_history;
-pub mod disable_fast_withdraw;
-pub mod dust_log;
-pub mod dust_transfer;
-pub mod dustable_assets;
-pub mod enable_fast_withdraw;
-pub mod funding_wallet;
-pub mod system_status;
-pub mod trade_fee;
-pub mod transfer_history;
-pub mod universal_transfer;
-pub mod universal_transfer_history;
-pub mod user_asset;
-pub mod withdraw;
-pub mod withdraw_history;
+use crate::common::{config::ConfigurationRestApi, constants::WALLET_REST_API_PROD_URL, logger};
 
-use rust_decimal::Decimal;
+/// Represents the Wallet REST API client for interacting with the Binance Wallet REST API.
+///
+/// This struct provides methods to create REST API clients for the production environment.
+pub struct WalletRestApi {}
 
-use account_info::AccountInfo;
-use account_snapshot::AccountSnapshot;
-use account_status::AccountStatus;
-use api_key_permission::APIKeyPermission;
-use api_trading_status::APITradingStatus;
-use asset_detail::AssetDetail;
-use asset_dividend_record::AssetDividendRecord;
-use balance::Balance;
-use coin_info::CoinInfo;
-use delist_schedule::DelistSchedule;
-use deposit_address::DepositAddress;
-use deposit_address_list::DepositAddressList;
-use deposit_credit_apply::DepositCreditApply;
-use deposit_history::DepositHistory;
-use disable_fast_withdraw::DisableFastWithdraw;
-use dust_log::DustLog;
-use dust_transfer::DustTransfer;
-use dustable_assets::DustableAssets;
-use enable_fast_withdraw::EnableFastWithdraw;
-use funding_wallet::FundingWallet;
-use system_status::SystemStatus;
-use trade_fee::TradeFee;
-use transfer_history::TransferHistory;
-use universal_transfer::UniversalTransfer;
-use universal_transfer_history::UniversalTransferHistory;
-use user_asset::UserAsset;
-use withdraw::Withdraw;
-use withdraw_history::WithdrawHistory;
+impl WalletRestApi {
+    /// Creates a REST API client with the given configuration.
+    ///
+    /// If no base path is specified in the configuration, defaults to the production Wallet REST API URL.
+    ///
+    /// # Arguments
+    ///
+    /// * `config` - Configuration for the REST API client
+    ///
+    /// # Returns
+    ///
+    /// A new REST API client configured with the provided settings
+    #[must_use]
+    pub fn from_config(mut config: ConfigurationRestApi) -> rest_api::RestApi {
+        logger::init();
 
-pub fn system_status() -> SystemStatus {
-    SystemStatus::new()
-}
+        if config.base_path.is_none() {
+            config.base_path = Some(WALLET_REST_API_PROD_URL.to_string());
+        }
+        rest_api::RestApi::new(config)
+    }
 
-pub fn coin_info() -> CoinInfo {
-    CoinInfo::new()
-}
-
-pub fn account_snapshot(r#type: &str) -> AccountSnapshot {
-    AccountSnapshot::new(r#type)
-}
-
-pub fn disable_fast_withdraw() -> DisableFastWithdraw {
-    DisableFastWithdraw::new()
-}
-
-pub fn enable_fast_withdraw() -> EnableFastWithdraw {
-    EnableFastWithdraw::new()
-}
-
-pub fn withdraw(coin: &str, address: &str, amount: Decimal) -> Withdraw {
-    Withdraw::new(coin, address, amount)
-}
-
-pub fn deposit_history() -> DepositHistory {
-    DepositHistory::new()
-}
-
-pub fn withdraw_history() -> WithdrawHistory {
-    WithdrawHistory::new()
-}
-
-pub fn deposit_address(coin: &str) -> DepositAddress {
-    DepositAddress::new(coin)
-}
-
-pub fn account_status() -> AccountStatus {
-    AccountStatus::new()
-}
-
-pub fn api_trading_status() -> APITradingStatus {
-    APITradingStatus::new()
-}
-
-pub fn dust_log() -> DustLog {
-    DustLog::new()
-}
-
-pub fn dustable_assets() -> DustableAssets {
-    DustableAssets::new()
-}
-
-pub fn dust_transfer(asset: Vec<&str>) -> DustTransfer {
-    DustTransfer::new(asset)
-}
-
-pub fn asset_dividend_record() -> AssetDividendRecord {
-    AssetDividendRecord::new()
-}
-
-pub fn asset_detail() -> AssetDetail {
-    AssetDetail::new()
-}
-
-pub fn trade_fee() -> TradeFee {
-    TradeFee::new()
-}
-
-pub fn universal_transfer_history(r#type: &str) -> UniversalTransferHistory {
-    UniversalTransferHistory::new(r#type)
-}
-
-pub fn universal_transfer(r#type: &str, asset: &str, amount: Decimal) -> UniversalTransfer {
-    UniversalTransfer::new(r#type, asset, amount)
-}
-
-pub fn funding_wallet() -> FundingWallet {
-    FundingWallet::new()
-}
-
-pub fn user_asset() -> UserAsset {
-    UserAsset::new()
-}
-
-pub fn api_key_permission() -> APIKeyPermission {
-    APIKeyPermission::new()
-}
-
-pub fn account_info() -> AccountInfo {
-    AccountInfo::new()
-}
-
-pub fn balance() -> Balance {
-    Balance::new()
-}
-
-pub fn delist_schedule() -> DelistSchedule {
-    DelistSchedule::new()
-}
-
-pub fn deposit_address_list(coin: &str) -> DepositAddressList {
-    DepositAddressList::new(coin)
-}
-
-pub fn deposit_credit_apply() -> DepositCreditApply {
-    DepositCreditApply::new()
-}
-
-pub fn transfer_history(email: &str, start_time: u64, end_time: u64) -> TransferHistory {
-    TransferHistory::new(email, start_time, end_time)
+    /// Creates a REST API client configured for the production environment.
+    ///
+    /// # Arguments
+    ///
+    /// * `config` - Configuration for the REST API client
+    ///
+    /// # Returns
+    ///
+    /// A new REST API client configured for the production environment
+    #[must_use]
+    pub fn production(mut config: ConfigurationRestApi) -> rest_api::RestApi {
+        config.base_path = Some(WALLET_REST_API_PROD_URL.to_string());
+        WalletRestApi::from_config(config)
+    }
 }
