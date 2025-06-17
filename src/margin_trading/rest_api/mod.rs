@@ -1125,6 +1125,49 @@ impl RestApi {
             .await
     }
 
+    /// Get list Schedule (`MARKET_DATA`)
+    ///
+    /// Get the upcoming tokens or symbols listing schedule for Cross Margin and Isolated Margin.
+    ///
+    /// Weight: 100
+    ///
+    /// # Arguments
+    ///
+    /// - `params`: [`GetListScheduleParams`]
+    ///   The parameters for this operation.
+    ///
+    /// # Returns
+    ///
+    /// [`RestApiResponse<Vec<models::GetListScheduleResponseInner>>`] on success.
+    ///
+    /// # Errors
+    ///
+    /// This function will return an [`anyhow::Error`] if:
+    /// - the HTTP request fails
+    /// - any parameter is invalid
+    /// - the response cannot be parsed
+    /// - or one of the following occurs:
+    ///   - `RequiredError`
+    ///   - `ConnectorClientError`
+    ///   - `UnauthorizedError`
+    ///   - `ForbiddenError`
+    ///   - `TooManyRequestsError`
+    ///   - `RateLimitBanError`
+    ///   - `ServerError`
+    ///   - `NotFoundError`
+    ///   - `NetworkError`
+    ///   - `BadRequestError`
+    ///
+    ///
+    /// For full API details, see the [Binance API Documentation](https://developers.binance.com/docs/margin_trading/market-data/Get-list-Schedule).
+    ///
+    pub async fn get_list_schedule(
+        &self,
+        params: GetListScheduleParams,
+    ) -> anyhow::Result<RestApiResponse<Vec<models::GetListScheduleResponseInner>>> {
+        self.market_data_api_client.get_list_schedule(params).await
+    }
+
     /// Query Isolated Margin Tier Data (`USER_DATA`)
     ///
     /// Get isolated margin tier data collection with any tier as <https://www.binance.com/en/margin-data>

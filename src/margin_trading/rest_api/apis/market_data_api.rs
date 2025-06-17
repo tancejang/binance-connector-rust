@@ -49,6 +49,10 @@ pub trait MarketDataApi: Send + Sync {
         &self,
         params: GetDelistScheduleParams,
     ) -> anyhow::Result<RestApiResponse<Vec<models::GetDelistScheduleResponseInner>>>;
+    async fn get_list_schedule(
+        &self,
+        params: GetListScheduleParams,
+    ) -> anyhow::Result<RestApiResponse<Vec<models::GetListScheduleResponseInner>>>;
     async fn query_isolated_margin_tier_data(
         &self,
         params: QueryIsolatedMarginTierDataParams,
@@ -185,6 +189,31 @@ impl GetDelistScheduleParams {
     #[must_use]
     pub fn builder() -> GetDelistScheduleParamsBuilder {
         GetDelistScheduleParamsBuilder::default()
+    }
+}
+/// Request parameters for the [`get_list_schedule`] operation.
+///
+/// This struct holds all of the inputs you can pass when calling
+/// [`get_list_schedule`](#method.get_list_schedule).
+#[derive(Clone, Debug, Builder, Default)]
+#[builder(pattern = "owned", build_fn(error = "ParamBuildError"))]
+pub struct GetListScheduleParams {
+    /// No more than 60000
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub recv_window: Option<i64>,
+}
+
+impl GetListScheduleParams {
+    /// Create a builder for [`get_list_schedule`].
+    ///
+    /// Required parameters:
+    ///
+    ///
+    #[must_use]
+    pub fn builder() -> GetListScheduleParamsBuilder {
+        GetListScheduleParamsBuilder::default()
     }
 }
 /// Request parameters for the [`query_isolated_margin_tier_data`] operation.
@@ -403,6 +432,33 @@ impl MarketDataApi for MarketDataApiClient {
         send_request::<Vec<models::GetDelistScheduleResponseInner>>(
             &self.configuration,
             "/sapi/v1/margin/delist-schedule",
+            reqwest::Method::GET,
+            query_params,
+            if HAS_TIME_UNIT {
+                self.configuration.time_unit
+            } else {
+                None
+            },
+            false,
+        )
+        .await
+    }
+
+    async fn get_list_schedule(
+        &self,
+        params: GetListScheduleParams,
+    ) -> anyhow::Result<RestApiResponse<Vec<models::GetListScheduleResponseInner>>> {
+        let GetListScheduleParams { recv_window } = params;
+
+        let mut query_params = BTreeMap::new();
+
+        if let Some(rw) = recv_window {
+            query_params.insert("recv_window".to_string(), json!(rw));
+        }
+
+        send_request::<Vec<models::GetListScheduleResponseInner>>(
+            &self.configuration,
+            "/sapi/v1/margin/list-schedule",
             reqwest::Method::GET,
             query_params,
             if HAS_TIME_UNIT {
@@ -680,6 +736,31 @@ mod tests {
             let dummy_response: Vec<models::GetDelistScheduleResponseInner> =
                 serde_json::from_value(resp_json.clone())
                     .expect("should parse into Vec<models::GetDelistScheduleResponseInner>");
+
+            let dummy = DummyRestApiResponse {
+                inner: Box::new(move || Box::pin(async move { Ok(dummy_response) })),
+                status: 200,
+                headers: HashMap::new(),
+                rate_limits: None,
+            };
+
+            Ok(dummy.into())
+        }
+
+        async fn get_list_schedule(
+            &self,
+            _params: GetListScheduleParams,
+        ) -> anyhow::Result<RestApiResponse<Vec<models::GetListScheduleResponseInner>>> {
+            if self.force_error {
+                return Err(
+                    ConnectorError::ConnectorClientError("ResponseError".to_string()).into(),
+                );
+            }
+
+            let resp_json: Value = serde_json::from_str(r#"[{"listTime":1686161202000,"crossMarginAssets":["BTC","USDT"],"isolatedMarginSymbols":["ADAUSDT","BNBUSDT"]},{"listTime":1686222232000,"crossMarginAssets":["ADA"],"isolatedMarginSymbols":[]}]"#).unwrap();
+            let dummy_response: Vec<models::GetListScheduleResponseInner> =
+                serde_json::from_value(resp_json.clone())
+                    .expect("should parse into Vec<models::GetListScheduleResponseInner>");
 
             let dummy = DummyRestApiResponse {
                 inner: Box::new(move || Box::pin(async move { Ok(dummy_response) })),
@@ -1037,6 +1118,56 @@ mod tests {
             let params = GetDelistScheduleParams::builder().build().unwrap();
 
             match client.get_delist_schedule(params).await {
+                Ok(_) => panic!("Expected an error"),
+                Err(err) => {
+                    assert_eq!(err.to_string(), "Connector client error: ResponseError");
+                }
+            }
+        });
+    }
+
+    #[test]
+    fn get_list_schedule_required_params_success() {
+        TOKIO_SHARED_RT.block_on(async {
+            let client = MockMarketDataApiClient { force_error: false };
+
+            let params = GetListScheduleParams::builder().build().unwrap();
+
+            let resp_json: Value = serde_json::from_str(r#"[{"listTime":1686161202000,"crossMarginAssets":["BTC","USDT"],"isolatedMarginSymbols":["ADAUSDT","BNBUSDT"]},{"listTime":1686222232000,"crossMarginAssets":["ADA"],"isolatedMarginSymbols":[]}]"#).unwrap();
+            let expected_response : Vec<models::GetListScheduleResponseInner> = serde_json::from_value(resp_json.clone()).expect("should parse into Vec<models::GetListScheduleResponseInner>");
+
+            let resp = client.get_list_schedule(params).await.expect("Expected a response");
+            let data_future = resp.data();
+            let actual_response = data_future.await.unwrap();
+            assert_eq!(actual_response, expected_response);
+        });
+    }
+
+    #[test]
+    fn get_list_schedule_optional_params_success() {
+        TOKIO_SHARED_RT.block_on(async {
+            let client = MockMarketDataApiClient { force_error: false };
+
+            let params = GetListScheduleParams::builder().recv_window(5000).build().unwrap();
+
+            let resp_json: Value = serde_json::from_str(r#"[{"listTime":1686161202000,"crossMarginAssets":["BTC","USDT"],"isolatedMarginSymbols":["ADAUSDT","BNBUSDT"]},{"listTime":1686222232000,"crossMarginAssets":["ADA"],"isolatedMarginSymbols":[]}]"#).unwrap();
+            let expected_response : Vec<models::GetListScheduleResponseInner> = serde_json::from_value(resp_json.clone()).expect("should parse into Vec<models::GetListScheduleResponseInner>");
+
+            let resp = client.get_list_schedule(params).await.expect("Expected a response");
+            let data_future = resp.data();
+            let actual_response = data_future.await.unwrap();
+            assert_eq!(actual_response, expected_response);
+        });
+    }
+
+    #[test]
+    fn get_list_schedule_response_error() {
+        TOKIO_SHARED_RT.block_on(async {
+            let client = MockMarketDataApiClient { force_error: true };
+
+            let params = GetListScheduleParams::builder().build().unwrap();
+
+            match client.get_list_schedule(params).await {
                 Ok(_) => panic!("Expected an error"),
                 Err(err) => {
                     assert_eq!(err.to_string(), "Connector client error: ResponseError");
