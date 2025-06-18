@@ -1,4 +1,7 @@
+use std::sync::Once;
 use tracing_subscriber::{EnvFilter, Registry, fmt, layer::SubscriberExt};
+
+static INIT_LOG: Once = Once::new();
 
 /// Initializes the global tracing subscriber with a default log level and formatting.
 ///
@@ -17,8 +20,8 @@ pub fn init() {
         .with_thread_ids(true)
         .with_thread_names(true);
 
-    let subscriber = Registry::default().with(filter).with(fmt_layer);
-
-    tracing::subscriber::set_global_default(subscriber)
-        .expect("Failed to install global tracing subscriber");
+    INIT_LOG.call_once(|| {
+        let subscriber = Registry::default().with(filter).with(fmt_layer);
+        let _ = tracing::subscriber::set_global_default(subscriber);
+    });
 }
