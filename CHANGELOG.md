@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.1 - 2025-06-18
+
+### Changed (1)
+
+- Fix bug with multiple logger instances.
+
 ## 2.0.0 - 2025-06-17
 
 ### Added (1)
