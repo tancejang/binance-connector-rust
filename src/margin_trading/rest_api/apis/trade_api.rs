@@ -149,17 +149,17 @@ impl TradeApiClient {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum MarginAccountNewOcoSideEnum {
     #[serde(rename = "BUY")]
-    BUY,
+    Buy,
     #[serde(rename = "SELL")]
-    SELL,
+    Sell,
 }
 
 impl MarginAccountNewOcoSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            MarginAccountNewOcoSideEnum::BUY => "BUY",
-            MarginAccountNewOcoSideEnum::SELL => "SELL",
+            MarginAccountNewOcoSideEnum::Buy => "BUY",
+            MarginAccountNewOcoSideEnum::Sell => "SELL",
         }
     }
 }
@@ -168,20 +168,20 @@ impl MarginAccountNewOcoSideEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum MarginAccountNewOcoNewOrderRespTypeEnum {
     #[serde(rename = "ACK")]
-    ACK,
+    Ack,
     #[serde(rename = "RESULT")]
-    RESULT,
+    Result,
     #[serde(rename = "FULL")]
-    FULL,
+    Full,
 }
 
 impl MarginAccountNewOcoNewOrderRespTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            MarginAccountNewOcoNewOrderRespTypeEnum::ACK => "ACK",
-            MarginAccountNewOcoNewOrderRespTypeEnum::RESULT => "RESULT",
-            MarginAccountNewOcoNewOrderRespTypeEnum::FULL => "FULL",
+            MarginAccountNewOcoNewOrderRespTypeEnum::Ack => "ACK",
+            MarginAccountNewOcoNewOrderRespTypeEnum::Result => "RESULT",
+            MarginAccountNewOcoNewOrderRespTypeEnum::Full => "FULL",
         }
     }
 }
@@ -190,17 +190,17 @@ impl MarginAccountNewOcoNewOrderRespTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum MarginAccountNewOrderSideEnum {
     #[serde(rename = "BUY")]
-    BUY,
+    Buy,
     #[serde(rename = "SELL")]
-    SELL,
+    Sell,
 }
 
 impl MarginAccountNewOrderSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            MarginAccountNewOrderSideEnum::BUY => "BUY",
-            MarginAccountNewOrderSideEnum::SELL => "SELL",
+            MarginAccountNewOrderSideEnum::Buy => "BUY",
+            MarginAccountNewOrderSideEnum::Sell => "SELL",
         }
     }
 }
@@ -209,20 +209,20 @@ impl MarginAccountNewOrderSideEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum MarginAccountNewOrderNewOrderRespTypeEnum {
     #[serde(rename = "ACK")]
-    ACK,
+    Ack,
     #[serde(rename = "RESULT")]
-    RESULT,
+    Result,
     #[serde(rename = "FULL")]
-    FULL,
+    Full,
 }
 
 impl MarginAccountNewOrderNewOrderRespTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            MarginAccountNewOrderNewOrderRespTypeEnum::ACK => "ACK",
-            MarginAccountNewOrderNewOrderRespTypeEnum::RESULT => "RESULT",
-            MarginAccountNewOrderNewOrderRespTypeEnum::FULL => "FULL",
+            MarginAccountNewOrderNewOrderRespTypeEnum::Ack => "ACK",
+            MarginAccountNewOrderNewOrderRespTypeEnum::Result => "RESULT",
+            MarginAccountNewOrderNewOrderRespTypeEnum::Full => "FULL",
         }
     }
 }
@@ -231,20 +231,20 @@ impl MarginAccountNewOrderNewOrderRespTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum MarginAccountNewOrderTimeInForceEnum {
     #[serde(rename = "GTC")]
-    GTC,
+    Gtc,
     #[serde(rename = "IOC")]
-    IOC,
+    Ioc,
     #[serde(rename = "FOK")]
-    FOK,
+    Fok,
 }
 
 impl MarginAccountNewOrderTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            MarginAccountNewOrderTimeInForceEnum::GTC => "GTC",
-            MarginAccountNewOrderTimeInForceEnum::IOC => "IOC",
-            MarginAccountNewOrderTimeInForceEnum::FOK => "FOK",
+            MarginAccountNewOrderTimeInForceEnum::Gtc => "GTC",
+            MarginAccountNewOrderTimeInForceEnum::Ioc => "IOC",
+            MarginAccountNewOrderTimeInForceEnum::Fok => "FOK",
         }
     }
 }
@@ -253,20 +253,20 @@ impl MarginAccountNewOrderTimeInForceEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum MarginAccountNewOtoNewOrderRespTypeEnum {
     #[serde(rename = "ACK")]
-    ACK,
+    Ack,
     #[serde(rename = "RESULT")]
-    RESULT,
+    Result,
     #[serde(rename = "FULL")]
-    FULL,
+    Full,
 }
 
 impl MarginAccountNewOtoNewOrderRespTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            MarginAccountNewOtoNewOrderRespTypeEnum::ACK => "ACK",
-            MarginAccountNewOtoNewOrderRespTypeEnum::RESULT => "RESULT",
-            MarginAccountNewOtoNewOrderRespTypeEnum::FULL => "FULL",
+            MarginAccountNewOtoNewOrderRespTypeEnum::Ack => "ACK",
+            MarginAccountNewOtoNewOrderRespTypeEnum::Result => "RESULT",
+            MarginAccountNewOtoNewOrderRespTypeEnum::Full => "FULL",
         }
     }
 }
@@ -275,20 +275,20 @@ impl MarginAccountNewOtoNewOrderRespTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum MarginAccountNewOtocoNewOrderRespTypeEnum {
     #[serde(rename = "ACK")]
-    ACK,
+    Ack,
     #[serde(rename = "RESULT")]
-    RESULT,
+    Result,
     #[serde(rename = "FULL")]
-    FULL,
+    Full,
 }
 
 impl MarginAccountNewOtocoNewOrderRespTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            MarginAccountNewOtocoNewOrderRespTypeEnum::ACK => "ACK",
-            MarginAccountNewOtocoNewOrderRespTypeEnum::RESULT => "RESULT",
-            MarginAccountNewOtocoNewOrderRespTypeEnum::FULL => "FULL",
+            MarginAccountNewOtocoNewOrderRespTypeEnum::Ack => "ACK",
+            MarginAccountNewOtocoNewOrderRespTypeEnum::Result => "RESULT",
+            MarginAccountNewOtocoNewOrderRespTypeEnum::Full => "FULL",
         }
     }
 }
@@ -4392,7 +4392,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = MarginAccountNewOcoParams::builder("symbol_example".to_string(),MarginAccountNewOcoSideEnum::BUY,1.0,1.0,1.0,).build().unwrap();
+            let params = MarginAccountNewOcoParams::builder("symbol_example".to_string(),MarginAccountNewOcoSideEnum::Buy,1.0,1.0,1.0,).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"orderListId":0,"contingencyType":"OCO","listStatusType":"EXEC_STARTED","listOrderStatus":"EXECUTING","listClientOrderId":"JYVpp3F0f5CAG15DhtrqLp","transactionTime":1563417480525,"symbol":"LTCBTC","marginBuyBorrowAmount":"5","marginBuyBorrowAsset":"BTC","isIsolated":false,"orders":[{"symbol":"LTCBTC","orderId":2,"clientOrderId":"Kk7sqHb9J6mJWTMDVW7Vos"},{"symbol":"LTCBTC","orderId":3,"clientOrderId":"xTXKaGYd4bluPVp78IVRvl"}],"orderReports":[{"symbol":"LTCBTC","orderId":2,"orderListId":0,"clientOrderId":"Kk7sqHb9J6mJWTMDVW7Vos","transactTime":1563417480525,"price":"0.000000","origQty":"0.624363","executedQty":"0.000000","cummulativeQuoteQty":"0.000000","status":"NEW","timeInForce":"GTC","type":"STOP_LOSS","side":"BUY","stopPrice":"0.960664","selfTradePreventionMode":"NONE"},{"symbol":"LTCBTC","orderId":3,"orderListId":0,"clientOrderId":"xTXKaGYd4bluPVp78IVRvl","transactTime":1563417480525,"price":"0.036435","origQty":"0.624363","executedQty":"0.000000","cummulativeQuoteQty":"0.000000","status":"NEW","timeInForce":"GTC","type":"LIMIT_MAKER","side":"BUY","selfTradePreventionMode":"NONE"}]}"#).unwrap();
             let expected_response : models::MarginAccountNewOcoResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::MarginAccountNewOcoResponse");
@@ -4409,7 +4409,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = MarginAccountNewOcoParams::builder("symbol_example".to_string(),MarginAccountNewOcoSideEnum::BUY,1.0,1.0,1.0,).is_isolated("false".to_string()).list_client_order_id("1".to_string()).limit_client_order_id("1".to_string()).limit_iceberg_qty(1.0).stop_client_order_id("1".to_string()).stop_limit_price(1.0).stop_iceberg_qty(1.0).stop_limit_time_in_force("stop_limit_time_in_force_example".to_string()).new_order_resp_type(MarginAccountNewOcoNewOrderRespTypeEnum::ACK).side_effect_type("NO_SIDE_EFFECT".to_string()).self_trade_prevention_mode("NONE".to_string()).auto_repay_at_cancel(true).recv_window(5000).build().unwrap();
+            let params = MarginAccountNewOcoParams::builder("symbol_example".to_string(),MarginAccountNewOcoSideEnum::Buy,1.0,1.0,1.0,).is_isolated("false".to_string()).list_client_order_id("1".to_string()).limit_client_order_id("1".to_string()).limit_iceberg_qty(1.0).stop_client_order_id("1".to_string()).stop_limit_price(1.0).stop_iceberg_qty(1.0).stop_limit_time_in_force("stop_limit_time_in_force_example".to_string()).new_order_resp_type(MarginAccountNewOcoNewOrderRespTypeEnum::Ack).side_effect_type("NO_SIDE_EFFECT".to_string()).self_trade_prevention_mode("NONE".to_string()).auto_repay_at_cancel(true).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"orderListId":0,"contingencyType":"OCO","listStatusType":"EXEC_STARTED","listOrderStatus":"EXECUTING","listClientOrderId":"JYVpp3F0f5CAG15DhtrqLp","transactionTime":1563417480525,"symbol":"LTCBTC","marginBuyBorrowAmount":"5","marginBuyBorrowAsset":"BTC","isIsolated":false,"orders":[{"symbol":"LTCBTC","orderId":2,"clientOrderId":"Kk7sqHb9J6mJWTMDVW7Vos"},{"symbol":"LTCBTC","orderId":3,"clientOrderId":"xTXKaGYd4bluPVp78IVRvl"}],"orderReports":[{"symbol":"LTCBTC","orderId":2,"orderListId":0,"clientOrderId":"Kk7sqHb9J6mJWTMDVW7Vos","transactTime":1563417480525,"price":"0.000000","origQty":"0.624363","executedQty":"0.000000","cummulativeQuoteQty":"0.000000","status":"NEW","timeInForce":"GTC","type":"STOP_LOSS","side":"BUY","stopPrice":"0.960664","selfTradePreventionMode":"NONE"},{"symbol":"LTCBTC","orderId":3,"orderListId":0,"clientOrderId":"xTXKaGYd4bluPVp78IVRvl","transactTime":1563417480525,"price":"0.036435","origQty":"0.624363","executedQty":"0.000000","cummulativeQuoteQty":"0.000000","status":"NEW","timeInForce":"GTC","type":"LIMIT_MAKER","side":"BUY","selfTradePreventionMode":"NONE"}]}"#).unwrap();
             let expected_response : models::MarginAccountNewOcoResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::MarginAccountNewOcoResponse");
@@ -4428,7 +4428,7 @@ mod tests {
 
             let params = MarginAccountNewOcoParams::builder(
                 "symbol_example".to_string(),
-                MarginAccountNewOcoSideEnum::BUY,
+                MarginAccountNewOcoSideEnum::Buy,
                 1.0,
                 1.0,
                 1.0,
@@ -4450,7 +4450,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = MarginAccountNewOrderParams::builder("symbol_example".to_string(),MarginAccountNewOrderSideEnum::BUY,"r#type_example".to_string(),).build().unwrap();
+            let params = MarginAccountNewOrderParams::builder("symbol_example".to_string(),MarginAccountNewOrderSideEnum::Buy,"r#type_example".to_string(),).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"symbol":"BTCUSDT","orderId":26769564559,"clientOrderId":"E156O3KP4gOif65bjuUK5V","isIsolated":false,"transactTime":1713873075893,"price":"0","origQty":"0.001","executedQty":"0.001","cummulativeQuoteQty":"65.98253","status":"FILLED","timeInForce":"GTC","type":"MARKET","side":"SELL","selfTradePreventionMode":"EXPIRE_MAKER","marginBuyBorrowAmount":5,"marginBuyBorrowAsset":"BTC","fills":[{"price":"65982.53","qty":"0.001","commission":"0.06598253","commissionAsset":"USDT","tradeId":3570680726}]}"#).unwrap();
             let expected_response : models::MarginAccountNewOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::MarginAccountNewOrderResponse");
@@ -4467,7 +4467,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = MarginAccountNewOrderParams::builder("symbol_example".to_string(),MarginAccountNewOrderSideEnum::BUY,"r#type_example".to_string(),).is_isolated("false".to_string()).quantity(1.0).quote_order_qty(1.0).price(1.0).stop_price(1.0).new_client_order_id("1".to_string()).iceberg_qty(1.0).new_order_resp_type(MarginAccountNewOrderNewOrderRespTypeEnum::ACK).side_effect_type("NO_SIDE_EFFECT".to_string()).time_in_force(MarginAccountNewOrderTimeInForceEnum::GTC).self_trade_prevention_mode("NONE".to_string()).auto_repay_at_cancel(true).recv_window(5000).build().unwrap();
+            let params = MarginAccountNewOrderParams::builder("symbol_example".to_string(),MarginAccountNewOrderSideEnum::Buy,"r#type_example".to_string(),).is_isolated("false".to_string()).quantity(1.0).quote_order_qty(1.0).price(1.0).stop_price(1.0).new_client_order_id("1".to_string()).iceberg_qty(1.0).new_order_resp_type(MarginAccountNewOrderNewOrderRespTypeEnum::Ack).side_effect_type("NO_SIDE_EFFECT".to_string()).time_in_force(MarginAccountNewOrderTimeInForceEnum::Gtc).self_trade_prevention_mode("NONE".to_string()).auto_repay_at_cancel(true).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"symbol":"BTCUSDT","orderId":26769564559,"clientOrderId":"E156O3KP4gOif65bjuUK5V","isIsolated":false,"transactTime":1713873075893,"price":"0","origQty":"0.001","executedQty":"0.001","cummulativeQuoteQty":"65.98253","status":"FILLED","timeInForce":"GTC","type":"MARKET","side":"SELL","selfTradePreventionMode":"EXPIRE_MAKER","marginBuyBorrowAmount":5,"marginBuyBorrowAsset":"BTC","fills":[{"price":"65982.53","qty":"0.001","commission":"0.06598253","commissionAsset":"USDT","tradeId":3570680726}]}"#).unwrap();
             let expected_response : models::MarginAccountNewOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::MarginAccountNewOrderResponse");
@@ -4486,7 +4486,7 @@ mod tests {
 
             let params = MarginAccountNewOrderParams::builder(
                 "symbol_example".to_string(),
-                MarginAccountNewOrderSideEnum::BUY,
+                MarginAccountNewOrderSideEnum::Buy,
                 "r#type_example".to_string(),
             )
             .build()
@@ -4523,7 +4523,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = MarginAccountNewOtoParams::builder("symbol_example".to_string(),"working_type_example".to_string(),"working_side_example".to_string(),1.0,1.0,1.0,"Order Types".to_string(),"pending_side_example".to_string(),1.0,).is_isolated("false".to_string()).list_client_order_id("1".to_string()).new_order_resp_type(MarginAccountNewOtoNewOrderRespTypeEnum::ACK).side_effect_type("NO_SIDE_EFFECT".to_string()).self_trade_prevention_mode("NONE".to_string()).auto_repay_at_cancel(true).working_client_order_id("1".to_string()).working_time_in_force("working_time_in_force_example".to_string()).pending_client_order_id("1".to_string()).pending_price(1.0).pending_stop_price(1.0).pending_trailing_delta(1.0).pending_iceberg_qty(1.0).pending_time_in_force("pending_time_in_force_example".to_string()).build().unwrap();
+            let params = MarginAccountNewOtoParams::builder("symbol_example".to_string(),"working_type_example".to_string(),"working_side_example".to_string(),1.0,1.0,1.0,"Order Types".to_string(),"pending_side_example".to_string(),1.0,).is_isolated("false".to_string()).list_client_order_id("1".to_string()).new_order_resp_type(MarginAccountNewOtoNewOrderRespTypeEnum::Ack).side_effect_type("NO_SIDE_EFFECT".to_string()).self_trade_prevention_mode("NONE".to_string()).auto_repay_at_cancel(true).working_client_order_id("1".to_string()).working_time_in_force("working_time_in_force_example".to_string()).pending_client_order_id("1".to_string()).pending_price(1.0).pending_stop_price(1.0).pending_trailing_delta(1.0).pending_iceberg_qty(1.0).pending_time_in_force("pending_time_in_force_example".to_string()).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"orderListId":13551,"contingencyType":"OTO","listStatusType":"EXEC_STARTED","listOrderStatus":"EXECUTING","listClientOrderId":"JDuOrsu0Ge8GTyvx8J7VTD","transactionTime":1725521998054,"symbol":"BTCUSDT","isIsolated":false,"orders":[{"symbol":"BTCUSDT","orderId":29896699,"clientOrderId":"y8RB6tQEMuHUXybqbtzTxk"},{"symbol":"BTCUSDT","orderId":29896700,"clientOrderId":"dKQEdh5HhXb7Lpp85jz1dQ"}],"orderReports":[{"symbol":"BTCUSDT","orderId":29896699,"orderListId":13551,"clientOrderId":"y8RB6tQEMuHUXybqbtzTxk","transactTime":1725521998054,"price":"80000.00000000","origQty":"0.02000000","executedQty":"0","cummulativeQuoteQty":"0","status":"NEW","timeInForce":"GTC","type":"LIMIT","side":"SELL","selfTradePreventionMode":"NONE"},{"symbol":"BTCUSDT","orderId":29896700,"orderListId":13551,"clientOrderId":"dKQEdh5HhXb7Lpp85jz1dQ","transactTime":1725521998054,"price":"50000.00000000","origQty":"0.02000000","executedQty":"0","cummulativeQuoteQty":"0","status":"PENDING_NEW","timeInForce":"GTC","type":"LIMIT","side":"BUY","selfTradePreventionMode":"NONE"}]}"#).unwrap();
             let expected_response : models::MarginAccountNewOtoResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::MarginAccountNewOtoResponse");
@@ -4585,7 +4585,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = MarginAccountNewOtocoParams::builder("symbol_example".to_string(),"working_type_example".to_string(),"working_side_example".to_string(),1.0,1.0,"pending_side_example".to_string(),1.0,"pending_above_type_example".to_string(),).is_isolated("false".to_string()).side_effect_type("NO_SIDE_EFFECT".to_string()).auto_repay_at_cancel(true).list_client_order_id("1".to_string()).new_order_resp_type(MarginAccountNewOtocoNewOrderRespTypeEnum::ACK).self_trade_prevention_mode("NONE".to_string()).working_client_order_id("1".to_string()).working_iceberg_qty(1.0).working_time_in_force("working_time_in_force_example".to_string()).pending_above_client_order_id("1".to_string()).pending_above_price(1.0).pending_above_stop_price(1.0).pending_above_trailing_delta(1.0).pending_above_iceberg_qty(1.0).pending_above_time_in_force("pending_above_time_in_force_example".to_string()).pending_below_type("pending_below_type_example".to_string()).pending_below_client_order_id("1".to_string()).pending_below_price(1.0).pending_below_stop_price(1.0).pending_below_trailing_delta(1.0).pending_below_iceberg_qty(1.0).pending_below_time_in_force("pending_below_time_in_force_example".to_string()).build().unwrap();
+            let params = MarginAccountNewOtocoParams::builder("symbol_example".to_string(),"working_type_example".to_string(),"working_side_example".to_string(),1.0,1.0,"pending_side_example".to_string(),1.0,"pending_above_type_example".to_string(),).is_isolated("false".to_string()).side_effect_type("NO_SIDE_EFFECT".to_string()).auto_repay_at_cancel(true).list_client_order_id("1".to_string()).new_order_resp_type(MarginAccountNewOtocoNewOrderRespTypeEnum::Ack).self_trade_prevention_mode("NONE".to_string()).working_client_order_id("1".to_string()).working_iceberg_qty(1.0).working_time_in_force("working_time_in_force_example".to_string()).pending_above_client_order_id("1".to_string()).pending_above_price(1.0).pending_above_stop_price(1.0).pending_above_trailing_delta(1.0).pending_above_iceberg_qty(1.0).pending_above_time_in_force("pending_above_time_in_force_example".to_string()).pending_below_type("pending_below_type_example".to_string()).pending_below_client_order_id("1".to_string()).pending_below_price(1.0).pending_below_stop_price(1.0).pending_below_trailing_delta(1.0).pending_below_iceberg_qty(1.0).pending_below_time_in_force("pending_below_time_in_force_example".to_string()).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"orderListId":13509,"contingencyType":"OTO","listStatusType":"EXEC_STARTED","listOrderStatus":"EXECUTING","listClientOrderId":"u2AUo48LLef5qVenRtwJZy","transactionTime":1725521881300,"symbol":"BNBUSDT","isIsolated":false,"orders":[{"symbol":"BNBUSDT","orderId":28282534,"clientOrderId":"IfYDxvrZI4kiyqYpRH13iI"},{"symbol":"BNBUSDT","orderId":28282535,"clientOrderId":"0HCSsPRxVfW8BkTUy9z4np"},{"symbol":"BNBUSDT","orderId":28282536,"clientOrderId":"dypsgdxWnLY75kwT930cbD"}],"orderReports":[{"symbol":"BNBUSDT","orderId":28282534,"orderListId":13509,"clientOrderId":"IfYDxvrZI4kiyqYpRH13iI","transactTime":1725521881300,"price":"300.00000000","origQty":"1.00000000","executedQty":"0","cummulativeQuoteQty":"0","status":"NEW","timeInForce":"GTC","type":"LIMIT","side":"BUY","selfTradePreventionMode":"NONE"},{"symbol":"BNBUSDT","orderId":28282535,"orderListId":13509,"clientOrderId":"0HCSsPRxVfW8BkTUy9z4np","transactTime":1725521881300,"price":"0E-8","origQty":"1.00000000","executedQty":"0","cummulativeQuoteQty":"0","status":"PENDING_NEW","timeInForce":"GTC","type":"STOP_LOSS","side":"SELL","stopPrice":"299.00000000","selfTradePreventionMode":"NONE"},{"symbol":"BNBUSDT","orderId":28282536,"orderListId":13509,"clientOrderId":"dypsgdxWnLY75kwT930cbD","transactTime":1725521881300,"price":"301.00000000","origQty":"1.00000000","executedQty":"0","cummulativeQuoteQty":"0","status":"PENDING_NEW","timeInForce":"GTC","type":"LIMIT_MAKER","side":"SELL","selfTradePreventionMode":"NONE"}]}"#).unwrap();
             let expected_response : models::MarginAccountNewOtocoResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::MarginAccountNewOtocoResponse");

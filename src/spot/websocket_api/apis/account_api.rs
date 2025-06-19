@@ -1290,7 +1290,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.expect("send should occur").expect("channel closed");
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/account.commission".trim_start_matches('/'));
@@ -1333,7 +1333,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.unwrap().unwrap();
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap().to_string();
 
@@ -1388,9 +1388,8 @@ mod tests {
                 .await
                 .expect("send should occur")
                 .expect("channel closed");
-            let text = match sent {
-                Message::Text(t) => t,
-                _ => panic!("expected Message Text"),
+            let Message::Text(text) = sent else {
+                panic!("expected Message Text")
             };
 
             let _: Value = serde_json::from_str(&text).unwrap();
@@ -1421,7 +1420,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.expect("send should occur").expect("channel closed");
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/account.rateLimits.orders".trim_start_matches('/'));
@@ -1464,7 +1463,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.unwrap().unwrap();
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap().to_string();
 
@@ -1517,9 +1516,8 @@ mod tests {
                 .await
                 .expect("send should occur")
                 .expect("channel closed");
-            let text = match sent {
-                Message::Text(t) => t,
-                _ => panic!("expected Message Text"),
+            let Message::Text(text) = sent else {
+                panic!("expected Message Text")
             };
 
             let _: Value = serde_json::from_str(&text).unwrap();
@@ -1550,7 +1548,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.expect("send should occur").expect("channel closed");
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/account.status".trim_start_matches('/'));
@@ -1593,7 +1591,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.unwrap().unwrap();
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap().to_string();
 
@@ -1646,9 +1644,8 @@ mod tests {
                 .await
                 .expect("send should occur")
                 .expect("channel closed");
-            let text = match sent {
-                Message::Text(t) => t,
-                _ => panic!("expected Message Text"),
+            let Message::Text(text) = sent else {
+                panic!("expected Message Text")
             };
 
             let _: Value = serde_json::from_str(&text).unwrap();
@@ -1679,7 +1676,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.expect("send should occur").expect("channel closed");
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/allOrderLists".trim_start_matches('/'));
@@ -1722,7 +1719,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.unwrap().unwrap();
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap().to_string();
 
@@ -1775,9 +1772,8 @@ mod tests {
                 .await
                 .expect("send should occur")
                 .expect("channel closed");
-            let text = match sent {
-                Message::Text(t) => t,
-                _ => panic!("expected Message Text"),
+            let Message::Text(text) = sent else {
+                panic!("expected Message Text")
             };
 
             let _: Value = serde_json::from_str(&text).unwrap();
@@ -1808,7 +1804,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.expect("send should occur").expect("channel closed");
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/allOrders".trim_start_matches('/'));
@@ -1851,7 +1847,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.unwrap().unwrap();
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap().to_string();
 
@@ -1906,9 +1902,8 @@ mod tests {
                 .await
                 .expect("send should occur")
                 .expect("channel closed");
-            let text = match sent {
-                Message::Text(t) => t,
-                _ => panic!("expected Message Text"),
+            let Message::Text(text) = sent else {
+                panic!("expected Message Text")
             };
 
             let _: Value = serde_json::from_str(&text).unwrap();
@@ -1939,7 +1934,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.expect("send should occur").expect("channel closed");
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/myAllocations".trim_start_matches('/'));
@@ -1982,7 +1977,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.unwrap().unwrap();
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap().to_string();
 
@@ -2037,9 +2032,8 @@ mod tests {
                 .await
                 .expect("send should occur")
                 .expect("channel closed");
-            let text = match sent {
-                Message::Text(t) => t,
-                _ => panic!("expected Message Text"),
+            let Message::Text(text) = sent else {
+                panic!("expected Message Text")
             };
 
             let _: Value = serde_json::from_str(&text).unwrap();
@@ -2070,7 +2064,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.expect("send should occur").expect("channel closed");
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/myPreventedMatches".trim_start_matches('/'));
@@ -2113,7 +2107,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.unwrap().unwrap();
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap().to_string();
 
@@ -2168,9 +2162,8 @@ mod tests {
                 .await
                 .expect("send should occur")
                 .expect("channel closed");
-            let text = match sent {
-                Message::Text(t) => t,
-                _ => panic!("expected Message Text"),
+            let Message::Text(text) = sent else {
+                panic!("expected Message Text")
             };
 
             let _: Value = serde_json::from_str(&text).unwrap();
@@ -2201,7 +2194,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.expect("send should occur").expect("channel closed");
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/myTrades".trim_start_matches('/'));
@@ -2244,7 +2237,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.unwrap().unwrap();
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap().to_string();
 
@@ -2299,9 +2292,8 @@ mod tests {
                 .await
                 .expect("send should occur")
                 .expect("channel closed");
-            let text = match sent {
-                Message::Text(t) => t,
-                _ => panic!("expected Message Text"),
+            let Message::Text(text) = sent else {
+                panic!("expected Message Text")
             };
 
             let _: Value = serde_json::from_str(&text).unwrap();
@@ -2332,7 +2324,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.expect("send should occur").expect("channel closed");
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/openOrderLists.status".trim_start_matches('/'));
@@ -2375,7 +2367,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.unwrap().unwrap();
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap().to_string();
 
@@ -2428,9 +2420,8 @@ mod tests {
                 .await
                 .expect("send should occur")
                 .expect("channel closed");
-            let text = match sent {
-                Message::Text(t) => t,
-                _ => panic!("expected Message Text"),
+            let Message::Text(text) = sent else {
+                panic!("expected Message Text")
             };
 
             let _: Value = serde_json::from_str(&text).unwrap();
@@ -2461,7 +2452,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.expect("send should occur").expect("channel closed");
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/openOrders.status".trim_start_matches('/'));
@@ -2504,7 +2495,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.unwrap().unwrap();
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap().to_string();
 
@@ -2557,9 +2548,8 @@ mod tests {
                 .await
                 .expect("send should occur")
                 .expect("channel closed");
-            let text = match sent {
-                Message::Text(t) => t,
-                _ => panic!("expected Message Text"),
+            let Message::Text(text) = sent else {
+                panic!("expected Message Text")
             };
 
             let _: Value = serde_json::from_str(&text).unwrap();
@@ -2590,7 +2580,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.expect("send should occur").expect("channel closed");
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/order.amendments".trim_start_matches('/'));
@@ -2633,7 +2623,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.unwrap().unwrap();
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap().to_string();
 
@@ -2688,9 +2678,8 @@ mod tests {
                 .await
                 .expect("send should occur")
                 .expect("channel closed");
-            let text = match sent {
-                Message::Text(t) => t,
-                _ => panic!("expected Message Text"),
+            let Message::Text(text) = sent else {
+                panic!("expected Message Text")
             };
 
             let _: Value = serde_json::from_str(&text).unwrap();
@@ -2721,7 +2710,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.expect("send should occur").expect("channel closed");
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/orderList.status".trim_start_matches('/'));
@@ -2764,7 +2753,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.unwrap().unwrap();
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap().to_string();
 
@@ -2817,9 +2806,8 @@ mod tests {
                 .await
                 .expect("send should occur")
                 .expect("channel closed");
-            let text = match sent {
-                Message::Text(t) => t,
-                _ => panic!("expected Message Text"),
+            let Message::Text(text) = sent else {
+                panic!("expected Message Text")
             };
 
             let _: Value = serde_json::from_str(&text).unwrap();
@@ -2850,7 +2838,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.expect("send should occur").expect("channel closed");
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/order.status".trim_start_matches('/'));
@@ -2893,7 +2881,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.unwrap().unwrap();
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap().to_string();
 
@@ -2948,9 +2936,8 @@ mod tests {
                 .await
                 .expect("send should occur")
                 .expect("channel closed");
-            let text = match sent {
-                Message::Text(t) => t,
-                _ => panic!("expected Message Text"),
+            let Message::Text(text) = sent else {
+                panic!("expected Message Text")
             };
 
             let _: Value = serde_json::from_str(&text).unwrap();

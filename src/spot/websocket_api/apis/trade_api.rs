@@ -101,23 +101,23 @@ impl TradeApiClient {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderCancelCancelRestrictionsEnum {
     #[serde(rename = "ONLY_NEW")]
-    ONLY_NEW,
+    OnlyNew,
     #[serde(rename = "NEW")]
-    NEW,
+    New,
     #[serde(rename = "ONLY_PARTIALLY_FILLED")]
-    ONLY_PARTIALLY_FILLED,
+    OnlyPartiallyFilled,
     #[serde(rename = "PARTIALLY_FILLED")]
-    PARTIALLY_FILLED,
+    PartiallyFilled,
 }
 
 impl OrderCancelCancelRestrictionsEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderCancelCancelRestrictionsEnum::ONLY_NEW => "ONLY_NEW",
-            OrderCancelCancelRestrictionsEnum::NEW => "NEW",
-            OrderCancelCancelRestrictionsEnum::ONLY_PARTIALLY_FILLED => "ONLY_PARTIALLY_FILLED",
-            OrderCancelCancelRestrictionsEnum::PARTIALLY_FILLED => "PARTIALLY_FILLED",
+            OrderCancelCancelRestrictionsEnum::OnlyNew => "ONLY_NEW",
+            OrderCancelCancelRestrictionsEnum::New => "NEW",
+            OrderCancelCancelRestrictionsEnum::OnlyPartiallyFilled => "ONLY_PARTIALLY_FILLED",
+            OrderCancelCancelRestrictionsEnum::PartiallyFilled => "PARTIALLY_FILLED",
         }
     }
 }
@@ -126,17 +126,17 @@ impl OrderCancelCancelRestrictionsEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderCancelReplaceCancelReplaceModeEnum {
     #[serde(rename = "STOP_ON_FAILURE")]
-    STOP_ON_FAILURE,
+    StopOnFailure,
     #[serde(rename = "ALLOW_FAILURE")]
-    ALLOW_FAILURE,
+    AllowFailure,
 }
 
 impl OrderCancelReplaceCancelReplaceModeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderCancelReplaceCancelReplaceModeEnum::STOP_ON_FAILURE => "STOP_ON_FAILURE",
-            OrderCancelReplaceCancelReplaceModeEnum::ALLOW_FAILURE => "ALLOW_FAILURE",
+            OrderCancelReplaceCancelReplaceModeEnum::StopOnFailure => "STOP_ON_FAILURE",
+            OrderCancelReplaceCancelReplaceModeEnum::AllowFailure => "ALLOW_FAILURE",
         }
     }
 }
@@ -145,17 +145,17 @@ impl OrderCancelReplaceCancelReplaceModeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderCancelReplaceSideEnum {
     #[serde(rename = "BUY")]
-    BUY,
+    Buy,
     #[serde(rename = "SELL")]
-    SELL,
+    Sell,
 }
 
 impl OrderCancelReplaceSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderCancelReplaceSideEnum::BUY => "BUY",
-            OrderCancelReplaceSideEnum::SELL => "SELL",
+            OrderCancelReplaceSideEnum::Buy => "BUY",
+            OrderCancelReplaceSideEnum::Sell => "SELL",
         }
     }
 }
@@ -164,35 +164,35 @@ impl OrderCancelReplaceSideEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderCancelReplaceTypeEnum {
     #[serde(rename = "MARKET")]
-    MARKET,
+    Market,
     #[serde(rename = "LIMIT")]
-    LIMIT,
+    Limit,
     #[serde(rename = "STOP_LOSS")]
-    STOP_LOSS,
+    StopLoss,
     #[serde(rename = "STOP_LOSS_LIMIT")]
-    STOP_LOSS_LIMIT,
+    StopLossLimit,
     #[serde(rename = "TAKE_PROFIT")]
-    TAKE_PROFIT,
+    TakeProfit,
     #[serde(rename = "TAKE_PROFIT_LIMIT")]
-    TAKE_PROFIT_LIMIT,
+    TakeProfitLimit,
     #[serde(rename = "LIMIT_MAKER")]
-    LIMIT_MAKER,
+    LimitMaker,
     #[serde(rename = "NON_REPRESENTABLE")]
-    NON_REPRESENTABLE,
+    NonRepresentable,
 }
 
 impl OrderCancelReplaceTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderCancelReplaceTypeEnum::MARKET => "MARKET",
-            OrderCancelReplaceTypeEnum::LIMIT => "LIMIT",
-            OrderCancelReplaceTypeEnum::STOP_LOSS => "STOP_LOSS",
-            OrderCancelReplaceTypeEnum::STOP_LOSS_LIMIT => "STOP_LOSS_LIMIT",
-            OrderCancelReplaceTypeEnum::TAKE_PROFIT => "TAKE_PROFIT",
-            OrderCancelReplaceTypeEnum::TAKE_PROFIT_LIMIT => "TAKE_PROFIT_LIMIT",
-            OrderCancelReplaceTypeEnum::LIMIT_MAKER => "LIMIT_MAKER",
-            OrderCancelReplaceTypeEnum::NON_REPRESENTABLE => "NON_REPRESENTABLE",
+            OrderCancelReplaceTypeEnum::Market => "MARKET",
+            OrderCancelReplaceTypeEnum::Limit => "LIMIT",
+            OrderCancelReplaceTypeEnum::StopLoss => "STOP_LOSS",
+            OrderCancelReplaceTypeEnum::StopLossLimit => "STOP_LOSS_LIMIT",
+            OrderCancelReplaceTypeEnum::TakeProfit => "TAKE_PROFIT",
+            OrderCancelReplaceTypeEnum::TakeProfitLimit => "TAKE_PROFIT_LIMIT",
+            OrderCancelReplaceTypeEnum::LimitMaker => "LIMIT_MAKER",
+            OrderCancelReplaceTypeEnum::NonRepresentable => "NON_REPRESENTABLE",
         }
     }
 }
@@ -201,23 +201,23 @@ impl OrderCancelReplaceTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderCancelReplaceTimeInForceEnum {
     #[serde(rename = "GTC")]
-    GTC,
+    Gtc,
     #[serde(rename = "IOC")]
-    IOC,
+    Ioc,
     #[serde(rename = "FOK")]
-    FOK,
+    Fok,
     #[serde(rename = "NON_REPRESENTABLE")]
-    NON_REPRESENTABLE,
+    NonRepresentable,
 }
 
 impl OrderCancelReplaceTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderCancelReplaceTimeInForceEnum::GTC => "GTC",
-            OrderCancelReplaceTimeInForceEnum::IOC => "IOC",
-            OrderCancelReplaceTimeInForceEnum::FOK => "FOK",
-            OrderCancelReplaceTimeInForceEnum::NON_REPRESENTABLE => "NON_REPRESENTABLE",
+            OrderCancelReplaceTimeInForceEnum::Gtc => "GTC",
+            OrderCancelReplaceTimeInForceEnum::Ioc => "IOC",
+            OrderCancelReplaceTimeInForceEnum::Fok => "FOK",
+            OrderCancelReplaceTimeInForceEnum::NonRepresentable => "NON_REPRESENTABLE",
         }
     }
 }
@@ -226,26 +226,26 @@ impl OrderCancelReplaceTimeInForceEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderCancelReplaceNewOrderRespTypeEnum {
     #[serde(rename = "ACK")]
-    ACK,
+    Ack,
     #[serde(rename = "RESULT")]
-    RESULT,
+    Result,
     #[serde(rename = "FULL")]
-    FULL,
+    Full,
     #[serde(rename = "MARKET")]
-    MARKET,
+    Market,
     #[serde(rename = "LIMIT")]
-    LIMIT,
+    Limit,
 }
 
 impl OrderCancelReplaceNewOrderRespTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderCancelReplaceNewOrderRespTypeEnum::ACK => "ACK",
-            OrderCancelReplaceNewOrderRespTypeEnum::RESULT => "RESULT",
-            OrderCancelReplaceNewOrderRespTypeEnum::FULL => "FULL",
-            OrderCancelReplaceNewOrderRespTypeEnum::MARKET => "MARKET",
-            OrderCancelReplaceNewOrderRespTypeEnum::LIMIT => "LIMIT",
+            OrderCancelReplaceNewOrderRespTypeEnum::Ack => "ACK",
+            OrderCancelReplaceNewOrderRespTypeEnum::Result => "RESULT",
+            OrderCancelReplaceNewOrderRespTypeEnum::Full => "FULL",
+            OrderCancelReplaceNewOrderRespTypeEnum::Market => "MARKET",
+            OrderCancelReplaceNewOrderRespTypeEnum::Limit => "LIMIT",
         }
     }
 }
@@ -254,29 +254,29 @@ impl OrderCancelReplaceNewOrderRespTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderCancelReplaceSelfTradePreventionModeEnum {
     #[serde(rename = "NONE")]
-    NONE,
+    None,
     #[serde(rename = "EXPIRE_TAKER")]
-    EXPIRE_TAKER,
+    ExpireTaker,
     #[serde(rename = "EXPIRE_MAKER")]
-    EXPIRE_MAKER,
+    ExpireMaker,
     #[serde(rename = "EXPIRE_BOTH")]
-    EXPIRE_BOTH,
+    ExpireBoth,
     #[serde(rename = "DECREMENT")]
-    DECREMENT,
+    Decrement,
     #[serde(rename = "NON_REPRESENTABLE")]
-    NON_REPRESENTABLE,
+    NonRepresentable,
 }
 
 impl OrderCancelReplaceSelfTradePreventionModeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderCancelReplaceSelfTradePreventionModeEnum::NONE => "NONE",
-            OrderCancelReplaceSelfTradePreventionModeEnum::EXPIRE_TAKER => "EXPIRE_TAKER",
-            OrderCancelReplaceSelfTradePreventionModeEnum::EXPIRE_MAKER => "EXPIRE_MAKER",
-            OrderCancelReplaceSelfTradePreventionModeEnum::EXPIRE_BOTH => "EXPIRE_BOTH",
-            OrderCancelReplaceSelfTradePreventionModeEnum::DECREMENT => "DECREMENT",
-            OrderCancelReplaceSelfTradePreventionModeEnum::NON_REPRESENTABLE => "NON_REPRESENTABLE",
+            OrderCancelReplaceSelfTradePreventionModeEnum::None => "NONE",
+            OrderCancelReplaceSelfTradePreventionModeEnum::ExpireTaker => "EXPIRE_TAKER",
+            OrderCancelReplaceSelfTradePreventionModeEnum::ExpireMaker => "EXPIRE_MAKER",
+            OrderCancelReplaceSelfTradePreventionModeEnum::ExpireBoth => "EXPIRE_BOTH",
+            OrderCancelReplaceSelfTradePreventionModeEnum::Decrement => "DECREMENT",
+            OrderCancelReplaceSelfTradePreventionModeEnum::NonRepresentable => "NON_REPRESENTABLE",
         }
     }
 }
@@ -285,25 +285,25 @@ impl OrderCancelReplaceSelfTradePreventionModeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderCancelReplaceCancelRestrictionsEnum {
     #[serde(rename = "ONLY_NEW")]
-    ONLY_NEW,
+    OnlyNew,
     #[serde(rename = "NEW")]
-    NEW,
+    New,
     #[serde(rename = "ONLY_PARTIALLY_FILLED")]
-    ONLY_PARTIALLY_FILLED,
+    OnlyPartiallyFilled,
     #[serde(rename = "PARTIALLY_FILLED")]
-    PARTIALLY_FILLED,
+    PartiallyFilled,
 }
 
 impl OrderCancelReplaceCancelRestrictionsEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderCancelReplaceCancelRestrictionsEnum::ONLY_NEW => "ONLY_NEW",
-            OrderCancelReplaceCancelRestrictionsEnum::NEW => "NEW",
-            OrderCancelReplaceCancelRestrictionsEnum::ONLY_PARTIALLY_FILLED => {
+            OrderCancelReplaceCancelRestrictionsEnum::OnlyNew => "ONLY_NEW",
+            OrderCancelReplaceCancelRestrictionsEnum::New => "NEW",
+            OrderCancelReplaceCancelRestrictionsEnum::OnlyPartiallyFilled => {
                 "ONLY_PARTIALLY_FILLED"
             }
-            OrderCancelReplaceCancelRestrictionsEnum::PARTIALLY_FILLED => "PARTIALLY_FILLED",
+            OrderCancelReplaceCancelRestrictionsEnum::PartiallyFilled => "PARTIALLY_FILLED",
         }
     }
 }
@@ -312,17 +312,17 @@ impl OrderCancelReplaceCancelRestrictionsEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderCancelReplaceOrderRateLimitExceededModeEnum {
     #[serde(rename = "DO_NOTHING")]
-    DO_NOTHING,
+    DoNothing,
     #[serde(rename = "CANCEL_ONLY")]
-    CANCEL_ONLY,
+    CancelOnly,
 }
 
 impl OrderCancelReplaceOrderRateLimitExceededModeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderCancelReplaceOrderRateLimitExceededModeEnum::DO_NOTHING => "DO_NOTHING",
-            OrderCancelReplaceOrderRateLimitExceededModeEnum::CANCEL_ONLY => "CANCEL_ONLY",
+            OrderCancelReplaceOrderRateLimitExceededModeEnum::DoNothing => "DO_NOTHING",
+            OrderCancelReplaceOrderRateLimitExceededModeEnum::CancelOnly => "CANCEL_ONLY",
         }
     }
 }
@@ -331,17 +331,17 @@ impl OrderCancelReplaceOrderRateLimitExceededModeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderListPlaceSideEnum {
     #[serde(rename = "BUY")]
-    BUY,
+    Buy,
     #[serde(rename = "SELL")]
-    SELL,
+    Sell,
 }
 
 impl OrderListPlaceSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceSideEnum::BUY => "BUY",
-            OrderListPlaceSideEnum::SELL => "SELL",
+            OrderListPlaceSideEnum::Buy => "BUY",
+            OrderListPlaceSideEnum::Sell => "SELL",
         }
     }
 }
@@ -350,20 +350,20 @@ impl OrderListPlaceSideEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderListPlaceStopLimitTimeInForceEnum {
     #[serde(rename = "GTC")]
-    GTC,
+    Gtc,
     #[serde(rename = "FOK")]
-    FOK,
+    Fok,
     #[serde(rename = "IOC")]
-    IOC,
+    Ioc,
 }
 
 impl OrderListPlaceStopLimitTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceStopLimitTimeInForceEnum::GTC => "GTC",
-            OrderListPlaceStopLimitTimeInForceEnum::FOK => "FOK",
-            OrderListPlaceStopLimitTimeInForceEnum::IOC => "IOC",
+            OrderListPlaceStopLimitTimeInForceEnum::Gtc => "GTC",
+            OrderListPlaceStopLimitTimeInForceEnum::Fok => "FOK",
+            OrderListPlaceStopLimitTimeInForceEnum::Ioc => "IOC",
         }
     }
 }
@@ -372,26 +372,26 @@ impl OrderListPlaceStopLimitTimeInForceEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderListPlaceNewOrderRespTypeEnum {
     #[serde(rename = "ACK")]
-    ACK,
+    Ack,
     #[serde(rename = "RESULT")]
-    RESULT,
+    Result,
     #[serde(rename = "FULL")]
-    FULL,
+    Full,
     #[serde(rename = "MARKET")]
-    MARKET,
+    Market,
     #[serde(rename = "LIMIT")]
-    LIMIT,
+    Limit,
 }
 
 impl OrderListPlaceNewOrderRespTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceNewOrderRespTypeEnum::ACK => "ACK",
-            OrderListPlaceNewOrderRespTypeEnum::RESULT => "RESULT",
-            OrderListPlaceNewOrderRespTypeEnum::FULL => "FULL",
-            OrderListPlaceNewOrderRespTypeEnum::MARKET => "MARKET",
-            OrderListPlaceNewOrderRespTypeEnum::LIMIT => "LIMIT",
+            OrderListPlaceNewOrderRespTypeEnum::Ack => "ACK",
+            OrderListPlaceNewOrderRespTypeEnum::Result => "RESULT",
+            OrderListPlaceNewOrderRespTypeEnum::Full => "FULL",
+            OrderListPlaceNewOrderRespTypeEnum::Market => "MARKET",
+            OrderListPlaceNewOrderRespTypeEnum::Limit => "LIMIT",
         }
     }
 }
@@ -400,29 +400,29 @@ impl OrderListPlaceNewOrderRespTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderListPlaceSelfTradePreventionModeEnum {
     #[serde(rename = "NONE")]
-    NONE,
+    None,
     #[serde(rename = "EXPIRE_TAKER")]
-    EXPIRE_TAKER,
+    ExpireTaker,
     #[serde(rename = "EXPIRE_MAKER")]
-    EXPIRE_MAKER,
+    ExpireMaker,
     #[serde(rename = "EXPIRE_BOTH")]
-    EXPIRE_BOTH,
+    ExpireBoth,
     #[serde(rename = "DECREMENT")]
-    DECREMENT,
+    Decrement,
     #[serde(rename = "NON_REPRESENTABLE")]
-    NON_REPRESENTABLE,
+    NonRepresentable,
 }
 
 impl OrderListPlaceSelfTradePreventionModeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceSelfTradePreventionModeEnum::NONE => "NONE",
-            OrderListPlaceSelfTradePreventionModeEnum::EXPIRE_TAKER => "EXPIRE_TAKER",
-            OrderListPlaceSelfTradePreventionModeEnum::EXPIRE_MAKER => "EXPIRE_MAKER",
-            OrderListPlaceSelfTradePreventionModeEnum::EXPIRE_BOTH => "EXPIRE_BOTH",
-            OrderListPlaceSelfTradePreventionModeEnum::DECREMENT => "DECREMENT",
-            OrderListPlaceSelfTradePreventionModeEnum::NON_REPRESENTABLE => "NON_REPRESENTABLE",
+            OrderListPlaceSelfTradePreventionModeEnum::None => "NONE",
+            OrderListPlaceSelfTradePreventionModeEnum::ExpireTaker => "EXPIRE_TAKER",
+            OrderListPlaceSelfTradePreventionModeEnum::ExpireMaker => "EXPIRE_MAKER",
+            OrderListPlaceSelfTradePreventionModeEnum::ExpireBoth => "EXPIRE_BOTH",
+            OrderListPlaceSelfTradePreventionModeEnum::Decrement => "DECREMENT",
+            OrderListPlaceSelfTradePreventionModeEnum::NonRepresentable => "NON_REPRESENTABLE",
         }
     }
 }
@@ -431,17 +431,17 @@ impl OrderListPlaceSelfTradePreventionModeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderListPlaceOcoSideEnum {
     #[serde(rename = "BUY")]
-    BUY,
+    Buy,
     #[serde(rename = "SELL")]
-    SELL,
+    Sell,
 }
 
 impl OrderListPlaceOcoSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOcoSideEnum::BUY => "BUY",
-            OrderListPlaceOcoSideEnum::SELL => "SELL",
+            OrderListPlaceOcoSideEnum::Buy => "BUY",
+            OrderListPlaceOcoSideEnum::Sell => "SELL",
         }
     }
 }
@@ -450,26 +450,26 @@ impl OrderListPlaceOcoSideEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderListPlaceOcoAboveTypeEnum {
     #[serde(rename = "STOP_LOSS_LIMIT")]
-    STOP_LOSS_LIMIT,
+    StopLossLimit,
     #[serde(rename = "STOP_LOSS")]
-    STOP_LOSS,
+    StopLoss,
     #[serde(rename = "LIMIT_MAKER")]
-    LIMIT_MAKER,
+    LimitMaker,
     #[serde(rename = "TAKE_PROFIT")]
-    TAKE_PROFIT,
+    TakeProfit,
     #[serde(rename = "TAKE_PROFIT_LIMIT")]
-    TAKE_PROFIT_LIMIT,
+    TakeProfitLimit,
 }
 
 impl OrderListPlaceOcoAboveTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOcoAboveTypeEnum::STOP_LOSS_LIMIT => "STOP_LOSS_LIMIT",
-            OrderListPlaceOcoAboveTypeEnum::STOP_LOSS => "STOP_LOSS",
-            OrderListPlaceOcoAboveTypeEnum::LIMIT_MAKER => "LIMIT_MAKER",
-            OrderListPlaceOcoAboveTypeEnum::TAKE_PROFIT => "TAKE_PROFIT",
-            OrderListPlaceOcoAboveTypeEnum::TAKE_PROFIT_LIMIT => "TAKE_PROFIT_LIMIT",
+            OrderListPlaceOcoAboveTypeEnum::StopLossLimit => "STOP_LOSS_LIMIT",
+            OrderListPlaceOcoAboveTypeEnum::StopLoss => "STOP_LOSS",
+            OrderListPlaceOcoAboveTypeEnum::LimitMaker => "LIMIT_MAKER",
+            OrderListPlaceOcoAboveTypeEnum::TakeProfit => "TAKE_PROFIT",
+            OrderListPlaceOcoAboveTypeEnum::TakeProfitLimit => "TAKE_PROFIT_LIMIT",
         }
     }
 }
@@ -478,23 +478,23 @@ impl OrderListPlaceOcoAboveTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderListPlaceOcoBelowTypeEnum {
     #[serde(rename = "STOP_LOSS")]
-    STOP_LOSS,
+    StopLoss,
     #[serde(rename = "STOP_LOSS_LIMIT")]
-    STOP_LOSS_LIMIT,
+    StopLossLimit,
     #[serde(rename = "TAKE_PROFIT")]
-    TAKE_PROFIT,
+    TakeProfit,
     #[serde(rename = "TAKE_PROFIT_LIMIT")]
-    TAKE_PROFIT_LIMIT,
+    TakeProfitLimit,
 }
 
 impl OrderListPlaceOcoBelowTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOcoBelowTypeEnum::STOP_LOSS => "STOP_LOSS",
-            OrderListPlaceOcoBelowTypeEnum::STOP_LOSS_LIMIT => "STOP_LOSS_LIMIT",
-            OrderListPlaceOcoBelowTypeEnum::TAKE_PROFIT => "TAKE_PROFIT",
-            OrderListPlaceOcoBelowTypeEnum::TAKE_PROFIT_LIMIT => "TAKE_PROFIT_LIMIT",
+            OrderListPlaceOcoBelowTypeEnum::StopLoss => "STOP_LOSS",
+            OrderListPlaceOcoBelowTypeEnum::StopLossLimit => "STOP_LOSS_LIMIT",
+            OrderListPlaceOcoBelowTypeEnum::TakeProfit => "TAKE_PROFIT",
+            OrderListPlaceOcoBelowTypeEnum::TakeProfitLimit => "TAKE_PROFIT_LIMIT",
         }
     }
 }
@@ -503,20 +503,20 @@ impl OrderListPlaceOcoBelowTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderListPlaceOcoBelowTimeInForceEnum {
     #[serde(rename = "belowType")]
-    belowType,
+    Belowtype,
     #[serde(rename = "STOP_LOSS_LIMIT")]
-    STOP_LOSS_LIMIT,
+    StopLossLimit,
     #[serde(rename = "TAKE_PROFIT_LIMIT")]
-    TAKE_PROFIT_LIMIT,
+    TakeProfitLimit,
 }
 
 impl OrderListPlaceOcoBelowTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOcoBelowTimeInForceEnum::belowType => "belowType",
-            OrderListPlaceOcoBelowTimeInForceEnum::STOP_LOSS_LIMIT => "STOP_LOSS_LIMIT",
-            OrderListPlaceOcoBelowTimeInForceEnum::TAKE_PROFIT_LIMIT => "TAKE_PROFIT_LIMIT",
+            OrderListPlaceOcoBelowTimeInForceEnum::Belowtype => "belowType",
+            OrderListPlaceOcoBelowTimeInForceEnum::StopLossLimit => "STOP_LOSS_LIMIT",
+            OrderListPlaceOcoBelowTimeInForceEnum::TakeProfitLimit => "TAKE_PROFIT_LIMIT",
         }
     }
 }
@@ -525,26 +525,26 @@ impl OrderListPlaceOcoBelowTimeInForceEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderListPlaceOcoNewOrderRespTypeEnum {
     #[serde(rename = "ACK")]
-    ACK,
+    Ack,
     #[serde(rename = "RESULT")]
-    RESULT,
+    Result,
     #[serde(rename = "FULL")]
-    FULL,
+    Full,
     #[serde(rename = "MARKET")]
-    MARKET,
+    Market,
     #[serde(rename = "LIMIT")]
-    LIMIT,
+    Limit,
 }
 
 impl OrderListPlaceOcoNewOrderRespTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOcoNewOrderRespTypeEnum::ACK => "ACK",
-            OrderListPlaceOcoNewOrderRespTypeEnum::RESULT => "RESULT",
-            OrderListPlaceOcoNewOrderRespTypeEnum::FULL => "FULL",
-            OrderListPlaceOcoNewOrderRespTypeEnum::MARKET => "MARKET",
-            OrderListPlaceOcoNewOrderRespTypeEnum::LIMIT => "LIMIT",
+            OrderListPlaceOcoNewOrderRespTypeEnum::Ack => "ACK",
+            OrderListPlaceOcoNewOrderRespTypeEnum::Result => "RESULT",
+            OrderListPlaceOcoNewOrderRespTypeEnum::Full => "FULL",
+            OrderListPlaceOcoNewOrderRespTypeEnum::Market => "MARKET",
+            OrderListPlaceOcoNewOrderRespTypeEnum::Limit => "LIMIT",
         }
     }
 }
@@ -553,29 +553,29 @@ impl OrderListPlaceOcoNewOrderRespTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderListPlaceOcoSelfTradePreventionModeEnum {
     #[serde(rename = "NONE")]
-    NONE,
+    None,
     #[serde(rename = "EXPIRE_TAKER")]
-    EXPIRE_TAKER,
+    ExpireTaker,
     #[serde(rename = "EXPIRE_MAKER")]
-    EXPIRE_MAKER,
+    ExpireMaker,
     #[serde(rename = "EXPIRE_BOTH")]
-    EXPIRE_BOTH,
+    ExpireBoth,
     #[serde(rename = "DECREMENT")]
-    DECREMENT,
+    Decrement,
     #[serde(rename = "NON_REPRESENTABLE")]
-    NON_REPRESENTABLE,
+    NonRepresentable,
 }
 
 impl OrderListPlaceOcoSelfTradePreventionModeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOcoSelfTradePreventionModeEnum::NONE => "NONE",
-            OrderListPlaceOcoSelfTradePreventionModeEnum::EXPIRE_TAKER => "EXPIRE_TAKER",
-            OrderListPlaceOcoSelfTradePreventionModeEnum::EXPIRE_MAKER => "EXPIRE_MAKER",
-            OrderListPlaceOcoSelfTradePreventionModeEnum::EXPIRE_BOTH => "EXPIRE_BOTH",
-            OrderListPlaceOcoSelfTradePreventionModeEnum::DECREMENT => "DECREMENT",
-            OrderListPlaceOcoSelfTradePreventionModeEnum::NON_REPRESENTABLE => "NON_REPRESENTABLE",
+            OrderListPlaceOcoSelfTradePreventionModeEnum::None => "NONE",
+            OrderListPlaceOcoSelfTradePreventionModeEnum::ExpireTaker => "EXPIRE_TAKER",
+            OrderListPlaceOcoSelfTradePreventionModeEnum::ExpireMaker => "EXPIRE_MAKER",
+            OrderListPlaceOcoSelfTradePreventionModeEnum::ExpireBoth => "EXPIRE_BOTH",
+            OrderListPlaceOcoSelfTradePreventionModeEnum::Decrement => "DECREMENT",
+            OrderListPlaceOcoSelfTradePreventionModeEnum::NonRepresentable => "NON_REPRESENTABLE",
         }
     }
 }
@@ -584,17 +584,17 @@ impl OrderListPlaceOcoSelfTradePreventionModeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderListPlaceOtoWorkingTypeEnum {
     #[serde(rename = "LIMIT")]
-    LIMIT,
+    Limit,
     #[serde(rename = "LIMIT_MAKER")]
-    LIMIT_MAKER,
+    LimitMaker,
 }
 
 impl OrderListPlaceOtoWorkingTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtoWorkingTypeEnum::LIMIT => "LIMIT",
-            OrderListPlaceOtoWorkingTypeEnum::LIMIT_MAKER => "LIMIT_MAKER",
+            OrderListPlaceOtoWorkingTypeEnum::Limit => "LIMIT",
+            OrderListPlaceOtoWorkingTypeEnum::LimitMaker => "LIMIT_MAKER",
         }
     }
 }
@@ -603,17 +603,17 @@ impl OrderListPlaceOtoWorkingTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderListPlaceOtoWorkingSideEnum {
     #[serde(rename = "BUY")]
-    BUY,
+    Buy,
     #[serde(rename = "SELL")]
-    SELL,
+    Sell,
 }
 
 impl OrderListPlaceOtoWorkingSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtoWorkingSideEnum::BUY => "BUY",
-            OrderListPlaceOtoWorkingSideEnum::SELL => "SELL",
+            OrderListPlaceOtoWorkingSideEnum::Buy => "BUY",
+            OrderListPlaceOtoWorkingSideEnum::Sell => "SELL",
         }
     }
 }
@@ -622,32 +622,32 @@ impl OrderListPlaceOtoWorkingSideEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderListPlaceOtoPendingTypeEnum {
     #[serde(rename = "LIMIT")]
-    LIMIT,
+    Limit,
     #[serde(rename = "MARKET")]
-    MARKET,
+    Market,
     #[serde(rename = "STOP_LOSS")]
-    STOP_LOSS,
+    StopLoss,
     #[serde(rename = "STOP_LOSS_LIMIT")]
-    STOP_LOSS_LIMIT,
+    StopLossLimit,
     #[serde(rename = "TAKE_PROFIT")]
-    TAKE_PROFIT,
+    TakeProfit,
     #[serde(rename = "TAKE_PROFIT_LIMIT")]
-    TAKE_PROFIT_LIMIT,
+    TakeProfitLimit,
     #[serde(rename = "LIMIT_MAKER")]
-    LIMIT_MAKER,
+    LimitMaker,
 }
 
 impl OrderListPlaceOtoPendingTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtoPendingTypeEnum::LIMIT => "LIMIT",
-            OrderListPlaceOtoPendingTypeEnum::MARKET => "MARKET",
-            OrderListPlaceOtoPendingTypeEnum::STOP_LOSS => "STOP_LOSS",
-            OrderListPlaceOtoPendingTypeEnum::STOP_LOSS_LIMIT => "STOP_LOSS_LIMIT",
-            OrderListPlaceOtoPendingTypeEnum::TAKE_PROFIT => "TAKE_PROFIT",
-            OrderListPlaceOtoPendingTypeEnum::TAKE_PROFIT_LIMIT => "TAKE_PROFIT_LIMIT",
-            OrderListPlaceOtoPendingTypeEnum::LIMIT_MAKER => "LIMIT_MAKER",
+            OrderListPlaceOtoPendingTypeEnum::Limit => "LIMIT",
+            OrderListPlaceOtoPendingTypeEnum::Market => "MARKET",
+            OrderListPlaceOtoPendingTypeEnum::StopLoss => "STOP_LOSS",
+            OrderListPlaceOtoPendingTypeEnum::StopLossLimit => "STOP_LOSS_LIMIT",
+            OrderListPlaceOtoPendingTypeEnum::TakeProfit => "TAKE_PROFIT",
+            OrderListPlaceOtoPendingTypeEnum::TakeProfitLimit => "TAKE_PROFIT_LIMIT",
+            OrderListPlaceOtoPendingTypeEnum::LimitMaker => "LIMIT_MAKER",
         }
     }
 }
@@ -656,17 +656,17 @@ impl OrderListPlaceOtoPendingTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderListPlaceOtoPendingSideEnum {
     #[serde(rename = "BUY")]
-    BUY,
+    Buy,
     #[serde(rename = "SELL")]
-    SELL,
+    Sell,
 }
 
 impl OrderListPlaceOtoPendingSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtoPendingSideEnum::BUY => "BUY",
-            OrderListPlaceOtoPendingSideEnum::SELL => "SELL",
+            OrderListPlaceOtoPendingSideEnum::Buy => "BUY",
+            OrderListPlaceOtoPendingSideEnum::Sell => "SELL",
         }
     }
 }
@@ -675,26 +675,26 @@ impl OrderListPlaceOtoPendingSideEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderListPlaceOtoNewOrderRespTypeEnum {
     #[serde(rename = "ACK")]
-    ACK,
+    Ack,
     #[serde(rename = "RESULT")]
-    RESULT,
+    Result,
     #[serde(rename = "FULL")]
-    FULL,
+    Full,
     #[serde(rename = "MARKET")]
-    MARKET,
+    Market,
     #[serde(rename = "LIMIT")]
-    LIMIT,
+    Limit,
 }
 
 impl OrderListPlaceOtoNewOrderRespTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtoNewOrderRespTypeEnum::ACK => "ACK",
-            OrderListPlaceOtoNewOrderRespTypeEnum::RESULT => "RESULT",
-            OrderListPlaceOtoNewOrderRespTypeEnum::FULL => "FULL",
-            OrderListPlaceOtoNewOrderRespTypeEnum::MARKET => "MARKET",
-            OrderListPlaceOtoNewOrderRespTypeEnum::LIMIT => "LIMIT",
+            OrderListPlaceOtoNewOrderRespTypeEnum::Ack => "ACK",
+            OrderListPlaceOtoNewOrderRespTypeEnum::Result => "RESULT",
+            OrderListPlaceOtoNewOrderRespTypeEnum::Full => "FULL",
+            OrderListPlaceOtoNewOrderRespTypeEnum::Market => "MARKET",
+            OrderListPlaceOtoNewOrderRespTypeEnum::Limit => "LIMIT",
         }
     }
 }
@@ -703,29 +703,29 @@ impl OrderListPlaceOtoNewOrderRespTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderListPlaceOtoSelfTradePreventionModeEnum {
     #[serde(rename = "NONE")]
-    NONE,
+    None,
     #[serde(rename = "EXPIRE_TAKER")]
-    EXPIRE_TAKER,
+    ExpireTaker,
     #[serde(rename = "EXPIRE_MAKER")]
-    EXPIRE_MAKER,
+    ExpireMaker,
     #[serde(rename = "EXPIRE_BOTH")]
-    EXPIRE_BOTH,
+    ExpireBoth,
     #[serde(rename = "DECREMENT")]
-    DECREMENT,
+    Decrement,
     #[serde(rename = "NON_REPRESENTABLE")]
-    NON_REPRESENTABLE,
+    NonRepresentable,
 }
 
 impl OrderListPlaceOtoSelfTradePreventionModeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtoSelfTradePreventionModeEnum::NONE => "NONE",
-            OrderListPlaceOtoSelfTradePreventionModeEnum::EXPIRE_TAKER => "EXPIRE_TAKER",
-            OrderListPlaceOtoSelfTradePreventionModeEnum::EXPIRE_MAKER => "EXPIRE_MAKER",
-            OrderListPlaceOtoSelfTradePreventionModeEnum::EXPIRE_BOTH => "EXPIRE_BOTH",
-            OrderListPlaceOtoSelfTradePreventionModeEnum::DECREMENT => "DECREMENT",
-            OrderListPlaceOtoSelfTradePreventionModeEnum::NON_REPRESENTABLE => "NON_REPRESENTABLE",
+            OrderListPlaceOtoSelfTradePreventionModeEnum::None => "NONE",
+            OrderListPlaceOtoSelfTradePreventionModeEnum::ExpireTaker => "EXPIRE_TAKER",
+            OrderListPlaceOtoSelfTradePreventionModeEnum::ExpireMaker => "EXPIRE_MAKER",
+            OrderListPlaceOtoSelfTradePreventionModeEnum::ExpireBoth => "EXPIRE_BOTH",
+            OrderListPlaceOtoSelfTradePreventionModeEnum::Decrement => "DECREMENT",
+            OrderListPlaceOtoSelfTradePreventionModeEnum::NonRepresentable => "NON_REPRESENTABLE",
         }
     }
 }
@@ -734,20 +734,20 @@ impl OrderListPlaceOtoSelfTradePreventionModeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderListPlaceOtoWorkingTimeInForceEnum {
     #[serde(rename = "GTC")]
-    GTC,
+    Gtc,
     #[serde(rename = "IOC")]
-    IOC,
+    Ioc,
     #[serde(rename = "FOK")]
-    FOK,
+    Fok,
 }
 
 impl OrderListPlaceOtoWorkingTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtoWorkingTimeInForceEnum::GTC => "GTC",
-            OrderListPlaceOtoWorkingTimeInForceEnum::IOC => "IOC",
-            OrderListPlaceOtoWorkingTimeInForceEnum::FOK => "FOK",
+            OrderListPlaceOtoWorkingTimeInForceEnum::Gtc => "GTC",
+            OrderListPlaceOtoWorkingTimeInForceEnum::Ioc => "IOC",
+            OrderListPlaceOtoWorkingTimeInForceEnum::Fok => "FOK",
         }
     }
 }
@@ -756,20 +756,20 @@ impl OrderListPlaceOtoWorkingTimeInForceEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderListPlaceOtoPendingTimeInForceEnum {
     #[serde(rename = "GTC")]
-    GTC,
+    Gtc,
     #[serde(rename = "IOC")]
-    IOC,
+    Ioc,
     #[serde(rename = "FOK")]
-    FOK,
+    Fok,
 }
 
 impl OrderListPlaceOtoPendingTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtoPendingTimeInForceEnum::GTC => "GTC",
-            OrderListPlaceOtoPendingTimeInForceEnum::IOC => "IOC",
-            OrderListPlaceOtoPendingTimeInForceEnum::FOK => "FOK",
+            OrderListPlaceOtoPendingTimeInForceEnum::Gtc => "GTC",
+            OrderListPlaceOtoPendingTimeInForceEnum::Ioc => "IOC",
+            OrderListPlaceOtoPendingTimeInForceEnum::Fok => "FOK",
         }
     }
 }
@@ -778,17 +778,17 @@ impl OrderListPlaceOtoPendingTimeInForceEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderListPlaceOtocoWorkingTypeEnum {
     #[serde(rename = "LIMIT")]
-    LIMIT,
+    Limit,
     #[serde(rename = "LIMIT_MAKER")]
-    LIMIT_MAKER,
+    LimitMaker,
 }
 
 impl OrderListPlaceOtocoWorkingTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtocoWorkingTypeEnum::LIMIT => "LIMIT",
-            OrderListPlaceOtocoWorkingTypeEnum::LIMIT_MAKER => "LIMIT_MAKER",
+            OrderListPlaceOtocoWorkingTypeEnum::Limit => "LIMIT",
+            OrderListPlaceOtocoWorkingTypeEnum::LimitMaker => "LIMIT_MAKER",
         }
     }
 }
@@ -797,17 +797,17 @@ impl OrderListPlaceOtocoWorkingTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderListPlaceOtocoWorkingSideEnum {
     #[serde(rename = "BUY")]
-    BUY,
+    Buy,
     #[serde(rename = "SELL")]
-    SELL,
+    Sell,
 }
 
 impl OrderListPlaceOtocoWorkingSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtocoWorkingSideEnum::BUY => "BUY",
-            OrderListPlaceOtocoWorkingSideEnum::SELL => "SELL",
+            OrderListPlaceOtocoWorkingSideEnum::Buy => "BUY",
+            OrderListPlaceOtocoWorkingSideEnum::Sell => "SELL",
         }
     }
 }
@@ -816,17 +816,17 @@ impl OrderListPlaceOtocoWorkingSideEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderListPlaceOtocoPendingSideEnum {
     #[serde(rename = "BUY")]
-    BUY,
+    Buy,
     #[serde(rename = "SELL")]
-    SELL,
+    Sell,
 }
 
 impl OrderListPlaceOtocoPendingSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtocoPendingSideEnum::BUY => "BUY",
-            OrderListPlaceOtocoPendingSideEnum::SELL => "SELL",
+            OrderListPlaceOtocoPendingSideEnum::Buy => "BUY",
+            OrderListPlaceOtocoPendingSideEnum::Sell => "SELL",
         }
     }
 }
@@ -835,26 +835,26 @@ impl OrderListPlaceOtocoPendingSideEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderListPlaceOtocoPendingAboveTypeEnum {
     #[serde(rename = "STOP_LOSS_LIMIT")]
-    STOP_LOSS_LIMIT,
+    StopLossLimit,
     #[serde(rename = "STOP_LOSS")]
-    STOP_LOSS,
+    StopLoss,
     #[serde(rename = "LIMIT_MAKER")]
-    LIMIT_MAKER,
+    LimitMaker,
     #[serde(rename = "TAKE_PROFIT")]
-    TAKE_PROFIT,
+    TakeProfit,
     #[serde(rename = "TAKE_PROFIT_LIMIT")]
-    TAKE_PROFIT_LIMIT,
+    TakeProfitLimit,
 }
 
 impl OrderListPlaceOtocoPendingAboveTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtocoPendingAboveTypeEnum::STOP_LOSS_LIMIT => "STOP_LOSS_LIMIT",
-            OrderListPlaceOtocoPendingAboveTypeEnum::STOP_LOSS => "STOP_LOSS",
-            OrderListPlaceOtocoPendingAboveTypeEnum::LIMIT_MAKER => "LIMIT_MAKER",
-            OrderListPlaceOtocoPendingAboveTypeEnum::TAKE_PROFIT => "TAKE_PROFIT",
-            OrderListPlaceOtocoPendingAboveTypeEnum::TAKE_PROFIT_LIMIT => "TAKE_PROFIT_LIMIT",
+            OrderListPlaceOtocoPendingAboveTypeEnum::StopLossLimit => "STOP_LOSS_LIMIT",
+            OrderListPlaceOtocoPendingAboveTypeEnum::StopLoss => "STOP_LOSS",
+            OrderListPlaceOtocoPendingAboveTypeEnum::LimitMaker => "LIMIT_MAKER",
+            OrderListPlaceOtocoPendingAboveTypeEnum::TakeProfit => "TAKE_PROFIT",
+            OrderListPlaceOtocoPendingAboveTypeEnum::TakeProfitLimit => "TAKE_PROFIT_LIMIT",
         }
     }
 }
@@ -863,26 +863,26 @@ impl OrderListPlaceOtocoPendingAboveTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderListPlaceOtocoNewOrderRespTypeEnum {
     #[serde(rename = "ACK")]
-    ACK,
+    Ack,
     #[serde(rename = "RESULT")]
-    RESULT,
+    Result,
     #[serde(rename = "FULL")]
-    FULL,
+    Full,
     #[serde(rename = "MARKET")]
-    MARKET,
+    Market,
     #[serde(rename = "LIMIT")]
-    LIMIT,
+    Limit,
 }
 
 impl OrderListPlaceOtocoNewOrderRespTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtocoNewOrderRespTypeEnum::ACK => "ACK",
-            OrderListPlaceOtocoNewOrderRespTypeEnum::RESULT => "RESULT",
-            OrderListPlaceOtocoNewOrderRespTypeEnum::FULL => "FULL",
-            OrderListPlaceOtocoNewOrderRespTypeEnum::MARKET => "MARKET",
-            OrderListPlaceOtocoNewOrderRespTypeEnum::LIMIT => "LIMIT",
+            OrderListPlaceOtocoNewOrderRespTypeEnum::Ack => "ACK",
+            OrderListPlaceOtocoNewOrderRespTypeEnum::Result => "RESULT",
+            OrderListPlaceOtocoNewOrderRespTypeEnum::Full => "FULL",
+            OrderListPlaceOtocoNewOrderRespTypeEnum::Market => "MARKET",
+            OrderListPlaceOtocoNewOrderRespTypeEnum::Limit => "LIMIT",
         }
     }
 }
@@ -891,31 +891,29 @@ impl OrderListPlaceOtocoNewOrderRespTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderListPlaceOtocoSelfTradePreventionModeEnum {
     #[serde(rename = "NONE")]
-    NONE,
+    None,
     #[serde(rename = "EXPIRE_TAKER")]
-    EXPIRE_TAKER,
+    ExpireTaker,
     #[serde(rename = "EXPIRE_MAKER")]
-    EXPIRE_MAKER,
+    ExpireMaker,
     #[serde(rename = "EXPIRE_BOTH")]
-    EXPIRE_BOTH,
+    ExpireBoth,
     #[serde(rename = "DECREMENT")]
-    DECREMENT,
+    Decrement,
     #[serde(rename = "NON_REPRESENTABLE")]
-    NON_REPRESENTABLE,
+    NonRepresentable,
 }
 
 impl OrderListPlaceOtocoSelfTradePreventionModeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtocoSelfTradePreventionModeEnum::NONE => "NONE",
-            OrderListPlaceOtocoSelfTradePreventionModeEnum::EXPIRE_TAKER => "EXPIRE_TAKER",
-            OrderListPlaceOtocoSelfTradePreventionModeEnum::EXPIRE_MAKER => "EXPIRE_MAKER",
-            OrderListPlaceOtocoSelfTradePreventionModeEnum::EXPIRE_BOTH => "EXPIRE_BOTH",
-            OrderListPlaceOtocoSelfTradePreventionModeEnum::DECREMENT => "DECREMENT",
-            OrderListPlaceOtocoSelfTradePreventionModeEnum::NON_REPRESENTABLE => {
-                "NON_REPRESENTABLE"
-            }
+            OrderListPlaceOtocoSelfTradePreventionModeEnum::None => "NONE",
+            OrderListPlaceOtocoSelfTradePreventionModeEnum::ExpireTaker => "EXPIRE_TAKER",
+            OrderListPlaceOtocoSelfTradePreventionModeEnum::ExpireMaker => "EXPIRE_MAKER",
+            OrderListPlaceOtocoSelfTradePreventionModeEnum::ExpireBoth => "EXPIRE_BOTH",
+            OrderListPlaceOtocoSelfTradePreventionModeEnum::Decrement => "DECREMENT",
+            OrderListPlaceOtocoSelfTradePreventionModeEnum::NonRepresentable => "NON_REPRESENTABLE",
         }
     }
 }
@@ -924,20 +922,20 @@ impl OrderListPlaceOtocoSelfTradePreventionModeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderListPlaceOtocoWorkingTimeInForceEnum {
     #[serde(rename = "GTC")]
-    GTC,
+    Gtc,
     #[serde(rename = "IOC")]
-    IOC,
+    Ioc,
     #[serde(rename = "FOK")]
-    FOK,
+    Fok,
 }
 
 impl OrderListPlaceOtocoWorkingTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtocoWorkingTimeInForceEnum::GTC => "GTC",
-            OrderListPlaceOtocoWorkingTimeInForceEnum::IOC => "IOC",
-            OrderListPlaceOtocoWorkingTimeInForceEnum::FOK => "FOK",
+            OrderListPlaceOtocoWorkingTimeInForceEnum::Gtc => "GTC",
+            OrderListPlaceOtocoWorkingTimeInForceEnum::Ioc => "IOC",
+            OrderListPlaceOtocoWorkingTimeInForceEnum::Fok => "FOK",
         }
     }
 }
@@ -946,20 +944,20 @@ impl OrderListPlaceOtocoWorkingTimeInForceEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderListPlaceOtocoPendingAboveTimeInForceEnum {
     #[serde(rename = "GTC")]
-    GTC,
+    Gtc,
     #[serde(rename = "IOC")]
-    IOC,
+    Ioc,
     #[serde(rename = "FOK")]
-    FOK,
+    Fok,
 }
 
 impl OrderListPlaceOtocoPendingAboveTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtocoPendingAboveTimeInForceEnum::GTC => "GTC",
-            OrderListPlaceOtocoPendingAboveTimeInForceEnum::IOC => "IOC",
-            OrderListPlaceOtocoPendingAboveTimeInForceEnum::FOK => "FOK",
+            OrderListPlaceOtocoPendingAboveTimeInForceEnum::Gtc => "GTC",
+            OrderListPlaceOtocoPendingAboveTimeInForceEnum::Ioc => "IOC",
+            OrderListPlaceOtocoPendingAboveTimeInForceEnum::Fok => "FOK",
         }
     }
 }
@@ -968,23 +966,23 @@ impl OrderListPlaceOtocoPendingAboveTimeInForceEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderListPlaceOtocoPendingBelowTypeEnum {
     #[serde(rename = "STOP_LOSS")]
-    STOP_LOSS,
+    StopLoss,
     #[serde(rename = "STOP_LOSS_LIMIT")]
-    STOP_LOSS_LIMIT,
+    StopLossLimit,
     #[serde(rename = "TAKE_PROFIT")]
-    TAKE_PROFIT,
+    TakeProfit,
     #[serde(rename = "TAKE_PROFIT_LIMIT")]
-    TAKE_PROFIT_LIMIT,
+    TakeProfitLimit,
 }
 
 impl OrderListPlaceOtocoPendingBelowTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtocoPendingBelowTypeEnum::STOP_LOSS => "STOP_LOSS",
-            OrderListPlaceOtocoPendingBelowTypeEnum::STOP_LOSS_LIMIT => "STOP_LOSS_LIMIT",
-            OrderListPlaceOtocoPendingBelowTypeEnum::TAKE_PROFIT => "TAKE_PROFIT",
-            OrderListPlaceOtocoPendingBelowTypeEnum::TAKE_PROFIT_LIMIT => "TAKE_PROFIT_LIMIT",
+            OrderListPlaceOtocoPendingBelowTypeEnum::StopLoss => "STOP_LOSS",
+            OrderListPlaceOtocoPendingBelowTypeEnum::StopLossLimit => "STOP_LOSS_LIMIT",
+            OrderListPlaceOtocoPendingBelowTypeEnum::TakeProfit => "TAKE_PROFIT",
+            OrderListPlaceOtocoPendingBelowTypeEnum::TakeProfitLimit => "TAKE_PROFIT_LIMIT",
         }
     }
 }
@@ -993,20 +991,20 @@ impl OrderListPlaceOtocoPendingBelowTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderListPlaceOtocoPendingBelowTimeInForceEnum {
     #[serde(rename = "GTC")]
-    GTC,
+    Gtc,
     #[serde(rename = "IOC")]
-    IOC,
+    Ioc,
     #[serde(rename = "FOK")]
-    FOK,
+    Fok,
 }
 
 impl OrderListPlaceOtocoPendingBelowTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtocoPendingBelowTimeInForceEnum::GTC => "GTC",
-            OrderListPlaceOtocoPendingBelowTimeInForceEnum::IOC => "IOC",
-            OrderListPlaceOtocoPendingBelowTimeInForceEnum::FOK => "FOK",
+            OrderListPlaceOtocoPendingBelowTimeInForceEnum::Gtc => "GTC",
+            OrderListPlaceOtocoPendingBelowTimeInForceEnum::Ioc => "IOC",
+            OrderListPlaceOtocoPendingBelowTimeInForceEnum::Fok => "FOK",
         }
     }
 }
@@ -1015,17 +1013,17 @@ impl OrderListPlaceOtocoPendingBelowTimeInForceEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderPlaceSideEnum {
     #[serde(rename = "BUY")]
-    BUY,
+    Buy,
     #[serde(rename = "SELL")]
-    SELL,
+    Sell,
 }
 
 impl OrderPlaceSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderPlaceSideEnum::BUY => "BUY",
-            OrderPlaceSideEnum::SELL => "SELL",
+            OrderPlaceSideEnum::Buy => "BUY",
+            OrderPlaceSideEnum::Sell => "SELL",
         }
     }
 }
@@ -1034,35 +1032,35 @@ impl OrderPlaceSideEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderPlaceTypeEnum {
     #[serde(rename = "MARKET")]
-    MARKET,
+    Market,
     #[serde(rename = "LIMIT")]
-    LIMIT,
+    Limit,
     #[serde(rename = "STOP_LOSS")]
-    STOP_LOSS,
+    StopLoss,
     #[serde(rename = "STOP_LOSS_LIMIT")]
-    STOP_LOSS_LIMIT,
+    StopLossLimit,
     #[serde(rename = "TAKE_PROFIT")]
-    TAKE_PROFIT,
+    TakeProfit,
     #[serde(rename = "TAKE_PROFIT_LIMIT")]
-    TAKE_PROFIT_LIMIT,
+    TakeProfitLimit,
     #[serde(rename = "LIMIT_MAKER")]
-    LIMIT_MAKER,
+    LimitMaker,
     #[serde(rename = "NON_REPRESENTABLE")]
-    NON_REPRESENTABLE,
+    NonRepresentable,
 }
 
 impl OrderPlaceTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderPlaceTypeEnum::MARKET => "MARKET",
-            OrderPlaceTypeEnum::LIMIT => "LIMIT",
-            OrderPlaceTypeEnum::STOP_LOSS => "STOP_LOSS",
-            OrderPlaceTypeEnum::STOP_LOSS_LIMIT => "STOP_LOSS_LIMIT",
-            OrderPlaceTypeEnum::TAKE_PROFIT => "TAKE_PROFIT",
-            OrderPlaceTypeEnum::TAKE_PROFIT_LIMIT => "TAKE_PROFIT_LIMIT",
-            OrderPlaceTypeEnum::LIMIT_MAKER => "LIMIT_MAKER",
-            OrderPlaceTypeEnum::NON_REPRESENTABLE => "NON_REPRESENTABLE",
+            OrderPlaceTypeEnum::Market => "MARKET",
+            OrderPlaceTypeEnum::Limit => "LIMIT",
+            OrderPlaceTypeEnum::StopLoss => "STOP_LOSS",
+            OrderPlaceTypeEnum::StopLossLimit => "STOP_LOSS_LIMIT",
+            OrderPlaceTypeEnum::TakeProfit => "TAKE_PROFIT",
+            OrderPlaceTypeEnum::TakeProfitLimit => "TAKE_PROFIT_LIMIT",
+            OrderPlaceTypeEnum::LimitMaker => "LIMIT_MAKER",
+            OrderPlaceTypeEnum::NonRepresentable => "NON_REPRESENTABLE",
         }
     }
 }
@@ -1071,23 +1069,23 @@ impl OrderPlaceTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderPlaceTimeInForceEnum {
     #[serde(rename = "GTC")]
-    GTC,
+    Gtc,
     #[serde(rename = "IOC")]
-    IOC,
+    Ioc,
     #[serde(rename = "FOK")]
-    FOK,
+    Fok,
     #[serde(rename = "NON_REPRESENTABLE")]
-    NON_REPRESENTABLE,
+    NonRepresentable,
 }
 
 impl OrderPlaceTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderPlaceTimeInForceEnum::GTC => "GTC",
-            OrderPlaceTimeInForceEnum::IOC => "IOC",
-            OrderPlaceTimeInForceEnum::FOK => "FOK",
-            OrderPlaceTimeInForceEnum::NON_REPRESENTABLE => "NON_REPRESENTABLE",
+            OrderPlaceTimeInForceEnum::Gtc => "GTC",
+            OrderPlaceTimeInForceEnum::Ioc => "IOC",
+            OrderPlaceTimeInForceEnum::Fok => "FOK",
+            OrderPlaceTimeInForceEnum::NonRepresentable => "NON_REPRESENTABLE",
         }
     }
 }
@@ -1096,26 +1094,26 @@ impl OrderPlaceTimeInForceEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderPlaceNewOrderRespTypeEnum {
     #[serde(rename = "ACK")]
-    ACK,
+    Ack,
     #[serde(rename = "RESULT")]
-    RESULT,
+    Result,
     #[serde(rename = "FULL")]
-    FULL,
+    Full,
     #[serde(rename = "MARKET")]
-    MARKET,
+    Market,
     #[serde(rename = "LIMIT")]
-    LIMIT,
+    Limit,
 }
 
 impl OrderPlaceNewOrderRespTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderPlaceNewOrderRespTypeEnum::ACK => "ACK",
-            OrderPlaceNewOrderRespTypeEnum::RESULT => "RESULT",
-            OrderPlaceNewOrderRespTypeEnum::FULL => "FULL",
-            OrderPlaceNewOrderRespTypeEnum::MARKET => "MARKET",
-            OrderPlaceNewOrderRespTypeEnum::LIMIT => "LIMIT",
+            OrderPlaceNewOrderRespTypeEnum::Ack => "ACK",
+            OrderPlaceNewOrderRespTypeEnum::Result => "RESULT",
+            OrderPlaceNewOrderRespTypeEnum::Full => "FULL",
+            OrderPlaceNewOrderRespTypeEnum::Market => "MARKET",
+            OrderPlaceNewOrderRespTypeEnum::Limit => "LIMIT",
         }
     }
 }
@@ -1124,29 +1122,29 @@ impl OrderPlaceNewOrderRespTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum OrderPlaceSelfTradePreventionModeEnum {
     #[serde(rename = "NONE")]
-    NONE,
+    None,
     #[serde(rename = "EXPIRE_TAKER")]
-    EXPIRE_TAKER,
+    ExpireTaker,
     #[serde(rename = "EXPIRE_MAKER")]
-    EXPIRE_MAKER,
+    ExpireMaker,
     #[serde(rename = "EXPIRE_BOTH")]
-    EXPIRE_BOTH,
+    ExpireBoth,
     #[serde(rename = "DECREMENT")]
-    DECREMENT,
+    Decrement,
     #[serde(rename = "NON_REPRESENTABLE")]
-    NON_REPRESENTABLE,
+    NonRepresentable,
 }
 
 impl OrderPlaceSelfTradePreventionModeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderPlaceSelfTradePreventionModeEnum::NONE => "NONE",
-            OrderPlaceSelfTradePreventionModeEnum::EXPIRE_TAKER => "EXPIRE_TAKER",
-            OrderPlaceSelfTradePreventionModeEnum::EXPIRE_MAKER => "EXPIRE_MAKER",
-            OrderPlaceSelfTradePreventionModeEnum::EXPIRE_BOTH => "EXPIRE_BOTH",
-            OrderPlaceSelfTradePreventionModeEnum::DECREMENT => "DECREMENT",
-            OrderPlaceSelfTradePreventionModeEnum::NON_REPRESENTABLE => "NON_REPRESENTABLE",
+            OrderPlaceSelfTradePreventionModeEnum::None => "NONE",
+            OrderPlaceSelfTradePreventionModeEnum::ExpireTaker => "EXPIRE_TAKER",
+            OrderPlaceSelfTradePreventionModeEnum::ExpireMaker => "EXPIRE_MAKER",
+            OrderPlaceSelfTradePreventionModeEnum::ExpireBoth => "EXPIRE_BOTH",
+            OrderPlaceSelfTradePreventionModeEnum::Decrement => "DECREMENT",
+            OrderPlaceSelfTradePreventionModeEnum::NonRepresentable => "NON_REPRESENTABLE",
         }
     }
 }
@@ -1155,17 +1153,17 @@ impl OrderPlaceSelfTradePreventionModeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum SorOrderPlaceSideEnum {
     #[serde(rename = "BUY")]
-    BUY,
+    Buy,
     #[serde(rename = "SELL")]
-    SELL,
+    Sell,
 }
 
 impl SorOrderPlaceSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            SorOrderPlaceSideEnum::BUY => "BUY",
-            SorOrderPlaceSideEnum::SELL => "SELL",
+            SorOrderPlaceSideEnum::Buy => "BUY",
+            SorOrderPlaceSideEnum::Sell => "SELL",
         }
     }
 }
@@ -1174,35 +1172,35 @@ impl SorOrderPlaceSideEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum SorOrderPlaceTypeEnum {
     #[serde(rename = "MARKET")]
-    MARKET,
+    Market,
     #[serde(rename = "LIMIT")]
-    LIMIT,
+    Limit,
     #[serde(rename = "STOP_LOSS")]
-    STOP_LOSS,
+    StopLoss,
     #[serde(rename = "STOP_LOSS_LIMIT")]
-    STOP_LOSS_LIMIT,
+    StopLossLimit,
     #[serde(rename = "TAKE_PROFIT")]
-    TAKE_PROFIT,
+    TakeProfit,
     #[serde(rename = "TAKE_PROFIT_LIMIT")]
-    TAKE_PROFIT_LIMIT,
+    TakeProfitLimit,
     #[serde(rename = "LIMIT_MAKER")]
-    LIMIT_MAKER,
+    LimitMaker,
     #[serde(rename = "NON_REPRESENTABLE")]
-    NON_REPRESENTABLE,
+    NonRepresentable,
 }
 
 impl SorOrderPlaceTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            SorOrderPlaceTypeEnum::MARKET => "MARKET",
-            SorOrderPlaceTypeEnum::LIMIT => "LIMIT",
-            SorOrderPlaceTypeEnum::STOP_LOSS => "STOP_LOSS",
-            SorOrderPlaceTypeEnum::STOP_LOSS_LIMIT => "STOP_LOSS_LIMIT",
-            SorOrderPlaceTypeEnum::TAKE_PROFIT => "TAKE_PROFIT",
-            SorOrderPlaceTypeEnum::TAKE_PROFIT_LIMIT => "TAKE_PROFIT_LIMIT",
-            SorOrderPlaceTypeEnum::LIMIT_MAKER => "LIMIT_MAKER",
-            SorOrderPlaceTypeEnum::NON_REPRESENTABLE => "NON_REPRESENTABLE",
+            SorOrderPlaceTypeEnum::Market => "MARKET",
+            SorOrderPlaceTypeEnum::Limit => "LIMIT",
+            SorOrderPlaceTypeEnum::StopLoss => "STOP_LOSS",
+            SorOrderPlaceTypeEnum::StopLossLimit => "STOP_LOSS_LIMIT",
+            SorOrderPlaceTypeEnum::TakeProfit => "TAKE_PROFIT",
+            SorOrderPlaceTypeEnum::TakeProfitLimit => "TAKE_PROFIT_LIMIT",
+            SorOrderPlaceTypeEnum::LimitMaker => "LIMIT_MAKER",
+            SorOrderPlaceTypeEnum::NonRepresentable => "NON_REPRESENTABLE",
         }
     }
 }
@@ -1211,23 +1209,23 @@ impl SorOrderPlaceTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum SorOrderPlaceTimeInForceEnum {
     #[serde(rename = "GTC")]
-    GTC,
+    Gtc,
     #[serde(rename = "IOC")]
-    IOC,
+    Ioc,
     #[serde(rename = "FOK")]
-    FOK,
+    Fok,
     #[serde(rename = "NON_REPRESENTABLE")]
-    NON_REPRESENTABLE,
+    NonRepresentable,
 }
 
 impl SorOrderPlaceTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            SorOrderPlaceTimeInForceEnum::GTC => "GTC",
-            SorOrderPlaceTimeInForceEnum::IOC => "IOC",
-            SorOrderPlaceTimeInForceEnum::FOK => "FOK",
-            SorOrderPlaceTimeInForceEnum::NON_REPRESENTABLE => "NON_REPRESENTABLE",
+            SorOrderPlaceTimeInForceEnum::Gtc => "GTC",
+            SorOrderPlaceTimeInForceEnum::Ioc => "IOC",
+            SorOrderPlaceTimeInForceEnum::Fok => "FOK",
+            SorOrderPlaceTimeInForceEnum::NonRepresentable => "NON_REPRESENTABLE",
         }
     }
 }
@@ -1236,26 +1234,26 @@ impl SorOrderPlaceTimeInForceEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum SorOrderPlaceNewOrderRespTypeEnum {
     #[serde(rename = "ACK")]
-    ACK,
+    Ack,
     #[serde(rename = "RESULT")]
-    RESULT,
+    Result,
     #[serde(rename = "FULL")]
-    FULL,
+    Full,
     #[serde(rename = "MARKET")]
-    MARKET,
+    Market,
     #[serde(rename = "LIMIT")]
-    LIMIT,
+    Limit,
 }
 
 impl SorOrderPlaceNewOrderRespTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            SorOrderPlaceNewOrderRespTypeEnum::ACK => "ACK",
-            SorOrderPlaceNewOrderRespTypeEnum::RESULT => "RESULT",
-            SorOrderPlaceNewOrderRespTypeEnum::FULL => "FULL",
-            SorOrderPlaceNewOrderRespTypeEnum::MARKET => "MARKET",
-            SorOrderPlaceNewOrderRespTypeEnum::LIMIT => "LIMIT",
+            SorOrderPlaceNewOrderRespTypeEnum::Ack => "ACK",
+            SorOrderPlaceNewOrderRespTypeEnum::Result => "RESULT",
+            SorOrderPlaceNewOrderRespTypeEnum::Full => "FULL",
+            SorOrderPlaceNewOrderRespTypeEnum::Market => "MARKET",
+            SorOrderPlaceNewOrderRespTypeEnum::Limit => "LIMIT",
         }
     }
 }
@@ -1264,29 +1262,29 @@ impl SorOrderPlaceNewOrderRespTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum SorOrderPlaceSelfTradePreventionModeEnum {
     #[serde(rename = "NONE")]
-    NONE,
+    None,
     #[serde(rename = "EXPIRE_TAKER")]
-    EXPIRE_TAKER,
+    ExpireTaker,
     #[serde(rename = "EXPIRE_MAKER")]
-    EXPIRE_MAKER,
+    ExpireMaker,
     #[serde(rename = "EXPIRE_BOTH")]
-    EXPIRE_BOTH,
+    ExpireBoth,
     #[serde(rename = "DECREMENT")]
-    DECREMENT,
+    Decrement,
     #[serde(rename = "NON_REPRESENTABLE")]
-    NON_REPRESENTABLE,
+    NonRepresentable,
 }
 
 impl SorOrderPlaceSelfTradePreventionModeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            SorOrderPlaceSelfTradePreventionModeEnum::NONE => "NONE",
-            SorOrderPlaceSelfTradePreventionModeEnum::EXPIRE_TAKER => "EXPIRE_TAKER",
-            SorOrderPlaceSelfTradePreventionModeEnum::EXPIRE_MAKER => "EXPIRE_MAKER",
-            SorOrderPlaceSelfTradePreventionModeEnum::EXPIRE_BOTH => "EXPIRE_BOTH",
-            SorOrderPlaceSelfTradePreventionModeEnum::DECREMENT => "DECREMENT",
-            SorOrderPlaceSelfTradePreventionModeEnum::NON_REPRESENTABLE => "NON_REPRESENTABLE",
+            SorOrderPlaceSelfTradePreventionModeEnum::None => "NONE",
+            SorOrderPlaceSelfTradePreventionModeEnum::ExpireTaker => "EXPIRE_TAKER",
+            SorOrderPlaceSelfTradePreventionModeEnum::ExpireMaker => "EXPIRE_MAKER",
+            SorOrderPlaceSelfTradePreventionModeEnum::ExpireBoth => "EXPIRE_BOTH",
+            SorOrderPlaceSelfTradePreventionModeEnum::Decrement => "DECREMENT",
+            SorOrderPlaceSelfTradePreventionModeEnum::NonRepresentable => "NON_REPRESENTABLE",
         }
     }
 }
@@ -3885,7 +3883,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.expect("send should occur").expect("channel closed");
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/openOrders.cancelAll".trim_start_matches('/'));
@@ -3928,7 +3926,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.unwrap().unwrap();
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap().to_string();
 
@@ -3983,9 +3981,8 @@ mod tests {
                 .await
                 .expect("send should occur")
                 .expect("channel closed");
-            let text = match sent {
-                Message::Text(t) => t,
-                _ => panic!("expected Message Text"),
+            let Message::Text(text) = sent else {
+                panic!("expected Message Text")
             };
 
             let _: Value = serde_json::from_str(&text).unwrap();
@@ -4016,7 +4013,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.expect("send should occur").expect("channel closed");
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/order.amend.keepPriority".trim_start_matches('/'));
@@ -4059,7 +4056,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.unwrap().unwrap();
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap().to_string();
 
@@ -4114,9 +4111,8 @@ mod tests {
                 .await
                 .expect("send should occur")
                 .expect("channel closed");
-            let text = match sent {
-                Message::Text(t) => t,
-                _ => panic!("expected Message Text"),
+            let Message::Text(text) = sent else {
+                panic!("expected Message Text")
             };
 
             let _: Value = serde_json::from_str(&text).unwrap();
@@ -4147,7 +4143,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.expect("send should occur").expect("channel closed");
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/order.cancel".trim_start_matches('/'));
@@ -4190,7 +4186,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.unwrap().unwrap();
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap().to_string();
 
@@ -4245,9 +4241,8 @@ mod tests {
                 .await
                 .expect("send should occur")
                 .expect("channel closed");
-            let text = match sent {
-                Message::Text(t) => t,
-                _ => panic!("expected Message Text"),
+            let Message::Text(text) = sent else {
+                panic!("expected Message Text")
             };
 
             let _: Value = serde_json::from_str(&text).unwrap();
@@ -4273,12 +4268,12 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = spawn(async move {
-                let params = OrderCancelReplaceParams::builder("BNBUSDT".to_string(),OrderCancelReplaceCancelReplaceModeEnum::STOP_ON_FAILURE,OrderCancelReplaceSideEnum::BUY,OrderCancelReplaceTypeEnum::MARKET,).build().unwrap();
+                let params = OrderCancelReplaceParams::builder("BNBUSDT".to_string(),OrderCancelReplaceCancelReplaceModeEnum::StopOnFailure,OrderCancelReplaceSideEnum::Buy,OrderCancelReplaceTypeEnum::Market,).build().unwrap();
                 client.order_cancel_replace(params).await
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.expect("send should occur").expect("channel closed");
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/order.cancelReplace".trim_start_matches('/'));
@@ -4316,12 +4311,12 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = tokio::spawn(async move {
-                let params = OrderCancelReplaceParams::builder("BNBUSDT".to_string(),OrderCancelReplaceCancelReplaceModeEnum::STOP_ON_FAILURE,OrderCancelReplaceSideEnum::BUY,OrderCancelReplaceTypeEnum::MARKET,).build().unwrap();
+                let params = OrderCancelReplaceParams::builder("BNBUSDT".to_string(),OrderCancelReplaceCancelReplaceModeEnum::StopOnFailure,OrderCancelReplaceSideEnum::Buy,OrderCancelReplaceTypeEnum::Market,).build().unwrap();
                 client.order_cancel_replace(params).await
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.unwrap().unwrap();
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap().to_string();
 
@@ -4368,9 +4363,9 @@ mod tests {
             let handle = spawn(async move {
                 let params = OrderCancelReplaceParams::builder(
                     "BNBUSDT".to_string(),
-                    OrderCancelReplaceCancelReplaceModeEnum::STOP_ON_FAILURE,
-                    OrderCancelReplaceSideEnum::BUY,
-                    OrderCancelReplaceTypeEnum::MARKET,
+                    OrderCancelReplaceCancelReplaceModeEnum::StopOnFailure,
+                    OrderCancelReplaceSideEnum::Buy,
+                    OrderCancelReplaceTypeEnum::Market,
                 )
                 .build()
                 .unwrap();
@@ -4381,9 +4376,8 @@ mod tests {
                 .await
                 .expect("send should occur")
                 .expect("channel closed");
-            let text = match sent {
-                Message::Text(t) => t,
-                _ => panic!("expected Message Text"),
+            let Message::Text(text) = sent else {
+                panic!("expected Message Text")
             };
 
             let _: Value = serde_json::from_str(&text).unwrap();
@@ -4414,7 +4408,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.expect("send should occur").expect("channel closed");
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/orderList.cancel".trim_start_matches('/'));
@@ -4457,7 +4451,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.unwrap().unwrap();
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap().to_string();
 
@@ -4512,9 +4506,8 @@ mod tests {
                 .await
                 .expect("send should occur")
                 .expect("channel closed");
-            let text = match sent {
-                Message::Text(t) => t,
-                _ => panic!("expected Message Text"),
+            let Message::Text(text) = sent else {
+                panic!("expected Message Text")
             };
 
             let _: Value = serde_json::from_str(&text).unwrap();
@@ -4540,12 +4533,12 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = spawn(async move {
-                let params = OrderListPlaceParams::builder("BNBUSDT".to_string(),OrderListPlaceSideEnum::BUY,1.0,1.0,).build().unwrap();
+                let params = OrderListPlaceParams::builder("BNBUSDT".to_string(),OrderListPlaceSideEnum::Buy,1.0,1.0,).build().unwrap();
                 client.order_list_place(params).await
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.expect("send should occur").expect("channel closed");
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/orderList.place".trim_start_matches('/'));
@@ -4583,12 +4576,12 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = tokio::spawn(async move {
-                let params = OrderListPlaceParams::builder("BNBUSDT".to_string(),OrderListPlaceSideEnum::BUY,1.0,1.0,).build().unwrap();
+                let params = OrderListPlaceParams::builder("BNBUSDT".to_string(),OrderListPlaceSideEnum::Buy,1.0,1.0,).build().unwrap();
                 client.order_list_place(params).await
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.unwrap().unwrap();
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap().to_string();
 
@@ -4635,7 +4628,7 @@ mod tests {
             let handle = spawn(async move {
                 let params = OrderListPlaceParams::builder(
                     "BNBUSDT".to_string(),
-                    OrderListPlaceSideEnum::BUY,
+                    OrderListPlaceSideEnum::Buy,
                     1.0,
                     1.0,
                 )
@@ -4648,9 +4641,8 @@ mod tests {
                 .await
                 .expect("send should occur")
                 .expect("channel closed");
-            let text = match sent {
-                Message::Text(t) => t,
-                _ => panic!("expected Message Text"),
+            let Message::Text(text) = sent else {
+                panic!("expected Message Text")
             };
 
             let _: Value = serde_json::from_str(&text).unwrap();
@@ -4676,12 +4668,12 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = spawn(async move {
-                let params = OrderListPlaceOcoParams::builder("BNBUSDT".to_string(),OrderListPlaceOcoSideEnum::BUY,1.0,OrderListPlaceOcoAboveTypeEnum::STOP_LOSS_LIMIT,OrderListPlaceOcoBelowTypeEnum::STOP_LOSS,).build().unwrap();
+                let params = OrderListPlaceOcoParams::builder("BNBUSDT".to_string(),OrderListPlaceOcoSideEnum::Buy,1.0,OrderListPlaceOcoAboveTypeEnum::StopLossLimit,OrderListPlaceOcoBelowTypeEnum::StopLoss,).build().unwrap();
                 client.order_list_place_oco(params).await
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.expect("send should occur").expect("channel closed");
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/orderList.place.oco".trim_start_matches('/'));
@@ -4719,12 +4711,12 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = tokio::spawn(async move {
-                let params = OrderListPlaceOcoParams::builder("BNBUSDT".to_string(),OrderListPlaceOcoSideEnum::BUY,1.0,OrderListPlaceOcoAboveTypeEnum::STOP_LOSS_LIMIT,OrderListPlaceOcoBelowTypeEnum::STOP_LOSS,).build().unwrap();
+                let params = OrderListPlaceOcoParams::builder("BNBUSDT".to_string(),OrderListPlaceOcoSideEnum::Buy,1.0,OrderListPlaceOcoAboveTypeEnum::StopLossLimit,OrderListPlaceOcoBelowTypeEnum::StopLoss,).build().unwrap();
                 client.order_list_place_oco(params).await
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.unwrap().unwrap();
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap().to_string();
 
@@ -4771,10 +4763,10 @@ mod tests {
             let handle = spawn(async move {
                 let params = OrderListPlaceOcoParams::builder(
                     "BNBUSDT".to_string(),
-                    OrderListPlaceOcoSideEnum::BUY,
+                    OrderListPlaceOcoSideEnum::Buy,
                     1.0,
-                    OrderListPlaceOcoAboveTypeEnum::STOP_LOSS_LIMIT,
-                    OrderListPlaceOcoBelowTypeEnum::STOP_LOSS,
+                    OrderListPlaceOcoAboveTypeEnum::StopLossLimit,
+                    OrderListPlaceOcoBelowTypeEnum::StopLoss,
                 )
                 .build()
                 .unwrap();
@@ -4785,9 +4777,8 @@ mod tests {
                 .await
                 .expect("send should occur")
                 .expect("channel closed");
-            let text = match sent {
-                Message::Text(t) => t,
-                _ => panic!("expected Message Text"),
+            let Message::Text(text) = sent else {
+                panic!("expected Message Text")
             };
 
             let _: Value = serde_json::from_str(&text).unwrap();
@@ -4813,12 +4804,12 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = spawn(async move {
-                let params = OrderListPlaceOtoParams::builder("BNBUSDT".to_string(),OrderListPlaceOtoWorkingTypeEnum::LIMIT,OrderListPlaceOtoWorkingSideEnum::BUY,1.0,1.0,OrderListPlaceOtoPendingTypeEnum::LIMIT,OrderListPlaceOtoPendingSideEnum::BUY,1.0,).build().unwrap();
+                let params = OrderListPlaceOtoParams::builder("BNBUSDT".to_string(),OrderListPlaceOtoWorkingTypeEnum::Limit,OrderListPlaceOtoWorkingSideEnum::Buy,1.0,1.0,OrderListPlaceOtoPendingTypeEnum::Limit,OrderListPlaceOtoPendingSideEnum::Buy,1.0,).build().unwrap();
                 client.order_list_place_oto(params).await
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.expect("send should occur").expect("channel closed");
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/orderList.place.oto".trim_start_matches('/'));
@@ -4856,12 +4847,12 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = tokio::spawn(async move {
-                let params = OrderListPlaceOtoParams::builder("BNBUSDT".to_string(),OrderListPlaceOtoWorkingTypeEnum::LIMIT,OrderListPlaceOtoWorkingSideEnum::BUY,1.0,1.0,OrderListPlaceOtoPendingTypeEnum::LIMIT,OrderListPlaceOtoPendingSideEnum::BUY,1.0,).build().unwrap();
+                let params = OrderListPlaceOtoParams::builder("BNBUSDT".to_string(),OrderListPlaceOtoWorkingTypeEnum::Limit,OrderListPlaceOtoWorkingSideEnum::Buy,1.0,1.0,OrderListPlaceOtoPendingTypeEnum::Limit,OrderListPlaceOtoPendingSideEnum::Buy,1.0,).build().unwrap();
                 client.order_list_place_oto(params).await
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.unwrap().unwrap();
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap().to_string();
 
@@ -4908,12 +4899,12 @@ mod tests {
             let handle = spawn(async move {
                 let params = OrderListPlaceOtoParams::builder(
                     "BNBUSDT".to_string(),
-                    OrderListPlaceOtoWorkingTypeEnum::LIMIT,
-                    OrderListPlaceOtoWorkingSideEnum::BUY,
+                    OrderListPlaceOtoWorkingTypeEnum::Limit,
+                    OrderListPlaceOtoWorkingSideEnum::Buy,
                     1.0,
                     1.0,
-                    OrderListPlaceOtoPendingTypeEnum::LIMIT,
-                    OrderListPlaceOtoPendingSideEnum::BUY,
+                    OrderListPlaceOtoPendingTypeEnum::Limit,
+                    OrderListPlaceOtoPendingSideEnum::Buy,
                     1.0,
                 )
                 .build()
@@ -4925,9 +4916,8 @@ mod tests {
                 .await
                 .expect("send should occur")
                 .expect("channel closed");
-            let text = match sent {
-                Message::Text(t) => t,
-                _ => panic!("expected Message Text"),
+            let Message::Text(text) = sent else {
+                panic!("expected Message Text")
             };
 
             let _: Value = serde_json::from_str(&text).unwrap();
@@ -4953,12 +4943,12 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = spawn(async move {
-                let params = OrderListPlaceOtocoParams::builder("BNBUSDT".to_string(),OrderListPlaceOtocoWorkingTypeEnum::LIMIT,OrderListPlaceOtocoWorkingSideEnum::BUY,1.0,1.0,OrderListPlaceOtocoPendingSideEnum::BUY,1.0,OrderListPlaceOtocoPendingAboveTypeEnum::STOP_LOSS_LIMIT,).build().unwrap();
+                let params = OrderListPlaceOtocoParams::builder("BNBUSDT".to_string(),OrderListPlaceOtocoWorkingTypeEnum::Limit,OrderListPlaceOtocoWorkingSideEnum::Buy,1.0,1.0,OrderListPlaceOtocoPendingSideEnum::Buy,1.0,OrderListPlaceOtocoPendingAboveTypeEnum::StopLossLimit,).build().unwrap();
                 client.order_list_place_otoco(params).await
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.expect("send should occur").expect("channel closed");
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/orderList.place.otoco".trim_start_matches('/'));
@@ -4996,12 +4986,12 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = tokio::spawn(async move {
-                let params = OrderListPlaceOtocoParams::builder("BNBUSDT".to_string(),OrderListPlaceOtocoWorkingTypeEnum::LIMIT,OrderListPlaceOtocoWorkingSideEnum::BUY,1.0,1.0,OrderListPlaceOtocoPendingSideEnum::BUY,1.0,OrderListPlaceOtocoPendingAboveTypeEnum::STOP_LOSS_LIMIT,).build().unwrap();
+                let params = OrderListPlaceOtocoParams::builder("BNBUSDT".to_string(),OrderListPlaceOtocoWorkingTypeEnum::Limit,OrderListPlaceOtocoWorkingSideEnum::Buy,1.0,1.0,OrderListPlaceOtocoPendingSideEnum::Buy,1.0,OrderListPlaceOtocoPendingAboveTypeEnum::StopLossLimit,).build().unwrap();
                 client.order_list_place_otoco(params).await
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.unwrap().unwrap();
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap().to_string();
 
@@ -5048,13 +5038,13 @@ mod tests {
             let handle = spawn(async move {
                 let params = OrderListPlaceOtocoParams::builder(
                     "BNBUSDT".to_string(),
-                    OrderListPlaceOtocoWorkingTypeEnum::LIMIT,
-                    OrderListPlaceOtocoWorkingSideEnum::BUY,
+                    OrderListPlaceOtocoWorkingTypeEnum::Limit,
+                    OrderListPlaceOtocoWorkingSideEnum::Buy,
                     1.0,
                     1.0,
-                    OrderListPlaceOtocoPendingSideEnum::BUY,
+                    OrderListPlaceOtocoPendingSideEnum::Buy,
                     1.0,
-                    OrderListPlaceOtocoPendingAboveTypeEnum::STOP_LOSS_LIMIT,
+                    OrderListPlaceOtocoPendingAboveTypeEnum::StopLossLimit,
                 )
                 .build()
                 .unwrap();
@@ -5065,9 +5055,8 @@ mod tests {
                 .await
                 .expect("send should occur")
                 .expect("channel closed");
-            let text = match sent {
-                Message::Text(t) => t,
-                _ => panic!("expected Message Text"),
+            let Message::Text(text) = sent else {
+                panic!("expected Message Text")
             };
 
             let _: Value = serde_json::from_str(&text).unwrap();
@@ -5093,12 +5082,12 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = spawn(async move {
-                let params = OrderPlaceParams::builder("BNBUSDT".to_string(),OrderPlaceSideEnum::BUY,OrderPlaceTypeEnum::MARKET,).build().unwrap();
+                let params = OrderPlaceParams::builder("BNBUSDT".to_string(),OrderPlaceSideEnum::Buy,OrderPlaceTypeEnum::Market,).build().unwrap();
                 client.order_place(params).await
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.expect("send should occur").expect("channel closed");
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/order.place".trim_start_matches('/'));
@@ -5136,12 +5125,12 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = tokio::spawn(async move {
-                let params = OrderPlaceParams::builder("BNBUSDT".to_string(),OrderPlaceSideEnum::BUY,OrderPlaceTypeEnum::MARKET,).build().unwrap();
+                let params = OrderPlaceParams::builder("BNBUSDT".to_string(),OrderPlaceSideEnum::Buy,OrderPlaceTypeEnum::Market,).build().unwrap();
                 client.order_place(params).await
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.unwrap().unwrap();
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap().to_string();
 
@@ -5188,8 +5177,8 @@ mod tests {
             let handle = spawn(async move {
                 let params = OrderPlaceParams::builder(
                     "BNBUSDT".to_string(),
-                    OrderPlaceSideEnum::BUY,
-                    OrderPlaceTypeEnum::MARKET,
+                    OrderPlaceSideEnum::Buy,
+                    OrderPlaceTypeEnum::Market,
                 )
                 .build()
                 .unwrap();
@@ -5200,9 +5189,8 @@ mod tests {
                 .await
                 .expect("send should occur")
                 .expect("channel closed");
-            let text = match sent {
-                Message::Text(t) => t,
-                _ => panic!("expected Message Text"),
+            let Message::Text(text) = sent else {
+                panic!("expected Message Text")
             };
 
             let _: Value = serde_json::from_str(&text).unwrap();
@@ -5233,7 +5221,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.expect("send should occur").expect("channel closed");
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/order.test".trim_start_matches('/'));
@@ -5276,7 +5264,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.unwrap().unwrap();
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap().to_string();
 
@@ -5329,9 +5317,8 @@ mod tests {
                 .await
                 .expect("send should occur")
                 .expect("channel closed");
-            let text = match sent {
-                Message::Text(t) => t,
-                _ => panic!("expected Message Text"),
+            let Message::Text(text) = sent else {
+                panic!("expected Message Text")
             };
 
             let _: Value = serde_json::from_str(&text).unwrap();
@@ -5357,12 +5344,12 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = spawn(async move {
-                let params = SorOrderPlaceParams::builder("BNBUSDT".to_string(),SorOrderPlaceSideEnum::BUY,SorOrderPlaceTypeEnum::MARKET,1.0,).build().unwrap();
+                let params = SorOrderPlaceParams::builder("BNBUSDT".to_string(),SorOrderPlaceSideEnum::Buy,SorOrderPlaceTypeEnum::Market,1.0,).build().unwrap();
                 client.sor_order_place(params).await
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.expect("send should occur").expect("channel closed");
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/sor.order.place".trim_start_matches('/'));
@@ -5400,12 +5387,12 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = tokio::spawn(async move {
-                let params = SorOrderPlaceParams::builder("BNBUSDT".to_string(),SorOrderPlaceSideEnum::BUY,SorOrderPlaceTypeEnum::MARKET,1.0,).build().unwrap();
+                let params = SorOrderPlaceParams::builder("BNBUSDT".to_string(),SorOrderPlaceSideEnum::Buy,SorOrderPlaceTypeEnum::Market,1.0,).build().unwrap();
                 client.sor_order_place(params).await
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.unwrap().unwrap();
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap().to_string();
 
@@ -5452,8 +5439,8 @@ mod tests {
             let handle = spawn(async move {
                 let params = SorOrderPlaceParams::builder(
                     "BNBUSDT".to_string(),
-                    SorOrderPlaceSideEnum::BUY,
-                    SorOrderPlaceTypeEnum::MARKET,
+                    SorOrderPlaceSideEnum::Buy,
+                    SorOrderPlaceTypeEnum::Market,
                     1.0,
                 )
                 .build()
@@ -5465,9 +5452,8 @@ mod tests {
                 .await
                 .expect("send should occur")
                 .expect("channel closed");
-            let text = match sent {
-                Message::Text(t) => t,
-                _ => panic!("expected Message Text"),
+            let Message::Text(text) = sent else {
+                panic!("expected Message Text")
             };
 
             let _: Value = serde_json::from_str(&text).unwrap();
@@ -5498,7 +5484,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.expect("send should occur").expect("channel closed");
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/sor.order.test".trim_start_matches('/'));
@@ -5541,7 +5527,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.unwrap().unwrap();
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap().to_string();
 
@@ -5594,9 +5580,8 @@ mod tests {
                 .await
                 .expect("send should occur")
                 .expect("channel closed");
-            let text = match sent {
-                Message::Text(t) => t,
-                _ => panic!("expected Message Text"),
+            let Message::Text(text) = sent else {
+                panic!("expected Message Text")
             };
 
             let _: Value = serde_json::from_str(&text).unwrap();
