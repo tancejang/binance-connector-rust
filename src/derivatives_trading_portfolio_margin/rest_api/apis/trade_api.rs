@@ -277,17 +277,17 @@ impl TradeApiClient {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum MarginAccountNewOcoSideEnum {
     #[serde(rename = "BUY")]
-    BUY,
+    Buy,
     #[serde(rename = "SELL")]
-    SELL,
+    Sell,
 }
 
 impl MarginAccountNewOcoSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            MarginAccountNewOcoSideEnum::BUY => "BUY",
-            MarginAccountNewOcoSideEnum::SELL => "SELL",
+            MarginAccountNewOcoSideEnum::Buy => "BUY",
+            MarginAccountNewOcoSideEnum::Sell => "SELL",
         }
     }
 }
@@ -296,20 +296,20 @@ impl MarginAccountNewOcoSideEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum MarginAccountNewOcoStopLimitTimeInForceEnum {
     #[serde(rename = "GTC")]
-    GTC,
+    Gtc,
     #[serde(rename = "IOC")]
-    IOC,
+    Ioc,
     #[serde(rename = "FOK")]
-    FOK,
+    Fok,
 }
 
 impl MarginAccountNewOcoStopLimitTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            MarginAccountNewOcoStopLimitTimeInForceEnum::GTC => "GTC",
-            MarginAccountNewOcoStopLimitTimeInForceEnum::IOC => "IOC",
-            MarginAccountNewOcoStopLimitTimeInForceEnum::FOK => "FOK",
+            MarginAccountNewOcoStopLimitTimeInForceEnum::Gtc => "GTC",
+            MarginAccountNewOcoStopLimitTimeInForceEnum::Ioc => "IOC",
+            MarginAccountNewOcoStopLimitTimeInForceEnum::Fok => "FOK",
         }
     }
 }
@@ -318,17 +318,17 @@ impl MarginAccountNewOcoStopLimitTimeInForceEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum MarginAccountNewOcoNewOrderRespTypeEnum {
     #[serde(rename = "ACK")]
-    ACK,
+    Ack,
     #[serde(rename = "RESULT")]
-    RESULT,
+    Result,
 }
 
 impl MarginAccountNewOcoNewOrderRespTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            MarginAccountNewOcoNewOrderRespTypeEnum::ACK => "ACK",
-            MarginAccountNewOcoNewOrderRespTypeEnum::RESULT => "RESULT",
+            MarginAccountNewOcoNewOrderRespTypeEnum::Ack => "ACK",
+            MarginAccountNewOcoNewOrderRespTypeEnum::Result => "RESULT",
         }
     }
 }
@@ -337,20 +337,20 @@ impl MarginAccountNewOcoNewOrderRespTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum MarginAccountNewOcoSideEffectTypeEnum {
     #[serde(rename = "NO_SIDE_EFFECT")]
-    NO_SIDE_EFFECT,
+    NoSideEffect,
     #[serde(rename = "MARGIN_BUY")]
-    MARGIN_BUY,
+    MarginBuy,
     #[serde(rename = "AUTO_REPAY")]
-    AUTO_REPAY,
+    AutoRepay,
 }
 
 impl MarginAccountNewOcoSideEffectTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            MarginAccountNewOcoSideEffectTypeEnum::NO_SIDE_EFFECT => "NO_SIDE_EFFECT",
-            MarginAccountNewOcoSideEffectTypeEnum::MARGIN_BUY => "MARGIN_BUY",
-            MarginAccountNewOcoSideEffectTypeEnum::AUTO_REPAY => "AUTO_REPAY",
+            MarginAccountNewOcoSideEffectTypeEnum::NoSideEffect => "NO_SIDE_EFFECT",
+            MarginAccountNewOcoSideEffectTypeEnum::MarginBuy => "MARGIN_BUY",
+            MarginAccountNewOcoSideEffectTypeEnum::AutoRepay => "AUTO_REPAY",
         }
     }
 }
@@ -359,17 +359,17 @@ impl MarginAccountNewOcoSideEffectTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum ModifyCmOrderSideEnum {
     #[serde(rename = "BUY")]
-    BUY,
+    Buy,
     #[serde(rename = "SELL")]
-    SELL,
+    Sell,
 }
 
 impl ModifyCmOrderSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            ModifyCmOrderSideEnum::BUY => "BUY",
-            ModifyCmOrderSideEnum::SELL => "SELL",
+            ModifyCmOrderSideEnum::Buy => "BUY",
+            ModifyCmOrderSideEnum::Sell => "SELL",
         }
     }
 }
@@ -378,38 +378,38 @@ impl ModifyCmOrderSideEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum ModifyCmOrderPriceMatchEnum {
     #[serde(rename = "NONE")]
-    NONE,
+    None,
     #[serde(rename = "OPPONENT")]
-    OPPONENT,
+    Opponent,
     #[serde(rename = "OPPONENT_5")]
-    OPPONENT_5,
+    Opponent5,
     #[serde(rename = "OPPONENT_10")]
-    OPPONENT_10,
+    Opponent10,
     #[serde(rename = "OPPONENT_20")]
-    OPPONENT_20,
+    Opponent20,
     #[serde(rename = "QUEUE")]
-    QUEUE,
+    Queue,
     #[serde(rename = "QUEUE_5")]
-    QUEUE_5,
+    Queue5,
     #[serde(rename = "QUEUE_10")]
-    QUEUE_10,
+    Queue10,
     #[serde(rename = "QUEUE_20")]
-    QUEUE_20,
+    Queue20,
 }
 
 impl ModifyCmOrderPriceMatchEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            ModifyCmOrderPriceMatchEnum::NONE => "NONE",
-            ModifyCmOrderPriceMatchEnum::OPPONENT => "OPPONENT",
-            ModifyCmOrderPriceMatchEnum::OPPONENT_5 => "OPPONENT_5",
-            ModifyCmOrderPriceMatchEnum::OPPONENT_10 => "OPPONENT_10",
-            ModifyCmOrderPriceMatchEnum::OPPONENT_20 => "OPPONENT_20",
-            ModifyCmOrderPriceMatchEnum::QUEUE => "QUEUE",
-            ModifyCmOrderPriceMatchEnum::QUEUE_5 => "QUEUE_5",
-            ModifyCmOrderPriceMatchEnum::QUEUE_10 => "QUEUE_10",
-            ModifyCmOrderPriceMatchEnum::QUEUE_20 => "QUEUE_20",
+            ModifyCmOrderPriceMatchEnum::None => "NONE",
+            ModifyCmOrderPriceMatchEnum::Opponent => "OPPONENT",
+            ModifyCmOrderPriceMatchEnum::Opponent5 => "OPPONENT_5",
+            ModifyCmOrderPriceMatchEnum::Opponent10 => "OPPONENT_10",
+            ModifyCmOrderPriceMatchEnum::Opponent20 => "OPPONENT_20",
+            ModifyCmOrderPriceMatchEnum::Queue => "QUEUE",
+            ModifyCmOrderPriceMatchEnum::Queue5 => "QUEUE_5",
+            ModifyCmOrderPriceMatchEnum::Queue10 => "QUEUE_10",
+            ModifyCmOrderPriceMatchEnum::Queue20 => "QUEUE_20",
         }
     }
 }
@@ -418,17 +418,17 @@ impl ModifyCmOrderPriceMatchEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum ModifyUmOrderSideEnum {
     #[serde(rename = "BUY")]
-    BUY,
+    Buy,
     #[serde(rename = "SELL")]
-    SELL,
+    Sell,
 }
 
 impl ModifyUmOrderSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            ModifyUmOrderSideEnum::BUY => "BUY",
-            ModifyUmOrderSideEnum::SELL => "SELL",
+            ModifyUmOrderSideEnum::Buy => "BUY",
+            ModifyUmOrderSideEnum::Sell => "SELL",
         }
     }
 }
@@ -437,38 +437,38 @@ impl ModifyUmOrderSideEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum ModifyUmOrderPriceMatchEnum {
     #[serde(rename = "NONE")]
-    NONE,
+    None,
     #[serde(rename = "OPPONENT")]
-    OPPONENT,
+    Opponent,
     #[serde(rename = "OPPONENT_5")]
-    OPPONENT_5,
+    Opponent5,
     #[serde(rename = "OPPONENT_10")]
-    OPPONENT_10,
+    Opponent10,
     #[serde(rename = "OPPONENT_20")]
-    OPPONENT_20,
+    Opponent20,
     #[serde(rename = "QUEUE")]
-    QUEUE,
+    Queue,
     #[serde(rename = "QUEUE_5")]
-    QUEUE_5,
+    Queue5,
     #[serde(rename = "QUEUE_10")]
-    QUEUE_10,
+    Queue10,
     #[serde(rename = "QUEUE_20")]
-    QUEUE_20,
+    Queue20,
 }
 
 impl ModifyUmOrderPriceMatchEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            ModifyUmOrderPriceMatchEnum::NONE => "NONE",
-            ModifyUmOrderPriceMatchEnum::OPPONENT => "OPPONENT",
-            ModifyUmOrderPriceMatchEnum::OPPONENT_5 => "OPPONENT_5",
-            ModifyUmOrderPriceMatchEnum::OPPONENT_10 => "OPPONENT_10",
-            ModifyUmOrderPriceMatchEnum::OPPONENT_20 => "OPPONENT_20",
-            ModifyUmOrderPriceMatchEnum::QUEUE => "QUEUE",
-            ModifyUmOrderPriceMatchEnum::QUEUE_5 => "QUEUE_5",
-            ModifyUmOrderPriceMatchEnum::QUEUE_10 => "QUEUE_10",
-            ModifyUmOrderPriceMatchEnum::QUEUE_20 => "QUEUE_20",
+            ModifyUmOrderPriceMatchEnum::None => "NONE",
+            ModifyUmOrderPriceMatchEnum::Opponent => "OPPONENT",
+            ModifyUmOrderPriceMatchEnum::Opponent5 => "OPPONENT_5",
+            ModifyUmOrderPriceMatchEnum::Opponent10 => "OPPONENT_10",
+            ModifyUmOrderPriceMatchEnum::Opponent20 => "OPPONENT_20",
+            ModifyUmOrderPriceMatchEnum::Queue => "QUEUE",
+            ModifyUmOrderPriceMatchEnum::Queue5 => "QUEUE_5",
+            ModifyUmOrderPriceMatchEnum::Queue10 => "QUEUE_10",
+            ModifyUmOrderPriceMatchEnum::Queue20 => "QUEUE_20",
         }
     }
 }
@@ -477,17 +477,17 @@ impl ModifyUmOrderPriceMatchEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewCmConditionalOrderSideEnum {
     #[serde(rename = "BUY")]
-    BUY,
+    Buy,
     #[serde(rename = "SELL")]
-    SELL,
+    Sell,
 }
 
 impl NewCmConditionalOrderSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewCmConditionalOrderSideEnum::BUY => "BUY",
-            NewCmConditionalOrderSideEnum::SELL => "SELL",
+            NewCmConditionalOrderSideEnum::Buy => "BUY",
+            NewCmConditionalOrderSideEnum::Sell => "SELL",
         }
     }
 }
@@ -496,26 +496,26 @@ impl NewCmConditionalOrderSideEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewCmConditionalOrderStrategyTypeEnum {
     #[serde(rename = "STOP")]
-    STOP,
+    Stop,
     #[serde(rename = "STOP_MARKET")]
-    STOP_MARKET,
+    StopMarket,
     #[serde(rename = "TAKE_PROFIT")]
-    TAKE_PROFIT,
+    TakeProfit,
     #[serde(rename = "TAKE_PROFIT_MARKET")]
-    TAKE_PROFIT_MARKET,
+    TakeProfitMarket,
     #[serde(rename = "TRAILING_STOP_MARKET")]
-    TRAILING_STOP_MARKET,
+    TrailingStopMarket,
 }
 
 impl NewCmConditionalOrderStrategyTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewCmConditionalOrderStrategyTypeEnum::STOP => "STOP",
-            NewCmConditionalOrderStrategyTypeEnum::STOP_MARKET => "STOP_MARKET",
-            NewCmConditionalOrderStrategyTypeEnum::TAKE_PROFIT => "TAKE_PROFIT",
-            NewCmConditionalOrderStrategyTypeEnum::TAKE_PROFIT_MARKET => "TAKE_PROFIT_MARKET",
-            NewCmConditionalOrderStrategyTypeEnum::TRAILING_STOP_MARKET => "TRAILING_STOP_MARKET",
+            NewCmConditionalOrderStrategyTypeEnum::Stop => "STOP",
+            NewCmConditionalOrderStrategyTypeEnum::StopMarket => "STOP_MARKET",
+            NewCmConditionalOrderStrategyTypeEnum::TakeProfit => "TAKE_PROFIT",
+            NewCmConditionalOrderStrategyTypeEnum::TakeProfitMarket => "TAKE_PROFIT_MARKET",
+            NewCmConditionalOrderStrategyTypeEnum::TrailingStopMarket => "TRAILING_STOP_MARKET",
         }
     }
 }
@@ -524,20 +524,20 @@ impl NewCmConditionalOrderStrategyTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewCmConditionalOrderPositionSideEnum {
     #[serde(rename = "BOTH")]
-    BOTH,
+    Both,
     #[serde(rename = "LONG")]
-    LONG,
+    Long,
     #[serde(rename = "SHORT")]
-    SHORT,
+    Short,
 }
 
 impl NewCmConditionalOrderPositionSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewCmConditionalOrderPositionSideEnum::BOTH => "BOTH",
-            NewCmConditionalOrderPositionSideEnum::LONG => "LONG",
-            NewCmConditionalOrderPositionSideEnum::SHORT => "SHORT",
+            NewCmConditionalOrderPositionSideEnum::Both => "BOTH",
+            NewCmConditionalOrderPositionSideEnum::Long => "LONG",
+            NewCmConditionalOrderPositionSideEnum::Short => "SHORT",
         }
     }
 }
@@ -546,23 +546,23 @@ impl NewCmConditionalOrderPositionSideEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewCmConditionalOrderTimeInForceEnum {
     #[serde(rename = "GTC")]
-    GTC,
+    Gtc,
     #[serde(rename = "IOC")]
-    IOC,
+    Ioc,
     #[serde(rename = "FOK")]
-    FOK,
+    Fok,
     #[serde(rename = "GTX")]
-    GTX,
+    Gtx,
 }
 
 impl NewCmConditionalOrderTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewCmConditionalOrderTimeInForceEnum::GTC => "GTC",
-            NewCmConditionalOrderTimeInForceEnum::IOC => "IOC",
-            NewCmConditionalOrderTimeInForceEnum::FOK => "FOK",
-            NewCmConditionalOrderTimeInForceEnum::GTX => "GTX",
+            NewCmConditionalOrderTimeInForceEnum::Gtc => "GTC",
+            NewCmConditionalOrderTimeInForceEnum::Ioc => "IOC",
+            NewCmConditionalOrderTimeInForceEnum::Fok => "FOK",
+            NewCmConditionalOrderTimeInForceEnum::Gtx => "GTX",
         }
     }
 }
@@ -571,14 +571,14 @@ impl NewCmConditionalOrderTimeInForceEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewCmConditionalOrderWorkingTypeEnum {
     #[serde(rename = "MARK_PRICE")]
-    MARK_PRICE,
+    MarkPrice,
 }
 
 impl NewCmConditionalOrderWorkingTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewCmConditionalOrderWorkingTypeEnum::MARK_PRICE => "MARK_PRICE",
+            NewCmConditionalOrderWorkingTypeEnum::MarkPrice => "MARK_PRICE",
         }
     }
 }
@@ -587,17 +587,17 @@ impl NewCmConditionalOrderWorkingTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewCmOrderSideEnum {
     #[serde(rename = "BUY")]
-    BUY,
+    Buy,
     #[serde(rename = "SELL")]
-    SELL,
+    Sell,
 }
 
 impl NewCmOrderSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewCmOrderSideEnum::BUY => "BUY",
-            NewCmOrderSideEnum::SELL => "SELL",
+            NewCmOrderSideEnum::Buy => "BUY",
+            NewCmOrderSideEnum::Sell => "SELL",
         }
     }
 }
@@ -606,17 +606,17 @@ impl NewCmOrderSideEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewCmOrderTypeEnum {
     #[serde(rename = "LIMIT")]
-    LIMIT,
+    Limit,
     #[serde(rename = "MARKET")]
-    MARKET,
+    Market,
 }
 
 impl NewCmOrderTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewCmOrderTypeEnum::LIMIT => "LIMIT",
-            NewCmOrderTypeEnum::MARKET => "MARKET",
+            NewCmOrderTypeEnum::Limit => "LIMIT",
+            NewCmOrderTypeEnum::Market => "MARKET",
         }
     }
 }
@@ -625,20 +625,20 @@ impl NewCmOrderTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewCmOrderPositionSideEnum {
     #[serde(rename = "BOTH")]
-    BOTH,
+    Both,
     #[serde(rename = "LONG")]
-    LONG,
+    Long,
     #[serde(rename = "SHORT")]
-    SHORT,
+    Short,
 }
 
 impl NewCmOrderPositionSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewCmOrderPositionSideEnum::BOTH => "BOTH",
-            NewCmOrderPositionSideEnum::LONG => "LONG",
-            NewCmOrderPositionSideEnum::SHORT => "SHORT",
+            NewCmOrderPositionSideEnum::Both => "BOTH",
+            NewCmOrderPositionSideEnum::Long => "LONG",
+            NewCmOrderPositionSideEnum::Short => "SHORT",
         }
     }
 }
@@ -647,23 +647,23 @@ impl NewCmOrderPositionSideEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewCmOrderTimeInForceEnum {
     #[serde(rename = "GTC")]
-    GTC,
+    Gtc,
     #[serde(rename = "IOC")]
-    IOC,
+    Ioc,
     #[serde(rename = "FOK")]
-    FOK,
+    Fok,
     #[serde(rename = "GTX")]
-    GTX,
+    Gtx,
 }
 
 impl NewCmOrderTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewCmOrderTimeInForceEnum::GTC => "GTC",
-            NewCmOrderTimeInForceEnum::IOC => "IOC",
-            NewCmOrderTimeInForceEnum::FOK => "FOK",
-            NewCmOrderTimeInForceEnum::GTX => "GTX",
+            NewCmOrderTimeInForceEnum::Gtc => "GTC",
+            NewCmOrderTimeInForceEnum::Ioc => "IOC",
+            NewCmOrderTimeInForceEnum::Fok => "FOK",
+            NewCmOrderTimeInForceEnum::Gtx => "GTX",
         }
     }
 }
@@ -672,38 +672,38 @@ impl NewCmOrderTimeInForceEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewCmOrderPriceMatchEnum {
     #[serde(rename = "NONE")]
-    NONE,
+    None,
     #[serde(rename = "OPPONENT")]
-    OPPONENT,
+    Opponent,
     #[serde(rename = "OPPONENT_5")]
-    OPPONENT_5,
+    Opponent5,
     #[serde(rename = "OPPONENT_10")]
-    OPPONENT_10,
+    Opponent10,
     #[serde(rename = "OPPONENT_20")]
-    OPPONENT_20,
+    Opponent20,
     #[serde(rename = "QUEUE")]
-    QUEUE,
+    Queue,
     #[serde(rename = "QUEUE_5")]
-    QUEUE_5,
+    Queue5,
     #[serde(rename = "QUEUE_10")]
-    QUEUE_10,
+    Queue10,
     #[serde(rename = "QUEUE_20")]
-    QUEUE_20,
+    Queue20,
 }
 
 impl NewCmOrderPriceMatchEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewCmOrderPriceMatchEnum::NONE => "NONE",
-            NewCmOrderPriceMatchEnum::OPPONENT => "OPPONENT",
-            NewCmOrderPriceMatchEnum::OPPONENT_5 => "OPPONENT_5",
-            NewCmOrderPriceMatchEnum::OPPONENT_10 => "OPPONENT_10",
-            NewCmOrderPriceMatchEnum::OPPONENT_20 => "OPPONENT_20",
-            NewCmOrderPriceMatchEnum::QUEUE => "QUEUE",
-            NewCmOrderPriceMatchEnum::QUEUE_5 => "QUEUE_5",
-            NewCmOrderPriceMatchEnum::QUEUE_10 => "QUEUE_10",
-            NewCmOrderPriceMatchEnum::QUEUE_20 => "QUEUE_20",
+            NewCmOrderPriceMatchEnum::None => "NONE",
+            NewCmOrderPriceMatchEnum::Opponent => "OPPONENT",
+            NewCmOrderPriceMatchEnum::Opponent5 => "OPPONENT_5",
+            NewCmOrderPriceMatchEnum::Opponent10 => "OPPONENT_10",
+            NewCmOrderPriceMatchEnum::Opponent20 => "OPPONENT_20",
+            NewCmOrderPriceMatchEnum::Queue => "QUEUE",
+            NewCmOrderPriceMatchEnum::Queue5 => "QUEUE_5",
+            NewCmOrderPriceMatchEnum::Queue10 => "QUEUE_10",
+            NewCmOrderPriceMatchEnum::Queue20 => "QUEUE_20",
         }
     }
 }
@@ -712,17 +712,17 @@ impl NewCmOrderPriceMatchEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewCmOrderNewOrderRespTypeEnum {
     #[serde(rename = "ACK")]
-    ACK,
+    Ack,
     #[serde(rename = "RESULT")]
-    RESULT,
+    Result,
 }
 
 impl NewCmOrderNewOrderRespTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewCmOrderNewOrderRespTypeEnum::ACK => "ACK",
-            NewCmOrderNewOrderRespTypeEnum::RESULT => "RESULT",
+            NewCmOrderNewOrderRespTypeEnum::Ack => "ACK",
+            NewCmOrderNewOrderRespTypeEnum::Result => "RESULT",
         }
     }
 }
@@ -731,17 +731,17 @@ impl NewCmOrderNewOrderRespTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewMarginOrderSideEnum {
     #[serde(rename = "BUY")]
-    BUY,
+    Buy,
     #[serde(rename = "SELL")]
-    SELL,
+    Sell,
 }
 
 impl NewMarginOrderSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewMarginOrderSideEnum::BUY => "BUY",
-            NewMarginOrderSideEnum::SELL => "SELL",
+            NewMarginOrderSideEnum::Buy => "BUY",
+            NewMarginOrderSideEnum::Sell => "SELL",
         }
     }
 }
@@ -750,17 +750,17 @@ impl NewMarginOrderSideEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewMarginOrderTypeEnum {
     #[serde(rename = "LIMIT")]
-    LIMIT,
+    Limit,
     #[serde(rename = "MARKET")]
-    MARKET,
+    Market,
 }
 
 impl NewMarginOrderTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewMarginOrderTypeEnum::LIMIT => "LIMIT",
-            NewMarginOrderTypeEnum::MARKET => "MARKET",
+            NewMarginOrderTypeEnum::Limit => "LIMIT",
+            NewMarginOrderTypeEnum::Market => "MARKET",
         }
     }
 }
@@ -769,17 +769,17 @@ impl NewMarginOrderTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewMarginOrderNewOrderRespTypeEnum {
     #[serde(rename = "ACK")]
-    ACK,
+    Ack,
     #[serde(rename = "RESULT")]
-    RESULT,
+    Result,
 }
 
 impl NewMarginOrderNewOrderRespTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewMarginOrderNewOrderRespTypeEnum::ACK => "ACK",
-            NewMarginOrderNewOrderRespTypeEnum::RESULT => "RESULT",
+            NewMarginOrderNewOrderRespTypeEnum::Ack => "ACK",
+            NewMarginOrderNewOrderRespTypeEnum::Result => "RESULT",
         }
     }
 }
@@ -788,20 +788,20 @@ impl NewMarginOrderNewOrderRespTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewMarginOrderSideEffectTypeEnum {
     #[serde(rename = "NO_SIDE_EFFECT")]
-    NO_SIDE_EFFECT,
+    NoSideEffect,
     #[serde(rename = "MARGIN_BUY")]
-    MARGIN_BUY,
+    MarginBuy,
     #[serde(rename = "AUTO_REPAY")]
-    AUTO_REPAY,
+    AutoRepay,
 }
 
 impl NewMarginOrderSideEffectTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewMarginOrderSideEffectTypeEnum::NO_SIDE_EFFECT => "NO_SIDE_EFFECT",
-            NewMarginOrderSideEffectTypeEnum::MARGIN_BUY => "MARGIN_BUY",
-            NewMarginOrderSideEffectTypeEnum::AUTO_REPAY => "AUTO_REPAY",
+            NewMarginOrderSideEffectTypeEnum::NoSideEffect => "NO_SIDE_EFFECT",
+            NewMarginOrderSideEffectTypeEnum::MarginBuy => "MARGIN_BUY",
+            NewMarginOrderSideEffectTypeEnum::AutoRepay => "AUTO_REPAY",
         }
     }
 }
@@ -810,23 +810,23 @@ impl NewMarginOrderSideEffectTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewMarginOrderTimeInForceEnum {
     #[serde(rename = "GTC")]
-    GTC,
+    Gtc,
     #[serde(rename = "IOC")]
-    IOC,
+    Ioc,
     #[serde(rename = "FOK")]
-    FOK,
+    Fok,
     #[serde(rename = "GTX")]
-    GTX,
+    Gtx,
 }
 
 impl NewMarginOrderTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewMarginOrderTimeInForceEnum::GTC => "GTC",
-            NewMarginOrderTimeInForceEnum::IOC => "IOC",
-            NewMarginOrderTimeInForceEnum::FOK => "FOK",
-            NewMarginOrderTimeInForceEnum::GTX => "GTX",
+            NewMarginOrderTimeInForceEnum::Gtc => "GTC",
+            NewMarginOrderTimeInForceEnum::Ioc => "IOC",
+            NewMarginOrderTimeInForceEnum::Fok => "FOK",
+            NewMarginOrderTimeInForceEnum::Gtx => "GTX",
         }
     }
 }
@@ -835,23 +835,23 @@ impl NewMarginOrderTimeInForceEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewMarginOrderSelfTradePreventionModeEnum {
     #[serde(rename = "NONE")]
-    NONE,
+    None,
     #[serde(rename = "EXPIRE_TAKER")]
-    EXPIRE_TAKER,
+    ExpireTaker,
     #[serde(rename = "EXPIRE_BOTH")]
-    EXPIRE_BOTH,
+    ExpireBoth,
     #[serde(rename = "EXPIRE_MAKER")]
-    EXPIRE_MAKER,
+    ExpireMaker,
 }
 
 impl NewMarginOrderSelfTradePreventionModeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewMarginOrderSelfTradePreventionModeEnum::NONE => "NONE",
-            NewMarginOrderSelfTradePreventionModeEnum::EXPIRE_TAKER => "EXPIRE_TAKER",
-            NewMarginOrderSelfTradePreventionModeEnum::EXPIRE_BOTH => "EXPIRE_BOTH",
-            NewMarginOrderSelfTradePreventionModeEnum::EXPIRE_MAKER => "EXPIRE_MAKER",
+            NewMarginOrderSelfTradePreventionModeEnum::None => "NONE",
+            NewMarginOrderSelfTradePreventionModeEnum::ExpireTaker => "EXPIRE_TAKER",
+            NewMarginOrderSelfTradePreventionModeEnum::ExpireBoth => "EXPIRE_BOTH",
+            NewMarginOrderSelfTradePreventionModeEnum::ExpireMaker => "EXPIRE_MAKER",
         }
     }
 }
@@ -860,17 +860,17 @@ impl NewMarginOrderSelfTradePreventionModeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewUmConditionalOrderSideEnum {
     #[serde(rename = "BUY")]
-    BUY,
+    Buy,
     #[serde(rename = "SELL")]
-    SELL,
+    Sell,
 }
 
 impl NewUmConditionalOrderSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewUmConditionalOrderSideEnum::BUY => "BUY",
-            NewUmConditionalOrderSideEnum::SELL => "SELL",
+            NewUmConditionalOrderSideEnum::Buy => "BUY",
+            NewUmConditionalOrderSideEnum::Sell => "SELL",
         }
     }
 }
@@ -879,26 +879,26 @@ impl NewUmConditionalOrderSideEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewUmConditionalOrderStrategyTypeEnum {
     #[serde(rename = "STOP")]
-    STOP,
+    Stop,
     #[serde(rename = "STOP_MARKET")]
-    STOP_MARKET,
+    StopMarket,
     #[serde(rename = "TAKE_PROFIT")]
-    TAKE_PROFIT,
+    TakeProfit,
     #[serde(rename = "TAKE_PROFIT_MARKET")]
-    TAKE_PROFIT_MARKET,
+    TakeProfitMarket,
     #[serde(rename = "TRAILING_STOP_MARKET")]
-    TRAILING_STOP_MARKET,
+    TrailingStopMarket,
 }
 
 impl NewUmConditionalOrderStrategyTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewUmConditionalOrderStrategyTypeEnum::STOP => "STOP",
-            NewUmConditionalOrderStrategyTypeEnum::STOP_MARKET => "STOP_MARKET",
-            NewUmConditionalOrderStrategyTypeEnum::TAKE_PROFIT => "TAKE_PROFIT",
-            NewUmConditionalOrderStrategyTypeEnum::TAKE_PROFIT_MARKET => "TAKE_PROFIT_MARKET",
-            NewUmConditionalOrderStrategyTypeEnum::TRAILING_STOP_MARKET => "TRAILING_STOP_MARKET",
+            NewUmConditionalOrderStrategyTypeEnum::Stop => "STOP",
+            NewUmConditionalOrderStrategyTypeEnum::StopMarket => "STOP_MARKET",
+            NewUmConditionalOrderStrategyTypeEnum::TakeProfit => "TAKE_PROFIT",
+            NewUmConditionalOrderStrategyTypeEnum::TakeProfitMarket => "TAKE_PROFIT_MARKET",
+            NewUmConditionalOrderStrategyTypeEnum::TrailingStopMarket => "TRAILING_STOP_MARKET",
         }
     }
 }
@@ -907,20 +907,20 @@ impl NewUmConditionalOrderStrategyTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewUmConditionalOrderPositionSideEnum {
     #[serde(rename = "BOTH")]
-    BOTH,
+    Both,
     #[serde(rename = "LONG")]
-    LONG,
+    Long,
     #[serde(rename = "SHORT")]
-    SHORT,
+    Short,
 }
 
 impl NewUmConditionalOrderPositionSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewUmConditionalOrderPositionSideEnum::BOTH => "BOTH",
-            NewUmConditionalOrderPositionSideEnum::LONG => "LONG",
-            NewUmConditionalOrderPositionSideEnum::SHORT => "SHORT",
+            NewUmConditionalOrderPositionSideEnum::Both => "BOTH",
+            NewUmConditionalOrderPositionSideEnum::Long => "LONG",
+            NewUmConditionalOrderPositionSideEnum::Short => "SHORT",
         }
     }
 }
@@ -929,23 +929,23 @@ impl NewUmConditionalOrderPositionSideEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewUmConditionalOrderTimeInForceEnum {
     #[serde(rename = "GTC")]
-    GTC,
+    Gtc,
     #[serde(rename = "IOC")]
-    IOC,
+    Ioc,
     #[serde(rename = "FOK")]
-    FOK,
+    Fok,
     #[serde(rename = "GTX")]
-    GTX,
+    Gtx,
 }
 
 impl NewUmConditionalOrderTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewUmConditionalOrderTimeInForceEnum::GTC => "GTC",
-            NewUmConditionalOrderTimeInForceEnum::IOC => "IOC",
-            NewUmConditionalOrderTimeInForceEnum::FOK => "FOK",
-            NewUmConditionalOrderTimeInForceEnum::GTX => "GTX",
+            NewUmConditionalOrderTimeInForceEnum::Gtc => "GTC",
+            NewUmConditionalOrderTimeInForceEnum::Ioc => "IOC",
+            NewUmConditionalOrderTimeInForceEnum::Fok => "FOK",
+            NewUmConditionalOrderTimeInForceEnum::Gtx => "GTX",
         }
     }
 }
@@ -954,14 +954,14 @@ impl NewUmConditionalOrderTimeInForceEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewUmConditionalOrderWorkingTypeEnum {
     #[serde(rename = "MARK_PRICE")]
-    MARK_PRICE,
+    MarkPrice,
 }
 
 impl NewUmConditionalOrderWorkingTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewUmConditionalOrderWorkingTypeEnum::MARK_PRICE => "MARK_PRICE",
+            NewUmConditionalOrderWorkingTypeEnum::MarkPrice => "MARK_PRICE",
         }
     }
 }
@@ -970,38 +970,38 @@ impl NewUmConditionalOrderWorkingTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewUmConditionalOrderPriceMatchEnum {
     #[serde(rename = "NONE")]
-    NONE,
+    None,
     #[serde(rename = "OPPONENT")]
-    OPPONENT,
+    Opponent,
     #[serde(rename = "OPPONENT_5")]
-    OPPONENT_5,
+    Opponent5,
     #[serde(rename = "OPPONENT_10")]
-    OPPONENT_10,
+    Opponent10,
     #[serde(rename = "OPPONENT_20")]
-    OPPONENT_20,
+    Opponent20,
     #[serde(rename = "QUEUE")]
-    QUEUE,
+    Queue,
     #[serde(rename = "QUEUE_5")]
-    QUEUE_5,
+    Queue5,
     #[serde(rename = "QUEUE_10")]
-    QUEUE_10,
+    Queue10,
     #[serde(rename = "QUEUE_20")]
-    QUEUE_20,
+    Queue20,
 }
 
 impl NewUmConditionalOrderPriceMatchEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewUmConditionalOrderPriceMatchEnum::NONE => "NONE",
-            NewUmConditionalOrderPriceMatchEnum::OPPONENT => "OPPONENT",
-            NewUmConditionalOrderPriceMatchEnum::OPPONENT_5 => "OPPONENT_5",
-            NewUmConditionalOrderPriceMatchEnum::OPPONENT_10 => "OPPONENT_10",
-            NewUmConditionalOrderPriceMatchEnum::OPPONENT_20 => "OPPONENT_20",
-            NewUmConditionalOrderPriceMatchEnum::QUEUE => "QUEUE",
-            NewUmConditionalOrderPriceMatchEnum::QUEUE_5 => "QUEUE_5",
-            NewUmConditionalOrderPriceMatchEnum::QUEUE_10 => "QUEUE_10",
-            NewUmConditionalOrderPriceMatchEnum::QUEUE_20 => "QUEUE_20",
+            NewUmConditionalOrderPriceMatchEnum::None => "NONE",
+            NewUmConditionalOrderPriceMatchEnum::Opponent => "OPPONENT",
+            NewUmConditionalOrderPriceMatchEnum::Opponent5 => "OPPONENT_5",
+            NewUmConditionalOrderPriceMatchEnum::Opponent10 => "OPPONENT_10",
+            NewUmConditionalOrderPriceMatchEnum::Opponent20 => "OPPONENT_20",
+            NewUmConditionalOrderPriceMatchEnum::Queue => "QUEUE",
+            NewUmConditionalOrderPriceMatchEnum::Queue5 => "QUEUE_5",
+            NewUmConditionalOrderPriceMatchEnum::Queue10 => "QUEUE_10",
+            NewUmConditionalOrderPriceMatchEnum::Queue20 => "QUEUE_20",
         }
     }
 }
@@ -1010,23 +1010,23 @@ impl NewUmConditionalOrderPriceMatchEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewUmConditionalOrderSelfTradePreventionModeEnum {
     #[serde(rename = "NONE")]
-    NONE,
+    None,
     #[serde(rename = "EXPIRE_TAKER")]
-    EXPIRE_TAKER,
+    ExpireTaker,
     #[serde(rename = "EXPIRE_BOTH")]
-    EXPIRE_BOTH,
+    ExpireBoth,
     #[serde(rename = "EXPIRE_MAKER")]
-    EXPIRE_MAKER,
+    ExpireMaker,
 }
 
 impl NewUmConditionalOrderSelfTradePreventionModeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewUmConditionalOrderSelfTradePreventionModeEnum::NONE => "NONE",
-            NewUmConditionalOrderSelfTradePreventionModeEnum::EXPIRE_TAKER => "EXPIRE_TAKER",
-            NewUmConditionalOrderSelfTradePreventionModeEnum::EXPIRE_BOTH => "EXPIRE_BOTH",
-            NewUmConditionalOrderSelfTradePreventionModeEnum::EXPIRE_MAKER => "EXPIRE_MAKER",
+            NewUmConditionalOrderSelfTradePreventionModeEnum::None => "NONE",
+            NewUmConditionalOrderSelfTradePreventionModeEnum::ExpireTaker => "EXPIRE_TAKER",
+            NewUmConditionalOrderSelfTradePreventionModeEnum::ExpireBoth => "EXPIRE_BOTH",
+            NewUmConditionalOrderSelfTradePreventionModeEnum::ExpireMaker => "EXPIRE_MAKER",
         }
     }
 }
@@ -1035,17 +1035,17 @@ impl NewUmConditionalOrderSelfTradePreventionModeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewUmOrderSideEnum {
     #[serde(rename = "BUY")]
-    BUY,
+    Buy,
     #[serde(rename = "SELL")]
-    SELL,
+    Sell,
 }
 
 impl NewUmOrderSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewUmOrderSideEnum::BUY => "BUY",
-            NewUmOrderSideEnum::SELL => "SELL",
+            NewUmOrderSideEnum::Buy => "BUY",
+            NewUmOrderSideEnum::Sell => "SELL",
         }
     }
 }
@@ -1054,17 +1054,17 @@ impl NewUmOrderSideEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewUmOrderTypeEnum {
     #[serde(rename = "LIMIT")]
-    LIMIT,
+    Limit,
     #[serde(rename = "MARKET")]
-    MARKET,
+    Market,
 }
 
 impl NewUmOrderTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewUmOrderTypeEnum::LIMIT => "LIMIT",
-            NewUmOrderTypeEnum::MARKET => "MARKET",
+            NewUmOrderTypeEnum::Limit => "LIMIT",
+            NewUmOrderTypeEnum::Market => "MARKET",
         }
     }
 }
@@ -1073,20 +1073,20 @@ impl NewUmOrderTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewUmOrderPositionSideEnum {
     #[serde(rename = "BOTH")]
-    BOTH,
+    Both,
     #[serde(rename = "LONG")]
-    LONG,
+    Long,
     #[serde(rename = "SHORT")]
-    SHORT,
+    Short,
 }
 
 impl NewUmOrderPositionSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewUmOrderPositionSideEnum::BOTH => "BOTH",
-            NewUmOrderPositionSideEnum::LONG => "LONG",
-            NewUmOrderPositionSideEnum::SHORT => "SHORT",
+            NewUmOrderPositionSideEnum::Both => "BOTH",
+            NewUmOrderPositionSideEnum::Long => "LONG",
+            NewUmOrderPositionSideEnum::Short => "SHORT",
         }
     }
 }
@@ -1095,23 +1095,23 @@ impl NewUmOrderPositionSideEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewUmOrderTimeInForceEnum {
     #[serde(rename = "GTC")]
-    GTC,
+    Gtc,
     #[serde(rename = "IOC")]
-    IOC,
+    Ioc,
     #[serde(rename = "FOK")]
-    FOK,
+    Fok,
     #[serde(rename = "GTX")]
-    GTX,
+    Gtx,
 }
 
 impl NewUmOrderTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewUmOrderTimeInForceEnum::GTC => "GTC",
-            NewUmOrderTimeInForceEnum::IOC => "IOC",
-            NewUmOrderTimeInForceEnum::FOK => "FOK",
-            NewUmOrderTimeInForceEnum::GTX => "GTX",
+            NewUmOrderTimeInForceEnum::Gtc => "GTC",
+            NewUmOrderTimeInForceEnum::Ioc => "IOC",
+            NewUmOrderTimeInForceEnum::Fok => "FOK",
+            NewUmOrderTimeInForceEnum::Gtx => "GTX",
         }
     }
 }
@@ -1120,17 +1120,17 @@ impl NewUmOrderTimeInForceEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewUmOrderNewOrderRespTypeEnum {
     #[serde(rename = "ACK")]
-    ACK,
+    Ack,
     #[serde(rename = "RESULT")]
-    RESULT,
+    Result,
 }
 
 impl NewUmOrderNewOrderRespTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewUmOrderNewOrderRespTypeEnum::ACK => "ACK",
-            NewUmOrderNewOrderRespTypeEnum::RESULT => "RESULT",
+            NewUmOrderNewOrderRespTypeEnum::Ack => "ACK",
+            NewUmOrderNewOrderRespTypeEnum::Result => "RESULT",
         }
     }
 }
@@ -1139,38 +1139,38 @@ impl NewUmOrderNewOrderRespTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewUmOrderPriceMatchEnum {
     #[serde(rename = "NONE")]
-    NONE,
+    None,
     #[serde(rename = "OPPONENT")]
-    OPPONENT,
+    Opponent,
     #[serde(rename = "OPPONENT_5")]
-    OPPONENT_5,
+    Opponent5,
     #[serde(rename = "OPPONENT_10")]
-    OPPONENT_10,
+    Opponent10,
     #[serde(rename = "OPPONENT_20")]
-    OPPONENT_20,
+    Opponent20,
     #[serde(rename = "QUEUE")]
-    QUEUE,
+    Queue,
     #[serde(rename = "QUEUE_5")]
-    QUEUE_5,
+    Queue5,
     #[serde(rename = "QUEUE_10")]
-    QUEUE_10,
+    Queue10,
     #[serde(rename = "QUEUE_20")]
-    QUEUE_20,
+    Queue20,
 }
 
 impl NewUmOrderPriceMatchEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewUmOrderPriceMatchEnum::NONE => "NONE",
-            NewUmOrderPriceMatchEnum::OPPONENT => "OPPONENT",
-            NewUmOrderPriceMatchEnum::OPPONENT_5 => "OPPONENT_5",
-            NewUmOrderPriceMatchEnum::OPPONENT_10 => "OPPONENT_10",
-            NewUmOrderPriceMatchEnum::OPPONENT_20 => "OPPONENT_20",
-            NewUmOrderPriceMatchEnum::QUEUE => "QUEUE",
-            NewUmOrderPriceMatchEnum::QUEUE_5 => "QUEUE_5",
-            NewUmOrderPriceMatchEnum::QUEUE_10 => "QUEUE_10",
-            NewUmOrderPriceMatchEnum::QUEUE_20 => "QUEUE_20",
+            NewUmOrderPriceMatchEnum::None => "NONE",
+            NewUmOrderPriceMatchEnum::Opponent => "OPPONENT",
+            NewUmOrderPriceMatchEnum::Opponent5 => "OPPONENT_5",
+            NewUmOrderPriceMatchEnum::Opponent10 => "OPPONENT_10",
+            NewUmOrderPriceMatchEnum::Opponent20 => "OPPONENT_20",
+            NewUmOrderPriceMatchEnum::Queue => "QUEUE",
+            NewUmOrderPriceMatchEnum::Queue5 => "QUEUE_5",
+            NewUmOrderPriceMatchEnum::Queue10 => "QUEUE_10",
+            NewUmOrderPriceMatchEnum::Queue20 => "QUEUE_20",
         }
     }
 }
@@ -1179,23 +1179,23 @@ impl NewUmOrderPriceMatchEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewUmOrderSelfTradePreventionModeEnum {
     #[serde(rename = "NONE")]
-    NONE,
+    None,
     #[serde(rename = "EXPIRE_TAKER")]
-    EXPIRE_TAKER,
+    ExpireTaker,
     #[serde(rename = "EXPIRE_BOTH")]
-    EXPIRE_BOTH,
+    ExpireBoth,
     #[serde(rename = "EXPIRE_MAKER")]
-    EXPIRE_MAKER,
+    ExpireMaker,
 }
 
 impl NewUmOrderSelfTradePreventionModeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewUmOrderSelfTradePreventionModeEnum::NONE => "NONE",
-            NewUmOrderSelfTradePreventionModeEnum::EXPIRE_TAKER => "EXPIRE_TAKER",
-            NewUmOrderSelfTradePreventionModeEnum::EXPIRE_BOTH => "EXPIRE_BOTH",
-            NewUmOrderSelfTradePreventionModeEnum::EXPIRE_MAKER => "EXPIRE_MAKER",
+            NewUmOrderSelfTradePreventionModeEnum::None => "NONE",
+            NewUmOrderSelfTradePreventionModeEnum::ExpireTaker => "EXPIRE_TAKER",
+            NewUmOrderSelfTradePreventionModeEnum::ExpireBoth => "EXPIRE_BOTH",
+            NewUmOrderSelfTradePreventionModeEnum::ExpireMaker => "EXPIRE_MAKER",
         }
     }
 }
@@ -1204,17 +1204,17 @@ impl NewUmOrderSelfTradePreventionModeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum QueryUsersCmForceOrdersAutoCloseTypeEnum {
     #[serde(rename = "LIQUIDATION")]
-    LIQUIDATION,
+    Liquidation,
     #[serde(rename = "ADL")]
-    ADL,
+    Adl,
 }
 
 impl QueryUsersCmForceOrdersAutoCloseTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            QueryUsersCmForceOrdersAutoCloseTypeEnum::LIQUIDATION => "LIQUIDATION",
-            QueryUsersCmForceOrdersAutoCloseTypeEnum::ADL => "ADL",
+            QueryUsersCmForceOrdersAutoCloseTypeEnum::Liquidation => "LIQUIDATION",
+            QueryUsersCmForceOrdersAutoCloseTypeEnum::Adl => "ADL",
         }
     }
 }
@@ -1223,17 +1223,17 @@ impl QueryUsersCmForceOrdersAutoCloseTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum QueryUsersUmForceOrdersAutoCloseTypeEnum {
     #[serde(rename = "LIQUIDATION")]
-    LIQUIDATION,
+    Liquidation,
     #[serde(rename = "ADL")]
-    ADL,
+    Adl,
 }
 
 impl QueryUsersUmForceOrdersAutoCloseTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            QueryUsersUmForceOrdersAutoCloseTypeEnum::LIQUIDATION => "LIQUIDATION",
-            QueryUsersUmForceOrdersAutoCloseTypeEnum::ADL => "ADL",
+            QueryUsersUmForceOrdersAutoCloseTypeEnum::Liquidation => "LIQUIDATION",
+            QueryUsersUmForceOrdersAutoCloseTypeEnum::Adl => "ADL",
         }
     }
 }
@@ -9202,7 +9202,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = MarginAccountNewOcoParams::builder("symbol_example".to_string(),MarginAccountNewOcoSideEnum::BUY,1.0,1.0,1.0,).build().unwrap();
+            let params = MarginAccountNewOcoParams::builder("symbol_example".to_string(),MarginAccountNewOcoSideEnum::Buy,1.0,1.0,1.0,).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"orderListId":0,"contingencyType":"OCO","listStatusType":"EXEC_STARTED","listOrderStatus":"EXECUTING","listClientOrderId":"JYVpp3F0f5CAG15DhtrqLp","transactionTime":1563417480525,"symbol":"LTCBTC","marginBuyBorrowAmount":"5","marginBuyBorrowAsset":"BTC","orders":[{"symbol":"LTCBTC","orderId":2,"clientOrderId":"Kk7sqHb9J6mJWTMDVW7Vos"},{"symbol":"LTCBTC","orderId":3,"clientOrderId":"xTXKaGYd4bluPVp78IVRvl"}],"orderReports":[{"symbol":"LTCBTC","orderId":2,"orderListId":0,"clientOrderId":"Kk7sqHb9J6mJWTMDVW7Vos","transactTime":1563417480525,"price":"0.000000","origQty":"0.624363","executedQty":"0.000000","cummulativeQuoteQty":"0.000000","status":"NEW","timeInForce":"GTC","type":"STOP_LOSS","side":"BUY","stopPrice":"0.960664"},{"symbol":"LTCBTC","orderId":3,"orderListId":0,"clientOrderId":"xTXKaGYd4bluPVp78IVRvl","transactTime":1563417480525,"price":"0.036435","origQty":"0.624363","executedQty":"0.000000","cummulativeQuoteQty":"0.000000","status":"NEW","timeInForce":"GTC","type":"LIMIT_MAKER","side":"BUY"}]}"#).unwrap();
             let expected_response : models::MarginAccountNewOcoResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::MarginAccountNewOcoResponse");
@@ -9219,7 +9219,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = MarginAccountNewOcoParams::builder("symbol_example".to_string(),MarginAccountNewOcoSideEnum::BUY,1.0,1.0,1.0,).list_client_order_id("1".to_string()).limit_client_order_id("1".to_string()).limit_iceberg_qty(1.0).stop_client_order_id("1".to_string()).stop_limit_price(1.0).stop_iceberg_qty(1.0).stop_limit_time_in_force(MarginAccountNewOcoStopLimitTimeInForceEnum::GTC).new_order_resp_type(MarginAccountNewOcoNewOrderRespTypeEnum::ACK).side_effect_type(MarginAccountNewOcoSideEffectTypeEnum::NO_SIDE_EFFECT).recv_window(5000).build().unwrap();
+            let params = MarginAccountNewOcoParams::builder("symbol_example".to_string(),MarginAccountNewOcoSideEnum::Buy,1.0,1.0,1.0,).list_client_order_id("1".to_string()).limit_client_order_id("1".to_string()).limit_iceberg_qty(1.0).stop_client_order_id("1".to_string()).stop_limit_price(1.0).stop_iceberg_qty(1.0).stop_limit_time_in_force(MarginAccountNewOcoStopLimitTimeInForceEnum::Gtc).new_order_resp_type(MarginAccountNewOcoNewOrderRespTypeEnum::Ack).side_effect_type(MarginAccountNewOcoSideEffectTypeEnum::NoSideEffect).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"orderListId":0,"contingencyType":"OCO","listStatusType":"EXEC_STARTED","listOrderStatus":"EXECUTING","listClientOrderId":"JYVpp3F0f5CAG15DhtrqLp","transactionTime":1563417480525,"symbol":"LTCBTC","marginBuyBorrowAmount":"5","marginBuyBorrowAsset":"BTC","orders":[{"symbol":"LTCBTC","orderId":2,"clientOrderId":"Kk7sqHb9J6mJWTMDVW7Vos"},{"symbol":"LTCBTC","orderId":3,"clientOrderId":"xTXKaGYd4bluPVp78IVRvl"}],"orderReports":[{"symbol":"LTCBTC","orderId":2,"orderListId":0,"clientOrderId":"Kk7sqHb9J6mJWTMDVW7Vos","transactTime":1563417480525,"price":"0.000000","origQty":"0.624363","executedQty":"0.000000","cummulativeQuoteQty":"0.000000","status":"NEW","timeInForce":"GTC","type":"STOP_LOSS","side":"BUY","stopPrice":"0.960664"},{"symbol":"LTCBTC","orderId":3,"orderListId":0,"clientOrderId":"xTXKaGYd4bluPVp78IVRvl","transactTime":1563417480525,"price":"0.036435","origQty":"0.624363","executedQty":"0.000000","cummulativeQuoteQty":"0.000000","status":"NEW","timeInForce":"GTC","type":"LIMIT_MAKER","side":"BUY"}]}"#).unwrap();
             let expected_response : models::MarginAccountNewOcoResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::MarginAccountNewOcoResponse");
@@ -9238,7 +9238,7 @@ mod tests {
 
             let params = MarginAccountNewOcoParams::builder(
                 "symbol_example".to_string(),
-                MarginAccountNewOcoSideEnum::BUY,
+                MarginAccountNewOcoSideEnum::Buy,
                 1.0,
                 1.0,
                 1.0,
@@ -9431,7 +9431,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = ModifyCmOrderParams::builder("symbol_example".to_string(),ModifyCmOrderSideEnum::BUY,1.0,1.0,).build().unwrap();
+            let params = ModifyCmOrderParams::builder("symbol_example".to_string(),ModifyCmOrderSideEnum::Buy,1.0,1.0,).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"orderId":20072994037,"symbol":"BTCUSD_PERP","pair":"BTCUSD","status":"NEW","clientOrderId":"LJ9R4QZDihCaS8UAOOLpgW","price":"30005","avgPrice":"0.0","origQty":"1","executedQty":"0","cumQty":"0","cumBase":"0","timeInForce":"GTC","type":"LIMIT","reduceOnly":false,"side":"BUY","positionSide":"LONG","origType":"LIMIT","updateTime":1629182711600}"#).unwrap();
             let expected_response : models::ModifyCmOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::ModifyCmOrderResponse");
@@ -9448,7 +9448,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = ModifyCmOrderParams::builder("symbol_example".to_string(),ModifyCmOrderSideEnum::BUY,1.0,1.0,).order_id(1).orig_client_order_id("1".to_string()).price_match(ModifyCmOrderPriceMatchEnum::NONE).recv_window(5000).build().unwrap();
+            let params = ModifyCmOrderParams::builder("symbol_example".to_string(),ModifyCmOrderSideEnum::Buy,1.0,1.0,).order_id(1).orig_client_order_id("1".to_string()).price_match(ModifyCmOrderPriceMatchEnum::None).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"orderId":20072994037,"symbol":"BTCUSD_PERP","pair":"BTCUSD","status":"NEW","clientOrderId":"LJ9R4QZDihCaS8UAOOLpgW","price":"30005","avgPrice":"0.0","origQty":"1","executedQty":"0","cumQty":"0","cumBase":"0","timeInForce":"GTC","type":"LIMIT","reduceOnly":false,"side":"BUY","positionSide":"LONG","origType":"LIMIT","updateTime":1629182711600}"#).unwrap();
             let expected_response : models::ModifyCmOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::ModifyCmOrderResponse");
@@ -9467,7 +9467,7 @@ mod tests {
 
             let params = ModifyCmOrderParams::builder(
                 "symbol_example".to_string(),
-                ModifyCmOrderSideEnum::BUY,
+                ModifyCmOrderSideEnum::Buy,
                 1.0,
                 1.0,
             )
@@ -9488,7 +9488,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = ModifyUmOrderParams::builder("symbol_example".to_string(),ModifyUmOrderSideEnum::BUY,1.0,1.0,).build().unwrap();
+            let params = ModifyUmOrderParams::builder("symbol_example".to_string(),ModifyUmOrderSideEnum::Buy,1.0,1.0,).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"orderId":20072994037,"symbol":"BTCUSDT","status":"NEW","clientOrderId":"LJ9R4QZDihCaS8UAOOLpgW","price":"30005","avgPrice":"0.0","origQty":"1","executedQty":"0","cumQty":"0","cumQuote":"0","timeInForce":"GTC","type":"LIMIT","reduceOnly":false,"side":"BUY","positionSide":"LONG","origType":"LIMIT","selfTradePreventionMode":"NONE","goodTillDate":0,"updateTime":1629182711600,"priceMatch":"NONE"}"#).unwrap();
             let expected_response : models::ModifyUmOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::ModifyUmOrderResponse");
@@ -9505,7 +9505,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = ModifyUmOrderParams::builder("symbol_example".to_string(),ModifyUmOrderSideEnum::BUY,1.0,1.0,).order_id(1).orig_client_order_id("1".to_string()).price_match(ModifyUmOrderPriceMatchEnum::NONE).recv_window(5000).build().unwrap();
+            let params = ModifyUmOrderParams::builder("symbol_example".to_string(),ModifyUmOrderSideEnum::Buy,1.0,1.0,).order_id(1).orig_client_order_id("1".to_string()).price_match(ModifyUmOrderPriceMatchEnum::None).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"orderId":20072994037,"symbol":"BTCUSDT","status":"NEW","clientOrderId":"LJ9R4QZDihCaS8UAOOLpgW","price":"30005","avgPrice":"0.0","origQty":"1","executedQty":"0","cumQty":"0","cumQuote":"0","timeInForce":"GTC","type":"LIMIT","reduceOnly":false,"side":"BUY","positionSide":"LONG","origType":"LIMIT","selfTradePreventionMode":"NONE","goodTillDate":0,"updateTime":1629182711600,"priceMatch":"NONE"}"#).unwrap();
             let expected_response : models::ModifyUmOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::ModifyUmOrderResponse");
@@ -9524,7 +9524,7 @@ mod tests {
 
             let params = ModifyUmOrderParams::builder(
                 "symbol_example".to_string(),
-                ModifyUmOrderSideEnum::BUY,
+                ModifyUmOrderSideEnum::Buy,
                 1.0,
                 1.0,
             )
@@ -9545,7 +9545,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = NewCmConditionalOrderParams::builder("symbol_example".to_string(),NewCmConditionalOrderSideEnum::BUY,NewCmConditionalOrderStrategyTypeEnum::STOP,).build().unwrap();
+            let params = NewCmConditionalOrderParams::builder("symbol_example".to_string(),NewCmConditionalOrderSideEnum::Buy,NewCmConditionalOrderStrategyTypeEnum::Stop,).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"newClientStrategyId":"testOrder","strategyId":123445,"strategyStatus":"NEW","strategyType":"TRAILING_STOP_MARKET","origQty":"10","price":"0","reduceOnly":false,"side":"BUY","positionSide":"SHORT","stopPrice":"9300","symbol":"BTCUSD_200925","pair":"BTCUSD","timeInForce":"GTC","activatePrice":"9020","priceRate":"0.3","bookTime":1566818724710,"updateTime":1566818724722,"workingType":"CONTRACT_PRICE","priceProtect":false}"#).unwrap();
             let expected_response : models::NewCmConditionalOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::NewCmConditionalOrderResponse");
@@ -9562,7 +9562,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = NewCmConditionalOrderParams::builder("symbol_example".to_string(),NewCmConditionalOrderSideEnum::BUY,NewCmConditionalOrderStrategyTypeEnum::STOP,).position_side(NewCmConditionalOrderPositionSideEnum::BOTH).time_in_force(NewCmConditionalOrderTimeInForceEnum::GTC).quantity(1.0).reduce_only("false".to_string()).price(1.0).working_type(NewCmConditionalOrderWorkingTypeEnum::MARK_PRICE).price_protect("false".to_string()).new_client_strategy_id("1".to_string()).stop_price(1.0).activation_price(1.0).callback_rate(1.0).recv_window(5000).build().unwrap();
+            let params = NewCmConditionalOrderParams::builder("symbol_example".to_string(),NewCmConditionalOrderSideEnum::Buy,NewCmConditionalOrderStrategyTypeEnum::Stop,).position_side(NewCmConditionalOrderPositionSideEnum::Both).time_in_force(NewCmConditionalOrderTimeInForceEnum::Gtc).quantity(1.0).reduce_only("false".to_string()).price(1.0).working_type(NewCmConditionalOrderWorkingTypeEnum::MarkPrice).price_protect("false".to_string()).new_client_strategy_id("1".to_string()).stop_price(1.0).activation_price(1.0).callback_rate(1.0).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"newClientStrategyId":"testOrder","strategyId":123445,"strategyStatus":"NEW","strategyType":"TRAILING_STOP_MARKET","origQty":"10","price":"0","reduceOnly":false,"side":"BUY","positionSide":"SHORT","stopPrice":"9300","symbol":"BTCUSD_200925","pair":"BTCUSD","timeInForce":"GTC","activatePrice":"9020","priceRate":"0.3","bookTime":1566818724710,"updateTime":1566818724722,"workingType":"CONTRACT_PRICE","priceProtect":false}"#).unwrap();
             let expected_response : models::NewCmConditionalOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::NewCmConditionalOrderResponse");
@@ -9581,8 +9581,8 @@ mod tests {
 
             let params = NewCmConditionalOrderParams::builder(
                 "symbol_example".to_string(),
-                NewCmConditionalOrderSideEnum::BUY,
-                NewCmConditionalOrderStrategyTypeEnum::STOP,
+                NewCmConditionalOrderSideEnum::Buy,
+                NewCmConditionalOrderStrategyTypeEnum::Stop,
             )
             .build()
             .unwrap();
@@ -9601,7 +9601,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = NewCmOrderParams::builder("symbol_example".to_string(),NewCmOrderSideEnum::BUY,NewCmOrderTypeEnum::LIMIT,).build().unwrap();
+            let params = NewCmOrderParams::builder("symbol_example".to_string(),NewCmOrderSideEnum::Buy,NewCmOrderTypeEnum::Limit,).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"clientOrderId":"testOrder","cumQty":"0","cumBase":"0","executedQty":"0","orderId":22542179,"avgPrice":"0.0","origQty":"10","price":"0","reduceOnly":false,"side":"BUY","positionSide":"SHORT","status":"NEW","symbol":"BTCUSD_200925","pair":"BTCUSD","timeInForce":"GTC","type":"MARKET","updateTime":1566818724722}"#).unwrap();
             let expected_response : models::NewCmOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::NewCmOrderResponse");
@@ -9618,7 +9618,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = NewCmOrderParams::builder("symbol_example".to_string(),NewCmOrderSideEnum::BUY,NewCmOrderTypeEnum::LIMIT,).position_side(NewCmOrderPositionSideEnum::BOTH).time_in_force(NewCmOrderTimeInForceEnum::GTC).quantity(1.0).reduce_only("false".to_string()).price(1.0).price_match(NewCmOrderPriceMatchEnum::NONE).new_client_order_id("1".to_string()).new_order_resp_type(NewCmOrderNewOrderRespTypeEnum::ACK).recv_window(5000).build().unwrap();
+            let params = NewCmOrderParams::builder("symbol_example".to_string(),NewCmOrderSideEnum::Buy,NewCmOrderTypeEnum::Limit,).position_side(NewCmOrderPositionSideEnum::Both).time_in_force(NewCmOrderTimeInForceEnum::Gtc).quantity(1.0).reduce_only("false".to_string()).price(1.0).price_match(NewCmOrderPriceMatchEnum::None).new_client_order_id("1".to_string()).new_order_resp_type(NewCmOrderNewOrderRespTypeEnum::Ack).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"clientOrderId":"testOrder","cumQty":"0","cumBase":"0","executedQty":"0","orderId":22542179,"avgPrice":"0.0","origQty":"10","price":"0","reduceOnly":false,"side":"BUY","positionSide":"SHORT","status":"NEW","symbol":"BTCUSD_200925","pair":"BTCUSD","timeInForce":"GTC","type":"MARKET","updateTime":1566818724722}"#).unwrap();
             let expected_response : models::NewCmOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::NewCmOrderResponse");
@@ -9637,8 +9637,8 @@ mod tests {
 
             let params = NewCmOrderParams::builder(
                 "symbol_example".to_string(),
-                NewCmOrderSideEnum::BUY,
-                NewCmOrderTypeEnum::LIMIT,
+                NewCmOrderSideEnum::Buy,
+                NewCmOrderTypeEnum::Limit,
             )
             .build()
             .unwrap();
@@ -9657,7 +9657,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = NewMarginOrderParams::builder("symbol_example".to_string(),NewMarginOrderSideEnum::BUY,NewMarginOrderTypeEnum::LIMIT,).build().unwrap();
+            let params = NewMarginOrderParams::builder("symbol_example".to_string(),NewMarginOrderSideEnum::Buy,NewMarginOrderTypeEnum::Limit,).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"symbol":"BTCUSDT","orderId":28,"clientOrderId":"6gCrw2kRUAF9CvJDGP16IP","transactTime":1507725176595,"price":"1.00000000","origQty":"10.00000000","executedQty":"10.00000000","cummulativeQuoteQty":"10.00000000","status":"FILLED","timeInForce":"GTC","type":"MARKET","side":"SELL","marginBuyBorrowAmount":5,"marginBuyBorrowAsset":"BTC","fills":[{"price":"4000.00000000","qty":"1.00000000","commission":"4.00000000","commissionAsset":"USDT"},{"price":"3999.00000000","qty":"5.00000000","commission":"19.99500000","commissionAsset":"USDT"}]}"#).unwrap();
             let expected_response : models::NewMarginOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::NewMarginOrderResponse");
@@ -9674,7 +9674,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = NewMarginOrderParams::builder("symbol_example".to_string(),NewMarginOrderSideEnum::BUY,NewMarginOrderTypeEnum::LIMIT,).quantity(1.0).quote_order_qty(1.0).price(1.0).stop_price(1.0).new_client_order_id("1".to_string()).new_order_resp_type(NewMarginOrderNewOrderRespTypeEnum::ACK).iceberg_qty(1.0).side_effect_type(NewMarginOrderSideEffectTypeEnum::NO_SIDE_EFFECT).time_in_force(NewMarginOrderTimeInForceEnum::GTC).self_trade_prevention_mode(NewMarginOrderSelfTradePreventionModeEnum::NONE).auto_repay_at_cancel(true).recv_window(5000).build().unwrap();
+            let params = NewMarginOrderParams::builder("symbol_example".to_string(),NewMarginOrderSideEnum::Buy,NewMarginOrderTypeEnum::Limit,).quantity(1.0).quote_order_qty(1.0).price(1.0).stop_price(1.0).new_client_order_id("1".to_string()).new_order_resp_type(NewMarginOrderNewOrderRespTypeEnum::Ack).iceberg_qty(1.0).side_effect_type(NewMarginOrderSideEffectTypeEnum::NoSideEffect).time_in_force(NewMarginOrderTimeInForceEnum::Gtc).self_trade_prevention_mode(NewMarginOrderSelfTradePreventionModeEnum::None).auto_repay_at_cancel(true).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"symbol":"BTCUSDT","orderId":28,"clientOrderId":"6gCrw2kRUAF9CvJDGP16IP","transactTime":1507725176595,"price":"1.00000000","origQty":"10.00000000","executedQty":"10.00000000","cummulativeQuoteQty":"10.00000000","status":"FILLED","timeInForce":"GTC","type":"MARKET","side":"SELL","marginBuyBorrowAmount":5,"marginBuyBorrowAsset":"BTC","fills":[{"price":"4000.00000000","qty":"1.00000000","commission":"4.00000000","commissionAsset":"USDT"},{"price":"3999.00000000","qty":"5.00000000","commission":"19.99500000","commissionAsset":"USDT"}]}"#).unwrap();
             let expected_response : models::NewMarginOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::NewMarginOrderResponse");
@@ -9693,8 +9693,8 @@ mod tests {
 
             let params = NewMarginOrderParams::builder(
                 "symbol_example".to_string(),
-                NewMarginOrderSideEnum::BUY,
-                NewMarginOrderTypeEnum::LIMIT,
+                NewMarginOrderSideEnum::Buy,
+                NewMarginOrderTypeEnum::Limit,
             )
             .build()
             .unwrap();
@@ -9713,7 +9713,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = NewUmConditionalOrderParams::builder("symbol_example".to_string(),NewUmConditionalOrderSideEnum::BUY,NewUmConditionalOrderStrategyTypeEnum::STOP,).build().unwrap();
+            let params = NewUmConditionalOrderParams::builder("symbol_example".to_string(),NewUmConditionalOrderSideEnum::Buy,NewUmConditionalOrderStrategyTypeEnum::Stop,).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"newClientStrategyId":"testOrder","strategyId":123445,"strategyStatus":"NEW","strategyType":"TRAILING_STOP_MARKET","origQty":"10","price":"0","reduceOnly":false,"side":"BUY","positionSide":"SHORT","stopPrice":"9300","symbol":"BTCUSDT","timeInForce":"GTD","activatePrice":"9020","priceRate":"0.3","bookTime":1566818724710,"updateTime":1566818724722,"workingType":"CONTRACT_PRICE","priceProtect":false,"selfTradePreventionMode":"NONE","goodTillDate":1693207680000,"priceMatch":"NONE"}"#).unwrap();
             let expected_response : models::NewUmConditionalOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::NewUmConditionalOrderResponse");
@@ -9730,7 +9730,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = NewUmConditionalOrderParams::builder("symbol_example".to_string(),NewUmConditionalOrderSideEnum::BUY,NewUmConditionalOrderStrategyTypeEnum::STOP,).position_side(NewUmConditionalOrderPositionSideEnum::BOTH).time_in_force(NewUmConditionalOrderTimeInForceEnum::GTC).quantity(1.0).reduce_only("false".to_string()).price(1.0).working_type(NewUmConditionalOrderWorkingTypeEnum::MARK_PRICE).price_protect("false".to_string()).new_client_strategy_id("1".to_string()).stop_price(1.0).activation_price(1.0).callback_rate(1.0).price_match(NewUmConditionalOrderPriceMatchEnum::NONE).self_trade_prevention_mode(NewUmConditionalOrderSelfTradePreventionModeEnum::NONE).good_till_date(789).recv_window(5000).build().unwrap();
+            let params = NewUmConditionalOrderParams::builder("symbol_example".to_string(),NewUmConditionalOrderSideEnum::Buy,NewUmConditionalOrderStrategyTypeEnum::Stop,).position_side(NewUmConditionalOrderPositionSideEnum::Both).time_in_force(NewUmConditionalOrderTimeInForceEnum::Gtc).quantity(1.0).reduce_only("false".to_string()).price(1.0).working_type(NewUmConditionalOrderWorkingTypeEnum::MarkPrice).price_protect("false".to_string()).new_client_strategy_id("1".to_string()).stop_price(1.0).activation_price(1.0).callback_rate(1.0).price_match(NewUmConditionalOrderPriceMatchEnum::None).self_trade_prevention_mode(NewUmConditionalOrderSelfTradePreventionModeEnum::None).good_till_date(789).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"newClientStrategyId":"testOrder","strategyId":123445,"strategyStatus":"NEW","strategyType":"TRAILING_STOP_MARKET","origQty":"10","price":"0","reduceOnly":false,"side":"BUY","positionSide":"SHORT","stopPrice":"9300","symbol":"BTCUSDT","timeInForce":"GTD","activatePrice":"9020","priceRate":"0.3","bookTime":1566818724710,"updateTime":1566818724722,"workingType":"CONTRACT_PRICE","priceProtect":false,"selfTradePreventionMode":"NONE","goodTillDate":1693207680000,"priceMatch":"NONE"}"#).unwrap();
             let expected_response : models::NewUmConditionalOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::NewUmConditionalOrderResponse");
@@ -9749,8 +9749,8 @@ mod tests {
 
             let params = NewUmConditionalOrderParams::builder(
                 "symbol_example".to_string(),
-                NewUmConditionalOrderSideEnum::BUY,
-                NewUmConditionalOrderStrategyTypeEnum::STOP,
+                NewUmConditionalOrderSideEnum::Buy,
+                NewUmConditionalOrderStrategyTypeEnum::Stop,
             )
             .build()
             .unwrap();
@@ -9769,7 +9769,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = NewUmOrderParams::builder("symbol_example".to_string(),NewUmOrderSideEnum::BUY,NewUmOrderTypeEnum::LIMIT,).build().unwrap();
+            let params = NewUmOrderParams::builder("symbol_example".to_string(),NewUmOrderSideEnum::Buy,NewUmOrderTypeEnum::Limit,).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"clientOrderId":"testOrder","cumQty":"0","cumQuote":"0","executedQty":"0","orderId":22542179,"avgPrice":"0.00000","origQty":"10","price":"0","reduceOnly":false,"side":"BUY","positionSide":"SHORT","status":"NEW","symbol":"BTCUSDT","timeInForce":"GTD","type":"MARKET","selfTradePreventionMode":"NONE","goodTillDate":1693207680000,"updateTime":1566818724722,"priceMatch":"NONE"}"#).unwrap();
             let expected_response : models::NewUmOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::NewUmOrderResponse");
@@ -9786,7 +9786,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = NewUmOrderParams::builder("symbol_example".to_string(),NewUmOrderSideEnum::BUY,NewUmOrderTypeEnum::LIMIT,).position_side(NewUmOrderPositionSideEnum::BOTH).time_in_force(NewUmOrderTimeInForceEnum::GTC).quantity(1.0).reduce_only("false".to_string()).price(1.0).new_client_order_id("1".to_string()).new_order_resp_type(NewUmOrderNewOrderRespTypeEnum::ACK).price_match(NewUmOrderPriceMatchEnum::NONE).self_trade_prevention_mode(NewUmOrderSelfTradePreventionModeEnum::NONE).good_till_date(789).recv_window(5000).build().unwrap();
+            let params = NewUmOrderParams::builder("symbol_example".to_string(),NewUmOrderSideEnum::Buy,NewUmOrderTypeEnum::Limit,).position_side(NewUmOrderPositionSideEnum::Both).time_in_force(NewUmOrderTimeInForceEnum::Gtc).quantity(1.0).reduce_only("false".to_string()).price(1.0).new_client_order_id("1".to_string()).new_order_resp_type(NewUmOrderNewOrderRespTypeEnum::Ack).price_match(NewUmOrderPriceMatchEnum::None).self_trade_prevention_mode(NewUmOrderSelfTradePreventionModeEnum::None).good_till_date(789).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"clientOrderId":"testOrder","cumQty":"0","cumQuote":"0","executedQty":"0","orderId":22542179,"avgPrice":"0.00000","origQty":"10","price":"0","reduceOnly":false,"side":"BUY","positionSide":"SHORT","status":"NEW","symbol":"BTCUSDT","timeInForce":"GTD","type":"MARKET","selfTradePreventionMode":"NONE","goodTillDate":1693207680000,"updateTime":1566818724722,"priceMatch":"NONE"}"#).unwrap();
             let expected_response : models::NewUmOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::NewUmOrderResponse");
@@ -9805,8 +9805,8 @@ mod tests {
 
             let params = NewUmOrderParams::builder(
                 "symbol_example".to_string(),
-                NewUmOrderSideEnum::BUY,
-                NewUmOrderTypeEnum::LIMIT,
+                NewUmOrderSideEnum::Buy,
+                NewUmOrderTypeEnum::Limit,
             )
             .build()
             .unwrap();
@@ -11094,7 +11094,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = QueryUsersCmForceOrdersParams::builder().symbol("symbol_example".to_string()).auto_close_type(QueryUsersCmForceOrdersAutoCloseTypeEnum::LIQUIDATION).start_time(1623319461670).end_time(1641782889000).limit(100).recv_window(5000).build().unwrap();
+            let params = QueryUsersCmForceOrdersParams::builder().symbol("symbol_example".to_string()).auto_close_type(QueryUsersCmForceOrdersAutoCloseTypeEnum::Liquidation).start_time(1623319461670).end_time(1641782889000).limit(100).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"[{"orderId":165123080,"symbol":"BTCUSD_200925","pair":"BTCUSD","status":"FILLED","clientOrderId":"autoclose-1596542005017000006","price":"11326.9","avgPrice":"11326.9","origQty":"1","executedQty":"1","cumBase":"0.00882854","timeInForce":"IOC","type":"LIMIT","reduceOnly":false,"side":"SELL","positionSide":"BOTH","origType":"LIMIT","time":1596542005019,"updateTime":1596542005050}]"#).unwrap();
             let expected_response : Vec<models::QueryUsersCmForceOrdersResponseInner> = serde_json::from_value(resp_json.clone()).expect("should parse into Vec<models::QueryUsersCmForceOrdersResponseInner>");
@@ -11196,7 +11196,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = QueryUsersUmForceOrdersParams::builder().symbol("symbol_example".to_string()).auto_close_type(QueryUsersUmForceOrdersAutoCloseTypeEnum::LIQUIDATION).start_time(1623319461670).end_time(1641782889000).limit(100).recv_window(5000).build().unwrap();
+            let params = QueryUsersUmForceOrdersParams::builder().symbol("symbol_example".to_string()).auto_close_type(QueryUsersUmForceOrdersAutoCloseTypeEnum::Liquidation).start_time(1623319461670).end_time(1641782889000).limit(100).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"[{"orderId":6071832819,"symbol":"BTCUSDT","status":"FILLED","clientOrderId":"autoclose-1596107620040000020","price":"10871.09","avgPrice":"10913.21000","origQty":"0.001","executedQty":"0.001","cumQuote":"10.91321","timeInForce":"IOC","type":"LIMIT","reduceOnly":false,"side":"SELL","positionSide":"BOTH","origType":"LIMIT","time":1596107620044,"updateTime":1596107620087}]"#).unwrap();
             let expected_response : Vec<models::QueryUsersUmForceOrdersResponseInner> = serde_json::from_value(resp_json.clone()).expect("should parse into Vec<models::QueryUsersUmForceOrdersResponseInner>");

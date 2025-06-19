@@ -95,17 +95,17 @@ impl TradeApiClient {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewOrderSideEnum {
     #[serde(rename = "BUY")]
-    BUY,
+    Buy,
     #[serde(rename = "SELL")]
-    SELL,
+    Sell,
 }
 
 impl NewOrderSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewOrderSideEnum::BUY => "BUY",
-            NewOrderSideEnum::SELL => "SELL",
+            NewOrderSideEnum::Buy => "BUY",
+            NewOrderSideEnum::Sell => "SELL",
         }
     }
 }
@@ -114,14 +114,14 @@ impl NewOrderSideEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewOrderTypeEnum {
     #[serde(rename = "LIMIT")]
-    LIMIT,
+    Limit,
 }
 
 impl NewOrderTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewOrderTypeEnum::LIMIT => "LIMIT",
+            NewOrderTypeEnum::Limit => "LIMIT",
         }
     }
 }
@@ -130,20 +130,20 @@ impl NewOrderTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewOrderTimeInForceEnum {
     #[serde(rename = "GTC")]
-    GTC,
+    Gtc,
     #[serde(rename = "IOC")]
-    IOC,
+    Ioc,
     #[serde(rename = "FOK")]
-    FOK,
+    Fok,
 }
 
 impl NewOrderTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewOrderTimeInForceEnum::GTC => "GTC",
-            NewOrderTimeInForceEnum::IOC => "IOC",
-            NewOrderTimeInForceEnum::FOK => "FOK",
+            NewOrderTimeInForceEnum::Gtc => "GTC",
+            NewOrderTimeInForceEnum::Ioc => "IOC",
+            NewOrderTimeInForceEnum::Fok => "FOK",
         }
     }
 }
@@ -152,17 +152,17 @@ impl NewOrderTimeInForceEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewOrderNewOrderRespTypeEnum {
     #[serde(rename = "ACK")]
-    ACK,
+    Ack,
     #[serde(rename = "RESULT")]
-    RESULT,
+    Result,
 }
 
 impl NewOrderNewOrderRespTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewOrderNewOrderRespTypeEnum::ACK => "ACK",
-            NewOrderNewOrderRespTypeEnum::RESULT => "RESULT",
+            NewOrderNewOrderRespTypeEnum::Ack => "ACK",
+            NewOrderNewOrderRespTypeEnum::Result => "RESULT",
         }
     }
 }
@@ -1914,7 +1914,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = NewOrderParams::builder("symbol_example".to_string(),NewOrderSideEnum::BUY,NewOrderTypeEnum::LIMIT,1.0,).build().unwrap();
+            let params = NewOrderParams::builder("symbol_example".to_string(),NewOrderSideEnum::Buy,NewOrderTypeEnum::Limit,1.0,).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"orderId":4611875134427365000,"symbol":"BTC-200730-9000-C","price":"100","quantity":"1","side":"BUY","type":"LIMIT","createDate":1592465880683,"reduceOnly":false,"postOnly":false,"mmp":false,"executedQty":"0","fee":"0","timeInForce":"GTC","createTime":1592465880683,"updateTime":1566818724722,"status":"ACCEPTED","avgPrice":"0","clientOrderId":"","priceScale":2,"quantityScale":2,"optionSide":"CALL","quoteAsset":"USDT"}"#).unwrap();
             let expected_response : models::NewOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::NewOrderResponse");
@@ -1931,7 +1931,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = NewOrderParams::builder("symbol_example".to_string(),NewOrderSideEnum::BUY,NewOrderTypeEnum::LIMIT,1.0,).price(1.0).time_in_force(NewOrderTimeInForceEnum::GTC).reduce_only(false).post_only(false).new_order_resp_type(NewOrderNewOrderRespTypeEnum::ACK).client_order_id("1".to_string()).is_mmp(true).recv_window(5000).build().unwrap();
+            let params = NewOrderParams::builder("symbol_example".to_string(),NewOrderSideEnum::Buy,NewOrderTypeEnum::Limit,1.0,).price(1.0).time_in_force(NewOrderTimeInForceEnum::Gtc).reduce_only(false).post_only(false).new_order_resp_type(NewOrderNewOrderRespTypeEnum::Ack).client_order_id("1".to_string()).is_mmp(true).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"orderId":4611875134427365000,"symbol":"BTC-200730-9000-C","price":"100","quantity":"1","side":"BUY","type":"LIMIT","createDate":1592465880683,"reduceOnly":false,"postOnly":false,"mmp":false,"executedQty":"0","fee":"0","timeInForce":"GTC","createTime":1592465880683,"updateTime":1566818724722,"status":"ACCEPTED","avgPrice":"0","clientOrderId":"","priceScale":2,"quantityScale":2,"optionSide":"CALL","quoteAsset":"USDT"}"#).unwrap();
             let expected_response : models::NewOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::NewOrderResponse");
@@ -1950,8 +1950,8 @@ mod tests {
 
             let params = NewOrderParams::builder(
                 "symbol_example".to_string(),
-                NewOrderSideEnum::BUY,
-                NewOrderTypeEnum::LIMIT,
+                NewOrderSideEnum::Buy,
+                NewOrderTypeEnum::Limit,
                 1.0,
             )
             .build()

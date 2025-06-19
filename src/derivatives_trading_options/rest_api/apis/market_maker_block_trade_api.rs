@@ -75,17 +75,17 @@ impl MarketMakerBlockTradeApiClient {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewBlockTradeOrderSideEnum {
     #[serde(rename = "BUY")]
-    BUY,
+    Buy,
     #[serde(rename = "SELL")]
-    SELL,
+    Sell,
 }
 
 impl NewBlockTradeOrderSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewBlockTradeOrderSideEnum::BUY => "BUY",
-            NewBlockTradeOrderSideEnum::SELL => "SELL",
+            NewBlockTradeOrderSideEnum::Buy => "BUY",
+            NewBlockTradeOrderSideEnum::Sell => "SELL",
         }
     }
 }
@@ -1109,7 +1109,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockMarketMakerBlockTradeApiClient { force_error: false };
 
-            let params = NewBlockTradeOrderParams::builder("liquidity_example".to_string(),[].to_vec(),"symbol_example".to_string(),NewBlockTradeOrderSideEnum::BUY,1.0,1.0,).build().unwrap();
+            let params = NewBlockTradeOrderParams::builder("liquidity_example".to_string(),[].to_vec(),"symbol_example".to_string(),NewBlockTradeOrderSideEnum::Buy,1.0,1.0,).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"blockTradeSettlementKey":"3668822b8-1baa-6a2f-adb8-d3de6289b361","expireTime":1730171888109,"liquidity":"TAKER","status":"RECEIVED","legs":[{"symbol":"BNB-241101-700-C","side":"BUY","quantity":"1.2","price":"2.8"}]}"#).unwrap();
             let expected_response : models::NewBlockTradeOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::NewBlockTradeOrderResponse");
@@ -1126,7 +1126,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockMarketMakerBlockTradeApiClient { force_error: false };
 
-            let params = NewBlockTradeOrderParams::builder("liquidity_example".to_string(),[].to_vec(),"symbol_example".to_string(),NewBlockTradeOrderSideEnum::BUY,1.0,1.0,).recv_window(5000).build().unwrap();
+            let params = NewBlockTradeOrderParams::builder("liquidity_example".to_string(),[].to_vec(),"symbol_example".to_string(),NewBlockTradeOrderSideEnum::Buy,1.0,1.0,).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"blockTradeSettlementKey":"3668822b8-1baa-6a2f-adb8-d3de6289b361","expireTime":1730171888109,"liquidity":"TAKER","status":"RECEIVED","legs":[{"symbol":"BNB-241101-700-C","side":"BUY","quantity":"1.2","price":"2.8"}]}"#).unwrap();
             let expected_response : models::NewBlockTradeOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::NewBlockTradeOrderResponse");
@@ -1147,7 +1147,7 @@ mod tests {
                 "liquidity_example".to_string(),
                 [].to_vec(),
                 "symbol_example".to_string(),
-                NewBlockTradeOrderSideEnum::BUY,
+                NewBlockTradeOrderSideEnum::Buy,
                 1.0,
                 1.0,
             )

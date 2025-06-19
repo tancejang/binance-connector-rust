@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.0.0 - 2025-06-19
+
+### Changed (2)
+
+- Added `User-Agent` to `WebSocket` requests and distinguish them per module.
+- Renamed enums following rust naming conventions.
+
 ## 2.0.1 - 2025-06-18
 
 ### Changed (1)

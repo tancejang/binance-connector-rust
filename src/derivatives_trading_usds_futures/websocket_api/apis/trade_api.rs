@@ -68,17 +68,17 @@ impl TradeApiClient {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum ModifyOrderSideEnum {
     #[serde(rename = "BUY")]
-    BUY,
+    Buy,
     #[serde(rename = "SELL")]
-    SELL,
+    Sell,
 }
 
 impl ModifyOrderSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            ModifyOrderSideEnum::BUY => "BUY",
-            ModifyOrderSideEnum::SELL => "SELL",
+            ModifyOrderSideEnum::Buy => "BUY",
+            ModifyOrderSideEnum::Sell => "SELL",
         }
     }
 }
@@ -87,38 +87,38 @@ impl ModifyOrderSideEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum ModifyOrderPriceMatchEnum {
     #[serde(rename = "NONE")]
-    NONE,
+    None,
     #[serde(rename = "OPPONENT")]
-    OPPONENT,
+    Opponent,
     #[serde(rename = "OPPONENT_5")]
-    OPPONENT_5,
+    Opponent5,
     #[serde(rename = "OPPONENT_10")]
-    OPPONENT_10,
+    Opponent10,
     #[serde(rename = "OPPONENT_20")]
-    OPPONENT_20,
+    Opponent20,
     #[serde(rename = "QUEUE")]
-    QUEUE,
+    Queue,
     #[serde(rename = "QUEUE_5")]
-    QUEUE_5,
+    Queue5,
     #[serde(rename = "QUEUE_10")]
-    QUEUE_10,
+    Queue10,
     #[serde(rename = "QUEUE_20")]
-    QUEUE_20,
+    Queue20,
 }
 
 impl ModifyOrderPriceMatchEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            ModifyOrderPriceMatchEnum::NONE => "NONE",
-            ModifyOrderPriceMatchEnum::OPPONENT => "OPPONENT",
-            ModifyOrderPriceMatchEnum::OPPONENT_5 => "OPPONENT_5",
-            ModifyOrderPriceMatchEnum::OPPONENT_10 => "OPPONENT_10",
-            ModifyOrderPriceMatchEnum::OPPONENT_20 => "OPPONENT_20",
-            ModifyOrderPriceMatchEnum::QUEUE => "QUEUE",
-            ModifyOrderPriceMatchEnum::QUEUE_5 => "QUEUE_5",
-            ModifyOrderPriceMatchEnum::QUEUE_10 => "QUEUE_10",
-            ModifyOrderPriceMatchEnum::QUEUE_20 => "QUEUE_20",
+            ModifyOrderPriceMatchEnum::None => "NONE",
+            ModifyOrderPriceMatchEnum::Opponent => "OPPONENT",
+            ModifyOrderPriceMatchEnum::Opponent5 => "OPPONENT_5",
+            ModifyOrderPriceMatchEnum::Opponent10 => "OPPONENT_10",
+            ModifyOrderPriceMatchEnum::Opponent20 => "OPPONENT_20",
+            ModifyOrderPriceMatchEnum::Queue => "QUEUE",
+            ModifyOrderPriceMatchEnum::Queue5 => "QUEUE_5",
+            ModifyOrderPriceMatchEnum::Queue10 => "QUEUE_10",
+            ModifyOrderPriceMatchEnum::Queue20 => "QUEUE_20",
         }
     }
 }
@@ -127,17 +127,17 @@ impl ModifyOrderPriceMatchEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewOrderSideEnum {
     #[serde(rename = "BUY")]
-    BUY,
+    Buy,
     #[serde(rename = "SELL")]
-    SELL,
+    Sell,
 }
 
 impl NewOrderSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewOrderSideEnum::BUY => "BUY",
-            NewOrderSideEnum::SELL => "SELL",
+            NewOrderSideEnum::Buy => "BUY",
+            NewOrderSideEnum::Sell => "SELL",
         }
     }
 }
@@ -146,20 +146,20 @@ impl NewOrderSideEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewOrderPositionSideEnum {
     #[serde(rename = "BOTH")]
-    BOTH,
+    Both,
     #[serde(rename = "LONG")]
-    LONG,
+    Long,
     #[serde(rename = "SHORT")]
-    SHORT,
+    Short,
 }
 
 impl NewOrderPositionSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewOrderPositionSideEnum::BOTH => "BOTH",
-            NewOrderPositionSideEnum::LONG => "LONG",
-            NewOrderPositionSideEnum::SHORT => "SHORT",
+            NewOrderPositionSideEnum::Both => "BOTH",
+            NewOrderPositionSideEnum::Long => "LONG",
+            NewOrderPositionSideEnum::Short => "SHORT",
         }
     }
 }
@@ -168,26 +168,26 @@ impl NewOrderPositionSideEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewOrderTimeInForceEnum {
     #[serde(rename = "GTC")]
-    GTC,
+    Gtc,
     #[serde(rename = "IOC")]
-    IOC,
+    Ioc,
     #[serde(rename = "FOK")]
-    FOK,
+    Fok,
     #[serde(rename = "GTX")]
-    GTX,
+    Gtx,
     #[serde(rename = "GTD")]
-    GTD,
+    Gtd,
 }
 
 impl NewOrderTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewOrderTimeInForceEnum::GTC => "GTC",
-            NewOrderTimeInForceEnum::IOC => "IOC",
-            NewOrderTimeInForceEnum::FOK => "FOK",
-            NewOrderTimeInForceEnum::GTX => "GTX",
-            NewOrderTimeInForceEnum::GTD => "GTD",
+            NewOrderTimeInForceEnum::Gtc => "GTC",
+            NewOrderTimeInForceEnum::Ioc => "IOC",
+            NewOrderTimeInForceEnum::Fok => "FOK",
+            NewOrderTimeInForceEnum::Gtx => "GTX",
+            NewOrderTimeInForceEnum::Gtd => "GTD",
         }
     }
 }
@@ -196,17 +196,17 @@ impl NewOrderTimeInForceEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewOrderWorkingTypeEnum {
     #[serde(rename = "MARK_PRICE")]
-    MARK_PRICE,
+    MarkPrice,
     #[serde(rename = "CONTRACT_PRICE")]
-    CONTRACT_PRICE,
+    ContractPrice,
 }
 
 impl NewOrderWorkingTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewOrderWorkingTypeEnum::MARK_PRICE => "MARK_PRICE",
-            NewOrderWorkingTypeEnum::CONTRACT_PRICE => "CONTRACT_PRICE",
+            NewOrderWorkingTypeEnum::MarkPrice => "MARK_PRICE",
+            NewOrderWorkingTypeEnum::ContractPrice => "CONTRACT_PRICE",
         }
     }
 }
@@ -215,17 +215,17 @@ impl NewOrderWorkingTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewOrderNewOrderRespTypeEnum {
     #[serde(rename = "ACK")]
-    ACK,
+    Ack,
     #[serde(rename = "RESULT")]
-    RESULT,
+    Result,
 }
 
 impl NewOrderNewOrderRespTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewOrderNewOrderRespTypeEnum::ACK => "ACK",
-            NewOrderNewOrderRespTypeEnum::RESULT => "RESULT",
+            NewOrderNewOrderRespTypeEnum::Ack => "ACK",
+            NewOrderNewOrderRespTypeEnum::Result => "RESULT",
         }
     }
 }
@@ -234,38 +234,38 @@ impl NewOrderNewOrderRespTypeEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewOrderPriceMatchEnum {
     #[serde(rename = "NONE")]
-    NONE,
+    None,
     #[serde(rename = "OPPONENT")]
-    OPPONENT,
+    Opponent,
     #[serde(rename = "OPPONENT_5")]
-    OPPONENT_5,
+    Opponent5,
     #[serde(rename = "OPPONENT_10")]
-    OPPONENT_10,
+    Opponent10,
     #[serde(rename = "OPPONENT_20")]
-    OPPONENT_20,
+    Opponent20,
     #[serde(rename = "QUEUE")]
-    QUEUE,
+    Queue,
     #[serde(rename = "QUEUE_5")]
-    QUEUE_5,
+    Queue5,
     #[serde(rename = "QUEUE_10")]
-    QUEUE_10,
+    Queue10,
     #[serde(rename = "QUEUE_20")]
-    QUEUE_20,
+    Queue20,
 }
 
 impl NewOrderPriceMatchEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewOrderPriceMatchEnum::NONE => "NONE",
-            NewOrderPriceMatchEnum::OPPONENT => "OPPONENT",
-            NewOrderPriceMatchEnum::OPPONENT_5 => "OPPONENT_5",
-            NewOrderPriceMatchEnum::OPPONENT_10 => "OPPONENT_10",
-            NewOrderPriceMatchEnum::OPPONENT_20 => "OPPONENT_20",
-            NewOrderPriceMatchEnum::QUEUE => "QUEUE",
-            NewOrderPriceMatchEnum::QUEUE_5 => "QUEUE_5",
-            NewOrderPriceMatchEnum::QUEUE_10 => "QUEUE_10",
-            NewOrderPriceMatchEnum::QUEUE_20 => "QUEUE_20",
+            NewOrderPriceMatchEnum::None => "NONE",
+            NewOrderPriceMatchEnum::Opponent => "OPPONENT",
+            NewOrderPriceMatchEnum::Opponent5 => "OPPONENT_5",
+            NewOrderPriceMatchEnum::Opponent10 => "OPPONENT_10",
+            NewOrderPriceMatchEnum::Opponent20 => "OPPONENT_20",
+            NewOrderPriceMatchEnum::Queue => "QUEUE",
+            NewOrderPriceMatchEnum::Queue5 => "QUEUE_5",
+            NewOrderPriceMatchEnum::Queue10 => "QUEUE_10",
+            NewOrderPriceMatchEnum::Queue20 => "QUEUE_20",
         }
     }
 }
@@ -274,20 +274,20 @@ impl NewOrderPriceMatchEnum {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum NewOrderSelfTradePreventionModeEnum {
     #[serde(rename = "EXPIRE_TAKER")]
-    EXPIRE_TAKER,
+    ExpireTaker,
     #[serde(rename = "EXPIRE_BOTH")]
-    EXPIRE_BOTH,
+    ExpireBoth,
     #[serde(rename = "EXPIRE_MAKER")]
-    EXPIRE_MAKER,
+    ExpireMaker,
 }
 
 impl NewOrderSelfTradePreventionModeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewOrderSelfTradePreventionModeEnum::EXPIRE_TAKER => "EXPIRE_TAKER",
-            NewOrderSelfTradePreventionModeEnum::EXPIRE_BOTH => "EXPIRE_BOTH",
-            NewOrderSelfTradePreventionModeEnum::EXPIRE_MAKER => "EXPIRE_MAKER",
+            NewOrderSelfTradePreventionModeEnum::ExpireTaker => "EXPIRE_TAKER",
+            NewOrderSelfTradePreventionModeEnum::ExpireBoth => "EXPIRE_BOTH",
+            NewOrderSelfTradePreventionModeEnum::ExpireMaker => "EXPIRE_MAKER",
         }
     }
 }
@@ -1053,7 +1053,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.expect("send should occur").expect("channel closed");
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/order.cancel".trim_start_matches('/'));
@@ -1096,7 +1096,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.unwrap().unwrap();
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap().to_string();
 
@@ -1151,9 +1151,8 @@ mod tests {
                 .await
                 .expect("send should occur")
                 .expect("channel closed");
-            let text = match sent {
-                Message::Text(t) => t,
-                _ => panic!("expected Message Text"),
+            let Message::Text(text) = sent else {
+                panic!("expected Message Text")
             };
 
             let _: Value = serde_json::from_str(&text).unwrap();
@@ -1179,12 +1178,12 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = spawn(async move {
-                let params = ModifyOrderParams::builder("symbol_example".to_string(),ModifyOrderSideEnum::BUY,1.0,1.0,).build().unwrap();
+                let params = ModifyOrderParams::builder("symbol_example".to_string(),ModifyOrderSideEnum::Buy,1.0,1.0,).build().unwrap();
                 client.modify_order(params).await
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.expect("send should occur").expect("channel closed");
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/order.modify".trim_start_matches('/'));
@@ -1222,12 +1221,12 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = tokio::spawn(async move {
-                let params = ModifyOrderParams::builder("symbol_example".to_string(),ModifyOrderSideEnum::BUY,1.0,1.0,).build().unwrap();
+                let params = ModifyOrderParams::builder("symbol_example".to_string(),ModifyOrderSideEnum::Buy,1.0,1.0,).build().unwrap();
                 client.modify_order(params).await
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.unwrap().unwrap();
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap().to_string();
 
@@ -1274,7 +1273,7 @@ mod tests {
             let handle = spawn(async move {
                 let params = ModifyOrderParams::builder(
                     "symbol_example".to_string(),
-                    ModifyOrderSideEnum::BUY,
+                    ModifyOrderSideEnum::Buy,
                     1.0,
                     1.0,
                 )
@@ -1287,9 +1286,8 @@ mod tests {
                 .await
                 .expect("send should occur")
                 .expect("channel closed");
-            let text = match sent {
-                Message::Text(t) => t,
-                _ => panic!("expected Message Text"),
+            let Message::Text(text) = sent else {
+                panic!("expected Message Text")
             };
 
             let _: Value = serde_json::from_str(&text).unwrap();
@@ -1315,12 +1313,12 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = spawn(async move {
-                let params = NewOrderParams::builder("symbol_example".to_string(),NewOrderSideEnum::BUY,"r#type_example".to_string(),).build().unwrap();
+                let params = NewOrderParams::builder("symbol_example".to_string(),NewOrderSideEnum::Buy,"r#type_example".to_string(),).build().unwrap();
                 client.new_order(params).await
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.expect("send should occur").expect("channel closed");
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/order.place".trim_start_matches('/'));
@@ -1358,12 +1356,12 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = tokio::spawn(async move {
-                let params = NewOrderParams::builder("symbol_example".to_string(),NewOrderSideEnum::BUY,"r#type_example".to_string(),).build().unwrap();
+                let params = NewOrderParams::builder("symbol_example".to_string(),NewOrderSideEnum::Buy,"r#type_example".to_string(),).build().unwrap();
                 client.new_order(params).await
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.unwrap().unwrap();
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap().to_string();
 
@@ -1410,7 +1408,7 @@ mod tests {
             let handle = spawn(async move {
                 let params = NewOrderParams::builder(
                     "symbol_example".to_string(),
-                    NewOrderSideEnum::BUY,
+                    NewOrderSideEnum::Buy,
                     "r#type_example".to_string(),
                 )
                 .build()
@@ -1422,9 +1420,8 @@ mod tests {
                 .await
                 .expect("send should occur")
                 .expect("channel closed");
-            let text = match sent {
-                Message::Text(t) => t,
-                _ => panic!("expected Message Text"),
+            let Message::Text(text) = sent else {
+                panic!("expected Message Text")
             };
 
             let _: Value = serde_json::from_str(&text).unwrap();
@@ -1455,7 +1452,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.expect("send should occur").expect("channel closed");
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/account.position".trim_start_matches('/'));
@@ -1498,7 +1495,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.unwrap().unwrap();
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap().to_string();
 
@@ -1551,9 +1548,8 @@ mod tests {
                 .await
                 .expect("send should occur")
                 .expect("channel closed");
-            let text = match sent {
-                Message::Text(t) => t,
-                _ => panic!("expected Message Text"),
+            let Message::Text(text) = sent else {
+                panic!("expected Message Text")
             };
 
             let _: Value = serde_json::from_str(&text).unwrap();
@@ -1584,7 +1580,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.expect("send should occur").expect("channel closed");
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/v2/account.position".trim_start_matches('/'));
@@ -1627,7 +1623,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.unwrap().unwrap();
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap().to_string();
 
@@ -1680,9 +1676,8 @@ mod tests {
                 .await
                 .expect("send should occur")
                 .expect("channel closed");
-            let text = match sent {
-                Message::Text(t) => t,
-                _ => panic!("expected Message Text"),
+            let Message::Text(text) = sent else {
+                panic!("expected Message Text")
             };
 
             let _: Value = serde_json::from_str(&text).unwrap();
@@ -1713,7 +1708,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.expect("send should occur").expect("channel closed");
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/order.status".trim_start_matches('/'));
@@ -1756,7 +1751,7 @@ mod tests {
             });
 
             let sent = timeout(Duration::from_secs(1), rx.recv()).await.unwrap().unwrap();
-            let text = match sent { Message::Text(t) => t, _ => panic!() };
+            let Message::Text(text) = sent else { panic!() };
             let v: Value = serde_json::from_str(&text).unwrap();
             let id = v["id"].as_str().unwrap().to_string();
 
@@ -1811,9 +1806,8 @@ mod tests {
                 .await
                 .expect("send should occur")
                 .expect("channel closed");
-            let text = match sent {
-                Message::Text(t) => t,
-                _ => panic!("expected Message Text"),
+            let Message::Text(text) = sent else {
+                panic!("expected Message Text")
             };
 
             let _: Value = serde_json::from_str(&text).unwrap();
