@@ -20,6 +20,7 @@
 use anyhow::Context;
 use async_trait::async_trait;
 use derive_builder::Builder;
+use rust_decimal::{Decimal, prelude::FromPrimitive};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::{collections::BTreeMap, sync::Arc};
@@ -130,9 +131,6 @@ pub struct ExchangeInfoParams {
 impl ExchangeInfoParams {
     /// Create a builder for [`exchange_info`].
     ///
-    /// Required parameters:
-    ///
-    ///
     #[must_use]
     pub fn builder() -> ExchangeInfoParamsBuilder {
         ExchangeInfoParamsBuilder::default()
@@ -155,9 +153,6 @@ pub struct PingParams {
 impl PingParams {
     /// Create a builder for [`ping`].
     ///
-    /// Required parameters:
-    ///
-    ///
     #[must_use]
     pub fn builder() -> PingParamsBuilder {
         PingParamsBuilder::default()
@@ -179,9 +174,6 @@ pub struct TimeParams {
 
 impl TimeParams {
     /// Create a builder for [`time`].
-    ///
-    /// Required parameters:
-    ///
     ///
     #[must_use]
     pub fn builder() -> TimeParamsBuilder {
@@ -218,10 +210,10 @@ impl GeneralApi for GeneralApiClient {
             payload.insert("permissions".to_string(), serde_json::json!(value));
         }
         if let Some(value) = show_permission_sets {
-            payload.insert("show_permission_sets".to_string(), serde_json::json!(value));
+            payload.insert("showPermissionSets".to_string(), serde_json::json!(value));
         }
         if let Some(value) = symbol_status {
-            payload.insert("symbol_status".to_string(), serde_json::json!(value));
+            payload.insert("symbolStatus".to_string(), serde_json::json!(value));
         }
         let payload = remove_empty_value(payload);
 

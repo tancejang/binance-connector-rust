@@ -15,6 +15,7 @@
 use anyhow::Context;
 use async_trait::async_trait;
 use derive_builder::Builder;
+use rust_decimal::{Decimal, prelude::FromPrimitive};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::{collections::BTreeMap, sync::Arc};
@@ -69,9 +70,6 @@ pub struct CloseUserDataStreamParams {
 impl CloseUserDataStreamParams {
     /// Create a builder for [`close_user_data_stream`].
     ///
-    /// Required parameters:
-    ///
-    ///
     #[must_use]
     pub fn builder() -> CloseUserDataStreamParamsBuilder {
         CloseUserDataStreamParamsBuilder::default()
@@ -94,9 +92,6 @@ pub struct KeepaliveUserDataStreamParams {
 impl KeepaliveUserDataStreamParams {
     /// Create a builder for [`keepalive_user_data_stream`].
     ///
-    /// Required parameters:
-    ///
-    ///
     #[must_use]
     pub fn builder() -> KeepaliveUserDataStreamParamsBuilder {
         KeepaliveUserDataStreamParamsBuilder::default()
@@ -118,9 +113,6 @@ pub struct StartUserDataStreamParams {
 
 impl StartUserDataStreamParams {
     /// Create a builder for [`start_user_data_stream`].
-    ///
-    /// Required parameters:
-    ///
     ///
     #[must_use]
     pub fn builder() -> StartUserDataStreamParamsBuilder {

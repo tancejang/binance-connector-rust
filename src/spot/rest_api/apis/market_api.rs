@@ -20,6 +20,7 @@
 use async_trait::async_trait;
 use derive_builder::Builder;
 use reqwest;
+use rust_decimal::{Decimal, prelude::FromPrimitive};
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::collections::BTreeMap;
@@ -817,9 +818,6 @@ pub struct TickerParams {
 impl TickerParams {
     /// Create a builder for [`ticker`].
     ///
-    /// Required parameters:
-    ///
-    ///
     #[must_use]
     pub fn builder() -> TickerParamsBuilder {
         TickerParamsBuilder::default()
@@ -853,9 +851,6 @@ pub struct Ticker24hrParams {
 impl Ticker24hrParams {
     /// Create a builder for [`ticker24hr`].
     ///
-    /// Required parameters:
-    ///
-    ///
     #[must_use]
     pub fn builder() -> Ticker24hrParamsBuilder {
         Ticker24hrParamsBuilder::default()
@@ -883,9 +878,6 @@ pub struct TickerBookTickerParams {
 impl TickerBookTickerParams {
     /// Create a builder for [`ticker_book_ticker`].
     ///
-    /// Required parameters:
-    ///
-    ///
     #[must_use]
     pub fn builder() -> TickerBookTickerParamsBuilder {
         TickerBookTickerParamsBuilder::default()
@@ -912,9 +904,6 @@ pub struct TickerPriceParams {
 
 impl TickerPriceParams {
     /// Create a builder for [`ticker_price`].
-    ///
-    /// Required parameters:
-    ///
     ///
     #[must_use]
     pub fn builder() -> TickerPriceParamsBuilder {
@@ -953,9 +942,6 @@ pub struct TickerTradingDayParams {
 
 impl TickerTradingDayParams {
     /// Create a builder for [`ticker_trading_day`].
-    ///
-    /// Required parameters:
-    ///
     ///
     #[must_use]
     pub fn builder() -> TickerTradingDayParamsBuilder {
@@ -1038,15 +1024,15 @@ impl MarketApi for MarketApiClient {
         query_params.insert("symbol".to_string(), json!(symbol));
 
         if let Some(rw) = from_id {
-            query_params.insert("from_id".to_string(), json!(rw));
+            query_params.insert("fromId".to_string(), json!(rw));
         }
 
         if let Some(rw) = start_time {
-            query_params.insert("start_time".to_string(), json!(rw));
+            query_params.insert("startTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = end_time {
-            query_params.insert("end_time".to_string(), json!(rw));
+            query_params.insert("endTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = limit {
@@ -1170,7 +1156,7 @@ impl MarketApi for MarketApiClient {
         }
 
         if let Some(rw) = from_id {
-            query_params.insert("from_id".to_string(), json!(rw));
+            query_params.insert("fromId".to_string(), json!(rw));
         }
 
         send_request::<Vec<models::HistoricalTradesResponseInner>>(
@@ -1208,15 +1194,15 @@ impl MarketApi for MarketApiClient {
         query_params.insert("interval".to_string(), json!(interval));
 
         if let Some(rw) = start_time {
-            query_params.insert("start_time".to_string(), json!(rw));
+            query_params.insert("startTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = end_time {
-            query_params.insert("end_time".to_string(), json!(rw));
+            query_params.insert("endTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = time_zone {
-            query_params.insert("time_zone".to_string(), json!(rw));
+            query_params.insert("timeZone".to_string(), json!(rw));
         }
 
         if let Some(rw) = limit {
@@ -1260,11 +1246,11 @@ impl MarketApi for MarketApiClient {
         }
 
         if let Some(rw) = window_size {
-            query_params.insert("window_size".to_string(), json!(rw));
+            query_params.insert("windowSize".to_string(), json!(rw));
         }
 
         if let Some(rw) = r#type {
-            query_params.insert("r#type".to_string(), json!(rw));
+            query_params.insert("type".to_string(), json!(rw));
         }
 
         send_request::<models::TickerResponse>(
@@ -1303,7 +1289,7 @@ impl MarketApi for MarketApiClient {
         }
 
         if let Some(rw) = r#type {
-            query_params.insert("r#type".to_string(), json!(rw));
+            query_params.insert("type".to_string(), json!(rw));
         }
 
         send_request::<models::Ticker24hrResponse>(
@@ -1405,11 +1391,11 @@ impl MarketApi for MarketApiClient {
         }
 
         if let Some(rw) = time_zone {
-            query_params.insert("time_zone".to_string(), json!(rw));
+            query_params.insert("timeZone".to_string(), json!(rw));
         }
 
         if let Some(rw) = r#type {
-            query_params.insert("r#type".to_string(), json!(rw));
+            query_params.insert("type".to_string(), json!(rw));
         }
 
         send_request::<models::TickerTradingDayResponse>(
@@ -1447,15 +1433,15 @@ impl MarketApi for MarketApiClient {
         query_params.insert("interval".to_string(), json!(interval));
 
         if let Some(rw) = start_time {
-            query_params.insert("start_time".to_string(), json!(rw));
+            query_params.insert("startTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = end_time {
-            query_params.insert("end_time".to_string(), json!(rw));
+            query_params.insert("endTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = time_zone {
-            query_params.insert("time_zone".to_string(), json!(rw));
+            query_params.insert("timeZone".to_string(), json!(rw));
         }
 
         if let Some(rw) = limit {

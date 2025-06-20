@@ -20,6 +20,7 @@
 use anyhow::Context;
 use async_trait::async_trait;
 use derive_builder::Builder;
+use rust_decimal::{Decimal, prelude::FromPrimitive};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::{collections::BTreeMap, sync::Arc};
@@ -720,9 +721,6 @@ pub struct TickerParams {
 impl TickerParams {
     /// Create a builder for [`ticker`].
     ///
-    /// Required parameters:
-    ///
-    ///
     #[must_use]
     pub fn builder() -> TickerParamsBuilder {
         TickerParamsBuilder::default()
@@ -761,9 +759,6 @@ pub struct Ticker24hrParams {
 impl Ticker24hrParams {
     /// Create a builder for [`ticker24hr`].
     ///
-    /// Required parameters:
-    ///
-    ///
     #[must_use]
     pub fn builder() -> Ticker24hrParamsBuilder {
         Ticker24hrParamsBuilder::default()
@@ -796,9 +791,6 @@ pub struct TickerBookParams {
 impl TickerBookParams {
     /// Create a builder for [`ticker_book`].
     ///
-    /// Required parameters:
-    ///
-    ///
     #[must_use]
     pub fn builder() -> TickerBookParamsBuilder {
         TickerBookParamsBuilder::default()
@@ -830,9 +822,6 @@ pub struct TickerPriceParams {
 
 impl TickerPriceParams {
     /// Create a builder for [`ticker_price`].
-    ///
-    /// Required parameters:
-    ///
     ///
     #[must_use]
     pub fn builder() -> TickerPriceParamsBuilder {
@@ -876,9 +865,6 @@ pub struct TickerTradingDayParams {
 
 impl TickerTradingDayParams {
     /// Create a builder for [`ticker_trading_day`].
-    ///
-    /// Required parameters:
-    ///
     ///
     #[must_use]
     pub fn builder() -> TickerTradingDayParamsBuilder {
@@ -1091,6 +1077,7 @@ impl MarketApi for MarketApiClient {
         let AvgPriceParams { symbol, id } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
+
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
@@ -1117,6 +1104,7 @@ impl MarketApi for MarketApiClient {
         let DepthParams { symbol, id, limit } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
+
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
@@ -1154,19 +1142,21 @@ impl MarketApi for MarketApiClient {
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
+
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
+
         payload.insert("interval".to_string(), serde_json::json!(interval));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
         }
         if let Some(value) = start_time {
-            payload.insert("start_time".to_string(), serde_json::json!(value));
+            payload.insert("startTime".to_string(), serde_json::json!(value));
         }
         if let Some(value) = end_time {
-            payload.insert("end_time".to_string(), serde_json::json!(value));
+            payload.insert("endTime".to_string(), serde_json::json!(value));
         }
         if let Some(value) = time_zone {
-            payload.insert("time_zone".to_string(), serde_json::json!(value));
+            payload.insert("timeZone".to_string(), serde_json::json!(value));
         }
         if let Some(value) = limit {
             payload.insert("limit".to_string(), serde_json::json!(value));
@@ -1209,10 +1199,10 @@ impl MarketApi for MarketApiClient {
             payload.insert("symbols".to_string(), serde_json::json!(value));
         }
         if let Some(value) = r#type {
-            payload.insert("r#type".to_string(), serde_json::json!(value));
+            payload.insert("type".to_string(), serde_json::json!(value));
         }
         if let Some(value) = window_size {
-            payload.insert("window_size".to_string(), serde_json::json!(value));
+            payload.insert("windowSize".to_string(), serde_json::json!(value));
         }
         let payload = remove_empty_value(payload);
 
@@ -1251,7 +1241,7 @@ impl MarketApi for MarketApiClient {
             payload.insert("symbols".to_string(), serde_json::json!(value));
         }
         if let Some(value) = r#type {
-            payload.insert("r#type".to_string(), serde_json::json!(value));
+            payload.insert("type".to_string(), serde_json::json!(value));
         }
         let payload = remove_empty_value(payload);
 
@@ -1362,10 +1352,10 @@ impl MarketApi for MarketApiClient {
             payload.insert("symbols".to_string(), serde_json::json!(value));
         }
         if let Some(value) = time_zone {
-            payload.insert("time_zone".to_string(), serde_json::json!(value));
+            payload.insert("timeZone".to_string(), serde_json::json!(value));
         }
         if let Some(value) = r#type {
-            payload.insert("r#type".to_string(), serde_json::json!(value));
+            payload.insert("type".to_string(), serde_json::json!(value));
         }
         let payload = remove_empty_value(payload);
 
@@ -1396,18 +1386,19 @@ impl MarketApi for MarketApiClient {
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
+
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
         }
         if let Some(value) = from_id {
-            payload.insert("from_id".to_string(), serde_json::json!(value));
+            payload.insert("fromId".to_string(), serde_json::json!(value));
         }
         if let Some(value) = start_time {
-            payload.insert("start_time".to_string(), serde_json::json!(value));
+            payload.insert("startTime".to_string(), serde_json::json!(value));
         }
         if let Some(value) = end_time {
-            payload.insert("end_time".to_string(), serde_json::json!(value));
+            payload.insert("endTime".to_string(), serde_json::json!(value));
         }
         if let Some(value) = limit {
             payload.insert("limit".to_string(), serde_json::json!(value));
@@ -1440,12 +1431,13 @@ impl MarketApi for MarketApiClient {
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
+
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
         }
         if let Some(value) = from_id {
-            payload.insert("from_id".to_string(), serde_json::json!(value));
+            payload.insert("fromId".to_string(), serde_json::json!(value));
         }
         if let Some(value) = limit {
             payload.insert("limit".to_string(), serde_json::json!(value));
@@ -1472,6 +1464,7 @@ impl MarketApi for MarketApiClient {
         let TradesRecentParams { symbol, id, limit } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
+
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
@@ -1509,19 +1502,21 @@ impl MarketApi for MarketApiClient {
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
+
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
+
         payload.insert("interval".to_string(), serde_json::json!(interval));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
         }
         if let Some(value) = start_time {
-            payload.insert("start_time".to_string(), serde_json::json!(value));
+            payload.insert("startTime".to_string(), serde_json::json!(value));
         }
         if let Some(value) = end_time {
-            payload.insert("end_time".to_string(), serde_json::json!(value));
+            payload.insert("endTime".to_string(), serde_json::json!(value));
         }
         if let Some(value) = time_zone {
-            payload.insert("time_zone".to_string(), serde_json::json!(value));
+            payload.insert("timeZone".to_string(), serde_json::json!(value));
         }
         if let Some(value) = limit {
             payload.insert("limit".to_string(), serde_json::json!(value));

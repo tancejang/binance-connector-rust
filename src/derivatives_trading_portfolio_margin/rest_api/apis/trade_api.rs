@@ -15,6 +15,7 @@
 use async_trait::async_trait;
 use derive_builder::Builder;
 use reqwest;
+use rust_decimal::{Decimal, prelude::FromPrimitive};
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::collections::BTreeMap;
@@ -1731,9 +1732,6 @@ pub struct CmAccountTradeListParams {
 impl CmAccountTradeListParams {
     /// Create a builder for [`cm_account_trade_list`].
     ///
-    /// Required parameters:
-    ///
-    ///
     #[must_use]
     pub fn builder() -> CmAccountTradeListParamsBuilder {
         CmAccountTradeListParamsBuilder::default()
@@ -1763,9 +1761,6 @@ pub struct CmPositionAdlQuantileEstimationParams {
 impl CmPositionAdlQuantileEstimationParams {
     /// Create a builder for [`cm_position_adl_quantile_estimation`].
     ///
-    /// Required parameters:
-    ///
-    ///
     #[must_use]
     pub fn builder() -> CmPositionAdlQuantileEstimationParamsBuilder {
         CmPositionAdlQuantileEstimationParamsBuilder::default()
@@ -1788,9 +1783,6 @@ pub struct GetUmFuturesBnbBurnStatusParams {
 
 impl GetUmFuturesBnbBurnStatusParams {
     /// Create a builder for [`get_um_futures_bnb_burn_status`].
-    ///
-    /// Required parameters:
-    ///
     ///
     #[must_use]
     pub fn builder() -> GetUmFuturesBnbBurnStatusParamsBuilder {
@@ -2858,9 +2850,6 @@ pub struct QueryAllCmConditionalOrdersParams {
 impl QueryAllCmConditionalOrdersParams {
     /// Create a builder for [`query_all_cm_conditional_orders`].
     ///
-    /// Required parameters:
-    ///
-    ///
     #[must_use]
     pub fn builder() -> QueryAllCmConditionalOrdersParamsBuilder {
         QueryAllCmConditionalOrdersParamsBuilder::default()
@@ -2950,9 +2939,6 @@ pub struct QueryAllCurrentCmOpenConditionalOrdersParams {
 impl QueryAllCurrentCmOpenConditionalOrdersParams {
     /// Create a builder for [`query_all_current_cm_open_conditional_orders`].
     ///
-    /// Required parameters:
-    ///
-    ///
     #[must_use]
     pub fn builder() -> QueryAllCurrentCmOpenConditionalOrdersParamsBuilder {
         QueryAllCurrentCmOpenConditionalOrdersParamsBuilder::default()
@@ -2988,9 +2974,6 @@ pub struct QueryAllCurrentCmOpenOrdersParams {
 impl QueryAllCurrentCmOpenOrdersParams {
     /// Create a builder for [`query_all_current_cm_open_orders`].
     ///
-    /// Required parameters:
-    ///
-    ///
     #[must_use]
     pub fn builder() -> QueryAllCurrentCmOpenOrdersParamsBuilder {
         QueryAllCurrentCmOpenOrdersParamsBuilder::default()
@@ -3020,9 +3003,6 @@ pub struct QueryAllCurrentUmOpenConditionalOrdersParams {
 impl QueryAllCurrentUmOpenConditionalOrdersParams {
     /// Create a builder for [`query_all_current_um_open_conditional_orders`].
     ///
-    /// Required parameters:
-    ///
-    ///
     #[must_use]
     pub fn builder() -> QueryAllCurrentUmOpenConditionalOrdersParamsBuilder {
         QueryAllCurrentUmOpenConditionalOrdersParamsBuilder::default()
@@ -3051,9 +3031,6 @@ pub struct QueryAllCurrentUmOpenOrdersParams {
 
 impl QueryAllCurrentUmOpenOrdersParams {
     /// Create a builder for [`query_all_current_um_open_orders`].
-    ///
-    /// Required parameters:
-    ///
     ///
     #[must_use]
     pub fn builder() -> QueryAllCurrentUmOpenOrdersParamsBuilder {
@@ -3158,9 +3135,6 @@ pub struct QueryAllUmConditionalOrdersParams {
 
 impl QueryAllUmConditionalOrdersParams {
     /// Create a builder for [`query_all_um_conditional_orders`].
-    ///
-    /// Required parameters:
-    ///
     ///
     #[must_use]
     pub fn builder() -> QueryAllUmConditionalOrdersParamsBuilder {
@@ -3667,9 +3641,6 @@ pub struct QueryMarginAccountsAllOcoParams {
 impl QueryMarginAccountsAllOcoParams {
     /// Create a builder for [`query_margin_accounts_all_oco`].
     ///
-    /// Required parameters:
-    ///
-    ///
     #[must_use]
     pub fn builder() -> QueryMarginAccountsAllOcoParamsBuilder {
         QueryMarginAccountsAllOcoParamsBuilder::default()
@@ -3704,9 +3675,6 @@ pub struct QueryMarginAccountsOcoParams {
 impl QueryMarginAccountsOcoParams {
     /// Create a builder for [`query_margin_accounts_oco`].
     ///
-    /// Required parameters:
-    ///
-    ///
     #[must_use]
     pub fn builder() -> QueryMarginAccountsOcoParamsBuilder {
         QueryMarginAccountsOcoParamsBuilder::default()
@@ -3729,9 +3697,6 @@ pub struct QueryMarginAccountsOpenOcoParams {
 
 impl QueryMarginAccountsOpenOcoParams {
     /// Create a builder for [`query_margin_accounts_open_oco`].
-    ///
-    /// Required parameters:
-    ///
     ///
     #[must_use]
     pub fn builder() -> QueryMarginAccountsOpenOcoParamsBuilder {
@@ -3932,9 +3897,6 @@ pub struct QueryUsersCmForceOrdersParams {
 impl QueryUsersCmForceOrdersParams {
     /// Create a builder for [`query_users_cm_force_orders`].
     ///
-    /// Required parameters:
-    ///
-    ///
     #[must_use]
     pub fn builder() -> QueryUsersCmForceOrdersParamsBuilder {
         QueryUsersCmForceOrdersParamsBuilder::default()
@@ -3977,9 +3939,6 @@ pub struct QueryUsersMarginForceOrdersParams {
 
 impl QueryUsersMarginForceOrdersParams {
     /// Create a builder for [`query_users_margin_force_orders`].
-    ///
-    /// Required parameters:
-    ///
     ///
     #[must_use]
     pub fn builder() -> QueryUsersMarginForceOrdersParamsBuilder {
@@ -4029,9 +3988,6 @@ pub struct QueryUsersUmForceOrdersParams {
 
 impl QueryUsersUmForceOrdersParams {
     /// Create a builder for [`query_users_um_force_orders`].
-    ///
-    /// Required parameters:
-    ///
     ///
     #[must_use]
     pub fn builder() -> QueryUsersUmForceOrdersParamsBuilder {
@@ -4147,9 +4103,6 @@ pub struct UmPositionAdlQuantileEstimationParams {
 impl UmPositionAdlQuantileEstimationParams {
     /// Create a builder for [`um_position_adl_quantile_estimation`].
     ///
-    /// Required parameters:
-    ///
-    ///
     #[must_use]
     pub fn builder() -> UmPositionAdlQuantileEstimationParamsBuilder {
         UmPositionAdlQuantileEstimationParamsBuilder::default()
@@ -4172,7 +4125,7 @@ impl TradeApi for TradeApiClient {
         query_params.insert("symbol".to_string(), json!(symbol));
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::CancelAllCmOpenConditionalOrdersResponse>(
@@ -4204,7 +4157,7 @@ impl TradeApi for TradeApiClient {
         query_params.insert("symbol".to_string(), json!(symbol));
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::CancelAllCmOpenOrdersResponse>(
@@ -4236,7 +4189,7 @@ impl TradeApi for TradeApiClient {
         query_params.insert("symbol".to_string(), json!(symbol));
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::CancelAllUmOpenConditionalOrdersResponse>(
@@ -4268,7 +4221,7 @@ impl TradeApi for TradeApiClient {
         query_params.insert("symbol".to_string(), json!(symbol));
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::CancelAllUmOpenOrdersResponse>(
@@ -4302,15 +4255,15 @@ impl TradeApi for TradeApiClient {
         query_params.insert("symbol".to_string(), json!(symbol));
 
         if let Some(rw) = strategy_id {
-            query_params.insert("strategy_id".to_string(), json!(rw));
+            query_params.insert("strategyId".to_string(), json!(rw));
         }
 
         if let Some(rw) = new_client_strategy_id {
-            query_params.insert("new_client_strategy_id".to_string(), json!(rw));
+            query_params.insert("newClientStrategyId".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::CancelCmConditionalOrderResponse>(
@@ -4344,15 +4297,15 @@ impl TradeApi for TradeApiClient {
         query_params.insert("symbol".to_string(), json!(symbol));
 
         if let Some(rw) = order_id {
-            query_params.insert("order_id".to_string(), json!(rw));
+            query_params.insert("orderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = orig_client_order_id {
-            query_params.insert("orig_client_order_id".to_string(), json!(rw));
+            query_params.insert("origClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::CancelCmOrderResponse>(
@@ -4386,7 +4339,7 @@ impl TradeApi for TradeApiClient {
         query_params.insert("symbol".to_string(), json!(symbol));
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<Vec<models::CancelMarginAccountAllOpenOrdersOnASymbolResponseInner>>(
@@ -4421,19 +4374,19 @@ impl TradeApi for TradeApiClient {
         query_params.insert("symbol".to_string(), json!(symbol));
 
         if let Some(rw) = order_list_id {
-            query_params.insert("order_list_id".to_string(), json!(rw));
+            query_params.insert("orderListId".to_string(), json!(rw));
         }
 
         if let Some(rw) = list_client_order_id {
-            query_params.insert("list_client_order_id".to_string(), json!(rw));
+            query_params.insert("listClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = new_client_order_id {
-            query_params.insert("new_client_order_id".to_string(), json!(rw));
+            query_params.insert("newClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::CancelMarginAccountOcoOrdersResponse>(
@@ -4468,19 +4421,19 @@ impl TradeApi for TradeApiClient {
         query_params.insert("symbol".to_string(), json!(symbol));
 
         if let Some(rw) = order_id {
-            query_params.insert("order_id".to_string(), json!(rw));
+            query_params.insert("orderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = orig_client_order_id {
-            query_params.insert("orig_client_order_id".to_string(), json!(rw));
+            query_params.insert("origClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = new_client_order_id {
-            query_params.insert("new_client_order_id".to_string(), json!(rw));
+            query_params.insert("newClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::CancelMarginAccountOrderResponse>(
@@ -4514,15 +4467,15 @@ impl TradeApi for TradeApiClient {
         query_params.insert("symbol".to_string(), json!(symbol));
 
         if let Some(rw) = strategy_id {
-            query_params.insert("strategy_id".to_string(), json!(rw));
+            query_params.insert("strategyId".to_string(), json!(rw));
         }
 
         if let Some(rw) = new_client_strategy_id {
-            query_params.insert("new_client_strategy_id".to_string(), json!(rw));
+            query_params.insert("newClientStrategyId".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::CancelUmConditionalOrderResponse>(
@@ -4556,15 +4509,15 @@ impl TradeApi for TradeApiClient {
         query_params.insert("symbol".to_string(), json!(symbol));
 
         if let Some(rw) = order_id {
-            query_params.insert("order_id".to_string(), json!(rw));
+            query_params.insert("orderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = orig_client_order_id {
-            query_params.insert("orig_client_order_id".to_string(), json!(rw));
+            query_params.insert("origClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::CancelUmOrderResponse>(
@@ -4607,15 +4560,15 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = start_time {
-            query_params.insert("start_time".to_string(), json!(rw));
+            query_params.insert("startTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = end_time {
-            query_params.insert("end_time".to_string(), json!(rw));
+            query_params.insert("endTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = from_id {
-            query_params.insert("from_id".to_string(), json!(rw));
+            query_params.insert("fromId".to_string(), json!(rw));
         }
 
         if let Some(rw) = limit {
@@ -4623,7 +4576,7 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<Vec<models::CmAccountTradeListResponseInner>>(
@@ -4658,7 +4611,7 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<Vec<models::CmPositionAdlQuantileEstimationResponseInner>>(
@@ -4685,7 +4638,7 @@ impl TradeApi for TradeApiClient {
         let mut query_params = BTreeMap::new();
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::GetUmFuturesBnbBurnStatusResponse>(
@@ -4717,10 +4670,11 @@ impl TradeApi for TradeApiClient {
 
         query_params.insert("asset".to_string(), json!(asset));
 
-        query_params.insert("amount".to_string(), json!(amount));
+        let amount_value = Decimal::from_f32(amount).unwrap_or_default();
+        query_params.insert("amount".to_string(), json!(amount_value));
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::MarginAccountBorrowResponse>(
@@ -4766,50 +4720,56 @@ impl TradeApi for TradeApiClient {
 
         query_params.insert("side".to_string(), json!(side));
 
-        query_params.insert("quantity".to_string(), json!(quantity));
+        let quantity_value = Decimal::from_f32(quantity).unwrap_or_default();
+        query_params.insert("quantity".to_string(), json!(quantity_value));
 
-        query_params.insert("price".to_string(), json!(price));
+        let price_value = Decimal::from_f32(price).unwrap_or_default();
+        query_params.insert("price".to_string(), json!(price_value));
 
-        query_params.insert("stopPrice".to_string(), json!(stop_price));
+        let stop_price_value = Decimal::from_f32(stop_price).unwrap_or_default();
+        query_params.insert("stopPrice".to_string(), json!(stop_price_value));
 
         if let Some(rw) = list_client_order_id {
-            query_params.insert("list_client_order_id".to_string(), json!(rw));
+            query_params.insert("listClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = limit_client_order_id {
-            query_params.insert("limit_client_order_id".to_string(), json!(rw));
+            query_params.insert("limitClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = limit_iceberg_qty {
-            query_params.insert("limit_iceberg_qty".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("limitIcebergQty".to_string(), json!(rw));
         }
 
         if let Some(rw) = stop_client_order_id {
-            query_params.insert("stop_client_order_id".to_string(), json!(rw));
+            query_params.insert("stopClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = stop_limit_price {
-            query_params.insert("stop_limit_price".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("stopLimitPrice".to_string(), json!(rw));
         }
 
         if let Some(rw) = stop_iceberg_qty {
-            query_params.insert("stop_iceberg_qty".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("stopIcebergQty".to_string(), json!(rw));
         }
 
         if let Some(rw) = stop_limit_time_in_force {
-            query_params.insert("stop_limit_time_in_force".to_string(), json!(rw));
+            query_params.insert("stopLimitTimeInForce".to_string(), json!(rw));
         }
 
         if let Some(rw) = new_order_resp_type {
-            query_params.insert("new_order_resp_type".to_string(), json!(rw));
+            query_params.insert("newOrderRespType".to_string(), json!(rw));
         }
 
         if let Some(rw) = side_effect_type {
-            query_params.insert("side_effect_type".to_string(), json!(rw));
+            query_params.insert("sideEffectType".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::MarginAccountNewOcoResponse>(
@@ -4841,10 +4801,11 @@ impl TradeApi for TradeApiClient {
 
         query_params.insert("asset".to_string(), json!(asset));
 
-        query_params.insert("amount".to_string(), json!(amount));
+        let amount_value = Decimal::from_f32(amount).unwrap_or_default();
+        query_params.insert("amount".to_string(), json!(amount_value));
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::MarginAccountRepayResponse>(
@@ -4882,11 +4843,11 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = specify_repay_assets {
-            query_params.insert("specify_repay_assets".to_string(), json!(rw));
+            query_params.insert("specifyRepayAssets".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::MarginAccountRepayDebtResponse>(
@@ -4923,19 +4884,19 @@ impl TradeApi for TradeApiClient {
         query_params.insert("symbol".to_string(), json!(symbol));
 
         if let Some(rw) = order_id {
-            query_params.insert("order_id".to_string(), json!(rw));
+            query_params.insert("orderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = start_time {
-            query_params.insert("start_time".to_string(), json!(rw));
+            query_params.insert("startTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = end_time {
-            query_params.insert("end_time".to_string(), json!(rw));
+            query_params.insert("endTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = from_id {
-            query_params.insert("from_id".to_string(), json!(rw));
+            query_params.insert("fromId".to_string(), json!(rw));
         }
 
         if let Some(rw) = limit {
@@ -4943,7 +4904,7 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<Vec<models::MarginAccountTradeListResponseInner>>(
@@ -4982,24 +4943,26 @@ impl TradeApi for TradeApiClient {
 
         query_params.insert("side".to_string(), json!(side));
 
-        query_params.insert("quantity".to_string(), json!(quantity));
+        let quantity_value = Decimal::from_f32(quantity).unwrap_or_default();
+        query_params.insert("quantity".to_string(), json!(quantity_value));
 
-        query_params.insert("price".to_string(), json!(price));
+        let price_value = Decimal::from_f32(price).unwrap_or_default();
+        query_params.insert("price".to_string(), json!(price_value));
 
         if let Some(rw) = order_id {
-            query_params.insert("order_id".to_string(), json!(rw));
+            query_params.insert("orderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = orig_client_order_id {
-            query_params.insert("orig_client_order_id".to_string(), json!(rw));
+            query_params.insert("origClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = price_match {
-            query_params.insert("price_match".to_string(), json!(rw));
+            query_params.insert("priceMatch".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::ModifyCmOrderResponse>(
@@ -5038,24 +5001,26 @@ impl TradeApi for TradeApiClient {
 
         query_params.insert("side".to_string(), json!(side));
 
-        query_params.insert("quantity".to_string(), json!(quantity));
+        let quantity_value = Decimal::from_f32(quantity).unwrap_or_default();
+        query_params.insert("quantity".to_string(), json!(quantity_value));
 
-        query_params.insert("price".to_string(), json!(price));
+        let price_value = Decimal::from_f32(price).unwrap_or_default();
+        query_params.insert("price".to_string(), json!(price_value));
 
         if let Some(rw) = order_id {
-            query_params.insert("order_id".to_string(), json!(rw));
+            query_params.insert("orderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = orig_client_order_id {
-            query_params.insert("orig_client_order_id".to_string(), json!(rw));
+            query_params.insert("origClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = price_match {
-            query_params.insert("price_match".to_string(), json!(rw));
+            query_params.insert("priceMatch".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::ModifyUmOrderResponse>(
@@ -5104,51 +5069,56 @@ impl TradeApi for TradeApiClient {
         query_params.insert("strategyType".to_string(), json!(strategy_type));
 
         if let Some(rw) = position_side {
-            query_params.insert("position_side".to_string(), json!(rw));
+            query_params.insert("positionSide".to_string(), json!(rw));
         }
 
         if let Some(rw) = time_in_force {
-            query_params.insert("time_in_force".to_string(), json!(rw));
+            query_params.insert("timeInForce".to_string(), json!(rw));
         }
 
         if let Some(rw) = quantity {
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("quantity".to_string(), json!(rw));
         }
 
         if let Some(rw) = reduce_only {
-            query_params.insert("reduce_only".to_string(), json!(rw));
+            query_params.insert("reduceOnly".to_string(), json!(rw));
         }
 
         if let Some(rw) = price {
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("price".to_string(), json!(rw));
         }
 
         if let Some(rw) = working_type {
-            query_params.insert("working_type".to_string(), json!(rw));
+            query_params.insert("workingType".to_string(), json!(rw));
         }
 
         if let Some(rw) = price_protect {
-            query_params.insert("price_protect".to_string(), json!(rw));
+            query_params.insert("priceProtect".to_string(), json!(rw));
         }
 
         if let Some(rw) = new_client_strategy_id {
-            query_params.insert("new_client_strategy_id".to_string(), json!(rw));
+            query_params.insert("newClientStrategyId".to_string(), json!(rw));
         }
 
         if let Some(rw) = stop_price {
-            query_params.insert("stop_price".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("stopPrice".to_string(), json!(rw));
         }
 
         if let Some(rw) = activation_price {
-            query_params.insert("activation_price".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("activationPrice".to_string(), json!(rw));
         }
 
         if let Some(rw) = callback_rate {
-            query_params.insert("callback_rate".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("callbackRate".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::NewCmConditionalOrderResponse>(
@@ -5194,39 +5164,41 @@ impl TradeApi for TradeApiClient {
         query_params.insert("type".to_string(), json!(r#type));
 
         if let Some(rw) = position_side {
-            query_params.insert("position_side".to_string(), json!(rw));
+            query_params.insert("positionSide".to_string(), json!(rw));
         }
 
         if let Some(rw) = time_in_force {
-            query_params.insert("time_in_force".to_string(), json!(rw));
+            query_params.insert("timeInForce".to_string(), json!(rw));
         }
 
         if let Some(rw) = quantity {
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("quantity".to_string(), json!(rw));
         }
 
         if let Some(rw) = reduce_only {
-            query_params.insert("reduce_only".to_string(), json!(rw));
+            query_params.insert("reduceOnly".to_string(), json!(rw));
         }
 
         if let Some(rw) = price {
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("price".to_string(), json!(rw));
         }
 
         if let Some(rw) = price_match {
-            query_params.insert("price_match".to_string(), json!(rw));
+            query_params.insert("priceMatch".to_string(), json!(rw));
         }
 
         if let Some(rw) = new_client_order_id {
-            query_params.insert("new_client_order_id".to_string(), json!(rw));
+            query_params.insert("newClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = new_order_resp_type {
-            query_params.insert("new_order_resp_type".to_string(), json!(rw));
+            query_params.insert("newOrderRespType".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::NewCmOrderResponse>(
@@ -5275,51 +5247,56 @@ impl TradeApi for TradeApiClient {
         query_params.insert("type".to_string(), json!(r#type));
 
         if let Some(rw) = quantity {
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("quantity".to_string(), json!(rw));
         }
 
         if let Some(rw) = quote_order_qty {
-            query_params.insert("quote_order_qty".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("quoteOrderQty".to_string(), json!(rw));
         }
 
         if let Some(rw) = price {
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("price".to_string(), json!(rw));
         }
 
         if let Some(rw) = stop_price {
-            query_params.insert("stop_price".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("stopPrice".to_string(), json!(rw));
         }
 
         if let Some(rw) = new_client_order_id {
-            query_params.insert("new_client_order_id".to_string(), json!(rw));
+            query_params.insert("newClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = new_order_resp_type {
-            query_params.insert("new_order_resp_type".to_string(), json!(rw));
+            query_params.insert("newOrderRespType".to_string(), json!(rw));
         }
 
         if let Some(rw) = iceberg_qty {
-            query_params.insert("iceberg_qty".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("icebergQty".to_string(), json!(rw));
         }
 
         if let Some(rw) = side_effect_type {
-            query_params.insert("side_effect_type".to_string(), json!(rw));
+            query_params.insert("sideEffectType".to_string(), json!(rw));
         }
 
         if let Some(rw) = time_in_force {
-            query_params.insert("time_in_force".to_string(), json!(rw));
+            query_params.insert("timeInForce".to_string(), json!(rw));
         }
 
         if let Some(rw) = self_trade_prevention_mode {
-            query_params.insert("self_trade_prevention_mode".to_string(), json!(rw));
+            query_params.insert("selfTradePreventionMode".to_string(), json!(rw));
         }
 
         if let Some(rw) = auto_repay_at_cancel {
-            query_params.insert("auto_repay_at_cancel".to_string(), json!(rw));
+            query_params.insert("autoRepayAtCancel".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::NewMarginOrderResponse>(
@@ -5371,63 +5348,68 @@ impl TradeApi for TradeApiClient {
         query_params.insert("strategyType".to_string(), json!(strategy_type));
 
         if let Some(rw) = position_side {
-            query_params.insert("position_side".to_string(), json!(rw));
+            query_params.insert("positionSide".to_string(), json!(rw));
         }
 
         if let Some(rw) = time_in_force {
-            query_params.insert("time_in_force".to_string(), json!(rw));
+            query_params.insert("timeInForce".to_string(), json!(rw));
         }
 
         if let Some(rw) = quantity {
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("quantity".to_string(), json!(rw));
         }
 
         if let Some(rw) = reduce_only {
-            query_params.insert("reduce_only".to_string(), json!(rw));
+            query_params.insert("reduceOnly".to_string(), json!(rw));
         }
 
         if let Some(rw) = price {
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("price".to_string(), json!(rw));
         }
 
         if let Some(rw) = working_type {
-            query_params.insert("working_type".to_string(), json!(rw));
+            query_params.insert("workingType".to_string(), json!(rw));
         }
 
         if let Some(rw) = price_protect {
-            query_params.insert("price_protect".to_string(), json!(rw));
+            query_params.insert("priceProtect".to_string(), json!(rw));
         }
 
         if let Some(rw) = new_client_strategy_id {
-            query_params.insert("new_client_strategy_id".to_string(), json!(rw));
+            query_params.insert("newClientStrategyId".to_string(), json!(rw));
         }
 
         if let Some(rw) = stop_price {
-            query_params.insert("stop_price".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("stopPrice".to_string(), json!(rw));
         }
 
         if let Some(rw) = activation_price {
-            query_params.insert("activation_price".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("activationPrice".to_string(), json!(rw));
         }
 
         if let Some(rw) = callback_rate {
-            query_params.insert("callback_rate".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("callbackRate".to_string(), json!(rw));
         }
 
         if let Some(rw) = price_match {
-            query_params.insert("price_match".to_string(), json!(rw));
+            query_params.insert("priceMatch".to_string(), json!(rw));
         }
 
         if let Some(rw) = self_trade_prevention_mode {
-            query_params.insert("self_trade_prevention_mode".to_string(), json!(rw));
+            query_params.insert("selfTradePreventionMode".to_string(), json!(rw));
         }
 
         if let Some(rw) = good_till_date {
-            query_params.insert("good_till_date".to_string(), json!(rw));
+            query_params.insert("goodTillDate".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::NewUmConditionalOrderResponse>(
@@ -5475,47 +5457,49 @@ impl TradeApi for TradeApiClient {
         query_params.insert("type".to_string(), json!(r#type));
 
         if let Some(rw) = position_side {
-            query_params.insert("position_side".to_string(), json!(rw));
+            query_params.insert("positionSide".to_string(), json!(rw));
         }
 
         if let Some(rw) = time_in_force {
-            query_params.insert("time_in_force".to_string(), json!(rw));
+            query_params.insert("timeInForce".to_string(), json!(rw));
         }
 
         if let Some(rw) = quantity {
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("quantity".to_string(), json!(rw));
         }
 
         if let Some(rw) = reduce_only {
-            query_params.insert("reduce_only".to_string(), json!(rw));
+            query_params.insert("reduceOnly".to_string(), json!(rw));
         }
 
         if let Some(rw) = price {
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("price".to_string(), json!(rw));
         }
 
         if let Some(rw) = new_client_order_id {
-            query_params.insert("new_client_order_id".to_string(), json!(rw));
+            query_params.insert("newClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = new_order_resp_type {
-            query_params.insert("new_order_resp_type".to_string(), json!(rw));
+            query_params.insert("newOrderRespType".to_string(), json!(rw));
         }
 
         if let Some(rw) = price_match {
-            query_params.insert("price_match".to_string(), json!(rw));
+            query_params.insert("priceMatch".to_string(), json!(rw));
         }
 
         if let Some(rw) = self_trade_prevention_mode {
-            query_params.insert("self_trade_prevention_mode".to_string(), json!(rw));
+            query_params.insert("selfTradePreventionMode".to_string(), json!(rw));
         }
 
         if let Some(rw) = good_till_date {
-            query_params.insert("good_till_date".to_string(), json!(rw));
+            query_params.insert("goodTillDate".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::NewUmOrderResponse>(
@@ -5554,15 +5538,15 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = strategy_id {
-            query_params.insert("strategy_id".to_string(), json!(rw));
+            query_params.insert("strategyId".to_string(), json!(rw));
         }
 
         if let Some(rw) = start_time {
-            query_params.insert("start_time".to_string(), json!(rw));
+            query_params.insert("startTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = end_time {
-            query_params.insert("end_time".to_string(), json!(rw));
+            query_params.insert("endTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = limit {
@@ -5570,7 +5554,7 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<Vec<models::QueryAllCmConditionalOrdersResponseInner>>(
@@ -5611,15 +5595,15 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = order_id {
-            query_params.insert("order_id".to_string(), json!(rw));
+            query_params.insert("orderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = start_time {
-            query_params.insert("start_time".to_string(), json!(rw));
+            query_params.insert("startTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = end_time {
-            query_params.insert("end_time".to_string(), json!(rw));
+            query_params.insert("endTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = limit {
@@ -5627,7 +5611,7 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<Vec<models::QueryAllCmOrdersResponseInner>>(
@@ -5663,7 +5647,7 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<Vec<models::QueryAllCurrentCmOpenConditionalOrdersResponseInner>>(
@@ -5702,7 +5686,7 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<Vec<models::QueryAllCmOrdersResponseInner>>(
@@ -5738,7 +5722,7 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<Vec<models::QueryAllCurrentUmOpenConditionalOrdersResponseInner>>(
@@ -5773,7 +5757,7 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<Vec<models::QueryAllCurrentUmOpenOrdersResponseInner>>(
@@ -5810,15 +5794,15 @@ impl TradeApi for TradeApiClient {
         query_params.insert("symbol".to_string(), json!(symbol));
 
         if let Some(rw) = order_id {
-            query_params.insert("order_id".to_string(), json!(rw));
+            query_params.insert("orderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = start_time {
-            query_params.insert("start_time".to_string(), json!(rw));
+            query_params.insert("startTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = end_time {
-            query_params.insert("end_time".to_string(), json!(rw));
+            query_params.insert("endTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = limit {
@@ -5826,7 +5810,7 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<Vec<models::QueryAllMarginAccountOrdersResponseInner>>(
@@ -5865,15 +5849,15 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = strategy_id {
-            query_params.insert("strategy_id".to_string(), json!(rw));
+            query_params.insert("strategyId".to_string(), json!(rw));
         }
 
         if let Some(rw) = start_time {
-            query_params.insert("start_time".to_string(), json!(rw));
+            query_params.insert("startTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = end_time {
-            query_params.insert("end_time".to_string(), json!(rw));
+            query_params.insert("endTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = limit {
@@ -5881,7 +5865,7 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<Vec<models::QueryAllUmConditionalOrdersResponseInner>>(
@@ -5918,15 +5902,15 @@ impl TradeApi for TradeApiClient {
         query_params.insert("symbol".to_string(), json!(symbol));
 
         if let Some(rw) = order_id {
-            query_params.insert("order_id".to_string(), json!(rw));
+            query_params.insert("orderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = start_time {
-            query_params.insert("start_time".to_string(), json!(rw));
+            query_params.insert("startTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = end_time {
-            query_params.insert("end_time".to_string(), json!(rw));
+            query_params.insert("endTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = limit {
@@ -5934,7 +5918,7 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<Vec<models::QueryAllCurrentUmOpenOrdersResponseInner>>(
@@ -5968,15 +5952,15 @@ impl TradeApi for TradeApiClient {
         query_params.insert("symbol".to_string(), json!(symbol));
 
         if let Some(rw) = strategy_id {
-            query_params.insert("strategy_id".to_string(), json!(rw));
+            query_params.insert("strategyId".to_string(), json!(rw));
         }
 
         if let Some(rw) = new_client_strategy_id {
-            query_params.insert("new_client_strategy_id".to_string(), json!(rw));
+            query_params.insert("newClientStrategyId".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::QueryCmConditionalOrderHistoryResponse>(
@@ -6013,19 +5997,19 @@ impl TradeApi for TradeApiClient {
         query_params.insert("symbol".to_string(), json!(symbol));
 
         if let Some(rw) = order_id {
-            query_params.insert("order_id".to_string(), json!(rw));
+            query_params.insert("orderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = orig_client_order_id {
-            query_params.insert("orig_client_order_id".to_string(), json!(rw));
+            query_params.insert("origClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = start_time {
-            query_params.insert("start_time".to_string(), json!(rw));
+            query_params.insert("startTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = end_time {
-            query_params.insert("end_time".to_string(), json!(rw));
+            query_params.insert("endTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = limit {
@@ -6033,7 +6017,7 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<Vec<models::QueryCmModifyOrderHistoryResponseInner>>(
@@ -6067,15 +6051,15 @@ impl TradeApi for TradeApiClient {
         query_params.insert("symbol".to_string(), json!(symbol));
 
         if let Some(rw) = order_id {
-            query_params.insert("order_id".to_string(), json!(rw));
+            query_params.insert("orderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = orig_client_order_id {
-            query_params.insert("orig_client_order_id".to_string(), json!(rw));
+            query_params.insert("origClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::QueryCmOrderResponse>(
@@ -6109,15 +6093,15 @@ impl TradeApi for TradeApiClient {
         query_params.insert("symbol".to_string(), json!(symbol));
 
         if let Some(rw) = strategy_id {
-            query_params.insert("strategy_id".to_string(), json!(rw));
+            query_params.insert("strategyId".to_string(), json!(rw));
         }
 
         if let Some(rw) = new_client_strategy_id {
-            query_params.insert("new_client_strategy_id".to_string(), json!(rw));
+            query_params.insert("newClientStrategyId".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::QueryCurrentCmOpenConditionalOrderResponse>(
@@ -6151,15 +6135,15 @@ impl TradeApi for TradeApiClient {
         query_params.insert("symbol".to_string(), json!(symbol));
 
         if let Some(rw) = order_id {
-            query_params.insert("order_id".to_string(), json!(rw));
+            query_params.insert("orderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = orig_client_order_id {
-            query_params.insert("orig_client_order_id".to_string(), json!(rw));
+            query_params.insert("origClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::QueryCurrentCmOpenOrderResponse>(
@@ -6192,7 +6176,7 @@ impl TradeApi for TradeApiClient {
         query_params.insert("symbol".to_string(), json!(symbol));
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<Vec<models::QueryCurrentMarginOpenOrderResponseInner>>(
@@ -6226,15 +6210,15 @@ impl TradeApi for TradeApiClient {
         query_params.insert("symbol".to_string(), json!(symbol));
 
         if let Some(rw) = strategy_id {
-            query_params.insert("strategy_id".to_string(), json!(rw));
+            query_params.insert("strategyId".to_string(), json!(rw));
         }
 
         if let Some(rw) = new_client_strategy_id {
-            query_params.insert("new_client_strategy_id".to_string(), json!(rw));
+            query_params.insert("newClientStrategyId".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::QueryCurrentUmOpenConditionalOrderResponse>(
@@ -6268,15 +6252,15 @@ impl TradeApi for TradeApiClient {
         query_params.insert("symbol".to_string(), json!(symbol));
 
         if let Some(rw) = order_id {
-            query_params.insert("order_id".to_string(), json!(rw));
+            query_params.insert("orderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = orig_client_order_id {
-            query_params.insert("orig_client_order_id".to_string(), json!(rw));
+            query_params.insert("origClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::QueryCurrentUmOpenOrderResponse>(
@@ -6310,15 +6294,15 @@ impl TradeApi for TradeApiClient {
         query_params.insert("symbol".to_string(), json!(symbol));
 
         if let Some(rw) = order_id {
-            query_params.insert("order_id".to_string(), json!(rw));
+            query_params.insert("orderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = orig_client_order_id {
-            query_params.insert("orig_client_order_id".to_string(), json!(rw));
+            query_params.insert("origClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::QueryMarginAccountOrderResponse>(
@@ -6351,15 +6335,15 @@ impl TradeApi for TradeApiClient {
         let mut query_params = BTreeMap::new();
 
         if let Some(rw) = from_id {
-            query_params.insert("from_id".to_string(), json!(rw));
+            query_params.insert("fromId".to_string(), json!(rw));
         }
 
         if let Some(rw) = start_time {
-            query_params.insert("start_time".to_string(), json!(rw));
+            query_params.insert("startTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = end_time {
-            query_params.insert("end_time".to_string(), json!(rw));
+            query_params.insert("endTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = limit {
@@ -6367,7 +6351,7 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<Vec<models::QueryMarginAccountsAllOcoResponseInner>>(
@@ -6398,15 +6382,15 @@ impl TradeApi for TradeApiClient {
         let mut query_params = BTreeMap::new();
 
         if let Some(rw) = order_list_id {
-            query_params.insert("order_list_id".to_string(), json!(rw));
+            query_params.insert("orderListId".to_string(), json!(rw));
         }
 
         if let Some(rw) = orig_client_order_id {
-            query_params.insert("orig_client_order_id".to_string(), json!(rw));
+            query_params.insert("origClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::QueryMarginAccountsOcoResponse>(
@@ -6433,7 +6417,7 @@ impl TradeApi for TradeApiClient {
         let mut query_params = BTreeMap::new();
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<Vec<models::QueryMarginAccountsOpenOcoResponseInner>>(
@@ -6467,15 +6451,15 @@ impl TradeApi for TradeApiClient {
         query_params.insert("symbol".to_string(), json!(symbol));
 
         if let Some(rw) = strategy_id {
-            query_params.insert("strategy_id".to_string(), json!(rw));
+            query_params.insert("strategyId".to_string(), json!(rw));
         }
 
         if let Some(rw) = new_client_strategy_id {
-            query_params.insert("new_client_strategy_id".to_string(), json!(rw));
+            query_params.insert("newClientStrategyId".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::QueryUmConditionalOrderHistoryResponse>(
@@ -6512,19 +6496,19 @@ impl TradeApi for TradeApiClient {
         query_params.insert("symbol".to_string(), json!(symbol));
 
         if let Some(rw) = order_id {
-            query_params.insert("order_id".to_string(), json!(rw));
+            query_params.insert("orderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = orig_client_order_id {
-            query_params.insert("orig_client_order_id".to_string(), json!(rw));
+            query_params.insert("origClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = start_time {
-            query_params.insert("start_time".to_string(), json!(rw));
+            query_params.insert("startTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = end_time {
-            query_params.insert("end_time".to_string(), json!(rw));
+            query_params.insert("endTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = limit {
@@ -6532,7 +6516,7 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<Vec<models::QueryUmModifyOrderHistoryResponseInner>>(
@@ -6566,15 +6550,15 @@ impl TradeApi for TradeApiClient {
         query_params.insert("symbol".to_string(), json!(symbol));
 
         if let Some(rw) = order_id {
-            query_params.insert("order_id".to_string(), json!(rw));
+            query_params.insert("orderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = orig_client_order_id {
-            query_params.insert("orig_client_order_id".to_string(), json!(rw));
+            query_params.insert("origClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::QueryUmOrderResponse>(
@@ -6612,15 +6596,15 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = auto_close_type {
-            query_params.insert("auto_close_type".to_string(), json!(rw));
+            query_params.insert("autoCloseType".to_string(), json!(rw));
         }
 
         if let Some(rw) = start_time {
-            query_params.insert("start_time".to_string(), json!(rw));
+            query_params.insert("startTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = end_time {
-            query_params.insert("end_time".to_string(), json!(rw));
+            query_params.insert("endTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = limit {
@@ -6628,7 +6612,7 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<Vec<models::QueryUsersCmForceOrdersResponseInner>>(
@@ -6661,11 +6645,11 @@ impl TradeApi for TradeApiClient {
         let mut query_params = BTreeMap::new();
 
         if let Some(rw) = start_time {
-            query_params.insert("start_time".to_string(), json!(rw));
+            query_params.insert("startTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = end_time {
-            query_params.insert("end_time".to_string(), json!(rw));
+            query_params.insert("endTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = current {
@@ -6677,7 +6661,7 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::QueryUsersMarginForceOrdersResponse>(
@@ -6715,15 +6699,15 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = auto_close_type {
-            query_params.insert("auto_close_type".to_string(), json!(rw));
+            query_params.insert("autoCloseType".to_string(), json!(rw));
         }
 
         if let Some(rw) = start_time {
-            query_params.insert("start_time".to_string(), json!(rw));
+            query_params.insert("startTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = end_time {
-            query_params.insert("end_time".to_string(), json!(rw));
+            query_params.insert("endTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = limit {
@@ -6731,7 +6715,7 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<Vec<models::QueryUsersUmForceOrdersResponseInner>>(
@@ -6763,7 +6747,7 @@ impl TradeApi for TradeApiClient {
         query_params.insert("feeBurn".to_string(), json!(fee_burn));
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::ToggleBnbBurnOnUmFuturesTradeResponse>(
@@ -6799,15 +6783,15 @@ impl TradeApi for TradeApiClient {
         query_params.insert("symbol".to_string(), json!(symbol));
 
         if let Some(rw) = start_time {
-            query_params.insert("start_time".to_string(), json!(rw));
+            query_params.insert("startTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = end_time {
-            query_params.insert("end_time".to_string(), json!(rw));
+            query_params.insert("endTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = from_id {
-            query_params.insert("from_id".to_string(), json!(rw));
+            query_params.insert("fromId".to_string(), json!(rw));
         }
 
         if let Some(rw) = limit {
@@ -6815,7 +6799,7 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<Vec<models::UmAccountTradeListResponseInner>>(
@@ -6850,7 +6834,7 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<Vec<models::UmPositionAdlQuantileEstimationResponseInner>>(

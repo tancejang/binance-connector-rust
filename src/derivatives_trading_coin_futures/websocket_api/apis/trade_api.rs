@@ -15,6 +15,7 @@
 use anyhow::Context;
 use async_trait::async_trait;
 use derive_builder::Builder;
+use rust_decimal::{Decimal, prelude::FromPrimitive};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::{collections::BTreeMap, sync::Arc};
@@ -624,9 +625,6 @@ pub struct PositionInformationParams {
 impl PositionInformationParams {
     /// Create a builder for [`position_information`].
     ///
-    /// Required parameters:
-    ///
-    ///
     #[must_use]
     pub fn builder() -> PositionInformationParamsBuilder {
         PositionInformationParamsBuilder::default()
@@ -698,18 +696,19 @@ impl TradeApi for TradeApiClient {
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
+
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
         }
         if let Some(value) = order_id {
-            payload.insert("order_id".to_string(), serde_json::json!(value));
+            payload.insert("orderId".to_string(), serde_json::json!(value));
         }
         if let Some(value) = orig_client_order_id {
-            payload.insert("orig_client_order_id".to_string(), serde_json::json!(value));
+            payload.insert("origClientOrderId".to_string(), serde_json::json!(value));
         }
         if let Some(value) = recv_window {
-            payload.insert("recv_window".to_string(), serde_json::json!(value));
+            payload.insert("recvWindow".to_string(), serde_json::json!(value));
         }
         let payload = remove_empty_value(payload);
 
@@ -743,24 +742,28 @@ impl TradeApi for TradeApiClient {
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
+
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
+
         payload.insert("side".to_string(), serde_json::json!(side));
-        payload.insert("quantity".to_string(), serde_json::json!(quantity));
-        payload.insert("price".to_string(), serde_json::json!(price));
+        let quantity_value = Decimal::from_f32(quantity).unwrap_or_default();
+        payload.insert("quantity".to_string(), serde_json::json!(quantity_value));
+        let price_value = Decimal::from_f32(price).unwrap_or_default();
+        payload.insert("price".to_string(), serde_json::json!(price_value));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
         }
         if let Some(value) = order_id {
-            payload.insert("order_id".to_string(), serde_json::json!(value));
+            payload.insert("orderId".to_string(), serde_json::json!(value));
         }
         if let Some(value) = orig_client_order_id {
-            payload.insert("orig_client_order_id".to_string(), serde_json::json!(value));
+            payload.insert("origClientOrderId".to_string(), serde_json::json!(value));
         }
         if let Some(value) = price_match {
-            payload.insert("price_match".to_string(), serde_json::json!(value));
+            payload.insert("priceMatch".to_string(), serde_json::json!(value));
         }
         if let Some(value) = recv_window {
-            payload.insert("recv_window".to_string(), serde_json::json!(value));
+            payload.insert("recvWindow".to_string(), serde_json::json!(value));
         }
         let payload = remove_empty_value(payload);
 
@@ -805,62 +808,70 @@ impl TradeApi for TradeApiClient {
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
+
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
+
         payload.insert("side".to_string(), serde_json::json!(side));
-        payload.insert("r#type".to_string(), serde_json::json!(r#type));
+
+        payload.insert("type".to_string(), serde_json::json!(r#type));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
         }
         if let Some(value) = position_side {
-            payload.insert("position_side".to_string(), serde_json::json!(value));
+            payload.insert("positionSide".to_string(), serde_json::json!(value));
         }
         if let Some(value) = time_in_force {
-            payload.insert("time_in_force".to_string(), serde_json::json!(value));
+            payload.insert("timeInForce".to_string(), serde_json::json!(value));
         }
         if let Some(value) = quantity {
+            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("quantity".to_string(), serde_json::json!(value));
         }
         if let Some(value) = reduce_only {
-            payload.insert("reduce_only".to_string(), serde_json::json!(value));
+            payload.insert("reduceOnly".to_string(), serde_json::json!(value));
         }
         if let Some(value) = price {
+            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("price".to_string(), serde_json::json!(value));
         }
         if let Some(value) = new_client_order_id {
-            payload.insert("new_client_order_id".to_string(), serde_json::json!(value));
+            payload.insert("newClientOrderId".to_string(), serde_json::json!(value));
         }
         if let Some(value) = stop_price {
-            payload.insert("stop_price".to_string(), serde_json::json!(value));
+            let value = Decimal::from_f32(value).unwrap_or_default();
+            payload.insert("stopPrice".to_string(), serde_json::json!(value));
         }
         if let Some(value) = close_position {
-            payload.insert("close_position".to_string(), serde_json::json!(value));
+            payload.insert("closePosition".to_string(), serde_json::json!(value));
         }
         if let Some(value) = activation_price {
-            payload.insert("activation_price".to_string(), serde_json::json!(value));
+            let value = Decimal::from_f32(value).unwrap_or_default();
+            payload.insert("activationPrice".to_string(), serde_json::json!(value));
         }
         if let Some(value) = callback_rate {
-            payload.insert("callback_rate".to_string(), serde_json::json!(value));
+            let value = Decimal::from_f32(value).unwrap_or_default();
+            payload.insert("callbackRate".to_string(), serde_json::json!(value));
         }
         if let Some(value) = working_type {
-            payload.insert("working_type".to_string(), serde_json::json!(value));
+            payload.insert("workingType".to_string(), serde_json::json!(value));
         }
         if let Some(value) = price_protect {
-            payload.insert("price_protect".to_string(), serde_json::json!(value));
+            payload.insert("priceProtect".to_string(), serde_json::json!(value));
         }
         if let Some(value) = new_order_resp_type {
-            payload.insert("new_order_resp_type".to_string(), serde_json::json!(value));
+            payload.insert("newOrderRespType".to_string(), serde_json::json!(value));
         }
         if let Some(value) = price_match {
-            payload.insert("price_match".to_string(), serde_json::json!(value));
+            payload.insert("priceMatch".to_string(), serde_json::json!(value));
         }
         if let Some(value) = self_trade_prevention_mode {
             payload.insert(
-                "self_trade_prevention_mode".to_string(),
+                "selfTradePreventionMode".to_string(),
                 serde_json::json!(value),
             );
         }
         if let Some(value) = recv_window {
-            payload.insert("recv_window".to_string(), serde_json::json!(value));
+            payload.insert("recvWindow".to_string(), serde_json::json!(value));
         }
         let payload = remove_empty_value(payload);
 
@@ -894,13 +905,13 @@ impl TradeApi for TradeApiClient {
             payload.insert("id".to_string(), serde_json::json!(value));
         }
         if let Some(value) = margin_asset {
-            payload.insert("margin_asset".to_string(), serde_json::json!(value));
+            payload.insert("marginAsset".to_string(), serde_json::json!(value));
         }
         if let Some(value) = pair {
             payload.insert("pair".to_string(), serde_json::json!(value));
         }
         if let Some(value) = recv_window {
-            payload.insert("recv_window".to_string(), serde_json::json!(value));
+            payload.insert("recvWindow".to_string(), serde_json::json!(value));
         }
         let payload = remove_empty_value(payload);
 
@@ -930,18 +941,19 @@ impl TradeApi for TradeApiClient {
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
+
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
         }
         if let Some(value) = order_id {
-            payload.insert("order_id".to_string(), serde_json::json!(value));
+            payload.insert("orderId".to_string(), serde_json::json!(value));
         }
         if let Some(value) = orig_client_order_id {
-            payload.insert("orig_client_order_id".to_string(), serde_json::json!(value));
+            payload.insert("origClientOrderId".to_string(), serde_json::json!(value));
         }
         if let Some(value) = recv_window {
-            payload.insert("recv_window".to_string(), serde_json::json!(value));
+            payload.insert("recvWindow".to_string(), serde_json::json!(value));
         }
         let payload = remove_empty_value(payload);
 
