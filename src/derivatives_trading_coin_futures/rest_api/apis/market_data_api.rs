@@ -15,6 +15,7 @@
 use async_trait::async_trait;
 use derive_builder::Builder;
 use reqwest;
+use rust_decimal::{Decimal, prelude::FromPrimitive};
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::collections::BTreeMap;
@@ -1061,9 +1062,6 @@ pub struct IndexPriceAndMarkPriceParams {
 impl IndexPriceAndMarkPriceParams {
     /// Create a builder for [`index_price_and_mark_price`].
     ///
-    /// Required parameters:
-    ///
-    ///
     #[must_use]
     pub fn builder() -> IndexPriceAndMarkPriceParamsBuilder {
         IndexPriceAndMarkPriceParamsBuilder::default()
@@ -1584,9 +1582,6 @@ pub struct SymbolOrderBookTickerParams {
 impl SymbolOrderBookTickerParams {
     /// Create a builder for [`symbol_order_book_ticker`].
     ///
-    /// Required parameters:
-    ///
-    ///
     #[must_use]
     pub fn builder() -> SymbolOrderBookTickerParamsBuilder {
         SymbolOrderBookTickerParamsBuilder::default()
@@ -1615,9 +1610,6 @@ pub struct SymbolPriceTickerParams {
 
 impl SymbolPriceTickerParams {
     /// Create a builder for [`symbol_price_ticker`].
-    ///
-    /// Required parameters:
-    ///
     ///
     #[must_use]
     pub fn builder() -> SymbolPriceTickerParamsBuilder {
@@ -1709,9 +1701,6 @@ pub struct Ticker24hrPriceChangeStatisticsParams {
 
 impl Ticker24hrPriceChangeStatisticsParams {
     /// Create a builder for [`ticker24hr_price_change_statistics`].
-    ///
-    /// Required parameters:
-    ///
     ///
     #[must_use]
     pub fn builder() -> Ticker24hrPriceChangeStatisticsParamsBuilder {
@@ -1856,11 +1845,11 @@ impl MarketDataApi for MarketDataApiClient {
         }
 
         if let Some(rw) = start_time {
-            query_params.insert("start_time".to_string(), json!(rw));
+            query_params.insert("startTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = end_time {
-            query_params.insert("end_time".to_string(), json!(rw));
+            query_params.insert("endTime".to_string(), json!(rw));
         }
 
         send_request::<Vec<models::BasisResponseInner>>(
@@ -1916,15 +1905,15 @@ impl MarketDataApi for MarketDataApiClient {
         query_params.insert("symbol".to_string(), json!(symbol));
 
         if let Some(rw) = from_id {
-            query_params.insert("from_id".to_string(), json!(rw));
+            query_params.insert("fromId".to_string(), json!(rw));
         }
 
         if let Some(rw) = start_time {
-            query_params.insert("start_time".to_string(), json!(rw));
+            query_params.insert("startTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = end_time {
-            query_params.insert("end_time".to_string(), json!(rw));
+            query_params.insert("endTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = limit {
@@ -1970,11 +1959,11 @@ impl MarketDataApi for MarketDataApiClient {
         query_params.insert("interval".to_string(), json!(interval));
 
         if let Some(rw) = start_time {
-            query_params.insert("start_time".to_string(), json!(rw));
+            query_params.insert("startTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = end_time {
-            query_params.insert("end_time".to_string(), json!(rw));
+            query_params.insert("endTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = limit {
@@ -2034,11 +2023,11 @@ impl MarketDataApi for MarketDataApiClient {
         query_params.insert("symbol".to_string(), json!(symbol));
 
         if let Some(rw) = start_time {
-            query_params.insert("start_time".to_string(), json!(rw));
+            query_params.insert("startTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = end_time {
-            query_params.insert("end_time".to_string(), json!(rw));
+            query_params.insert("endTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = limit {
@@ -2132,11 +2121,11 @@ impl MarketDataApi for MarketDataApiClient {
         query_params.insert("interval".to_string(), json!(interval));
 
         if let Some(rw) = start_time {
-            query_params.insert("start_time".to_string(), json!(rw));
+            query_params.insert("startTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = end_time {
-            query_params.insert("end_time".to_string(), json!(rw));
+            query_params.insert("endTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = limit {
@@ -2179,11 +2168,11 @@ impl MarketDataApi for MarketDataApiClient {
         query_params.insert("interval".to_string(), json!(interval));
 
         if let Some(rw) = start_time {
-            query_params.insert("start_time".to_string(), json!(rw));
+            query_params.insert("startTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = end_time {
-            query_params.insert("end_time".to_string(), json!(rw));
+            query_params.insert("endTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = limit {
@@ -2228,11 +2217,11 @@ impl MarketDataApi for MarketDataApiClient {
         }
 
         if let Some(rw) = start_time {
-            query_params.insert("start_time".to_string(), json!(rw));
+            query_params.insert("startTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = end_time {
-            query_params.insert("end_time".to_string(), json!(rw));
+            query_params.insert("endTime".to_string(), json!(rw));
         }
 
         send_request::<Vec<models::LongShortRatioResponseInner>>(
@@ -2271,11 +2260,11 @@ impl MarketDataApi for MarketDataApiClient {
         query_params.insert("interval".to_string(), json!(interval));
 
         if let Some(rw) = start_time {
-            query_params.insert("start_time".to_string(), json!(rw));
+            query_params.insert("startTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = end_time {
-            query_params.insert("end_time".to_string(), json!(rw));
+            query_params.insert("endTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = limit {
@@ -2316,7 +2305,7 @@ impl MarketDataApi for MarketDataApiClient {
         }
 
         if let Some(rw) = from_id {
-            query_params.insert("from_id".to_string(), json!(rw));
+            query_params.insert("fromId".to_string(), json!(rw));
         }
 
         send_request::<Vec<models::OldTradesLookupResponseInner>>(
@@ -2385,11 +2374,11 @@ impl MarketDataApi for MarketDataApiClient {
         }
 
         if let Some(rw) = start_time {
-            query_params.insert("start_time".to_string(), json!(rw));
+            query_params.insert("startTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = end_time {
-            query_params.insert("end_time".to_string(), json!(rw));
+            query_params.insert("endTime".to_string(), json!(rw));
         }
 
         send_request::<Vec<models::OpenInterestStatisticsResponseInner>>(
@@ -2456,11 +2445,11 @@ impl MarketDataApi for MarketDataApiClient {
         query_params.insert("interval".to_string(), json!(interval));
 
         if let Some(rw) = start_time {
-            query_params.insert("start_time".to_string(), json!(rw));
+            query_params.insert("startTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = end_time {
-            query_params.insert("end_time".to_string(), json!(rw));
+            query_params.insert("endTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = limit {
@@ -2624,11 +2613,11 @@ impl MarketDataApi for MarketDataApiClient {
         }
 
         if let Some(rw) = start_time {
-            query_params.insert("start_time".to_string(), json!(rw));
+            query_params.insert("startTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = end_time {
-            query_params.insert("end_time".to_string(), json!(rw));
+            query_params.insert("endTime".to_string(), json!(rw));
         }
 
         send_request::<Vec<models::TakerBuySellVolumeResponseInner>>(
@@ -2720,11 +2709,11 @@ impl MarketDataApi for MarketDataApiClient {
         }
 
         if let Some(rw) = start_time {
-            query_params.insert("start_time".to_string(), json!(rw));
+            query_params.insert("startTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = end_time {
-            query_params.insert("end_time".to_string(), json!(rw));
+            query_params.insert("endTime".to_string(), json!(rw));
         }
 
         send_request::<Vec<models::TopTraderLongShortRatioAccountsResponseInner>>(
@@ -2766,11 +2755,11 @@ impl MarketDataApi for MarketDataApiClient {
         }
 
         if let Some(rw) = start_time {
-            query_params.insert("start_time".to_string(), json!(rw));
+            query_params.insert("startTime".to_string(), json!(rw));
         }
 
         if let Some(rw) = end_time {
-            query_params.insert("end_time".to_string(), json!(rw));
+            query_params.insert("endTime".to_string(), json!(rw));
         }
 
         send_request::<Vec<models::TopTraderLongShortRatioPositionsResponseInner>>(

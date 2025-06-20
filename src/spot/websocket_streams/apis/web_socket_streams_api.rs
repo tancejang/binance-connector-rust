@@ -372,9 +372,6 @@ pub struct AllMiniTickerParams {
 impl AllMiniTickerParams {
     /// Create a builder for [`all_mini_ticker`].
     ///
-    /// Required parameters:
-    ///
-    ///
     #[must_use]
     pub fn builder() -> AllMiniTickerParamsBuilder {
         AllMiniTickerParamsBuilder::default()
@@ -396,9 +393,6 @@ pub struct AllTickerParams {
 
 impl AllTickerParams {
     /// Create a builder for [`all_ticker`].
-    ///
-    /// Required parameters:
-    ///
     ///
     #[must_use]
     pub fn builder() -> AllTickerParamsBuilder {
@@ -804,7 +798,7 @@ impl WebSocketStreamsApi for WebSocketStreamsApiClient {
         let AllMarketRollingWindowTickerParams { window_size, id } = params;
 
         let pairs: &[(&str, Option<String>)] = &[
-            ("window_size", Some(window_size.as_str().to_string())),
+            ("windowSize", Some(window_size.as_str().to_string())),
             ("id", id.clone()),
         ];
 
@@ -946,7 +940,7 @@ impl WebSocketStreamsApi for WebSocketStreamsApiClient {
         let pairs: &[(&str, Option<String>)] = &[
             ("symbol", Some(symbol.clone())),
             ("id", id.clone()),
-            ("update_speed", update_speed.clone()),
+            ("updateSpeed", update_speed.clone()),
         ];
 
         let vars: HashMap<_, _> = pairs
@@ -1074,7 +1068,7 @@ impl WebSocketStreamsApi for WebSocketStreamsApiClient {
             ("symbol", Some(symbol.clone())),
             ("levels", Some(levels.as_str().to_string())),
             ("id", id.clone()),
-            ("update_speed", update_speed.clone()),
+            ("updateSpeed", update_speed.clone()),
         ];
 
         let vars: HashMap<_, _> = pairs
@@ -1107,7 +1101,7 @@ impl WebSocketStreamsApi for WebSocketStreamsApiClient {
 
         let pairs: &[(&str, Option<String>)] = &[
             ("symbol", Some(symbol.clone())),
-            ("window_size", Some(window_size.as_str().to_string())),
+            ("windowSize", Some(window_size.as_str().to_string())),
             ("id", id.clone()),
         ];
 
@@ -1365,7 +1359,7 @@ mod tests {
             let AllMarketRollingWindowTickerParams { window_size, id } = params.clone();
 
             let pairs: &[(&str, Option<String>)] = &[
-                ("window_size", Some(window_size.as_str().to_string())),
+                ("windowSize", Some(window_size.as_str().to_string())),
                 ("id", id.clone()),
             ];
 
@@ -1402,7 +1396,7 @@ mod tests {
             } = params.clone();
 
             let pairs: &[(&str, Option<String>)] = &[
-                ("window_size",
+                ("windowSize",
                         Some(window_size.as_str().to_string())
                 ),
                 ("id",
@@ -1452,7 +1446,7 @@ mod tests {
             } = params.clone();
 
             let pairs: &[(&str, Option<String>)] = &[
-                ("window_size",
+                ("windowSize",
                         Some(window_size.as_str().to_string())
                 ),
                 ("id",
@@ -2064,7 +2058,7 @@ mod tests {
             let pairs: &[(&str, Option<String>)] = &[
                 ("symbol", Some(symbol.clone())),
                 ("id", id.clone()),
-                ("update_speed", update_speed.clone()),
+                ("updateSpeed", update_speed.clone()),
             ];
 
             let vars: HashMap<_, _> = pairs
@@ -2107,7 +2101,7 @@ mod tests {
                 ("id",
                         id.clone()
                 ),
-                ("update_speed",
+                ("updateSpeed",
                         update_speed.clone()
                 ),
             ];
@@ -2160,7 +2154,7 @@ mod tests {
                 ("id",
                         id.clone()
                 ),
-                ("update_speed",
+                ("updateSpeed",
                         update_speed.clone()
                 ),
             ];
@@ -2678,7 +2672,7 @@ mod tests {
                 ("symbol", Some(symbol.clone())),
                 ("levels", Some(levels.as_str().to_string())),
                 ("id", id.clone()),
-                ("update_speed", update_speed.clone()),
+                ("updateSpeed", update_speed.clone()),
             ];
 
             let vars: HashMap<_, _> = pairs
@@ -2729,7 +2723,7 @@ mod tests {
                 ("symbol", Some(symbol.clone())),
                 ("levels", Some(levels.as_str().to_string())),
                 ("id", id.clone()),
-                ("update_speed", update_speed.clone()),
+                ("updateSpeed", update_speed.clone()),
             ];
 
             let vars: HashMap<_, _> = pairs
@@ -2795,7 +2789,7 @@ mod tests {
                 ("symbol", Some(symbol.clone())),
                 ("levels", Some(levels.as_str().to_string())),
                 ("id", id.clone()),
-                ("update_speed", update_speed.clone()),
+                ("updateSpeed", update_speed.clone()),
             ];
 
             let vars: HashMap<_, _> = pairs
@@ -2866,7 +2860,7 @@ mod tests {
 
             let pairs: &[(&str, Option<String>)] = &[
                 ("symbol", Some(symbol.clone())),
-                ("window_size", Some(window_size.as_str().to_string())),
+                ("windowSize", Some(window_size.as_str().to_string())),
                 ("id", id.clone()),
             ];
 
@@ -2907,7 +2901,7 @@ mod tests {
                 ("symbol",
                         Some(symbol.clone())
                 ),
-                ("window_size",
+                ("windowSize",
                         Some(window_size.as_str().to_string())
                 ),
                 ("id",
@@ -2960,7 +2954,7 @@ mod tests {
                 ("symbol",
                         Some(symbol.clone())
                 ),
-                ("window_size",
+                ("windowSize",
                         Some(window_size.as_str().to_string())
                 ),
                 ("id",

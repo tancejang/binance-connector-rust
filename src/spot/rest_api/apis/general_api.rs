@@ -20,6 +20,7 @@
 use async_trait::async_trait;
 use derive_builder::Builder;
 use reqwest;
+use rust_decimal::{Decimal, prelude::FromPrimitive};
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::collections::BTreeMap;
@@ -120,9 +121,6 @@ pub struct ExchangeInfoParams {
 impl ExchangeInfoParams {
     /// Create a builder for [`exchange_info`].
     ///
-    /// Required parameters:
-    ///
-    ///
     #[must_use]
     pub fn builder() -> ExchangeInfoParamsBuilder {
         ExchangeInfoParamsBuilder::default()
@@ -158,11 +156,11 @@ impl GeneralApi for GeneralApiClient {
         }
 
         if let Some(rw) = show_permission_sets {
-            query_params.insert("show_permission_sets".to_string(), json!(rw));
+            query_params.insert("showPermissionSets".to_string(), json!(rw));
         }
 
         if let Some(rw) = symbol_status {
-            query_params.insert("symbol_status".to_string(), json!(rw));
+            query_params.insert("symbolStatus".to_string(), json!(rw));
         }
 
         send_request::<models::ExchangeInfoResponse>(

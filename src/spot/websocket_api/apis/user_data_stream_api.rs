@@ -20,6 +20,7 @@
 use anyhow::Context;
 use async_trait::async_trait;
 use derive_builder::Builder;
+use rust_decimal::{Decimal, prelude::FromPrimitive};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::{collections::BTreeMap, sync::Arc};
@@ -114,9 +115,6 @@ pub struct UserDataStreamStartParams {
 impl UserDataStreamStartParams {
     /// Create a builder for [`user_data_stream_start`].
     ///
-    /// Required parameters:
-    ///
-    ///
     #[must_use]
     pub fn builder() -> UserDataStreamStartParamsBuilder {
         UserDataStreamStartParamsBuilder::default()
@@ -171,9 +169,6 @@ pub struct UserDataStreamSubscribeParams {
 impl UserDataStreamSubscribeParams {
     /// Create a builder for [`user_data_stream_subscribe`].
     ///
-    /// Required parameters:
-    ///
-    ///
     #[must_use]
     pub fn builder() -> UserDataStreamSubscribeParamsBuilder {
         UserDataStreamSubscribeParamsBuilder::default()
@@ -196,9 +191,6 @@ pub struct UserDataStreamUnsubscribeParams {
 impl UserDataStreamUnsubscribeParams {
     /// Create a builder for [`user_data_stream_unsubscribe`].
     ///
-    /// Required parameters:
-    ///
-    ///
     #[must_use]
     pub fn builder() -> UserDataStreamUnsubscribeParamsBuilder {
         UserDataStreamUnsubscribeParamsBuilder::default()
@@ -214,7 +206,8 @@ impl UserDataStreamApi for UserDataStreamApiClient {
         let UserDataStreamPingParams { listen_key, id } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
-        payload.insert("listen_key".to_string(), serde_json::json!(listen_key));
+
+        payload.insert("listenKey".to_string(), serde_json::json!(listen_key));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
         }
@@ -265,7 +258,8 @@ impl UserDataStreamApi for UserDataStreamApiClient {
         let UserDataStreamStopParams { listen_key, id } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
-        payload.insert("listen_key".to_string(), serde_json::json!(listen_key));
+
+        payload.insert("listenKey".to_string(), serde_json::json!(listen_key));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
         }

@@ -20,6 +20,7 @@
 use async_trait::async_trait;
 use derive_builder::Builder;
 use reqwest;
+use rust_decimal::{Decimal, prelude::FromPrimitive};
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::collections::BTreeMap;
@@ -2502,9 +2503,6 @@ pub struct OrderTestParams {
 impl OrderTestParams {
     /// Create a builder for [`order_test`].
     ///
-    /// Required parameters:
-    ///
-    ///
     #[must_use]
     pub fn builder() -> OrderTestParamsBuilder {
         OrderTestParamsBuilder::default()
@@ -2634,9 +2632,6 @@ pub struct SorOrderTestParams {
 impl SorOrderTestParams {
     /// Create a builder for [`sor_order_test`].
     ///
-    /// Required parameters:
-    ///
-    ///
     #[must_use]
     pub fn builder() -> SorOrderTestParamsBuilder {
         SorOrderTestParamsBuilder::default()
@@ -2659,7 +2654,7 @@ impl TradeApi for TradeApiClient {
         query_params.insert("symbol".to_string(), json!(symbol));
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<Vec<models::DeleteOpenOrdersResponseInner>>(
@@ -2695,23 +2690,23 @@ impl TradeApi for TradeApiClient {
         query_params.insert("symbol".to_string(), json!(symbol));
 
         if let Some(rw) = order_id {
-            query_params.insert("order_id".to_string(), json!(rw));
+            query_params.insert("orderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = orig_client_order_id {
-            query_params.insert("orig_client_order_id".to_string(), json!(rw));
+            query_params.insert("origClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = new_client_order_id {
-            query_params.insert("new_client_order_id".to_string(), json!(rw));
+            query_params.insert("newClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = cancel_restrictions {
-            query_params.insert("cancel_restrictions".to_string(), json!(rw));
+            query_params.insert("cancelRestrictions".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::DeleteOrderResponse>(
@@ -2746,19 +2741,19 @@ impl TradeApi for TradeApiClient {
         query_params.insert("symbol".to_string(), json!(symbol));
 
         if let Some(rw) = order_list_id {
-            query_params.insert("order_list_id".to_string(), json!(rw));
+            query_params.insert("orderListId".to_string(), json!(rw));
         }
 
         if let Some(rw) = list_client_order_id {
-            query_params.insert("list_client_order_id".to_string(), json!(rw));
+            query_params.insert("listClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = new_client_order_id {
-            query_params.insert("new_client_order_id".to_string(), json!(rw));
+            query_params.insert("newClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::DeleteOrderListResponse>(
@@ -2808,55 +2803,60 @@ impl TradeApi for TradeApiClient {
         query_params.insert("type".to_string(), json!(r#type));
 
         if let Some(rw) = time_in_force {
-            query_params.insert("time_in_force".to_string(), json!(rw));
+            query_params.insert("timeInForce".to_string(), json!(rw));
         }
 
         if let Some(rw) = quantity {
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("quantity".to_string(), json!(rw));
         }
 
         if let Some(rw) = quote_order_qty {
-            query_params.insert("quote_order_qty".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("quoteOrderQty".to_string(), json!(rw));
         }
 
         if let Some(rw) = price {
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("price".to_string(), json!(rw));
         }
 
         if let Some(rw) = new_client_order_id {
-            query_params.insert("new_client_order_id".to_string(), json!(rw));
+            query_params.insert("newClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = strategy_id {
-            query_params.insert("strategy_id".to_string(), json!(rw));
+            query_params.insert("strategyId".to_string(), json!(rw));
         }
 
         if let Some(rw) = strategy_type {
-            query_params.insert("strategy_type".to_string(), json!(rw));
+            query_params.insert("strategyType".to_string(), json!(rw));
         }
 
         if let Some(rw) = stop_price {
-            query_params.insert("stop_price".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("stopPrice".to_string(), json!(rw));
         }
 
         if let Some(rw) = trailing_delta {
-            query_params.insert("trailing_delta".to_string(), json!(rw));
+            query_params.insert("trailingDelta".to_string(), json!(rw));
         }
 
         if let Some(rw) = iceberg_qty {
-            query_params.insert("iceberg_qty".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("icebergQty".to_string(), json!(rw));
         }
 
         if let Some(rw) = new_order_resp_type {
-            query_params.insert("new_order_resp_type".to_string(), json!(rw));
+            query_params.insert("newOrderRespType".to_string(), json!(rw));
         }
 
         if let Some(rw) = self_trade_prevention_mode {
-            query_params.insert("self_trade_prevention_mode".to_string(), json!(rw));
+            query_params.insert("selfTradePreventionMode".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::NewOrderResponse>(
@@ -2891,22 +2891,23 @@ impl TradeApi for TradeApiClient {
 
         query_params.insert("symbol".to_string(), json!(symbol));
 
-        query_params.insert("newQty".to_string(), json!(new_qty));
+        let new_qty_value = Decimal::from_f32(new_qty).unwrap_or_default();
+        query_params.insert("newQty".to_string(), json!(new_qty_value));
 
         if let Some(rw) = order_id {
-            query_params.insert("order_id".to_string(), json!(rw));
+            query_params.insert("orderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = orig_client_order_id {
-            query_params.insert("orig_client_order_id".to_string(), json!(rw));
+            query_params.insert("origClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = new_client_order_id {
-            query_params.insert("new_client_order_id".to_string(), json!(rw));
+            query_params.insert("newClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::OrderAmendKeepPriorityResponse>(
@@ -2964,75 +2965,80 @@ impl TradeApi for TradeApiClient {
         query_params.insert("cancelReplaceMode".to_string(), json!(cancel_replace_mode));
 
         if let Some(rw) = time_in_force {
-            query_params.insert("time_in_force".to_string(), json!(rw));
+            query_params.insert("timeInForce".to_string(), json!(rw));
         }
 
         if let Some(rw) = quantity {
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("quantity".to_string(), json!(rw));
         }
 
         if let Some(rw) = quote_order_qty {
-            query_params.insert("quote_order_qty".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("quoteOrderQty".to_string(), json!(rw));
         }
 
         if let Some(rw) = price {
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("price".to_string(), json!(rw));
         }
 
         if let Some(rw) = cancel_new_client_order_id {
-            query_params.insert("cancel_new_client_order_id".to_string(), json!(rw));
+            query_params.insert("cancelNewClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = cancel_orig_client_order_id {
-            query_params.insert("cancel_orig_client_order_id".to_string(), json!(rw));
+            query_params.insert("cancelOrigClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = cancel_order_id {
-            query_params.insert("cancel_order_id".to_string(), json!(rw));
+            query_params.insert("cancelOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = new_client_order_id {
-            query_params.insert("new_client_order_id".to_string(), json!(rw));
+            query_params.insert("newClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = strategy_id {
-            query_params.insert("strategy_id".to_string(), json!(rw));
+            query_params.insert("strategyId".to_string(), json!(rw));
         }
 
         if let Some(rw) = strategy_type {
-            query_params.insert("strategy_type".to_string(), json!(rw));
+            query_params.insert("strategyType".to_string(), json!(rw));
         }
 
         if let Some(rw) = stop_price {
-            query_params.insert("stop_price".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("stopPrice".to_string(), json!(rw));
         }
 
         if let Some(rw) = trailing_delta {
-            query_params.insert("trailing_delta".to_string(), json!(rw));
+            query_params.insert("trailingDelta".to_string(), json!(rw));
         }
 
         if let Some(rw) = iceberg_qty {
-            query_params.insert("iceberg_qty".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("icebergQty".to_string(), json!(rw));
         }
 
         if let Some(rw) = new_order_resp_type {
-            query_params.insert("new_order_resp_type".to_string(), json!(rw));
+            query_params.insert("newOrderRespType".to_string(), json!(rw));
         }
 
         if let Some(rw) = self_trade_prevention_mode {
-            query_params.insert("self_trade_prevention_mode".to_string(), json!(rw));
+            query_params.insert("selfTradePreventionMode".to_string(), json!(rw));
         }
 
         if let Some(rw) = cancel_restrictions {
-            query_params.insert("cancel_restrictions".to_string(), json!(rw));
+            query_params.insert("cancelRestrictions".to_string(), json!(rw));
         }
 
         if let Some(rw) = order_rate_limit_exceeded_mode {
-            query_params.insert("order_rate_limit_exceeded_mode".to_string(), json!(rw));
+            query_params.insert("orderRateLimitExceededMode".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::OrderCancelReplaceResponse>(
@@ -3088,90 +3094,96 @@ impl TradeApi for TradeApiClient {
 
         query_params.insert("side".to_string(), json!(side));
 
-        query_params.insert("quantity".to_string(), json!(quantity));
+        let quantity_value = Decimal::from_f32(quantity).unwrap_or_default();
+        query_params.insert("quantity".to_string(), json!(quantity_value));
 
         query_params.insert("aboveType".to_string(), json!(above_type));
 
         query_params.insert("belowType".to_string(), json!(below_type));
 
         if let Some(rw) = list_client_order_id {
-            query_params.insert("list_client_order_id".to_string(), json!(rw));
+            query_params.insert("listClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = above_client_order_id {
-            query_params.insert("above_client_order_id".to_string(), json!(rw));
+            query_params.insert("aboveClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = above_iceberg_qty {
-            query_params.insert("above_iceberg_qty".to_string(), json!(rw));
+            query_params.insert("aboveIcebergQty".to_string(), json!(rw));
         }
 
         if let Some(rw) = above_price {
-            query_params.insert("above_price".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("abovePrice".to_string(), json!(rw));
         }
 
         if let Some(rw) = above_stop_price {
-            query_params.insert("above_stop_price".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("aboveStopPrice".to_string(), json!(rw));
         }
 
         if let Some(rw) = above_trailing_delta {
-            query_params.insert("above_trailing_delta".to_string(), json!(rw));
+            query_params.insert("aboveTrailingDelta".to_string(), json!(rw));
         }
 
         if let Some(rw) = above_time_in_force {
-            query_params.insert("above_time_in_force".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("aboveTimeInForce".to_string(), json!(rw));
         }
 
         if let Some(rw) = above_strategy_id {
-            query_params.insert("above_strategy_id".to_string(), json!(rw));
+            query_params.insert("aboveStrategyId".to_string(), json!(rw));
         }
 
         if let Some(rw) = above_strategy_type {
-            query_params.insert("above_strategy_type".to_string(), json!(rw));
+            query_params.insert("aboveStrategyType".to_string(), json!(rw));
         }
 
         if let Some(rw) = below_client_order_id {
-            query_params.insert("below_client_order_id".to_string(), json!(rw));
+            query_params.insert("belowClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = below_iceberg_qty {
-            query_params.insert("below_iceberg_qty".to_string(), json!(rw));
+            query_params.insert("belowIcebergQty".to_string(), json!(rw));
         }
 
         if let Some(rw) = below_price {
-            query_params.insert("below_price".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("belowPrice".to_string(), json!(rw));
         }
 
         if let Some(rw) = below_stop_price {
-            query_params.insert("below_stop_price".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("belowStopPrice".to_string(), json!(rw));
         }
 
         if let Some(rw) = below_trailing_delta {
-            query_params.insert("below_trailing_delta".to_string(), json!(rw));
+            query_params.insert("belowTrailingDelta".to_string(), json!(rw));
         }
 
         if let Some(rw) = below_time_in_force {
-            query_params.insert("below_time_in_force".to_string(), json!(rw));
+            query_params.insert("belowTimeInForce".to_string(), json!(rw));
         }
 
         if let Some(rw) = below_strategy_id {
-            query_params.insert("below_strategy_id".to_string(), json!(rw));
+            query_params.insert("belowStrategyId".to_string(), json!(rw));
         }
 
         if let Some(rw) = below_strategy_type {
-            query_params.insert("below_strategy_type".to_string(), json!(rw));
+            query_params.insert("belowStrategyType".to_string(), json!(rw));
         }
 
         if let Some(rw) = new_order_resp_type {
-            query_params.insert("new_order_resp_type".to_string(), json!(rw));
+            query_params.insert("newOrderRespType".to_string(), json!(rw));
         }
 
         if let Some(rw) = self_trade_prevention_mode {
-            query_params.insert("self_trade_prevention_mode".to_string(), json!(rw));
+            query_params.insert("selfTradePreventionMode".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::OrderListOcoResponse>(
@@ -3229,82 +3241,90 @@ impl TradeApi for TradeApiClient {
 
         query_params.insert("workingSide".to_string(), json!(working_side));
 
-        query_params.insert("workingPrice".to_string(), json!(working_price));
+        let working_price_value = Decimal::from_f32(working_price).unwrap_or_default();
+        query_params.insert("workingPrice".to_string(), json!(working_price_value));
 
-        query_params.insert("workingQuantity".to_string(), json!(working_quantity));
+        let working_quantity_value = Decimal::from_f32(working_quantity).unwrap_or_default();
+        query_params.insert("workingQuantity".to_string(), json!(working_quantity_value));
 
         query_params.insert("pendingType".to_string(), json!(pending_type));
 
         query_params.insert("pendingSide".to_string(), json!(pending_side));
 
-        query_params.insert("pendingQuantity".to_string(), json!(pending_quantity));
+        let pending_quantity_value = Decimal::from_f32(pending_quantity).unwrap_or_default();
+        query_params.insert("pendingQuantity".to_string(), json!(pending_quantity_value));
 
         if let Some(rw) = list_client_order_id {
-            query_params.insert("list_client_order_id".to_string(), json!(rw));
+            query_params.insert("listClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = new_order_resp_type {
-            query_params.insert("new_order_resp_type".to_string(), json!(rw));
+            query_params.insert("newOrderRespType".to_string(), json!(rw));
         }
 
         if let Some(rw) = self_trade_prevention_mode {
-            query_params.insert("self_trade_prevention_mode".to_string(), json!(rw));
+            query_params.insert("selfTradePreventionMode".to_string(), json!(rw));
         }
 
         if let Some(rw) = working_client_order_id {
-            query_params.insert("working_client_order_id".to_string(), json!(rw));
+            query_params.insert("workingClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = working_iceberg_qty {
-            query_params.insert("working_iceberg_qty".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("workingIcebergQty".to_string(), json!(rw));
         }
 
         if let Some(rw) = working_time_in_force {
-            query_params.insert("working_time_in_force".to_string(), json!(rw));
+            query_params.insert("workingTimeInForce".to_string(), json!(rw));
         }
 
         if let Some(rw) = working_strategy_id {
-            query_params.insert("working_strategy_id".to_string(), json!(rw));
+            query_params.insert("workingStrategyId".to_string(), json!(rw));
         }
 
         if let Some(rw) = working_strategy_type {
-            query_params.insert("working_strategy_type".to_string(), json!(rw));
+            query_params.insert("workingStrategyType".to_string(), json!(rw));
         }
 
         if let Some(rw) = pending_client_order_id {
-            query_params.insert("pending_client_order_id".to_string(), json!(rw));
+            query_params.insert("pendingClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = pending_price {
-            query_params.insert("pending_price".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("pendingPrice".to_string(), json!(rw));
         }
 
         if let Some(rw) = pending_stop_price {
-            query_params.insert("pending_stop_price".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("pendingStopPrice".to_string(), json!(rw));
         }
 
         if let Some(rw) = pending_trailing_delta {
-            query_params.insert("pending_trailing_delta".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("pendingTrailingDelta".to_string(), json!(rw));
         }
 
         if let Some(rw) = pending_iceberg_qty {
-            query_params.insert("pending_iceberg_qty".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("pendingIcebergQty".to_string(), json!(rw));
         }
 
         if let Some(rw) = pending_time_in_force {
-            query_params.insert("pending_time_in_force".to_string(), json!(rw));
+            query_params.insert("pendingTimeInForce".to_string(), json!(rw));
         }
 
         if let Some(rw) = pending_strategy_id {
-            query_params.insert("pending_strategy_id".to_string(), json!(rw));
+            query_params.insert("pendingStrategyId".to_string(), json!(rw));
         }
 
         if let Some(rw) = pending_strategy_type {
-            query_params.insert("pending_strategy_type".to_string(), json!(rw));
+            query_params.insert("pendingStrategyType".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::OrderListOtoResponse>(
@@ -3371,118 +3391,130 @@ impl TradeApi for TradeApiClient {
 
         query_params.insert("workingSide".to_string(), json!(working_side));
 
-        query_params.insert("workingPrice".to_string(), json!(working_price));
+        let working_price_value = Decimal::from_f32(working_price).unwrap_or_default();
+        query_params.insert("workingPrice".to_string(), json!(working_price_value));
 
-        query_params.insert("workingQuantity".to_string(), json!(working_quantity));
+        let working_quantity_value = Decimal::from_f32(working_quantity).unwrap_or_default();
+        query_params.insert("workingQuantity".to_string(), json!(working_quantity_value));
 
         query_params.insert("pendingSide".to_string(), json!(pending_side));
 
-        query_params.insert("pendingQuantity".to_string(), json!(pending_quantity));
+        let pending_quantity_value = Decimal::from_f32(pending_quantity).unwrap_or_default();
+        query_params.insert("pendingQuantity".to_string(), json!(pending_quantity_value));
 
         query_params.insert("pendingAboveType".to_string(), json!(pending_above_type));
 
         if let Some(rw) = list_client_order_id {
-            query_params.insert("list_client_order_id".to_string(), json!(rw));
+            query_params.insert("listClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = new_order_resp_type {
-            query_params.insert("new_order_resp_type".to_string(), json!(rw));
+            query_params.insert("newOrderRespType".to_string(), json!(rw));
         }
 
         if let Some(rw) = self_trade_prevention_mode {
-            query_params.insert("self_trade_prevention_mode".to_string(), json!(rw));
+            query_params.insert("selfTradePreventionMode".to_string(), json!(rw));
         }
 
         if let Some(rw) = working_client_order_id {
-            query_params.insert("working_client_order_id".to_string(), json!(rw));
+            query_params.insert("workingClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = working_iceberg_qty {
-            query_params.insert("working_iceberg_qty".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("workingIcebergQty".to_string(), json!(rw));
         }
 
         if let Some(rw) = working_time_in_force {
-            query_params.insert("working_time_in_force".to_string(), json!(rw));
+            query_params.insert("workingTimeInForce".to_string(), json!(rw));
         }
 
         if let Some(rw) = working_strategy_id {
-            query_params.insert("working_strategy_id".to_string(), json!(rw));
+            query_params.insert("workingStrategyId".to_string(), json!(rw));
         }
 
         if let Some(rw) = working_strategy_type {
-            query_params.insert("working_strategy_type".to_string(), json!(rw));
+            query_params.insert("workingStrategyType".to_string(), json!(rw));
         }
 
         if let Some(rw) = pending_above_client_order_id {
-            query_params.insert("pending_above_client_order_id".to_string(), json!(rw));
+            query_params.insert("pendingAboveClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = pending_above_price {
-            query_params.insert("pending_above_price".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("pendingAbovePrice".to_string(), json!(rw));
         }
 
         if let Some(rw) = pending_above_stop_price {
-            query_params.insert("pending_above_stop_price".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("pendingAboveStopPrice".to_string(), json!(rw));
         }
 
         if let Some(rw) = pending_above_trailing_delta {
-            query_params.insert("pending_above_trailing_delta".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("pendingAboveTrailingDelta".to_string(), json!(rw));
         }
 
         if let Some(rw) = pending_above_iceberg_qty {
-            query_params.insert("pending_above_iceberg_qty".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("pendingAboveIcebergQty".to_string(), json!(rw));
         }
 
         if let Some(rw) = pending_above_time_in_force {
-            query_params.insert("pending_above_time_in_force".to_string(), json!(rw));
+            query_params.insert("pendingAboveTimeInForce".to_string(), json!(rw));
         }
 
         if let Some(rw) = pending_above_strategy_id {
-            query_params.insert("pending_above_strategy_id".to_string(), json!(rw));
+            query_params.insert("pendingAboveStrategyId".to_string(), json!(rw));
         }
 
         if let Some(rw) = pending_above_strategy_type {
-            query_params.insert("pending_above_strategy_type".to_string(), json!(rw));
+            query_params.insert("pendingAboveStrategyType".to_string(), json!(rw));
         }
 
         if let Some(rw) = pending_below_type {
-            query_params.insert("pending_below_type".to_string(), json!(rw));
+            query_params.insert("pendingBelowType".to_string(), json!(rw));
         }
 
         if let Some(rw) = pending_below_client_order_id {
-            query_params.insert("pending_below_client_order_id".to_string(), json!(rw));
+            query_params.insert("pendingBelowClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = pending_below_price {
-            query_params.insert("pending_below_price".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("pendingBelowPrice".to_string(), json!(rw));
         }
 
         if let Some(rw) = pending_below_stop_price {
-            query_params.insert("pending_below_stop_price".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("pendingBelowStopPrice".to_string(), json!(rw));
         }
 
         if let Some(rw) = pending_below_trailing_delta {
-            query_params.insert("pending_below_trailing_delta".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("pendingBelowTrailingDelta".to_string(), json!(rw));
         }
 
         if let Some(rw) = pending_below_iceberg_qty {
-            query_params.insert("pending_below_iceberg_qty".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("pendingBelowIcebergQty".to_string(), json!(rw));
         }
 
         if let Some(rw) = pending_below_time_in_force {
-            query_params.insert("pending_below_time_in_force".to_string(), json!(rw));
+            query_params.insert("pendingBelowTimeInForce".to_string(), json!(rw));
         }
 
         if let Some(rw) = pending_below_strategy_id {
-            query_params.insert("pending_below_strategy_id".to_string(), json!(rw));
+            query_params.insert("pendingBelowStrategyId".to_string(), json!(rw));
         }
 
         if let Some(rw) = pending_below_strategy_type {
-            query_params.insert("pending_below_strategy_type".to_string(), json!(rw));
+            query_params.insert("pendingBelowStrategyType".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::OrderListOtocoResponse>(
@@ -3533,70 +3565,76 @@ impl TradeApi for TradeApiClient {
 
         query_params.insert("side".to_string(), json!(side));
 
-        query_params.insert("quantity".to_string(), json!(quantity));
+        let quantity_value = Decimal::from_f32(quantity).unwrap_or_default();
+        query_params.insert("quantity".to_string(), json!(quantity_value));
 
-        query_params.insert("price".to_string(), json!(price));
+        let price_value = Decimal::from_f32(price).unwrap_or_default();
+        query_params.insert("price".to_string(), json!(price_value));
 
-        query_params.insert("stopPrice".to_string(), json!(stop_price));
+        let stop_price_value = Decimal::from_f32(stop_price).unwrap_or_default();
+        query_params.insert("stopPrice".to_string(), json!(stop_price_value));
 
         if let Some(rw) = list_client_order_id {
-            query_params.insert("list_client_order_id".to_string(), json!(rw));
+            query_params.insert("listClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = limit_client_order_id {
-            query_params.insert("limit_client_order_id".to_string(), json!(rw));
+            query_params.insert("limitClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = limit_strategy_id {
-            query_params.insert("limit_strategy_id".to_string(), json!(rw));
+            query_params.insert("limitStrategyId".to_string(), json!(rw));
         }
 
         if let Some(rw) = limit_strategy_type {
-            query_params.insert("limit_strategy_type".to_string(), json!(rw));
+            query_params.insert("limitStrategyType".to_string(), json!(rw));
         }
 
         if let Some(rw) = limit_iceberg_qty {
-            query_params.insert("limit_iceberg_qty".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("limitIcebergQty".to_string(), json!(rw));
         }
 
         if let Some(rw) = trailing_delta {
-            query_params.insert("trailing_delta".to_string(), json!(rw));
+            query_params.insert("trailingDelta".to_string(), json!(rw));
         }
 
         if let Some(rw) = stop_client_order_id {
-            query_params.insert("stop_client_order_id".to_string(), json!(rw));
+            query_params.insert("stopClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = stop_strategy_id {
-            query_params.insert("stop_strategy_id".to_string(), json!(rw));
+            query_params.insert("stopStrategyId".to_string(), json!(rw));
         }
 
         if let Some(rw) = stop_strategy_type {
-            query_params.insert("stop_strategy_type".to_string(), json!(rw));
+            query_params.insert("stopStrategyType".to_string(), json!(rw));
         }
 
         if let Some(rw) = stop_limit_price {
-            query_params.insert("stop_limit_price".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("stopLimitPrice".to_string(), json!(rw));
         }
 
         if let Some(rw) = stop_iceberg_qty {
-            query_params.insert("stop_iceberg_qty".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("stopIcebergQty".to_string(), json!(rw));
         }
 
         if let Some(rw) = stop_limit_time_in_force {
-            query_params.insert("stop_limit_time_in_force".to_string(), json!(rw));
+            query_params.insert("stopLimitTimeInForce".to_string(), json!(rw));
         }
 
         if let Some(rw) = new_order_resp_type {
-            query_params.insert("new_order_resp_type".to_string(), json!(rw));
+            query_params.insert("newOrderRespType".to_string(), json!(rw));
         }
 
         if let Some(rw) = self_trade_prevention_mode {
-            query_params.insert("self_trade_prevention_mode".to_string(), json!(rw));
+            query_params.insert("selfTradePreventionMode".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::OrderOcoResponse>(
@@ -3625,7 +3663,7 @@ impl TradeApi for TradeApiClient {
         let mut query_params = BTreeMap::new();
 
         if let Some(rw) = compute_commission_rates {
-            query_params.insert("compute_commission_rates".to_string(), json!(rw));
+            query_params.insert("computeCommissionRates".to_string(), json!(rw));
         }
 
         send_request::<models::OrderTestResponse>(
@@ -3671,42 +3709,45 @@ impl TradeApi for TradeApiClient {
 
         query_params.insert("type".to_string(), json!(r#type));
 
-        query_params.insert("quantity".to_string(), json!(quantity));
+        let quantity_value = Decimal::from_f32(quantity).unwrap_or_default();
+        query_params.insert("quantity".to_string(), json!(quantity_value));
 
         if let Some(rw) = time_in_force {
-            query_params.insert("time_in_force".to_string(), json!(rw));
+            query_params.insert("timeInForce".to_string(), json!(rw));
         }
 
         if let Some(rw) = price {
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("price".to_string(), json!(rw));
         }
 
         if let Some(rw) = new_client_order_id {
-            query_params.insert("new_client_order_id".to_string(), json!(rw));
+            query_params.insert("newClientOrderId".to_string(), json!(rw));
         }
 
         if let Some(rw) = strategy_id {
-            query_params.insert("strategy_id".to_string(), json!(rw));
+            query_params.insert("strategyId".to_string(), json!(rw));
         }
 
         if let Some(rw) = strategy_type {
-            query_params.insert("strategy_type".to_string(), json!(rw));
+            query_params.insert("strategyType".to_string(), json!(rw));
         }
 
         if let Some(rw) = iceberg_qty {
-            query_params.insert("iceberg_qty".to_string(), json!(rw));
+            let rw = Decimal::from_f32(rw).unwrap_or_default();
+            query_params.insert("icebergQty".to_string(), json!(rw));
         }
 
         if let Some(rw) = new_order_resp_type {
-            query_params.insert("new_order_resp_type".to_string(), json!(rw));
+            query_params.insert("newOrderRespType".to_string(), json!(rw));
         }
 
         if let Some(rw) = self_trade_prevention_mode {
-            query_params.insert("self_trade_prevention_mode".to_string(), json!(rw));
+            query_params.insert("selfTradePreventionMode".to_string(), json!(rw));
         }
 
         if let Some(rw) = recv_window {
-            query_params.insert("recv_window".to_string(), json!(rw));
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::SorOrderResponse>(
@@ -3735,7 +3776,7 @@ impl TradeApi for TradeApiClient {
         let mut query_params = BTreeMap::new();
 
         if let Some(rw) = compute_commission_rates {
-            query_params.insert("compute_commission_rates".to_string(), json!(rw));
+            query_params.insert("computeCommissionRates".to_string(), json!(rw));
         }
 
         send_request::<models::SorOrderTestResponse>(
