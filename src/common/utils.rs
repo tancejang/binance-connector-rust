@@ -754,12 +754,13 @@ pub async fn send_request<T: DeserializeOwned + Send + 'static>(
         .context("Failed to join base URL and endpoint")?
         .to_string();
 
-    if is_signed {
-        let timestamp = get_timestamp();
-        params.insert("timestamp".to_string(), json!(timestamp));
-        let signature = configuration.signature_gen.get_signature(&params)?;
-        params.insert("signature".to_string(), Value::String(signature));
-    }
+    let signature = is_signed
+        .then(|| {
+            let timestamp = get_timestamp();
+            params.insert("timestamp".to_string(), json!(timestamp));
+            configuration.signature_gen.get_signature(&params)
+        })
+        .transpose()?;
 
     let mut url = Url::parse(&full_url)?;
     {
@@ -770,6 +771,9 @@ pub async fn send_request<T: DeserializeOwned + Send + 'static>(
                 _ => value.to_string(),
             };
             pairs.append_pair(key, &val_str);
+        }
+        if let Some(signature) = signature {
+            pairs.append_pair("signature", &signature);
         }
     }
 
