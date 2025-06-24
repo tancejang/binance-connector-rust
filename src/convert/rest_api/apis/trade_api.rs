@@ -15,7 +15,7 @@
 use async_trait::async_trait;
 use derive_builder::Builder;
 use reqwest;
-use rust_decimal::{Decimal, prelude::FromPrimitive};
+use rust_decimal::prelude::*;
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::collections::BTreeMap;
@@ -229,7 +229,7 @@ pub struct PlaceLimitOrderParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub limit_price: f32,
+    pub limit_price: rust_decimal::Decimal,
     /// `BUY` or `SELL`
     ///
     /// This field is **required.
@@ -244,12 +244,12 @@ pub struct PlaceLimitOrderParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub base_amount: Option<f32>,
+    pub base_amount: Option<rust_decimal::Decimal>,
     /// Quote asset amount.  (One of `baseAmount` or `quoteAmount` is required)
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub quote_amount: Option<f32>,
+    pub quote_amount: Option<rust_decimal::Decimal>,
     /// It is to choose which wallet of assets. The wallet selection is `SPOT`, `FUNDING` and `EARN`. Combination of wallet is supported i.e. `SPOT_FUNDING`, `FUNDING_EARN`, `SPOT_FUNDING_EARN` or `SPOT_EARN`  Default is `SPOT`.
     ///
     /// This field is **optional.
@@ -277,7 +277,7 @@ impl PlaceLimitOrderParams {
     pub fn builder(
         base_asset: String,
         quote_asset: String,
-        limit_price: f32,
+        limit_price: rust_decimal::Decimal,
         side: String,
         expired_type: String,
     ) -> PlaceLimitOrderParamsBuilder {
@@ -334,12 +334,12 @@ pub struct SendQuoteRequestParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub from_amount: Option<f32>,
+    pub from_amount: Option<rust_decimal::Decimal>,
     /// When specified, it is the amount you will be credited after the conversion
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub to_amount: Option<f32>,
+    pub to_amount: Option<rust_decimal::Decimal>,
     /// It is to choose which wallet of assets. The wallet selection is `SPOT`, `FUNDING` and `EARN`. Combination of wallet is supported i.e. `SPOT_FUNDING`, `FUNDING_EARN`, `SPOT_FUNDING_EARN` or `SPOT_EARN`  Default is `SPOT`.
     ///
     /// This field is **optional.
@@ -532,20 +532,17 @@ impl TradeApi for TradeApiClient {
 
         query_params.insert("quoteAsset".to_string(), json!(quote_asset));
 
-        let limit_price_value = Decimal::from_f32(limit_price).unwrap_or_default();
-        query_params.insert("limitPrice".to_string(), json!(limit_price_value));
+        query_params.insert("limitPrice".to_string(), json!(limit_price));
 
         query_params.insert("side".to_string(), json!(side));
 
         query_params.insert("expiredType".to_string(), json!(expired_type));
 
         if let Some(rw) = base_amount {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("baseAmount".to_string(), json!(rw));
         }
 
         if let Some(rw) = quote_amount {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("quoteAmount".to_string(), json!(rw));
         }
 
@@ -620,12 +617,10 @@ impl TradeApi for TradeApiClient {
         query_params.insert("toAsset".to_string(), json!(to_asset));
 
         if let Some(rw) = from_amount {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("fromAmount".to_string(), json!(rw));
         }
 
         if let Some(rw) = to_amount {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("toAmount".to_string(), json!(rw));
         }
 
@@ -1091,7 +1086,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = PlaceLimitOrderParams::builder("base_asset_example".to_string(),"quote_asset_example".to_string(),1.0,"BUY".to_string(),"expired_type_example".to_string(),).build().unwrap();
+            let params = PlaceLimitOrderParams::builder("base_asset_example".to_string(),"quote_asset_example".to_string(),dec!(1.0),"BUY".to_string(),"expired_type_example".to_string(),).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"quoteId":"12415572564","ratio":"38163.7","inverseRatio":"0.0000262","validTimestamp":1623319461670,"toAmount":"3816.37","fromAmount":"0.1"}"#).unwrap();
             let expected_response : models::PlaceLimitOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::PlaceLimitOrderResponse");
@@ -1108,7 +1103,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = PlaceLimitOrderParams::builder("base_asset_example".to_string(),"quote_asset_example".to_string(),1.0,"BUY".to_string(),"expired_type_example".to_string(),).base_amount(1.0).quote_amount(1.0).wallet_type(String::new()).recv_window(5000).build().unwrap();
+            let params = PlaceLimitOrderParams::builder("base_asset_example".to_string(),"quote_asset_example".to_string(),dec!(1.0),"BUY".to_string(),"expired_type_example".to_string(),).base_amount(dec!(1.0)).quote_amount(dec!(1.0)).wallet_type(String::new()).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"quoteId":"12415572564","ratio":"38163.7","inverseRatio":"0.0000262","validTimestamp":1623319461670,"toAmount":"3816.37","fromAmount":"0.1"}"#).unwrap();
             let expected_response : models::PlaceLimitOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::PlaceLimitOrderResponse");
@@ -1128,7 +1123,7 @@ mod tests {
             let params = PlaceLimitOrderParams::builder(
                 "base_asset_example".to_string(),
                 "quote_asset_example".to_string(),
-                1.0,
+                dec!(1.0),
                 "BUY".to_string(),
                 "expired_type_example".to_string(),
             )
@@ -1216,7 +1211,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = SendQuoteRequestParams::builder("from_asset_example".to_string(),"to_asset_example".to_string(),).from_amount(1.0).to_amount(1.0).wallet_type(String::new()).valid_time("10s".to_string()).recv_window(5000).build().unwrap();
+            let params = SendQuoteRequestParams::builder("from_asset_example".to_string(),"to_asset_example".to_string(),).from_amount(dec!(1.0)).to_amount(dec!(1.0)).wallet_type(String::new()).valid_time("10s".to_string()).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"quoteId":"12415572564","ratio":"38163.7","inverseRatio":"0.0000262","validTimestamp":1623319461670,"toAmount":"3816.37","fromAmount":"0.1"}"#).unwrap();
             let expected_response : models::SendQuoteRequestResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::SendQuoteRequestResponse");

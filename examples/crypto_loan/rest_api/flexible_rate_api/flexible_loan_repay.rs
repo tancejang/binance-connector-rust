@@ -1,4 +1,5 @@
 use anyhow::{Context, Result};
+use rust_decimal::prelude::*;
 use std::env;
 use tracing::info;
 
@@ -24,7 +25,7 @@ async fn main() -> Result<()> {
     let params = FlexibleLoanRepayParams::builder(
         "loan_coin_example".to_string(),
         "collateral_coin_example".to_string(),
-        1.0,
+        dec!(1.0),
     )
     .build()?;
 

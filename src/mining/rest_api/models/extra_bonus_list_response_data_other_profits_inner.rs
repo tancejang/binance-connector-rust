@@ -24,7 +24,7 @@ pub struct ExtraBonusListResponseDataOtherProfitsInner {
     #[serde(rename = "type", skip_serializing_if = "Option::is_none")]
     pub r#type: Option<i64>,
     #[serde(rename = "profitAmount", skip_serializing_if = "Option::is_none")]
-    pub profit_amount: Option<f32>,
+    pub profit_amount: Option<rust_decimal::Decimal>,
     #[serde(rename = "status", skip_serializing_if = "Option::is_none")]
     pub status: Option<i64>,
 }

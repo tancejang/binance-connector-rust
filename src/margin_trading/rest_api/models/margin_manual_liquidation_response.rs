@@ -26,7 +26,7 @@ pub struct MarginManualLiquidationResponse {
     #[serde(rename = "liabilityAsset", skip_serializing_if = "Option::is_none")]
     pub liability_asset: Option<String>,
     #[serde(rename = "liabilityQty", skip_serializing_if = "Option::is_none")]
-    pub liability_qty: Option<f32>,
+    pub liability_qty: Option<rust_decimal::Decimal>,
 }
 
 impl MarginManualLiquidationResponse {

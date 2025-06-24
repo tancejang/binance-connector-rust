@@ -1,4 +1,5 @@
 use anyhow::{Context, Result};
+use rust_decimal::prelude::*;
 use std::env;
 use tracing::info;
 
@@ -23,7 +24,8 @@ async fn main() -> Result<()> {
     let rest_client = DerivativesTradingPortfolioMarginRestApi::production(rest_conf);
 
     // Setup the API parameters
-    let params = MarginAccountRepayParams::builder("asset_example".to_string(), 1.0).build()?;
+    let params =
+        MarginAccountRepayParams::builder("asset_example".to_string(), dec!(1.0)).build()?;
 
     // Make the API call
     let response = rest_client

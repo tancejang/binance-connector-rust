@@ -15,7 +15,7 @@
 use async_trait::async_trait;
 use derive_builder::Builder;
 use reqwest;
-use rust_decimal::{Decimal, prelude::FromPrimitive};
+use rust_decimal::prelude::*;
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::collections::BTreeMap;
@@ -177,7 +177,7 @@ pub struct SubscribeDualInvestmentProductsParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub deposit_amount: f32,
+    pub deposit_amount: rust_decimal::Decimal,
     /// `NONE`: switch off the plan, `STANDARD`:standard plan,`ADVANCED`:advanced plan
     ///
     /// This field is **required.
@@ -204,7 +204,7 @@ impl SubscribeDualInvestmentProductsParams {
     pub fn builder(
         id: String,
         order_id: String,
-        deposit_amount: f32,
+        deposit_amount: rust_decimal::Decimal,
         auto_compound_plan: String,
     ) -> SubscribeDualInvestmentProductsParamsBuilder {
         SubscribeDualInvestmentProductsParamsBuilder::default()
@@ -343,8 +343,7 @@ impl TradeApi for TradeApiClient {
 
         query_params.insert("orderId".to_string(), json!(order_id));
 
-        let deposit_amount_value = Decimal::from_f32(deposit_amount).unwrap_or_default();
-        query_params.insert("depositAmount".to_string(), json!(deposit_amount_value));
+        query_params.insert("depositAmount".to_string(), json!(deposit_amount));
 
         query_params.insert("autoCompoundPlan".to_string(), json!(auto_compound_plan));
 
@@ -707,7 +706,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = SubscribeDualInvestmentProductsParams::builder("id_example".to_string(),"1".to_string(),1.0,"NONE".to_string(),).build().unwrap();
+            let params = SubscribeDualInvestmentProductsParams::builder("id_example".to_string(),"1".to_string(),dec!(1.0),"NONE".to_string(),).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"positionId":10208824,"investCoin":"BNB","exercisedCoin":"USDT","subscriptionAmount":"0.002","duration":4,"autoCompoundPlan":"STANDARD","strikePrice":"380","settleDate":1709020800000,"purchaseStatus":"PURCHASE_SUCCESS","apr":"0.7397","orderId":8259117597,"purchaseTime":1708677583874,"optionType":"CALL"}"#).unwrap();
             let expected_response : models::SubscribeDualInvestmentProductsResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::SubscribeDualInvestmentProductsResponse");
@@ -724,7 +723,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = SubscribeDualInvestmentProductsParams::builder("id_example".to_string(),"1".to_string(),1.0,"NONE".to_string(),).recv_window(5000).build().unwrap();
+            let params = SubscribeDualInvestmentProductsParams::builder("id_example".to_string(),"1".to_string(),dec!(1.0),"NONE".to_string(),).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"positionId":10208824,"investCoin":"BNB","exercisedCoin":"USDT","subscriptionAmount":"0.002","duration":4,"autoCompoundPlan":"STANDARD","strikePrice":"380","settleDate":1709020800000,"purchaseStatus":"PURCHASE_SUCCESS","apr":"0.7397","orderId":8259117597,"purchaseTime":1708677583874,"optionType":"CALL"}"#).unwrap();
             let expected_response : models::SubscribeDualInvestmentProductsResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::SubscribeDualInvestmentProductsResponse");
@@ -744,7 +743,7 @@ mod tests {
             let params = SubscribeDualInvestmentProductsParams::builder(
                 "id_example".to_string(),
                 "1".to_string(),
-                1.0,
+                dec!(1.0),
                 "NONE".to_string(),
             )
             .build()

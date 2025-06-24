@@ -40,7 +40,7 @@ pub struct ExchangeInformationResponseSymbolsInnerFiltersInner {
     #[serde(rename = "multiplierDown", skip_serializing_if = "Option::is_none")]
     pub multiplier_down: Option<String>,
     #[serde(rename = "multiplierDecimal", skip_serializing_if = "Option::is_none")]
-    pub multiplier_decimal: Option<i64>,
+    pub multiplier_decimal: Option<String>,
 }
 
 impl ExchangeInformationResponseSymbolsInnerFiltersInner {

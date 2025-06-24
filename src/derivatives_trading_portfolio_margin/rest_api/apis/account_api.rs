@@ -15,7 +15,7 @@
 use async_trait::async_trait;
 use derive_builder::Builder;
 use reqwest;
-use rust_decimal::{Decimal, prelude::FromPrimitive};
+use rust_decimal::prelude::*;
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::collections::BTreeMap;
@@ -282,7 +282,7 @@ pub struct BnbTransferParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub amount: f32,
+    pub amount: rust_decimal::Decimal,
     /// "`TO_UM","FROM_UM`"
     ///
     /// This field is **required.
@@ -301,11 +301,14 @@ impl BnbTransferParams {
     ///
     /// Required parameters:
     ///
-    /// * `amount` — f32
+    /// * `amount` — `rust_decimal::Decimal`
     /// * `transfer_side` — \"`TO_UM`\",\"`FROM_UM`\"
     ///
     #[must_use]
-    pub fn builder(amount: f32, transfer_side: String) -> BnbTransferParamsBuilder {
+    pub fn builder(
+        amount: rust_decimal::Decimal,
+        transfer_side: String,
+    ) -> BnbTransferParamsBuilder {
         BnbTransferParamsBuilder::default()
             .amount(amount)
             .transfer_side(transfer_side)
@@ -1747,8 +1750,7 @@ impl AccountApi for AccountApiClient {
 
         let mut query_params = BTreeMap::new();
 
-        let amount_value = Decimal::from_f32(amount).unwrap_or_default();
-        query_params.insert("amount".to_string(), json!(amount_value));
+        query_params.insert("amount".to_string(), json!(amount));
 
         query_params.insert("transferSide".to_string(), json!(transfer_side));
 
@@ -4397,7 +4399,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockAccountApiClient { force_error: false };
 
-            let params = BnbTransferParams::builder(1.0, "transfer_side_example".to_string())
+            let params = BnbTransferParams::builder(dec!(1.0), "transfer_side_example".to_string())
                 .build()
                 .unwrap();
 
@@ -4421,7 +4423,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockAccountApiClient { force_error: false };
 
-            let params = BnbTransferParams::builder(1.0, "transfer_side_example".to_string())
+            let params = BnbTransferParams::builder(dec!(1.0), "transfer_side_example".to_string())
                 .recv_window(5000)
                 .build()
                 .unwrap();
@@ -4446,7 +4448,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockAccountApiClient { force_error: true };
 
-            let params = BnbTransferParams::builder(1.0, "transfer_side_example".to_string())
+            let params = BnbTransferParams::builder(dec!(1.0), "transfer_side_example".to_string())
                 .build()
                 .unwrap();
 

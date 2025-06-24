@@ -15,7 +15,7 @@
 use async_trait::async_trait;
 use derive_builder::Builder;
 use reqwest;
-use rust_decimal::{Decimal, prelude::FromPrimitive};
+use rust_decimal::prelude::*;
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::collections::BTreeMap;
@@ -102,7 +102,7 @@ pub struct BrokerWithdrawParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub amount: f32,
+    pub amount: rust_decimal::Decimal,
     /// withdrawID defined by the client (i.e. client's internal withdrawID)
     ///
     /// This field is **required.
@@ -158,7 +158,7 @@ impl BrokerWithdrawParams {
     ///
     /// * `address` — String
     /// * `coin` — String
-    /// * `amount` — f32
+    /// * `amount` — `rust_decimal::Decimal`
     /// * `withdraw_order_id` — withdrawID defined by the client (i.e. client's internal withdrawID)
     /// * `questionnaire` — JSON format questionnaire answers.
     /// * `originator_pii` — JSON format originator Pii, see `StandardPii` section below
@@ -168,7 +168,7 @@ impl BrokerWithdrawParams {
     pub fn builder(
         address: String,
         coin: String,
-        amount: f32,
+        amount: rust_decimal::Decimal,
         withdraw_order_id: String,
         questionnaire: String,
         originator_pii: String,
@@ -310,7 +310,7 @@ pub struct SubmitDepositQuestionnaireParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub amount: Option<f32>,
+    pub amount: Option<rust_decimal::Decimal>,
     ///
     /// The `address` parameter.
     ///
@@ -568,7 +568,7 @@ pub struct WithdrawTravelRuleParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub amount: f32,
+    pub amount: rust_decimal::Decimal,
     /// JSON format questionnaire answers.
     ///
     /// This field is **required.
@@ -620,14 +620,14 @@ impl WithdrawTravelRuleParams {
     ///
     /// * `coin` — String
     /// * `address` — String
-    /// * `amount` — f32
+    /// * `amount` — `rust_decimal::Decimal`
     /// * `questionnaire` — JSON format questionnaire answers.
     ///
     #[must_use]
     pub fn builder(
         coin: String,
         address: String,
-        amount: f32,
+        amount: rust_decimal::Decimal,
         questionnaire: String,
     ) -> WithdrawTravelRuleParamsBuilder {
         WithdrawTravelRuleParamsBuilder::default()
@@ -665,8 +665,7 @@ impl TravelRuleApi for TravelRuleApiClient {
 
         query_params.insert("coin".to_string(), json!(coin));
 
-        let amount_value = Decimal::from_f32(amount).unwrap_or_default();
-        query_params.insert("amount".to_string(), json!(amount_value));
+        query_params.insert("amount".to_string(), json!(amount));
 
         query_params.insert("withdrawOrderId".to_string(), json!(withdraw_order_id));
 
@@ -869,7 +868,6 @@ impl TravelRuleApi for TravelRuleApiClient {
         }
 
         if let Some(rw) = amount {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("amount".to_string(), json!(rw));
         }
 
@@ -1108,8 +1106,7 @@ impl TravelRuleApi for TravelRuleApiClient {
 
         query_params.insert("address".to_string(), json!(address));
 
-        let amount_value = Decimal::from_f32(amount).unwrap_or_default();
-        query_params.insert("amount".to_string(), json!(amount_value));
+        query_params.insert("amount".to_string(), json!(amount));
 
         query_params.insert("questionnaire".to_string(), json!(questionnaire));
 
@@ -1438,7 +1435,7 @@ mod tests {
             let params = BrokerWithdrawParams::builder(
                 "address_example".to_string(),
                 "coin_example".to_string(),
-                1.0,
+                dec!(1.0),
                 "1".to_string(),
                 "questionnaire_example".to_string(),
                 "originator_pii_example".to_string(),
@@ -1473,7 +1470,7 @@ mod tests {
             let params = BrokerWithdrawParams::builder(
                 "address_example".to_string(),
                 "coin_example".to_string(),
-                1.0,
+                dec!(1.0),
                 "1".to_string(),
                 "questionnaire_example".to_string(),
                 "originator_pii_example".to_string(),
@@ -1513,7 +1510,7 @@ mod tests {
             let params = BrokerWithdrawParams::builder(
                 "address_example".to_string(),
                 "coin_example".to_string(),
-                1.0,
+                dec!(1.0),
                 "1".to_string(),
                 "questionnaire_example".to_string(),
                 "originator_pii_example".to_string(),
@@ -1720,7 +1717,7 @@ mod tests {
             )
             .network("network_example".to_string())
             .coin("coin_example".to_string())
-            .amount(1.0)
+            .amount(dec!(1.0))
             .address("address_example".to_string())
             .address_tag("address_tag_example".to_string())
             .build()
@@ -1962,7 +1959,7 @@ mod tests {
             let params = WithdrawTravelRuleParams::builder(
                 "coin_example".to_string(),
                 "address_example".to_string(),
-                1.0,
+                dec!(1.0),
                 "questionnaire_example".to_string(),
             )
             .build()
@@ -1994,7 +1991,7 @@ mod tests {
             let params = WithdrawTravelRuleParams::builder(
                 "coin_example".to_string(),
                 "address_example".to_string(),
-                1.0,
+                dec!(1.0),
                 "questionnaire_example".to_string(),
             )
             .withdraw_order_id("1".to_string())
@@ -2033,7 +2030,7 @@ mod tests {
             let params = WithdrawTravelRuleParams::builder(
                 "coin_example".to_string(),
                 "address_example".to_string(),
-                1.0,
+                dec!(1.0),
                 "questionnaire_example".to_string(),
             )
             .build()

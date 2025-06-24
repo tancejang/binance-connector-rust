@@ -15,7 +15,7 @@
 use async_trait::async_trait;
 use derive_builder::Builder;
 use reqwest;
-use rust_decimal::{Decimal, prelude::FromPrimitive};
+use rust_decimal::prelude::*;
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::collections::BTreeMap;
@@ -1807,7 +1807,7 @@ pub struct MarginAccountBorrowParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub amount: f32,
+    pub amount: rust_decimal::Decimal,
     ///
     /// The `recv_window` parameter.
     ///
@@ -1822,10 +1822,13 @@ impl MarginAccountBorrowParams {
     /// Required parameters:
     ///
     /// * `asset` — String
-    /// * `amount` — f32
+    /// * `amount` — `rust_decimal::Decimal`
     ///
     #[must_use]
-    pub fn builder(asset: String, amount: f32) -> MarginAccountBorrowParamsBuilder {
+    pub fn builder(
+        asset: String,
+        amount: rust_decimal::Decimal,
+    ) -> MarginAccountBorrowParamsBuilder {
         MarginAccountBorrowParamsBuilder::default()
             .asset(asset)
             .amount(amount)
@@ -1854,19 +1857,19 @@ pub struct MarginAccountNewOcoParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub quantity: f32,
+    pub quantity: rust_decimal::Decimal,
     ///
     /// The `price` parameter.
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub price: f32,
+    pub price: rust_decimal::Decimal,
     ///
     /// The `stop_price` parameter.
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub stop_price: f32,
+    pub stop_price: rust_decimal::Decimal,
     /// Either `orderListId` or `listClientOrderId` must be provided
     ///
     /// This field is **optional.
@@ -1882,7 +1885,7 @@ pub struct MarginAccountNewOcoParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub limit_iceberg_qty: Option<f32>,
+    pub limit_iceberg_qty: Option<rust_decimal::Decimal>,
     /// A unique Id for the stop loss/stop loss limit leg
     ///
     /// This field is **optional.
@@ -1892,13 +1895,13 @@ pub struct MarginAccountNewOcoParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub stop_limit_price: Option<f32>,
+    pub stop_limit_price: Option<rust_decimal::Decimal>,
     ///
     /// The `stop_iceberg_qty` parameter.
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub stop_iceberg_qty: Option<f32>,
+    pub stop_iceberg_qty: Option<rust_decimal::Decimal>,
     /// Valid values are `GTC/FOK/IOC`
     ///
     /// This field is **optional.
@@ -1930,16 +1933,16 @@ impl MarginAccountNewOcoParams {
     /// * `symbol` — String
     /// * `side` — String
     /// * `quantity` — Order quantity
-    /// * `price` — f32
-    /// * `stop_price` — f32
+    /// * `price` — `rust_decimal::Decimal`
+    /// * `stop_price` — `rust_decimal::Decimal`
     ///
     #[must_use]
     pub fn builder(
         symbol: String,
         side: MarginAccountNewOcoSideEnum,
-        quantity: f32,
-        price: f32,
-        stop_price: f32,
+        quantity: rust_decimal::Decimal,
+        price: rust_decimal::Decimal,
+        stop_price: rust_decimal::Decimal,
     ) -> MarginAccountNewOcoParamsBuilder {
         MarginAccountNewOcoParamsBuilder::default()
             .symbol(symbol)
@@ -1967,7 +1970,7 @@ pub struct MarginAccountRepayParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub amount: f32,
+    pub amount: rust_decimal::Decimal,
     ///
     /// The `recv_window` parameter.
     ///
@@ -1982,10 +1985,13 @@ impl MarginAccountRepayParams {
     /// Required parameters:
     ///
     /// * `asset` — String
-    /// * `amount` — f32
+    /// * `amount` — `rust_decimal::Decimal`
     ///
     #[must_use]
-    pub fn builder(asset: String, amount: f32) -> MarginAccountRepayParamsBuilder {
+    pub fn builder(
+        asset: String,
+        amount: rust_decimal::Decimal,
+    ) -> MarginAccountRepayParamsBuilder {
         MarginAccountRepayParamsBuilder::default()
             .asset(asset)
             .amount(amount)
@@ -2117,13 +2123,13 @@ pub struct ModifyCmOrderParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub quantity: f32,
+    pub quantity: rust_decimal::Decimal,
     ///
     /// The `price` parameter.
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub price: f32,
+    pub price: rust_decimal::Decimal,
     ///
     /// The `order_id` parameter.
     ///
@@ -2157,14 +2163,14 @@ impl ModifyCmOrderParams {
     /// * `symbol` — String
     /// * `side` — String
     /// * `quantity` — Order quantity
-    /// * `price` — f32
+    /// * `price` — `rust_decimal::Decimal`
     ///
     #[must_use]
     pub fn builder(
         symbol: String,
         side: ModifyCmOrderSideEnum,
-        quantity: f32,
-        price: f32,
+        quantity: rust_decimal::Decimal,
+        price: rust_decimal::Decimal,
     ) -> ModifyCmOrderParamsBuilder {
         ModifyCmOrderParamsBuilder::default()
             .symbol(symbol)
@@ -2196,13 +2202,13 @@ pub struct ModifyUmOrderParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub quantity: f32,
+    pub quantity: rust_decimal::Decimal,
     ///
     /// The `price` parameter.
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub price: f32,
+    pub price: rust_decimal::Decimal,
     ///
     /// The `order_id` parameter.
     ///
@@ -2236,14 +2242,14 @@ impl ModifyUmOrderParams {
     /// * `symbol` — String
     /// * `side` — String
     /// * `quantity` — Order quantity
-    /// * `price` — f32
+    /// * `price` — `rust_decimal::Decimal`
     ///
     #[must_use]
     pub fn builder(
         symbol: String,
         side: ModifyUmOrderSideEnum,
-        quantity: f32,
-        price: f32,
+        quantity: rust_decimal::Decimal,
+        price: rust_decimal::Decimal,
     ) -> ModifyUmOrderParamsBuilder {
         ModifyUmOrderParamsBuilder::default()
             .symbol(symbol)
@@ -2292,7 +2298,7 @@ pub struct NewCmConditionalOrderParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub quantity: Option<f32>,
+    pub quantity: Option<rust_decimal::Decimal>,
     /// "true" or "false". default "false". Cannot be sent in Hedge Mode .
     ///
     /// This field is **optional.
@@ -2303,7 +2309,7 @@ pub struct NewCmConditionalOrderParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub price: Option<f32>,
+    pub price: Option<rust_decimal::Decimal>,
     /// stopPrice triggered by: "`MARK_PRICE`", "`CONTRACT_PRICE`". Default "`CONTRACT_PRICE`"
     ///
     /// This field is **optional.
@@ -2324,17 +2330,17 @@ pub struct NewCmConditionalOrderParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub stop_price: Option<f32>,
+    pub stop_price: Option<rust_decimal::Decimal>,
     /// Used with `TRAILING_STOP_MARKET` orders, default as the mark price
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub activation_price: Option<f32>,
+    pub activation_price: Option<rust_decimal::Decimal>,
     /// Used with `TRAILING_STOP_MARKET` orders, min 0.1, max 5 where 1 for 1%
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub callback_rate: Option<f32>,
+    pub callback_rate: Option<rust_decimal::Decimal>,
     ///
     /// The `recv_window` parameter.
     ///
@@ -2404,7 +2410,7 @@ pub struct NewCmOrderParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub quantity: Option<f32>,
+    pub quantity: Option<rust_decimal::Decimal>,
     /// "true" or "false". default "false". Cannot be sent in Hedge Mode .
     ///
     /// This field is **optional.
@@ -2415,7 +2421,7 @@ pub struct NewCmOrderParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub price: Option<f32>,
+    pub price: Option<rust_decimal::Decimal>,
     /// only avaliable for `LIMIT`/`STOP`/`TAKE_PROFIT` order; can be set to `OPPONENT`/ `OPPONENT_5`/ `OPPONENT_10`/ `OPPONENT_20`: /`QUEUE`/ `QUEUE_5`/ `QUEUE_10`/ `QUEUE_20`; Can't be passed together with `price`
     ///
     /// This field is **optional.
@@ -2489,24 +2495,24 @@ pub struct NewMarginOrderParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub quantity: Option<f32>,
+    pub quantity: Option<rust_decimal::Decimal>,
     ///
     /// The `quote_order_qty` parameter.
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub quote_order_qty: Option<f32>,
+    pub quote_order_qty: Option<rust_decimal::Decimal>,
     ///
     /// The `price` parameter.
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub price: Option<f32>,
+    pub price: Option<rust_decimal::Decimal>,
     /// Used with `STOP/STOP_MARKET` or `TAKE_PROFIT/TAKE_PROFIT_MARKET` orders.
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub stop_price: Option<f32>,
+    pub stop_price: Option<rust_decimal::Decimal>,
     /// Used to uniquely identify this cancel. Automatically generated by default
     ///
     /// This field is **optional.
@@ -2521,7 +2527,7 @@ pub struct NewMarginOrderParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub iceberg_qty: Option<f32>,
+    pub iceberg_qty: Option<rust_decimal::Decimal>,
     /// `NO_SIDE_EFFECT`, `MARGIN_BUY`, `AUTO_REPAY`; default `NO_SIDE_EFFECT`.
     ///
     /// This field is **optional.
@@ -2612,7 +2618,7 @@ pub struct NewUmConditionalOrderParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub quantity: Option<f32>,
+    pub quantity: Option<rust_decimal::Decimal>,
     /// "true" or "false". default "false". Cannot be sent in Hedge Mode .
     ///
     /// This field is **optional.
@@ -2623,7 +2629,7 @@ pub struct NewUmConditionalOrderParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub price: Option<f32>,
+    pub price: Option<rust_decimal::Decimal>,
     /// stopPrice triggered by: "`MARK_PRICE`", "`CONTRACT_PRICE`". Default "`CONTRACT_PRICE`"
     ///
     /// This field is **optional.
@@ -2644,17 +2650,17 @@ pub struct NewUmConditionalOrderParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub stop_price: Option<f32>,
+    pub stop_price: Option<rust_decimal::Decimal>,
     /// Used with `TRAILING_STOP_MARKET` orders, default as the mark price
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub activation_price: Option<f32>,
+    pub activation_price: Option<rust_decimal::Decimal>,
     /// Used with `TRAILING_STOP_MARKET` orders, min 0.1, max 5 where 1 for 1%
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub callback_rate: Option<f32>,
+    pub callback_rate: Option<rust_decimal::Decimal>,
     /// only avaliable for `LIMIT`/`STOP`/`TAKE_PROFIT` order; can be set to `OPPONENT`/ `OPPONENT_5`/ `OPPONENT_10`/ `OPPONENT_20`: /`QUEUE`/ `QUEUE_5`/ `QUEUE_10`/ `QUEUE_20`; Can't be passed together with `price`
     ///
     /// This field is **optional.
@@ -2739,7 +2745,7 @@ pub struct NewUmOrderParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub quantity: Option<f32>,
+    pub quantity: Option<rust_decimal::Decimal>,
     /// "true" or "false". default "false". Cannot be sent in Hedge Mode .
     ///
     /// This field is **optional.
@@ -2750,7 +2756,7 @@ pub struct NewUmOrderParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub price: Option<f32>,
+    pub price: Option<rust_decimal::Decimal>,
     /// Used to uniquely identify this cancel. Automatically generated by default
     ///
     /// This field is **optional.
@@ -4670,8 +4676,7 @@ impl TradeApi for TradeApiClient {
 
         query_params.insert("asset".to_string(), json!(asset));
 
-        let amount_value = Decimal::from_f32(amount).unwrap_or_default();
-        query_params.insert("amount".to_string(), json!(amount_value));
+        query_params.insert("amount".to_string(), json!(amount));
 
         if let Some(rw) = recv_window {
             query_params.insert("recvWindow".to_string(), json!(rw));
@@ -4720,14 +4725,11 @@ impl TradeApi for TradeApiClient {
 
         query_params.insert("side".to_string(), json!(side));
 
-        let quantity_value = Decimal::from_f32(quantity).unwrap_or_default();
-        query_params.insert("quantity".to_string(), json!(quantity_value));
+        query_params.insert("quantity".to_string(), json!(quantity));
 
-        let price_value = Decimal::from_f32(price).unwrap_or_default();
-        query_params.insert("price".to_string(), json!(price_value));
+        query_params.insert("price".to_string(), json!(price));
 
-        let stop_price_value = Decimal::from_f32(stop_price).unwrap_or_default();
-        query_params.insert("stopPrice".to_string(), json!(stop_price_value));
+        query_params.insert("stopPrice".to_string(), json!(stop_price));
 
         if let Some(rw) = list_client_order_id {
             query_params.insert("listClientOrderId".to_string(), json!(rw));
@@ -4738,7 +4740,6 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = limit_iceberg_qty {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("limitIcebergQty".to_string(), json!(rw));
         }
 
@@ -4747,12 +4748,10 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = stop_limit_price {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("stopLimitPrice".to_string(), json!(rw));
         }
 
         if let Some(rw) = stop_iceberg_qty {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("stopIcebergQty".to_string(), json!(rw));
         }
 
@@ -4801,8 +4800,7 @@ impl TradeApi for TradeApiClient {
 
         query_params.insert("asset".to_string(), json!(asset));
 
-        let amount_value = Decimal::from_f32(amount).unwrap_or_default();
-        query_params.insert("amount".to_string(), json!(amount_value));
+        query_params.insert("amount".to_string(), json!(amount));
 
         if let Some(rw) = recv_window {
             query_params.insert("recvWindow".to_string(), json!(rw));
@@ -4943,11 +4941,9 @@ impl TradeApi for TradeApiClient {
 
         query_params.insert("side".to_string(), json!(side));
 
-        let quantity_value = Decimal::from_f32(quantity).unwrap_or_default();
-        query_params.insert("quantity".to_string(), json!(quantity_value));
+        query_params.insert("quantity".to_string(), json!(quantity));
 
-        let price_value = Decimal::from_f32(price).unwrap_or_default();
-        query_params.insert("price".to_string(), json!(price_value));
+        query_params.insert("price".to_string(), json!(price));
 
         if let Some(rw) = order_id {
             query_params.insert("orderId".to_string(), json!(rw));
@@ -5001,11 +4997,9 @@ impl TradeApi for TradeApiClient {
 
         query_params.insert("side".to_string(), json!(side));
 
-        let quantity_value = Decimal::from_f32(quantity).unwrap_or_default();
-        query_params.insert("quantity".to_string(), json!(quantity_value));
+        query_params.insert("quantity".to_string(), json!(quantity));
 
-        let price_value = Decimal::from_f32(price).unwrap_or_default();
-        query_params.insert("price".to_string(), json!(price_value));
+        query_params.insert("price".to_string(), json!(price));
 
         if let Some(rw) = order_id {
             query_params.insert("orderId".to_string(), json!(rw));
@@ -5077,7 +5071,6 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = quantity {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("quantity".to_string(), json!(rw));
         }
 
@@ -5086,7 +5079,6 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = price {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("price".to_string(), json!(rw));
         }
 
@@ -5103,17 +5095,14 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = stop_price {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("stopPrice".to_string(), json!(rw));
         }
 
         if let Some(rw) = activation_price {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("activationPrice".to_string(), json!(rw));
         }
 
         if let Some(rw) = callback_rate {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("callbackRate".to_string(), json!(rw));
         }
 
@@ -5172,7 +5161,6 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = quantity {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("quantity".to_string(), json!(rw));
         }
 
@@ -5181,7 +5169,6 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = price {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("price".to_string(), json!(rw));
         }
 
@@ -5247,22 +5234,18 @@ impl TradeApi for TradeApiClient {
         query_params.insert("type".to_string(), json!(r#type));
 
         if let Some(rw) = quantity {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("quantity".to_string(), json!(rw));
         }
 
         if let Some(rw) = quote_order_qty {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("quoteOrderQty".to_string(), json!(rw));
         }
 
         if let Some(rw) = price {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("price".to_string(), json!(rw));
         }
 
         if let Some(rw) = stop_price {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("stopPrice".to_string(), json!(rw));
         }
 
@@ -5275,7 +5258,6 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = iceberg_qty {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("icebergQty".to_string(), json!(rw));
         }
 
@@ -5356,7 +5338,6 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = quantity {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("quantity".to_string(), json!(rw));
         }
 
@@ -5365,7 +5346,6 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = price {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("price".to_string(), json!(rw));
         }
 
@@ -5382,17 +5362,14 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = stop_price {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("stopPrice".to_string(), json!(rw));
         }
 
         if let Some(rw) = activation_price {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("activationPrice".to_string(), json!(rw));
         }
 
         if let Some(rw) = callback_rate {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("callbackRate".to_string(), json!(rw));
         }
 
@@ -5465,7 +5442,6 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = quantity {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("quantity".to_string(), json!(rw));
         }
 
@@ -5474,7 +5450,6 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = price {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("price".to_string(), json!(rw));
         }
 
@@ -9119,7 +9094,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = MarginAccountBorrowParams::builder("asset_example".to_string(), 1.0)
+            let params = MarginAccountBorrowParams::builder("asset_example".to_string(), dec!(1.0))
                 .build()
                 .unwrap();
 
@@ -9143,7 +9118,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = MarginAccountBorrowParams::builder("asset_example".to_string(), 1.0)
+            let params = MarginAccountBorrowParams::builder("asset_example".to_string(), dec!(1.0))
                 .recv_window(5000)
                 .build()
                 .unwrap();
@@ -9168,7 +9143,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: true };
 
-            let params = MarginAccountBorrowParams::builder("asset_example".to_string(), 1.0)
+            let params = MarginAccountBorrowParams::builder("asset_example".to_string(), dec!(1.0))
                 .build()
                 .unwrap();
 
@@ -9186,7 +9161,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = MarginAccountNewOcoParams::builder("symbol_example".to_string(),MarginAccountNewOcoSideEnum::Buy,1.0,1.0,1.0,).build().unwrap();
+            let params = MarginAccountNewOcoParams::builder("symbol_example".to_string(),MarginAccountNewOcoSideEnum::Buy,dec!(1.0),dec!(1.0),dec!(1.0),).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"orderListId":0,"contingencyType":"OCO","listStatusType":"EXEC_STARTED","listOrderStatus":"EXECUTING","listClientOrderId":"JYVpp3F0f5CAG15DhtrqLp","transactionTime":1563417480525,"symbol":"LTCBTC","marginBuyBorrowAmount":"5","marginBuyBorrowAsset":"BTC","orders":[{"symbol":"LTCBTC","orderId":2,"clientOrderId":"Kk7sqHb9J6mJWTMDVW7Vos"},{"symbol":"LTCBTC","orderId":3,"clientOrderId":"xTXKaGYd4bluPVp78IVRvl"}],"orderReports":[{"symbol":"LTCBTC","orderId":2,"orderListId":0,"clientOrderId":"Kk7sqHb9J6mJWTMDVW7Vos","transactTime":1563417480525,"price":"0.000000","origQty":"0.624363","executedQty":"0.000000","cummulativeQuoteQty":"0.000000","status":"NEW","timeInForce":"GTC","type":"STOP_LOSS","side":"BUY","stopPrice":"0.960664"},{"symbol":"LTCBTC","orderId":3,"orderListId":0,"clientOrderId":"xTXKaGYd4bluPVp78IVRvl","transactTime":1563417480525,"price":"0.036435","origQty":"0.624363","executedQty":"0.000000","cummulativeQuoteQty":"0.000000","status":"NEW","timeInForce":"GTC","type":"LIMIT_MAKER","side":"BUY"}]}"#).unwrap();
             let expected_response : models::MarginAccountNewOcoResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::MarginAccountNewOcoResponse");
@@ -9203,7 +9178,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = MarginAccountNewOcoParams::builder("symbol_example".to_string(),MarginAccountNewOcoSideEnum::Buy,1.0,1.0,1.0,).list_client_order_id("1".to_string()).limit_client_order_id("1".to_string()).limit_iceberg_qty(1.0).stop_client_order_id("1".to_string()).stop_limit_price(1.0).stop_iceberg_qty(1.0).stop_limit_time_in_force(MarginAccountNewOcoStopLimitTimeInForceEnum::Gtc).new_order_resp_type(MarginAccountNewOcoNewOrderRespTypeEnum::Ack).side_effect_type(MarginAccountNewOcoSideEffectTypeEnum::NoSideEffect).recv_window(5000).build().unwrap();
+            let params = MarginAccountNewOcoParams::builder("symbol_example".to_string(),MarginAccountNewOcoSideEnum::Buy,dec!(1.0),dec!(1.0),dec!(1.0),).list_client_order_id("1".to_string()).limit_client_order_id("1".to_string()).limit_iceberg_qty(dec!(1.0)).stop_client_order_id("1".to_string()).stop_limit_price(dec!(1.0)).stop_iceberg_qty(dec!(1.0)).stop_limit_time_in_force(MarginAccountNewOcoStopLimitTimeInForceEnum::Gtc).new_order_resp_type(MarginAccountNewOcoNewOrderRespTypeEnum::Ack).side_effect_type(MarginAccountNewOcoSideEffectTypeEnum::NoSideEffect).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"orderListId":0,"contingencyType":"OCO","listStatusType":"EXEC_STARTED","listOrderStatus":"EXECUTING","listClientOrderId":"JYVpp3F0f5CAG15DhtrqLp","transactionTime":1563417480525,"symbol":"LTCBTC","marginBuyBorrowAmount":"5","marginBuyBorrowAsset":"BTC","orders":[{"symbol":"LTCBTC","orderId":2,"clientOrderId":"Kk7sqHb9J6mJWTMDVW7Vos"},{"symbol":"LTCBTC","orderId":3,"clientOrderId":"xTXKaGYd4bluPVp78IVRvl"}],"orderReports":[{"symbol":"LTCBTC","orderId":2,"orderListId":0,"clientOrderId":"Kk7sqHb9J6mJWTMDVW7Vos","transactTime":1563417480525,"price":"0.000000","origQty":"0.624363","executedQty":"0.000000","cummulativeQuoteQty":"0.000000","status":"NEW","timeInForce":"GTC","type":"STOP_LOSS","side":"BUY","stopPrice":"0.960664"},{"symbol":"LTCBTC","orderId":3,"orderListId":0,"clientOrderId":"xTXKaGYd4bluPVp78IVRvl","transactTime":1563417480525,"price":"0.036435","origQty":"0.624363","executedQty":"0.000000","cummulativeQuoteQty":"0.000000","status":"NEW","timeInForce":"GTC","type":"LIMIT_MAKER","side":"BUY"}]}"#).unwrap();
             let expected_response : models::MarginAccountNewOcoResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::MarginAccountNewOcoResponse");
@@ -9223,9 +9198,9 @@ mod tests {
             let params = MarginAccountNewOcoParams::builder(
                 "symbol_example".to_string(),
                 MarginAccountNewOcoSideEnum::Buy,
-                1.0,
-                1.0,
-                1.0,
+                dec!(1.0),
+                dec!(1.0),
+                dec!(1.0),
             )
             .build()
             .unwrap();
@@ -9244,7 +9219,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = MarginAccountRepayParams::builder("asset_example".to_string(), 1.0)
+            let params = MarginAccountRepayParams::builder("asset_example".to_string(), dec!(1.0))
                 .build()
                 .unwrap();
 
@@ -9268,7 +9243,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = MarginAccountRepayParams::builder("asset_example".to_string(), 1.0)
+            let params = MarginAccountRepayParams::builder("asset_example".to_string(), dec!(1.0))
                 .recv_window(5000)
                 .build()
                 .unwrap();
@@ -9293,7 +9268,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: true };
 
-            let params = MarginAccountRepayParams::builder("asset_example".to_string(), 1.0)
+            let params = MarginAccountRepayParams::builder("asset_example".to_string(), dec!(1.0))
                 .build()
                 .unwrap();
 
@@ -9415,7 +9390,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = ModifyCmOrderParams::builder("symbol_example".to_string(),ModifyCmOrderSideEnum::Buy,1.0,1.0,).build().unwrap();
+            let params = ModifyCmOrderParams::builder("symbol_example".to_string(),ModifyCmOrderSideEnum::Buy,dec!(1.0),dec!(1.0),).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"orderId":20072994037,"symbol":"BTCUSD_PERP","pair":"BTCUSD","status":"NEW","clientOrderId":"LJ9R4QZDihCaS8UAOOLpgW","price":"30005","avgPrice":"0.0","origQty":"1","executedQty":"0","cumQty":"0","cumBase":"0","timeInForce":"GTC","type":"LIMIT","reduceOnly":false,"side":"BUY","positionSide":"LONG","origType":"LIMIT","updateTime":1629182711600}"#).unwrap();
             let expected_response : models::ModifyCmOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::ModifyCmOrderResponse");
@@ -9432,7 +9407,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = ModifyCmOrderParams::builder("symbol_example".to_string(),ModifyCmOrderSideEnum::Buy,1.0,1.0,).order_id(1).orig_client_order_id("1".to_string()).price_match(ModifyCmOrderPriceMatchEnum::None).recv_window(5000).build().unwrap();
+            let params = ModifyCmOrderParams::builder("symbol_example".to_string(),ModifyCmOrderSideEnum::Buy,dec!(1.0),dec!(1.0),).order_id(1).orig_client_order_id("1".to_string()).price_match(ModifyCmOrderPriceMatchEnum::None).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"orderId":20072994037,"symbol":"BTCUSD_PERP","pair":"BTCUSD","status":"NEW","clientOrderId":"LJ9R4QZDihCaS8UAOOLpgW","price":"30005","avgPrice":"0.0","origQty":"1","executedQty":"0","cumQty":"0","cumBase":"0","timeInForce":"GTC","type":"LIMIT","reduceOnly":false,"side":"BUY","positionSide":"LONG","origType":"LIMIT","updateTime":1629182711600}"#).unwrap();
             let expected_response : models::ModifyCmOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::ModifyCmOrderResponse");
@@ -9452,8 +9427,8 @@ mod tests {
             let params = ModifyCmOrderParams::builder(
                 "symbol_example".to_string(),
                 ModifyCmOrderSideEnum::Buy,
-                1.0,
-                1.0,
+                dec!(1.0),
+                dec!(1.0),
             )
             .build()
             .unwrap();
@@ -9472,7 +9447,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = ModifyUmOrderParams::builder("symbol_example".to_string(),ModifyUmOrderSideEnum::Buy,1.0,1.0,).build().unwrap();
+            let params = ModifyUmOrderParams::builder("symbol_example".to_string(),ModifyUmOrderSideEnum::Buy,dec!(1.0),dec!(1.0),).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"orderId":20072994037,"symbol":"BTCUSDT","status":"NEW","clientOrderId":"LJ9R4QZDihCaS8UAOOLpgW","price":"30005","avgPrice":"0.0","origQty":"1","executedQty":"0","cumQty":"0","cumQuote":"0","timeInForce":"GTC","type":"LIMIT","reduceOnly":false,"side":"BUY","positionSide":"LONG","origType":"LIMIT","selfTradePreventionMode":"NONE","goodTillDate":0,"updateTime":1629182711600,"priceMatch":"NONE"}"#).unwrap();
             let expected_response : models::ModifyUmOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::ModifyUmOrderResponse");
@@ -9489,7 +9464,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = ModifyUmOrderParams::builder("symbol_example".to_string(),ModifyUmOrderSideEnum::Buy,1.0,1.0,).order_id(1).orig_client_order_id("1".to_string()).price_match(ModifyUmOrderPriceMatchEnum::None).recv_window(5000).build().unwrap();
+            let params = ModifyUmOrderParams::builder("symbol_example".to_string(),ModifyUmOrderSideEnum::Buy,dec!(1.0),dec!(1.0),).order_id(1).orig_client_order_id("1".to_string()).price_match(ModifyUmOrderPriceMatchEnum::None).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"orderId":20072994037,"symbol":"BTCUSDT","status":"NEW","clientOrderId":"LJ9R4QZDihCaS8UAOOLpgW","price":"30005","avgPrice":"0.0","origQty":"1","executedQty":"0","cumQty":"0","cumQuote":"0","timeInForce":"GTC","type":"LIMIT","reduceOnly":false,"side":"BUY","positionSide":"LONG","origType":"LIMIT","selfTradePreventionMode":"NONE","goodTillDate":0,"updateTime":1629182711600,"priceMatch":"NONE"}"#).unwrap();
             let expected_response : models::ModifyUmOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::ModifyUmOrderResponse");
@@ -9509,8 +9484,8 @@ mod tests {
             let params = ModifyUmOrderParams::builder(
                 "symbol_example".to_string(),
                 ModifyUmOrderSideEnum::Buy,
-                1.0,
-                1.0,
+                dec!(1.0),
+                dec!(1.0),
             )
             .build()
             .unwrap();
@@ -9546,7 +9521,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = NewCmConditionalOrderParams::builder("symbol_example".to_string(),NewCmConditionalOrderSideEnum::Buy,NewCmConditionalOrderStrategyTypeEnum::Stop,).position_side(NewCmConditionalOrderPositionSideEnum::Both).time_in_force(NewCmConditionalOrderTimeInForceEnum::Gtc).quantity(1.0).reduce_only("false".to_string()).price(1.0).working_type(NewCmConditionalOrderWorkingTypeEnum::MarkPrice).price_protect("false".to_string()).new_client_strategy_id("1".to_string()).stop_price(1.0).activation_price(1.0).callback_rate(1.0).recv_window(5000).build().unwrap();
+            let params = NewCmConditionalOrderParams::builder("symbol_example".to_string(),NewCmConditionalOrderSideEnum::Buy,NewCmConditionalOrderStrategyTypeEnum::Stop,).position_side(NewCmConditionalOrderPositionSideEnum::Both).time_in_force(NewCmConditionalOrderTimeInForceEnum::Gtc).quantity(dec!(1.0)).reduce_only("false".to_string()).price(dec!(1.0)).working_type(NewCmConditionalOrderWorkingTypeEnum::MarkPrice).price_protect("false".to_string()).new_client_strategy_id("1".to_string()).stop_price(dec!(1.0)).activation_price(dec!(1.0)).callback_rate(dec!(1.0)).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"newClientStrategyId":"testOrder","strategyId":123445,"strategyStatus":"NEW","strategyType":"TRAILING_STOP_MARKET","origQty":"10","price":"0","reduceOnly":false,"side":"BUY","positionSide":"SHORT","stopPrice":"9300","symbol":"BTCUSD_200925","pair":"BTCUSD","timeInForce":"GTC","activatePrice":"9020","priceRate":"0.3","bookTime":1566818724710,"updateTime":1566818724722,"workingType":"CONTRACT_PRICE","priceProtect":false}"#).unwrap();
             let expected_response : models::NewCmConditionalOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::NewCmConditionalOrderResponse");
@@ -9602,7 +9577,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = NewCmOrderParams::builder("symbol_example".to_string(),NewCmOrderSideEnum::Buy,NewCmOrderTypeEnum::Limit,).position_side(NewCmOrderPositionSideEnum::Both).time_in_force(NewCmOrderTimeInForceEnum::Gtc).quantity(1.0).reduce_only("false".to_string()).price(1.0).price_match(NewCmOrderPriceMatchEnum::None).new_client_order_id("1".to_string()).new_order_resp_type(NewCmOrderNewOrderRespTypeEnum::Ack).recv_window(5000).build().unwrap();
+            let params = NewCmOrderParams::builder("symbol_example".to_string(),NewCmOrderSideEnum::Buy,NewCmOrderTypeEnum::Limit,).position_side(NewCmOrderPositionSideEnum::Both).time_in_force(NewCmOrderTimeInForceEnum::Gtc).quantity(dec!(1.0)).reduce_only("false".to_string()).price(dec!(1.0)).price_match(NewCmOrderPriceMatchEnum::None).new_client_order_id("1".to_string()).new_order_resp_type(NewCmOrderNewOrderRespTypeEnum::Ack).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"clientOrderId":"testOrder","cumQty":"0","cumBase":"0","executedQty":"0","orderId":22542179,"avgPrice":"0.0","origQty":"10","price":"0","reduceOnly":false,"side":"BUY","positionSide":"SHORT","status":"NEW","symbol":"BTCUSD_200925","pair":"BTCUSD","timeInForce":"GTC","type":"MARKET","updateTime":1566818724722}"#).unwrap();
             let expected_response : models::NewCmOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::NewCmOrderResponse");
@@ -9658,7 +9633,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = NewMarginOrderParams::builder("symbol_example".to_string(),NewMarginOrderSideEnum::Buy,NewMarginOrderTypeEnum::Limit,).quantity(1.0).quote_order_qty(1.0).price(1.0).stop_price(1.0).new_client_order_id("1".to_string()).new_order_resp_type(NewMarginOrderNewOrderRespTypeEnum::Ack).iceberg_qty(1.0).side_effect_type(NewMarginOrderSideEffectTypeEnum::NoSideEffect).time_in_force(NewMarginOrderTimeInForceEnum::Gtc).self_trade_prevention_mode(NewMarginOrderSelfTradePreventionModeEnum::None).auto_repay_at_cancel(true).recv_window(5000).build().unwrap();
+            let params = NewMarginOrderParams::builder("symbol_example".to_string(),NewMarginOrderSideEnum::Buy,NewMarginOrderTypeEnum::Limit,).quantity(dec!(1.0)).quote_order_qty(dec!(1.0)).price(dec!(1.0)).stop_price(dec!(1.0)).new_client_order_id("1".to_string()).new_order_resp_type(NewMarginOrderNewOrderRespTypeEnum::Ack).iceberg_qty(dec!(1.0)).side_effect_type(NewMarginOrderSideEffectTypeEnum::NoSideEffect).time_in_force(NewMarginOrderTimeInForceEnum::Gtc).self_trade_prevention_mode(NewMarginOrderSelfTradePreventionModeEnum::None).auto_repay_at_cancel(true).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"symbol":"BTCUSDT","orderId":28,"clientOrderId":"6gCrw2kRUAF9CvJDGP16IP","transactTime":1507725176595,"price":"1.00000000","origQty":"10.00000000","executedQty":"10.00000000","cummulativeQuoteQty":"10.00000000","status":"FILLED","timeInForce":"GTC","type":"MARKET","side":"SELL","marginBuyBorrowAmount":5,"marginBuyBorrowAsset":"BTC","fills":[{"price":"4000.00000000","qty":"1.00000000","commission":"4.00000000","commissionAsset":"USDT"},{"price":"3999.00000000","qty":"5.00000000","commission":"19.99500000","commissionAsset":"USDT"}]}"#).unwrap();
             let expected_response : models::NewMarginOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::NewMarginOrderResponse");
@@ -9714,7 +9689,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = NewUmConditionalOrderParams::builder("symbol_example".to_string(),NewUmConditionalOrderSideEnum::Buy,NewUmConditionalOrderStrategyTypeEnum::Stop,).position_side(NewUmConditionalOrderPositionSideEnum::Both).time_in_force(NewUmConditionalOrderTimeInForceEnum::Gtc).quantity(1.0).reduce_only("false".to_string()).price(1.0).working_type(NewUmConditionalOrderWorkingTypeEnum::MarkPrice).price_protect("false".to_string()).new_client_strategy_id("1".to_string()).stop_price(1.0).activation_price(1.0).callback_rate(1.0).price_match(NewUmConditionalOrderPriceMatchEnum::None).self_trade_prevention_mode(NewUmConditionalOrderSelfTradePreventionModeEnum::None).good_till_date(789).recv_window(5000).build().unwrap();
+            let params = NewUmConditionalOrderParams::builder("symbol_example".to_string(),NewUmConditionalOrderSideEnum::Buy,NewUmConditionalOrderStrategyTypeEnum::Stop,).position_side(NewUmConditionalOrderPositionSideEnum::Both).time_in_force(NewUmConditionalOrderTimeInForceEnum::Gtc).quantity(dec!(1.0)).reduce_only("false".to_string()).price(dec!(1.0)).working_type(NewUmConditionalOrderWorkingTypeEnum::MarkPrice).price_protect("false".to_string()).new_client_strategy_id("1".to_string()).stop_price(dec!(1.0)).activation_price(dec!(1.0)).callback_rate(dec!(1.0)).price_match(NewUmConditionalOrderPriceMatchEnum::None).self_trade_prevention_mode(NewUmConditionalOrderSelfTradePreventionModeEnum::None).good_till_date(789).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"newClientStrategyId":"testOrder","strategyId":123445,"strategyStatus":"NEW","strategyType":"TRAILING_STOP_MARKET","origQty":"10","price":"0","reduceOnly":false,"side":"BUY","positionSide":"SHORT","stopPrice":"9300","symbol":"BTCUSDT","timeInForce":"GTD","activatePrice":"9020","priceRate":"0.3","bookTime":1566818724710,"updateTime":1566818724722,"workingType":"CONTRACT_PRICE","priceProtect":false,"selfTradePreventionMode":"NONE","goodTillDate":1693207680000,"priceMatch":"NONE"}"#).unwrap();
             let expected_response : models::NewUmConditionalOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::NewUmConditionalOrderResponse");
@@ -9770,7 +9745,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = NewUmOrderParams::builder("symbol_example".to_string(),NewUmOrderSideEnum::Buy,NewUmOrderTypeEnum::Limit,).position_side(NewUmOrderPositionSideEnum::Both).time_in_force(NewUmOrderTimeInForceEnum::Gtc).quantity(1.0).reduce_only("false".to_string()).price(1.0).new_client_order_id("1".to_string()).new_order_resp_type(NewUmOrderNewOrderRespTypeEnum::Ack).price_match(NewUmOrderPriceMatchEnum::None).self_trade_prevention_mode(NewUmOrderSelfTradePreventionModeEnum::None).good_till_date(789).recv_window(5000).build().unwrap();
+            let params = NewUmOrderParams::builder("symbol_example".to_string(),NewUmOrderSideEnum::Buy,NewUmOrderTypeEnum::Limit,).position_side(NewUmOrderPositionSideEnum::Both).time_in_force(NewUmOrderTimeInForceEnum::Gtc).quantity(dec!(1.0)).reduce_only("false".to_string()).price(dec!(1.0)).new_client_order_id("1".to_string()).new_order_resp_type(NewUmOrderNewOrderRespTypeEnum::Ack).price_match(NewUmOrderPriceMatchEnum::None).self_trade_prevention_mode(NewUmOrderSelfTradePreventionModeEnum::None).good_till_date(789).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"clientOrderId":"testOrder","cumQty":"0","cumQuote":"0","executedQty":"0","orderId":22542179,"avgPrice":"0.00000","origQty":"10","price":"0","reduceOnly":false,"side":"BUY","positionSide":"SHORT","status":"NEW","symbol":"BTCUSDT","timeInForce":"GTD","type":"MARKET","selfTradePreventionMode":"NONE","goodTillDate":1693207680000,"updateTime":1566818724722,"priceMatch":"NONE"}"#).unwrap();
             let expected_response : models::NewUmOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::NewUmOrderResponse");

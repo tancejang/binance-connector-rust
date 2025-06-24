@@ -1,4 +1,5 @@
 use anyhow::{Context, Result};
+use rust_decimal::prelude::*;
 use std::env;
 use tracing::info;
 
@@ -27,8 +28,8 @@ async fn main() -> Result<()> {
     let params = ModifyOrderParams::builder(
         "symbol_example".to_string(),
         ModifyOrderSideEnum::Buy,
-        1.0,
-        1.0,
+        dec!(1.0),
+        dec!(1.0),
     )
     .build()?;
 

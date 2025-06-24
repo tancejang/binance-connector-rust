@@ -15,7 +15,7 @@
 use async_trait::async_trait;
 use derive_builder::Builder;
 use reqwest;
-use rust_decimal::{Decimal, prelude::FromPrimitive};
+use rust_decimal::prelude::*;
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::collections::BTreeMap;
@@ -657,7 +657,7 @@ pub struct UserUniversalTransferParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub amount: f32,
+    pub amount: rust_decimal::Decimal,
     ///
     /// The `from_symbol` parameter.
     ///
@@ -685,13 +685,13 @@ impl UserUniversalTransferParams {
     ///
     /// * `r#type` — String
     /// * `asset` — String
-    /// * `amount` — f32
+    /// * `amount` — `rust_decimal::Decimal`
     ///
     #[must_use]
     pub fn builder(
         r#type: String,
         asset: String,
-        amount: f32,
+        amount: rust_decimal::Decimal,
     ) -> UserUniversalTransferParamsBuilder {
         UserUniversalTransferParamsBuilder::default()
             .r#type(r#type)
@@ -1289,8 +1289,7 @@ impl AssetApi for AssetApiClient {
 
         query_params.insert("asset".to_string(), json!(asset));
 
-        let amount_value = Decimal::from_f32(amount).unwrap_or_default();
-        query_params.insert("amount".to_string(), json!(amount_value));
+        query_params.insert("amount".to_string(), json!(amount));
 
         if let Some(rw) = from_symbol {
             query_params.insert("fromSymbol".to_string(), json!(rw));
@@ -2487,7 +2486,7 @@ mod tests {
             let params = UserUniversalTransferParams::builder(
                 "r#type_example".to_string(),
                 "asset_example".to_string(),
-                1.0,
+                dec!(1.0),
             )
             .build()
             .unwrap();
@@ -2515,7 +2514,7 @@ mod tests {
             let params = UserUniversalTransferParams::builder(
                 "r#type_example".to_string(),
                 "asset_example".to_string(),
-                1.0,
+                dec!(1.0),
             )
             .from_symbol("from_symbol_example".to_string())
             .to_symbol("to_symbol_example".to_string())
@@ -2546,7 +2545,7 @@ mod tests {
             let params = UserUniversalTransferParams::builder(
                 "r#type_example".to_string(),
                 "asset_example".to_string(),
-                1.0,
+                dec!(1.0),
             )
             .build()
             .unwrap();

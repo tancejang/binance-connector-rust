@@ -15,7 +15,7 @@
 use async_trait::async_trait;
 use derive_builder::Builder;
 use reqwest;
-use rust_decimal::{Decimal, prelude::FromPrimitive};
+use rust_decimal::prelude::*;
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::collections::BTreeMap;
@@ -239,7 +239,7 @@ pub struct TimeWeightedAveragePriceFutureAlgoParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub quantity: f32,
+    pub quantity: rust_decimal::Decimal,
     /// Duration for TWAP orders in seconds. [300, 86400]
     ///
     /// This field is **required.
@@ -264,7 +264,7 @@ pub struct TimeWeightedAveragePriceFutureAlgoParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub limit_price: Option<f32>,
+    pub limit_price: Option<rust_decimal::Decimal>,
     ///
     /// The `recv_window` parameter.
     ///
@@ -287,7 +287,7 @@ impl TimeWeightedAveragePriceFutureAlgoParams {
     pub fn builder(
         symbol: String,
         side: String,
-        quantity: f32,
+        quantity: rust_decimal::Decimal,
         duration: i64,
     ) -> TimeWeightedAveragePriceFutureAlgoParamsBuilder {
         TimeWeightedAveragePriceFutureAlgoParamsBuilder::default()
@@ -318,7 +318,7 @@ pub struct VolumeParticipationFutureAlgoParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub quantity: f32,
+    pub quantity: rust_decimal::Decimal,
     /// Represent the relative speed of the current execution; ENUM: LOW, MEDIUM, HIGH
     ///
     /// This field is **required.
@@ -343,7 +343,7 @@ pub struct VolumeParticipationFutureAlgoParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub limit_price: Option<f32>,
+    pub limit_price: Option<rust_decimal::Decimal>,
     ///
     /// The `recv_window` parameter.
     ///
@@ -366,7 +366,7 @@ impl VolumeParticipationFutureAlgoParams {
     pub fn builder(
         symbol: String,
         side: String,
-        quantity: f32,
+        quantity: rust_decimal::Decimal,
         urgency: String,
     ) -> VolumeParticipationFutureAlgoParamsBuilder {
         VolumeParticipationFutureAlgoParamsBuilder::default()
@@ -561,8 +561,7 @@ impl FutureAlgoApi for FutureAlgoApiClient {
 
         query_params.insert("side".to_string(), json!(side));
 
-        let quantity_value = Decimal::from_f32(quantity).unwrap_or_default();
-        query_params.insert("quantity".to_string(), json!(quantity_value));
+        query_params.insert("quantity".to_string(), json!(quantity));
 
         query_params.insert("duration".to_string(), json!(duration));
 
@@ -579,7 +578,6 @@ impl FutureAlgoApi for FutureAlgoApiClient {
         }
 
         if let Some(rw) = limit_price {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("limitPrice".to_string(), json!(rw));
         }
 
@@ -624,8 +622,7 @@ impl FutureAlgoApi for FutureAlgoApiClient {
 
         query_params.insert("side".to_string(), json!(side));
 
-        let quantity_value = Decimal::from_f32(quantity).unwrap_or_default();
-        query_params.insert("quantity".to_string(), json!(quantity_value));
+        query_params.insert("quantity".to_string(), json!(quantity));
 
         query_params.insert("urgency".to_string(), json!(urgency));
 
@@ -642,7 +639,6 @@ impl FutureAlgoApi for FutureAlgoApiClient {
         }
 
         if let Some(rw) = limit_price {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("limitPrice".to_string(), json!(rw));
         }
 
@@ -1089,7 +1085,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockFutureAlgoApiClient { force_error: false };
 
-            let params = TimeWeightedAveragePriceFutureAlgoParams::builder("BTCUSDT".to_string(),"BUY".to_string(),1.0,5000,).build().unwrap();
+            let params = TimeWeightedAveragePriceFutureAlgoParams::builder("BTCUSDT".to_string(),"BUY".to_string(),dec!(1.0),5000,).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"clientAlgoId":"65ce1630101a480b85915d7e11fd5078","success":true,"code":0,"msg":"OK"}"#).unwrap();
             let expected_response : models::TimeWeightedAveragePriceFutureAlgoResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::TimeWeightedAveragePriceFutureAlgoResponse");
@@ -1106,7 +1102,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockFutureAlgoApiClient { force_error: false };
 
-            let params = TimeWeightedAveragePriceFutureAlgoParams::builder("BTCUSDT".to_string(),"BUY".to_string(),1.0,5000,).position_side("BOTH".to_string()).client_algo_id("1".to_string()).reduce_only(false).limit_price(1.0).recv_window(5000).build().unwrap();
+            let params = TimeWeightedAveragePriceFutureAlgoParams::builder("BTCUSDT".to_string(),"BUY".to_string(),dec!(1.0),5000,).position_side("BOTH".to_string()).client_algo_id("1".to_string()).reduce_only(false).limit_price(dec!(1.0)).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"clientAlgoId":"65ce1630101a480b85915d7e11fd5078","success":true,"code":0,"msg":"OK"}"#).unwrap();
             let expected_response : models::TimeWeightedAveragePriceFutureAlgoResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::TimeWeightedAveragePriceFutureAlgoResponse");
@@ -1126,7 +1122,7 @@ mod tests {
             let params = TimeWeightedAveragePriceFutureAlgoParams::builder(
                 "BTCUSDT".to_string(),
                 "BUY".to_string(),
-                1.0,
+                dec!(1.0),
                 5000,
             )
             .build()
@@ -1146,7 +1142,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockFutureAlgoApiClient { force_error: false };
 
-            let params = VolumeParticipationFutureAlgoParams::builder("BTCUSDT".to_string(),"BUY".to_string(),1.0,"LOW".to_string(),).build().unwrap();
+            let params = VolumeParticipationFutureAlgoParams::builder("BTCUSDT".to_string(),"BUY".to_string(),dec!(1.0),"LOW".to_string(),).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"clientAlgoId":"00358ce6a268403398bd34eaa36dffe7","success":true,"code":0,"msg":"OK"}"#).unwrap();
             let expected_response : models::VolumeParticipationFutureAlgoResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::VolumeParticipationFutureAlgoResponse");
@@ -1163,7 +1159,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockFutureAlgoApiClient { force_error: false };
 
-            let params = VolumeParticipationFutureAlgoParams::builder("BTCUSDT".to_string(),"BUY".to_string(),1.0,"LOW".to_string(),).position_side("BOTH".to_string()).client_algo_id("1".to_string()).reduce_only(false).limit_price(1.0).recv_window(5000).build().unwrap();
+            let params = VolumeParticipationFutureAlgoParams::builder("BTCUSDT".to_string(),"BUY".to_string(),dec!(1.0),"LOW".to_string(),).position_side("BOTH".to_string()).client_algo_id("1".to_string()).reduce_only(false).limit_price(dec!(1.0)).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"clientAlgoId":"00358ce6a268403398bd34eaa36dffe7","success":true,"code":0,"msg":"OK"}"#).unwrap();
             let expected_response : models::VolumeParticipationFutureAlgoResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::VolumeParticipationFutureAlgoResponse");
@@ -1183,7 +1179,7 @@ mod tests {
             let params = VolumeParticipationFutureAlgoParams::builder(
                 "BTCUSDT".to_string(),
                 "BUY".to_string(),
-                1.0,
+                dec!(1.0),
                 "LOW".to_string(),
             )
             .build()

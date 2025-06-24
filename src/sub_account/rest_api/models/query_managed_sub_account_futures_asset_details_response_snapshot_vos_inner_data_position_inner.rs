@@ -24,7 +24,7 @@ pub struct QueryManagedSubAccountFuturesAssetDetailsResponseSnapshotVosInnerData
     #[serde(rename = "markPrice", skip_serializing_if = "Option::is_none")]
     pub mark_price: Option<i64>,
     #[serde(rename = "positionAmt", skip_serializing_if = "Option::is_none")]
-    pub position_amt: Option<f32>,
+    pub position_amt: Option<rust_decimal::Decimal>,
 }
 
 impl QueryManagedSubAccountFuturesAssetDetailsResponseSnapshotVosInnerDataPositionInner {

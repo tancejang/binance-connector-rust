@@ -15,7 +15,7 @@
 use async_trait::async_trait;
 use derive_builder::Builder;
 use reqwest;
-use rust_decimal::{Decimal, prelude::FromPrimitive};
+use rust_decimal::prelude::*;
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::collections::BTreeMap;
@@ -87,7 +87,7 @@ pub struct CheckCollateralRepayRateStableRateParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub repay_amount: f32,
+    pub repay_amount: rust_decimal::Decimal,
     ///
     /// The `recv_window` parameter.
     ///
@@ -109,7 +109,7 @@ impl CheckCollateralRepayRateStableRateParams {
     pub fn builder(
         loan_coin: String,
         collateral_coin: String,
-        repay_amount: f32,
+        repay_amount: rust_decimal::Decimal,
     ) -> CheckCollateralRepayRateStableRateParamsBuilder {
         CheckCollateralRepayRateStableRateParamsBuilder::default()
             .loan_coin(loan_coin)
@@ -374,8 +374,7 @@ impl StableRateApi for StableRateApiClient {
 
         query_params.insert("collateralCoin".to_string(), json!(collateral_coin));
 
-        let repay_amount_value = Decimal::from_f32(repay_amount).unwrap_or_default();
-        query_params.insert("repayAmount".to_string(), json!(repay_amount_value));
+        query_params.insert("repayAmount".to_string(), json!(repay_amount));
 
         if let Some(rw) = recv_window {
             query_params.insert("recvWindow".to_string(), json!(rw));
@@ -810,7 +809,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockStableRateApiClient { force_error: false };
 
-            let params = CheckCollateralRepayRateStableRateParams::builder("loan_coin_example".to_string(),"collateral_coin_example".to_string(),1.0,).build().unwrap();
+            let params = CheckCollateralRepayRateStableRateParams::builder("loan_coin_example".to_string(),"collateral_coin_example".to_string(),dec!(1.0),).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"loanlCoin":"BUSD","collateralCoin":"BNB","repayAmount":"1000","rate":"300.36781234"}"#).unwrap();
             let expected_response : models::CheckCollateralRepayRateStableRateResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::CheckCollateralRepayRateStableRateResponse");
@@ -827,7 +826,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockStableRateApiClient { force_error: false };
 
-            let params = CheckCollateralRepayRateStableRateParams::builder("loan_coin_example".to_string(),"collateral_coin_example".to_string(),1.0,).recv_window(5000).build().unwrap();
+            let params = CheckCollateralRepayRateStableRateParams::builder("loan_coin_example".to_string(),"collateral_coin_example".to_string(),dec!(1.0),).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"loanlCoin":"BUSD","collateralCoin":"BNB","repayAmount":"1000","rate":"300.36781234"}"#).unwrap();
             let expected_response : models::CheckCollateralRepayRateStableRateResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::CheckCollateralRepayRateStableRateResponse");
@@ -847,7 +846,7 @@ mod tests {
             let params = CheckCollateralRepayRateStableRateParams::builder(
                 "loan_coin_example".to_string(),
                 "collateral_coin_example".to_string(),
-                1.0,
+                dec!(1.0),
             )
             .build()
             .unwrap();

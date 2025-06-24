@@ -20,7 +20,7 @@
 use anyhow::Context;
 use async_trait::async_trait;
 use derive_builder::Builder;
-use rust_decimal::{Decimal, prelude::FromPrimitive};
+use rust_decimal::prelude::*;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::{collections::BTreeMap, sync::Arc};
@@ -1077,7 +1077,6 @@ impl MarketApi for MarketApiClient {
         let AvgPriceParams { symbol, id } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
-
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
@@ -1104,7 +1103,6 @@ impl MarketApi for MarketApiClient {
         let DepthParams { symbol, id, limit } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
-
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
@@ -1142,9 +1140,7 @@ impl MarketApi for MarketApiClient {
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
-
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
-
         payload.insert("interval".to_string(), serde_json::json!(interval));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
@@ -1386,7 +1382,6 @@ impl MarketApi for MarketApiClient {
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
-
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
@@ -1431,7 +1426,6 @@ impl MarketApi for MarketApiClient {
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
-
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
@@ -1464,7 +1458,6 @@ impl MarketApi for MarketApiClient {
         let TradesRecentParams { symbol, id, limit } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
-
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
@@ -1502,9 +1495,7 @@ impl MarketApi for MarketApiClient {
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
-
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
-
         payload.insert("interval".to_string(), serde_json::json!(interval));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));

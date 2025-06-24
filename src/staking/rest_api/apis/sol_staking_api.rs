@@ -15,7 +15,7 @@
 use async_trait::async_trait;
 use derive_builder::Builder;
 use reqwest;
-use rust_decimal::{Decimal, prelude::FromPrimitive};
+use rust_decimal::prelude::*;
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::collections::BTreeMap;
@@ -402,7 +402,7 @@ pub struct RedeemSolParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub amount: f32,
+    pub amount: rust_decimal::Decimal,
     ///
     /// The `recv_window` parameter.
     ///
@@ -419,7 +419,7 @@ impl RedeemSolParams {
     /// * `amount` — Amount in SOL.
     ///
     #[must_use]
-    pub fn builder(amount: f32) -> RedeemSolParamsBuilder {
+    pub fn builder(amount: rust_decimal::Decimal) -> RedeemSolParamsBuilder {
         RedeemSolParamsBuilder::default().amount(amount)
     }
 }
@@ -457,7 +457,7 @@ pub struct SubscribeSolStakingParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub amount: f32,
+    pub amount: rust_decimal::Decimal,
     ///
     /// The `recv_window` parameter.
     ///
@@ -474,7 +474,7 @@ impl SubscribeSolStakingParams {
     /// * `amount` — Amount in SOL.
     ///
     #[must_use]
-    pub fn builder(amount: f32) -> SubscribeSolStakingParamsBuilder {
+    pub fn builder(amount: rust_decimal::Decimal) -> SubscribeSolStakingParamsBuilder {
         SubscribeSolStakingParamsBuilder::default().amount(amount)
     }
 }
@@ -821,8 +821,7 @@ impl SolStakingApi for SolStakingApiClient {
 
         let mut query_params = BTreeMap::new();
 
-        let amount_value = Decimal::from_f32(amount).unwrap_or_default();
-        query_params.insert("amount".to_string(), json!(amount_value));
+        query_params.insert("amount".to_string(), json!(amount));
 
         if let Some(rw) = recv_window {
             query_params.insert("recvWindow".to_string(), json!(rw));
@@ -881,8 +880,7 @@ impl SolStakingApi for SolStakingApiClient {
 
         let mut query_params = BTreeMap::new();
 
-        let amount_value = Decimal::from_f32(amount).unwrap_or_default();
-        query_params.insert("amount".to_string(), json!(amount_value));
+        query_params.insert("amount".to_string(), json!(amount));
 
         if let Some(rw) = recv_window {
             query_params.insert("recvWindow".to_string(), json!(rw));
@@ -1636,7 +1634,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockSolStakingApiClient { force_error: false };
 
-            let params = RedeemSolParams::builder(1.0,).build().unwrap();
+            let params = RedeemSolParams::builder(dec!(1.0),).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"success":true,"solAmount":"0.23092091","exchangeRate":"1.00121234","arrivalTime":1575018510000}"#).unwrap();
             let expected_response : models::RedeemSolResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::RedeemSolResponse");
@@ -1653,7 +1651,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockSolStakingApiClient { force_error: false };
 
-            let params = RedeemSolParams::builder(1.0,).recv_window(5000).build().unwrap();
+            let params = RedeemSolParams::builder(dec!(1.0),).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"success":true,"solAmount":"0.23092091","exchangeRate":"1.00121234","arrivalTime":1575018510000}"#).unwrap();
             let expected_response : models::RedeemSolResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::RedeemSolResponse");
@@ -1670,7 +1668,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockSolStakingApiClient { force_error: true };
 
-            let params = RedeemSolParams::builder(1.0).build().unwrap();
+            let params = RedeemSolParams::builder(dec!(1.0)).build().unwrap();
 
             match client.redeem_sol(params).await {
                 Ok(_) => panic!("Expected an error"),
@@ -1736,7 +1734,9 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockSolStakingApiClient { force_error: false };
 
-            let params = SubscribeSolStakingParams::builder(1.0).build().unwrap();
+            let params = SubscribeSolStakingParams::builder(dec!(1.0))
+                .build()
+                .unwrap();
 
             let resp_json: Value = serde_json::from_str(
                 r#"{"success":true,"bnsolAmount":"0.23092091","exchangeRate":"1.001212342342"}"#,
@@ -1761,7 +1761,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockSolStakingApiClient { force_error: false };
 
-            let params = SubscribeSolStakingParams::builder(1.0)
+            let params = SubscribeSolStakingParams::builder(dec!(1.0))
                 .recv_window(5000)
                 .build()
                 .unwrap();
@@ -1789,7 +1789,9 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockSolStakingApiClient { force_error: true };
 
-            let params = SubscribeSolStakingParams::builder(1.0).build().unwrap();
+            let params = SubscribeSolStakingParams::builder(dec!(1.0))
+                .build()
+                .unwrap();
 
             match client.subscribe_sol_staking(params).await {
                 Ok(_) => panic!("Expected an error"),

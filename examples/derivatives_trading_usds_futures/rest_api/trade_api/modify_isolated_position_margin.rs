@@ -1,4 +1,5 @@
 use anyhow::{Context, Result};
+use rust_decimal::prelude::*;
 use std::env;
 use tracing::info;
 
@@ -25,7 +26,7 @@ async fn main() -> Result<()> {
     // Setup the API parameters
     let params = ModifyIsolatedPositionMarginParams::builder(
         "symbol_example".to_string(),
-        1.0,
+        dec!(1.0),
         "r#type_example".to_string(),
     )
     .build()?;

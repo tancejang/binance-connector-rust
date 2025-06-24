@@ -20,7 +20,7 @@ pub struct QuarterlyContractSettlementPriceResponseInner {
     #[serde(rename = "deliveryTime", skip_serializing_if = "Option::is_none")]
     pub delivery_time: Option<i64>,
     #[serde(rename = "deliveryPrice", skip_serializing_if = "Option::is_none")]
-    pub delivery_price: Option<f32>,
+    pub delivery_price: Option<rust_decimal::Decimal>,
 }
 
 impl QuarterlyContractSettlementPriceResponseInner {

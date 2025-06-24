@@ -1,4 +1,5 @@
 use anyhow::{Context, Result};
+use rust_decimal::prelude::*;
 use std::env;
 use tracing::info;
 
@@ -21,8 +22,8 @@ async fn main() -> Result<()> {
     let rest_client = GiftCardRestApi::production(rest_conf);
 
     // Setup the API parameters
-    let params =
-        CreateASingleTokenGiftCardParams::builder("token_example".to_string(), 1.0).build()?;
+    let params = CreateASingleTokenGiftCardParams::builder("token_example".to_string(), dec!(1.0))
+        .build()?;
 
     // Make the API call
     let response = rest_client

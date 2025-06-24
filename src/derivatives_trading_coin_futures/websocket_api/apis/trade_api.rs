@@ -15,7 +15,7 @@
 use anyhow::Context;
 use async_trait::async_trait;
 use derive_builder::Builder;
-use rust_decimal::{Decimal, prelude::FromPrimitive};
+use rust_decimal::prelude::*;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::{collections::BTreeMap, sync::Arc};
@@ -395,13 +395,13 @@ pub struct ModifyOrderParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub quantity: f32,
+    pub quantity: rust_decimal::Decimal,
     ///
     /// The `price` parameter.
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub price: f32,
+    pub price: rust_decimal::Decimal,
     /// Unique WebSocket request ID.
     ///
     /// This field is **optional.
@@ -440,14 +440,14 @@ impl ModifyOrderParams {
     /// * `symbol` — String
     /// * `side` — `SELL`, `BUY`
     /// * `quantity` — Order quantity, cannot be sent with `closePosition=true`
-    /// * `price` — f32
+    /// * `price` — `rust_decimal::Decimal`
     ///
     #[must_use]
     pub fn builder(
         symbol: String,
         side: ModifyOrderSideEnum,
-        quantity: f32,
-        price: f32,
+        quantity: rust_decimal::Decimal,
+        price: rust_decimal::Decimal,
     ) -> ModifyOrderParamsBuilder {
         ModifyOrderParamsBuilder::default()
             .symbol(symbol)
@@ -499,7 +499,7 @@ pub struct NewOrderParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub quantity: Option<f32>,
+    pub quantity: Option<rust_decimal::Decimal>,
     /// `true` or `false`. default `false`. Cannot be sent in Hedge Mode; cannot be sent with `closePosition`=`true` (Close-All)
     ///
     /// This field is **optional.
@@ -510,7 +510,7 @@ pub struct NewOrderParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub price: Option<f32>,
+    pub price: Option<rust_decimal::Decimal>,
     /// A unique id among open orders. Automatically generated if not sent. Can only be string following the rule: `^[\.A-Z\:/a-z0-9_-]{1,36}$`
     ///
     /// This field is **optional.
@@ -520,7 +520,7 @@ pub struct NewOrderParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub stop_price: Option<f32>,
+    pub stop_price: Option<rust_decimal::Decimal>,
     /// `true`, `false`；Close-All，used with `STOP_MARKET` or `TAKE_PROFIT_MARKET`.
     ///
     /// This field is **optional.
@@ -530,12 +530,12 @@ pub struct NewOrderParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub activation_price: Option<f32>,
+    pub activation_price: Option<rust_decimal::Decimal>,
     /// Used with `TRAILING_STOP_MARKET` orders, min 0.1, max 10 where 1 for 1%
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub callback_rate: Option<f32>,
+    pub callback_rate: Option<rust_decimal::Decimal>,
     /// stopPrice triggered by: "`MARK_PRICE`", "`CONTRACT_PRICE`". Default "`CONTRACT_PRICE`"
     ///
     /// This field is **optional.
@@ -696,7 +696,6 @@ impl TradeApi for TradeApiClient {
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
-
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
@@ -742,14 +741,10 @@ impl TradeApi for TradeApiClient {
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
-
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
-
         payload.insert("side".to_string(), serde_json::json!(side));
-        let quantity_value = Decimal::from_f32(quantity).unwrap_or_default();
-        payload.insert("quantity".to_string(), serde_json::json!(quantity_value));
-        let price_value = Decimal::from_f32(price).unwrap_or_default();
-        payload.insert("price".to_string(), serde_json::json!(price_value));
+        payload.insert("quantity".to_string(), serde_json::json!(quantity));
+        payload.insert("price".to_string(), serde_json::json!(price));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
         }
@@ -808,11 +803,8 @@ impl TradeApi for TradeApiClient {
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
-
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
-
         payload.insert("side".to_string(), serde_json::json!(side));
-
         payload.insert("type".to_string(), serde_json::json!(r#type));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
@@ -824,32 +816,27 @@ impl TradeApi for TradeApiClient {
             payload.insert("timeInForce".to_string(), serde_json::json!(value));
         }
         if let Some(value) = quantity {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("quantity".to_string(), serde_json::json!(value));
         }
         if let Some(value) = reduce_only {
             payload.insert("reduceOnly".to_string(), serde_json::json!(value));
         }
         if let Some(value) = price {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("price".to_string(), serde_json::json!(value));
         }
         if let Some(value) = new_client_order_id {
             payload.insert("newClientOrderId".to_string(), serde_json::json!(value));
         }
         if let Some(value) = stop_price {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("stopPrice".to_string(), serde_json::json!(value));
         }
         if let Some(value) = close_position {
             payload.insert("closePosition".to_string(), serde_json::json!(value));
         }
         if let Some(value) = activation_price {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("activationPrice".to_string(), serde_json::json!(value));
         }
         if let Some(value) = callback_rate {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("callbackRate".to_string(), serde_json::json!(value));
         }
         if let Some(value) = working_type {
@@ -941,7 +928,6 @@ impl TradeApi for TradeApiClient {
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
-
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
@@ -1147,7 +1133,7 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = spawn(async move {
-                let params = ModifyOrderParams::builder("symbol_example".to_string(),ModifyOrderSideEnum::Buy,1.0,1.0,).build().unwrap();
+                let params = ModifyOrderParams::builder("symbol_example".to_string(),ModifyOrderSideEnum::Buy,dec!(1.0),dec!(1.0),).build().unwrap();
                 client.modify_order(params).await
             });
 
@@ -1190,7 +1176,7 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = tokio::spawn(async move {
-                let params = ModifyOrderParams::builder("symbol_example".to_string(),ModifyOrderSideEnum::Buy,1.0,1.0,).build().unwrap();
+                let params = ModifyOrderParams::builder("symbol_example".to_string(),ModifyOrderSideEnum::Buy,dec!(1.0),dec!(1.0),).build().unwrap();
                 client.modify_order(params).await
             });
 
@@ -1243,8 +1229,8 @@ mod tests {
                 let params = ModifyOrderParams::builder(
                     "symbol_example".to_string(),
                     ModifyOrderSideEnum::Buy,
-                    1.0,
-                    1.0,
+                    dec!(1.0),
+                    dec!(1.0),
                 )
                 .build()
                 .unwrap();

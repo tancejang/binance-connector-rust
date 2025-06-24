@@ -15,7 +15,7 @@
 use async_trait::async_trait;
 use derive_builder::Builder;
 use reqwest;
-use rust_decimal::{Decimal, prelude::FromPrimitive};
+use rust_decimal::prelude::*;
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::collections::BTreeMap;
@@ -118,7 +118,7 @@ pub struct DepositAssetsIntoTheManagedSubAccountParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub amount: f32,
+    pub amount: rust_decimal::Decimal,
     ///
     /// The `recv_window` parameter.
     ///
@@ -134,13 +134,13 @@ impl DepositAssetsIntoTheManagedSubAccountParams {
     ///
     /// * `to_email` — String
     /// * `asset` — String
-    /// * `amount` — f32
+    /// * `amount` — `rust_decimal::Decimal`
     ///
     #[must_use]
     pub fn builder(
         to_email: String,
         asset: String,
-        amount: f32,
+        amount: rust_decimal::Decimal,
     ) -> DepositAssetsIntoTheManagedSubAccountParamsBuilder {
         DepositAssetsIntoTheManagedSubAccountParamsBuilder::default()
             .to_email(to_email)
@@ -176,7 +176,7 @@ pub struct GetManagedSubAccountDepositAddressParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub amount: Option<f32>,
+    pub amount: Option<rust_decimal::Decimal>,
     ///
     /// The `recv_window` parameter.
     ///
@@ -624,7 +624,7 @@ pub struct WithdrawlAssetsFromTheManagedSubAccountParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub amount: f32,
+    pub amount: rust_decimal::Decimal,
     /// Withdrawals is automatically occur on the transfer date(UTC0). If a date is not selected, the withdrawal occurs right now
     ///
     /// This field is **optional.
@@ -645,13 +645,13 @@ impl WithdrawlAssetsFromTheManagedSubAccountParams {
     ///
     /// * `from_email` — String
     /// * `asset` — String
-    /// * `amount` — f32
+    /// * `amount` — `rust_decimal::Decimal`
     ///
     #[must_use]
     pub fn builder(
         from_email: String,
         asset: String,
-        amount: f32,
+        amount: rust_decimal::Decimal,
     ) -> WithdrawlAssetsFromTheManagedSubAccountParamsBuilder {
         WithdrawlAssetsFromTheManagedSubAccountParamsBuilder::default()
             .from_email(from_email)
@@ -680,8 +680,7 @@ impl ManagedSubAccountApi for ManagedSubAccountApiClient {
 
         query_params.insert("asset".to_string(), json!(asset));
 
-        let amount_value = Decimal::from_f32(amount).unwrap_or_default();
-        query_params.insert("amount".to_string(), json!(amount_value));
+        query_params.insert("amount".to_string(), json!(amount));
 
         if let Some(rw) = recv_window {
             query_params.insert("recvWindow".to_string(), json!(rw));
@@ -725,7 +724,6 @@ impl ManagedSubAccountApi for ManagedSubAccountApiClient {
         }
 
         if let Some(rw) = amount {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("amount".to_string(), json!(rw));
         }
 
@@ -1112,8 +1110,7 @@ impl ManagedSubAccountApi for ManagedSubAccountApiClient {
 
         query_params.insert("asset".to_string(), json!(asset));
 
-        let amount_value = Decimal::from_f32(amount).unwrap_or_default();
-        query_params.insert("amount".to_string(), json!(amount_value));
+        query_params.insert("amount".to_string(), json!(amount));
 
         if let Some(rw) = transfer_date {
             query_params.insert("transferDate".to_string(), json!(rw));
@@ -1466,7 +1463,7 @@ mod tests {
             let params = DepositAssetsIntoTheManagedSubAccountParams::builder(
                 "to_email_example".to_string(),
                 "asset_example".to_string(),
-                1.0,
+                dec!(1.0),
             )
             .build()
             .unwrap();
@@ -1495,7 +1492,7 @@ mod tests {
             let params = DepositAssetsIntoTheManagedSubAccountParams::builder(
                 "to_email_example".to_string(),
                 "asset_example".to_string(),
-                1.0,
+                dec!(1.0),
             )
             .recv_window(5000)
             .build()
@@ -1525,7 +1522,7 @@ mod tests {
             let params = DepositAssetsIntoTheManagedSubAccountParams::builder(
                 "to_email_example".to_string(),
                 "asset_example".to_string(),
-                1.0,
+                dec!(1.0),
             )
             .build()
             .unwrap();
@@ -1564,7 +1561,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockManagedSubAccountApiClient { force_error: false };
 
-            let params = GetManagedSubAccountDepositAddressParams::builder("sub-account-email@email.com".to_string(),"coin_example".to_string(),).network("network_example".to_string()).amount(1.0).recv_window(5000).build().unwrap();
+            let params = GetManagedSubAccountDepositAddressParams::builder("sub-account-email@email.com".to_string(),"coin_example".to_string(),).network("network_example".to_string()).amount(dec!(1.0)).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"coin":"USDT","address":"0x206c22d833bb0bb2102da6b7c7d4c3eb14bcf73d","tag":"","url":"https://etherscan.io/address/0x206c22d833bb0bb2102da6b7c7d4c3eb14bcf73d"}"#).unwrap();
             let expected_response : models::GetManagedSubAccountDepositAddressResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::GetManagedSubAccountDepositAddressResponse");
@@ -2060,7 +2057,7 @@ mod tests {
             let params = WithdrawlAssetsFromTheManagedSubAccountParams::builder(
                 "from_email_example".to_string(),
                 "asset_example".to_string(),
-                1.0,
+                dec!(1.0),
             )
             .build()
             .unwrap();
@@ -2089,7 +2086,7 @@ mod tests {
             let params = WithdrawlAssetsFromTheManagedSubAccountParams::builder(
                 "from_email_example".to_string(),
                 "asset_example".to_string(),
-                1.0,
+                dec!(1.0),
             )
             .transfer_date(789)
             .recv_window(5000)
@@ -2120,7 +2117,7 @@ mod tests {
             let params = WithdrawlAssetsFromTheManagedSubAccountParams::builder(
                 "from_email_example".to_string(),
                 "asset_example".to_string(),
-                1.0,
+                dec!(1.0),
             )
             .build()
             .unwrap();

@@ -20,7 +20,7 @@ pub struct QueryUserNegativeBalanceAutoExchangeRecordResponseRowsInnerDetailsInn
     #[serde(rename = "asset", skip_serializing_if = "Option::is_none")]
     pub asset: Option<String>,
     #[serde(rename = "negativeBalance", skip_serializing_if = "Option::is_none")]
-    pub negative_balance: Option<f32>,
+    pub negative_balance: Option<rust_decimal::Decimal>,
     #[serde(
         rename = "negativeMaxThreshold",
         skip_serializing_if = "Option::is_none"

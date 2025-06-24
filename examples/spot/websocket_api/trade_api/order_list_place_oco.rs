@@ -1,4 +1,5 @@
 use anyhow::{Context, Result};
+use rust_decimal::prelude::*;
 use std::env;
 use tracing::info;
 
@@ -36,7 +37,7 @@ async fn main() -> Result<()> {
     let params = OrderListPlaceOcoParams::builder(
         "BNBUSDT".to_string(),
         OrderListPlaceOcoSideEnum::Buy,
-        1.0,
+        dec!(1.0),
         OrderListPlaceOcoAboveTypeEnum::StopLossLimit,
         OrderListPlaceOcoBelowTypeEnum::StopLoss,
     )

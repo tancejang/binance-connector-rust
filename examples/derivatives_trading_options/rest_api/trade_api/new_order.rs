@@ -1,4 +1,5 @@
 use anyhow::{Context, Result};
+use rust_decimal::prelude::*;
 use std::env;
 use tracing::info;
 
@@ -28,7 +29,7 @@ async fn main() -> Result<()> {
         "symbol_example".to_string(),
         NewOrderSideEnum::Buy,
         NewOrderTypeEnum::Limit,
-        1.0,
+        dec!(1.0),
     )
     .build()?;
 

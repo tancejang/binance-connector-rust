@@ -15,7 +15,7 @@
 use async_trait::async_trait;
 use derive_builder::Builder;
 use reqwest;
-use rust_decimal::{Decimal, prelude::FromPrimitive};
+use rust_decimal::prelude::*;
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::collections::BTreeMap;
@@ -161,7 +161,7 @@ pub struct FuturesTransferForSubAccountParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub amount: f32,
+    pub amount: rust_decimal::Decimal,
     /// 1: transfer from subaccount's  spot account to margin account 2: transfer from subaccount's margin account to its spot account
     ///
     /// This field is **required.
@@ -182,14 +182,14 @@ impl FuturesTransferForSubAccountParams {
     ///
     /// * `email` — [Sub-account email](#email-address)
     /// * `asset` — String
-    /// * `amount` — f32
+    /// * `amount` — `rust_decimal::Decimal`
     /// * `r#type` — 1: transfer from subaccount's  spot account to margin account 2: transfer from subaccount's margin account to its spot account
     ///
     #[must_use]
     pub fn builder(
         email: String,
         asset: String,
-        amount: f32,
+        amount: rust_decimal::Decimal,
         r#type: i64,
     ) -> FuturesTransferForSubAccountParamsBuilder {
         FuturesTransferForSubAccountParamsBuilder::default()
@@ -399,7 +399,7 @@ pub struct GetSubAccountDepositAddressParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub amount: Option<f32>,
+    pub amount: Option<rust_decimal::Decimal>,
     ///
     /// The `recv_window` parameter.
     ///
@@ -605,7 +605,7 @@ pub struct MarginTransferForSubAccountParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub amount: f32,
+    pub amount: rust_decimal::Decimal,
     /// 1: transfer from subaccount's  spot account to margin account 2: transfer from subaccount's margin account to its spot account
     ///
     /// This field is **required.
@@ -626,14 +626,14 @@ impl MarginTransferForSubAccountParams {
     ///
     /// * `email` — [Sub-account email](#email-address)
     /// * `asset` — String
-    /// * `amount` — f32
+    /// * `amount` — `rust_decimal::Decimal`
     /// * `r#type` — 1: transfer from subaccount's  spot account to margin account 2: transfer from subaccount's margin account to its spot account
     ///
     #[must_use]
     pub fn builder(
         email: String,
         asset: String,
-        amount: f32,
+        amount: rust_decimal::Decimal,
         r#type: i64,
     ) -> MarginTransferForSubAccountParamsBuilder {
         MarginTransferForSubAccountParamsBuilder::default()
@@ -1026,7 +1026,7 @@ pub struct SubAccountFuturesAssetTransferParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub amount: f32,
+    pub amount: rust_decimal::Decimal,
     ///
     /// The `recv_window` parameter.
     ///
@@ -1044,7 +1044,7 @@ impl SubAccountFuturesAssetTransferParams {
     /// * `to_email` — String
     /// * `futures_type` — 1:USDT-margined Futures，2: Coin-margined Futures
     /// * `asset` — String
-    /// * `amount` — f32
+    /// * `amount` — `rust_decimal::Decimal`
     ///
     #[must_use]
     pub fn builder(
@@ -1052,7 +1052,7 @@ impl SubAccountFuturesAssetTransferParams {
         to_email: String,
         futures_type: i64,
         asset: String,
-        amount: f32,
+        amount: rust_decimal::Decimal,
     ) -> SubAccountFuturesAssetTransferParamsBuilder {
         SubAccountFuturesAssetTransferParamsBuilder::default()
             .from_email(from_email)
@@ -1135,7 +1135,7 @@ pub struct TransferToMasterParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub amount: f32,
+    pub amount: rust_decimal::Decimal,
     ///
     /// The `recv_window` parameter.
     ///
@@ -1150,10 +1150,10 @@ impl TransferToMasterParams {
     /// Required parameters:
     ///
     /// * `asset` — String
-    /// * `amount` — f32
+    /// * `amount` — `rust_decimal::Decimal`
     ///
     #[must_use]
-    pub fn builder(asset: String, amount: f32) -> TransferToMasterParamsBuilder {
+    pub fn builder(asset: String, amount: rust_decimal::Decimal) -> TransferToMasterParamsBuilder {
         TransferToMasterParamsBuilder::default()
             .asset(asset)
             .amount(amount)
@@ -1183,7 +1183,7 @@ pub struct TransferToSubAccountOfSameMasterParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub amount: f32,
+    pub amount: rust_decimal::Decimal,
     ///
     /// The `recv_window` parameter.
     ///
@@ -1199,13 +1199,13 @@ impl TransferToSubAccountOfSameMasterParams {
     ///
     /// * `to_email` — String
     /// * `asset` — String
-    /// * `amount` — f32
+    /// * `amount` — `rust_decimal::Decimal`
     ///
     #[must_use]
     pub fn builder(
         to_email: String,
         asset: String,
-        amount: f32,
+        amount: rust_decimal::Decimal,
     ) -> TransferToSubAccountOfSameMasterParamsBuilder {
         TransferToSubAccountOfSameMasterParamsBuilder::default()
             .to_email(to_email)
@@ -1241,7 +1241,7 @@ pub struct UniversalTransferParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub amount: f32,
+    pub amount: rust_decimal::Decimal,
     ///
     /// The `from_email` parameter.
     ///
@@ -1281,14 +1281,14 @@ impl UniversalTransferParams {
     /// * `from_account_type` — \"SPOT\",\"`USDT_FUTURE`\",\"`COIN_FUTURE`\",\"MARGIN\"(Cross),\"`ISOLATED_MARGIN`\",\"ALPHA\"
     /// * `to_account_type` — \"SPOT\",\"`USDT_FUTURE`\",\"`COIN_FUTURE`\",\"MARGIN\"(Cross),\"`ISOLATED_MARGIN`\",\"ALPHA\"
     /// * `asset` — String
-    /// * `amount` — f32
+    /// * `amount` — `rust_decimal::Decimal`
     ///
     #[must_use]
     pub fn builder(
         from_account_type: String,
         to_account_type: String,
         asset: String,
-        amount: f32,
+        amount: rust_decimal::Decimal,
     ) -> UniversalTransferParamsBuilder {
         UniversalTransferParamsBuilder::default()
             .from_account_type(from_account_type)
@@ -1318,8 +1318,7 @@ impl AssetManagementApi for AssetManagementApiClient {
 
         query_params.insert("asset".to_string(), json!(asset));
 
-        let amount_value = Decimal::from_f32(amount).unwrap_or_default();
-        query_params.insert("amount".to_string(), json!(amount_value));
+        query_params.insert("amount".to_string(), json!(amount));
 
         query_params.insert("type".to_string(), json!(r#type));
 
@@ -1507,7 +1506,6 @@ impl AssetManagementApi for AssetManagementApiClient {
         }
 
         if let Some(rw) = amount {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("amount".to_string(), json!(rw));
         }
 
@@ -1714,8 +1712,7 @@ impl AssetManagementApi for AssetManagementApiClient {
 
         query_params.insert("asset".to_string(), json!(asset));
 
-        let amount_value = Decimal::from_f32(amount).unwrap_or_default();
-        query_params.insert("amount".to_string(), json!(amount_value));
+        query_params.insert("amount".to_string(), json!(amount));
 
         query_params.insert("type".to_string(), json!(r#type));
 
@@ -2085,8 +2082,7 @@ impl AssetManagementApi for AssetManagementApiClient {
 
         query_params.insert("asset".to_string(), json!(asset));
 
-        let amount_value = Decimal::from_f32(amount).unwrap_or_default();
-        query_params.insert("amount".to_string(), json!(amount_value));
+        query_params.insert("amount".to_string(), json!(amount));
 
         if let Some(rw) = recv_window {
             query_params.insert("recvWindow".to_string(), json!(rw));
@@ -2180,8 +2176,7 @@ impl AssetManagementApi for AssetManagementApiClient {
 
         query_params.insert("asset".to_string(), json!(asset));
 
-        let amount_value = Decimal::from_f32(amount).unwrap_or_default();
-        query_params.insert("amount".to_string(), json!(amount_value));
+        query_params.insert("amount".to_string(), json!(amount));
 
         if let Some(rw) = recv_window {
             query_params.insert("recvWindow".to_string(), json!(rw));
@@ -2219,8 +2214,7 @@ impl AssetManagementApi for AssetManagementApiClient {
 
         query_params.insert("asset".to_string(), json!(asset));
 
-        let amount_value = Decimal::from_f32(amount).unwrap_or_default();
-        query_params.insert("amount".to_string(), json!(amount_value));
+        query_params.insert("amount".to_string(), json!(amount));
 
         if let Some(rw) = recv_window {
             query_params.insert("recvWindow".to_string(), json!(rw));
@@ -2265,8 +2259,7 @@ impl AssetManagementApi for AssetManagementApiClient {
 
         query_params.insert("asset".to_string(), json!(asset));
 
-        let amount_value = Decimal::from_f32(amount).unwrap_or_default();
-        query_params.insert("amount".to_string(), json!(amount_value));
+        query_params.insert("amount".to_string(), json!(amount));
 
         if let Some(rw) = from_email {
             query_params.insert("fromEmail".to_string(), json!(rw));
@@ -2949,7 +2942,7 @@ mod tests {
             let params = FuturesTransferForSubAccountParams::builder(
                 "sub-account-email@email.com".to_string(),
                 "asset_example".to_string(),
-                1.0,
+                dec!(1.0),
                 789,
             )
             .build()
@@ -2978,7 +2971,7 @@ mod tests {
             let params = FuturesTransferForSubAccountParams::builder(
                 "sub-account-email@email.com".to_string(),
                 "asset_example".to_string(),
-                1.0,
+                dec!(1.0),
                 789,
             )
             .recv_window(5000)
@@ -3008,7 +3001,7 @@ mod tests {
             let params = FuturesTransferForSubAccountParams::builder(
                 "sub-account-email@email.com".to_string(),
                 "asset_example".to_string(),
-                1.0,
+                dec!(1.0),
                 789,
             )
             .build()
@@ -3276,7 +3269,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockAssetManagementApiClient { force_error: false };
 
-            let params = GetSubAccountDepositAddressParams::builder("sub-account-email@email.com".to_string(),"coin_example".to_string(),).network("network_example".to_string()).amount(1.0).recv_window(5000).build().unwrap();
+            let params = GetSubAccountDepositAddressParams::builder("sub-account-email@email.com".to_string(),"coin_example".to_string(),).network("network_example".to_string()).amount(dec!(1.0)).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"address":"TDunhSa7jkTNuKrusUTU1MUHtqXoBPKETV","coin":"USDT","tag":"","url":"https://tronscan.org/#/address/TDunhSa7jkTNuKrusUTU1MUHtqXoBPKETV"}"#).unwrap();
             let expected_response : models::GetSubAccountDepositAddressResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::GetSubAccountDepositAddressResponse");
@@ -3536,7 +3529,7 @@ mod tests {
             let params = MarginTransferForSubAccountParams::builder(
                 "sub-account-email@email.com".to_string(),
                 "asset_example".to_string(),
-                1.0,
+                dec!(1.0),
                 789,
             )
             .build()
@@ -3565,7 +3558,7 @@ mod tests {
             let params = MarginTransferForSubAccountParams::builder(
                 "sub-account-email@email.com".to_string(),
                 "asset_example".to_string(),
-                1.0,
+                dec!(1.0),
                 789,
             )
             .recv_window(5000)
@@ -3595,7 +3588,7 @@ mod tests {
             let params = MarginTransferForSubAccountParams::builder(
                 "sub-account-email@email.com".to_string(),
                 "asset_example".to_string(),
-                1.0,
+                dec!(1.0),
                 789,
             )
             .build()
@@ -4004,7 +3997,7 @@ mod tests {
                 "to_email_example".to_string(),
                 789,
                 "asset_example".to_string(),
-                1.0,
+                dec!(1.0),
             )
             .build()
             .unwrap();
@@ -4035,7 +4028,7 @@ mod tests {
                 "to_email_example".to_string(),
                 789,
                 "asset_example".to_string(),
-                1.0,
+                dec!(1.0),
             )
             .recv_window(5000)
             .build()
@@ -4067,7 +4060,7 @@ mod tests {
                 "to_email_example".to_string(),
                 789,
                 "asset_example".to_string(),
-                1.0,
+                dec!(1.0),
             )
             .build()
             .unwrap();
@@ -4136,7 +4129,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockAssetManagementApiClient { force_error: false };
 
-            let params = TransferToMasterParams::builder("asset_example".to_string(), 1.0)
+            let params = TransferToMasterParams::builder("asset_example".to_string(), dec!(1.0))
                 .build()
                 .unwrap();
 
@@ -4160,7 +4153,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockAssetManagementApiClient { force_error: false };
 
-            let params = TransferToMasterParams::builder("asset_example".to_string(), 1.0)
+            let params = TransferToMasterParams::builder("asset_example".to_string(), dec!(1.0))
                 .recv_window(5000)
                 .build()
                 .unwrap();
@@ -4185,7 +4178,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockAssetManagementApiClient { force_error: true };
 
-            let params = TransferToMasterParams::builder("asset_example".to_string(), 1.0)
+            let params = TransferToMasterParams::builder("asset_example".to_string(), dec!(1.0))
                 .build()
                 .unwrap();
 
@@ -4206,7 +4199,7 @@ mod tests {
             let params = TransferToSubAccountOfSameMasterParams::builder(
                 "to_email_example".to_string(),
                 "asset_example".to_string(),
-                1.0,
+                dec!(1.0),
             )
             .build()
             .unwrap();
@@ -4234,7 +4227,7 @@ mod tests {
             let params = TransferToSubAccountOfSameMasterParams::builder(
                 "to_email_example".to_string(),
                 "asset_example".to_string(),
-                1.0,
+                dec!(1.0),
             )
             .recv_window(5000)
             .build()
@@ -4263,7 +4256,7 @@ mod tests {
             let params = TransferToSubAccountOfSameMasterParams::builder(
                 "to_email_example".to_string(),
                 "asset_example".to_string(),
-                1.0,
+                dec!(1.0),
             )
             .build()
             .unwrap();
@@ -4286,7 +4279,7 @@ mod tests {
                 "from_account_type_example".to_string(),
                 "to_account_type_example".to_string(),
                 "asset_example".to_string(),
-                1.0,
+                dec!(1.0),
             )
             .build()
             .unwrap();
@@ -4316,7 +4309,7 @@ mod tests {
                 "from_account_type_example".to_string(),
                 "to_account_type_example".to_string(),
                 "asset_example".to_string(),
-                1.0,
+                dec!(1.0),
             )
             .from_email("from_email_example".to_string())
             .to_email("to_email_example".to_string())
@@ -4351,7 +4344,7 @@ mod tests {
                 "from_account_type_example".to_string(),
                 "to_account_type_example".to_string(),
                 "asset_example".to_string(),
-                1.0,
+                dec!(1.0),
             )
             .build()
             .unwrap();

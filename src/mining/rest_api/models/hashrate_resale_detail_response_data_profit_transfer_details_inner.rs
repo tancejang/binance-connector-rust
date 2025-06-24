@@ -28,7 +28,7 @@ pub struct HashrateResaleDetailResponseDataProfitTransferDetailsInner {
     #[serde(rename = "day", skip_serializing_if = "Option::is_none")]
     pub day: Option<i64>,
     #[serde(rename = "amount", skip_serializing_if = "Option::is_none")]
-    pub amount: Option<f32>,
+    pub amount: Option<rust_decimal::Decimal>,
     #[serde(rename = "coinName", skip_serializing_if = "Option::is_none")]
     pub coin_name: Option<String>,
 }

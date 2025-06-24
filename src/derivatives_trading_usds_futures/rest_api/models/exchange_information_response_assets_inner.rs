@@ -22,7 +22,7 @@ pub struct ExchangeInformationResponseAssetsInner {
     #[serde(rename = "marginAvailable", skip_serializing_if = "Option::is_none")]
     pub margin_available: Option<bool>,
     #[serde(rename = "autoAssetExchange", skip_serializing_if = "Option::is_none")]
-    pub auto_asset_exchange: Option<i64>,
+    pub auto_asset_exchange: Option<String>,
 }
 
 impl ExchangeInformationResponseAssetsInner {

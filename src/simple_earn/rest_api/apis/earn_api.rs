@@ -15,7 +15,7 @@
 use async_trait::async_trait;
 use derive_builder::Builder;
 use reqwest;
-use rust_decimal::{Decimal, prelude::FromPrimitive};
+use rust_decimal::prelude::*;
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::collections::BTreeMap;
@@ -98,7 +98,7 @@ pub struct GetFlexibleSubscriptionPreviewParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub amount: f32,
+    pub amount: rust_decimal::Decimal,
     ///
     /// The `recv_window` parameter.
     ///
@@ -113,10 +113,13 @@ impl GetFlexibleSubscriptionPreviewParams {
     /// Required parameters:
     ///
     /// * `product_id` — String
-    /// * `amount` — f32
+    /// * `amount` — `rust_decimal::Decimal`
     ///
     #[must_use]
-    pub fn builder(product_id: String, amount: f32) -> GetFlexibleSubscriptionPreviewParamsBuilder {
+    pub fn builder(
+        product_id: String,
+        amount: rust_decimal::Decimal,
+    ) -> GetFlexibleSubscriptionPreviewParamsBuilder {
         GetFlexibleSubscriptionPreviewParamsBuilder::default()
             .product_id(product_id)
             .amount(amount)
@@ -140,7 +143,7 @@ pub struct GetLockedSubscriptionPreviewParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub amount: f32,
+    pub amount: rust_decimal::Decimal,
     /// true or false, default true.
     ///
     /// This field is **optional.
@@ -160,10 +163,13 @@ impl GetLockedSubscriptionPreviewParams {
     /// Required parameters:
     ///
     /// * `project_id` — String
-    /// * `amount` — f32
+    /// * `amount` — `rust_decimal::Decimal`
     ///
     #[must_use]
-    pub fn builder(project_id: String, amount: f32) -> GetLockedSubscriptionPreviewParamsBuilder {
+    pub fn builder(
+        project_id: String,
+        amount: rust_decimal::Decimal,
+    ) -> GetLockedSubscriptionPreviewParamsBuilder {
         GetLockedSubscriptionPreviewParamsBuilder::default()
             .project_id(project_id)
             .amount(amount)
@@ -191,7 +197,7 @@ pub struct RedeemFlexibleProductParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub amount: Option<f32>,
+    pub amount: Option<rust_decimal::Decimal>,
     /// `SPOT`,`FUND`, default `SPOT`
     ///
     /// This field is **optional.
@@ -400,7 +406,7 @@ pub struct SubscribeFlexibleProductParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub amount: f32,
+    pub amount: rust_decimal::Decimal,
     /// true or false, default true.
     ///
     /// This field is **optional.
@@ -425,10 +431,13 @@ impl SubscribeFlexibleProductParams {
     /// Required parameters:
     ///
     /// * `product_id` — String
-    /// * `amount` — f32
+    /// * `amount` — `rust_decimal::Decimal`
     ///
     #[must_use]
-    pub fn builder(product_id: String, amount: f32) -> SubscribeFlexibleProductParamsBuilder {
+    pub fn builder(
+        product_id: String,
+        amount: rust_decimal::Decimal,
+    ) -> SubscribeFlexibleProductParamsBuilder {
         SubscribeFlexibleProductParamsBuilder::default()
             .product_id(product_id)
             .amount(amount)
@@ -452,7 +461,7 @@ pub struct SubscribeLockedProductParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub amount: f32,
+    pub amount: rust_decimal::Decimal,
     /// true or false, default true.
     ///
     /// This field is **optional.
@@ -482,10 +491,13 @@ impl SubscribeLockedProductParams {
     /// Required parameters:
     ///
     /// * `project_id` — String
-    /// * `amount` — f32
+    /// * `amount` — `rust_decimal::Decimal`
     ///
     #[must_use]
-    pub fn builder(project_id: String, amount: f32) -> SubscribeLockedProductParamsBuilder {
+    pub fn builder(
+        project_id: String,
+        amount: rust_decimal::Decimal,
+    ) -> SubscribeLockedProductParamsBuilder {
         SubscribeLockedProductParamsBuilder::default()
             .project_id(project_id)
             .amount(amount)
@@ -508,8 +520,7 @@ impl EarnApi for EarnApiClient {
 
         query_params.insert("productId".to_string(), json!(product_id));
 
-        let amount_value = Decimal::from_f32(amount).unwrap_or_default();
-        query_params.insert("amount".to_string(), json!(amount_value));
+        query_params.insert("amount".to_string(), json!(amount));
 
         if let Some(rw) = recv_window {
             query_params.insert("recvWindow".to_string(), json!(rw));
@@ -546,8 +557,7 @@ impl EarnApi for EarnApiClient {
 
         query_params.insert("projectId".to_string(), json!(project_id));
 
-        let amount_value = Decimal::from_f32(amount).unwrap_or_default();
-        query_params.insert("amount".to_string(), json!(amount_value));
+        query_params.insert("amount".to_string(), json!(amount));
 
         if let Some(rw) = auto_subscribe {
             query_params.insert("autoSubscribe".to_string(), json!(rw));
@@ -593,7 +603,6 @@ impl EarnApi for EarnApiClient {
         }
 
         if let Some(rw) = amount {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("amount".to_string(), json!(rw));
         }
 
@@ -773,8 +782,7 @@ impl EarnApi for EarnApiClient {
 
         query_params.insert("productId".to_string(), json!(product_id));
 
-        let amount_value = Decimal::from_f32(amount).unwrap_or_default();
-        query_params.insert("amount".to_string(), json!(amount_value));
+        query_params.insert("amount".to_string(), json!(amount));
 
         if let Some(rw) = auto_subscribe {
             query_params.insert("autoSubscribe".to_string(), json!(rw));
@@ -820,8 +828,7 @@ impl EarnApi for EarnApiClient {
 
         query_params.insert("projectId".to_string(), json!(project_id));
 
-        let amount_value = Decimal::from_f32(amount).unwrap_or_default();
-        query_params.insert("amount".to_string(), json!(amount_value));
+        query_params.insert("amount".to_string(), json!(amount));
 
         if let Some(rw) = auto_subscribe {
             query_params.insert("autoSubscribe".to_string(), json!(rw));
@@ -1126,7 +1133,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockEarnApiClient { force_error: false };
 
-            let params = GetFlexibleSubscriptionPreviewParams::builder("1".to_string(),1.0,).build().unwrap();
+            let params = GetFlexibleSubscriptionPreviewParams::builder("1".to_string(),dec!(1.0),).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"totalAmount":"1232.32230982","rewardAsset":"BUSD","airDropAsset":"BETH","estDailyBonusRewards":"0.22759183","estDailyRealTimeRewards":"0.22759183","estDailyAirdropRewards":"0.22759183"}"#).unwrap();
             let expected_response : models::GetFlexibleSubscriptionPreviewResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::GetFlexibleSubscriptionPreviewResponse");
@@ -1143,7 +1150,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockEarnApiClient { force_error: false };
 
-            let params = GetFlexibleSubscriptionPreviewParams::builder("1".to_string(),1.0,).recv_window(5000).build().unwrap();
+            let params = GetFlexibleSubscriptionPreviewParams::builder("1".to_string(),dec!(1.0),).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"totalAmount":"1232.32230982","rewardAsset":"BUSD","airDropAsset":"BETH","estDailyBonusRewards":"0.22759183","estDailyRealTimeRewards":"0.22759183","estDailyAirdropRewards":"0.22759183"}"#).unwrap();
             let expected_response : models::GetFlexibleSubscriptionPreviewResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::GetFlexibleSubscriptionPreviewResponse");
@@ -1160,7 +1167,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockEarnApiClient { force_error: true };
 
-            let params = GetFlexibleSubscriptionPreviewParams::builder("1".to_string(), 1.0)
+            let params = GetFlexibleSubscriptionPreviewParams::builder("1".to_string(), dec!(1.0))
                 .build()
                 .unwrap();
 
@@ -1178,7 +1185,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockEarnApiClient { force_error: false };
 
-            let params = GetLockedSubscriptionPreviewParams::builder("1".to_string(),1.0,).build().unwrap();
+            let params = GetLockedSubscriptionPreviewParams::builder("1".to_string(),dec!(1.0),).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"[{"rewardAsset":"AXS","totalRewardAmt":"5.17181528","extraRewardAsset":"BNB","estTotalExtraRewardAmt":"5.17181528","boostRewardAsset":"AXS","estDailyRewardAmt":"1.20928901","nextPay":"1.29295383","nextPayDate":"1646697600000","valueDate":"1646697600000","rewardsEndDate":"1651449600000","deliverDate":"1651536000000","nextSubscriptionDate":"1651536000000"}]"#).unwrap();
             let expected_response : Vec<models::GetLockedSubscriptionPreviewResponseInner> = serde_json::from_value(resp_json.clone()).expect("should parse into Vec<models::GetLockedSubscriptionPreviewResponseInner>");
@@ -1195,7 +1202,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockEarnApiClient { force_error: false };
 
-            let params = GetLockedSubscriptionPreviewParams::builder("1".to_string(),1.0,).auto_subscribe(true).recv_window(5000).build().unwrap();
+            let params = GetLockedSubscriptionPreviewParams::builder("1".to_string(),dec!(1.0),).auto_subscribe(true).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"[{"rewardAsset":"AXS","totalRewardAmt":"5.17181528","extraRewardAsset":"BNB","estTotalExtraRewardAmt":"5.17181528","boostRewardAsset":"AXS","estDailyRewardAmt":"1.20928901","nextPay":"1.29295383","nextPayDate":"1646697600000","valueDate":"1646697600000","rewardsEndDate":"1651449600000","deliverDate":"1651536000000","nextSubscriptionDate":"1651536000000"}]"#).unwrap();
             let expected_response : Vec<models::GetLockedSubscriptionPreviewResponseInner> = serde_json::from_value(resp_json.clone()).expect("should parse into Vec<models::GetLockedSubscriptionPreviewResponseInner>");
@@ -1212,7 +1219,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockEarnApiClient { force_error: true };
 
-            let params = GetLockedSubscriptionPreviewParams::builder("1".to_string(), 1.0)
+            let params = GetLockedSubscriptionPreviewParams::builder("1".to_string(), dec!(1.0))
                 .build()
                 .unwrap();
 
@@ -1257,7 +1264,7 @@ mod tests {
 
             let params = RedeemFlexibleProductParams::builder("1".to_string())
                 .redeem_all(false)
-                .amount(1.0)
+                .amount(dec!(1.0))
                 .dest_account("SPOT".to_string())
                 .recv_window(5000)
                 .build()
@@ -1581,7 +1588,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockEarnApiClient { force_error: false };
 
-            let params = SubscribeFlexibleProductParams::builder("1".to_string(), 1.0)
+            let params = SubscribeFlexibleProductParams::builder("1".to_string(), dec!(1.0))
                 .build()
                 .unwrap();
 
@@ -1606,7 +1613,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockEarnApiClient { force_error: false };
 
-            let params = SubscribeFlexibleProductParams::builder("1".to_string(), 1.0)
+            let params = SubscribeFlexibleProductParams::builder("1".to_string(), dec!(1.0))
                 .auto_subscribe(true)
                 .source_account("SPOT".to_string())
                 .recv_window(5000)
@@ -1634,7 +1641,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockEarnApiClient { force_error: true };
 
-            let params = SubscribeFlexibleProductParams::builder("1".to_string(), 1.0)
+            let params = SubscribeFlexibleProductParams::builder("1".to_string(), dec!(1.0))
                 .build()
                 .unwrap();
 
@@ -1652,7 +1659,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockEarnApiClient { force_error: false };
 
-            let params = SubscribeLockedProductParams::builder("1".to_string(), 1.0)
+            let params = SubscribeLockedProductParams::builder("1".to_string(), dec!(1.0))
                 .build()
                 .unwrap();
 
@@ -1678,7 +1685,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockEarnApiClient { force_error: false };
 
-            let params = SubscribeLockedProductParams::builder("1".to_string(), 1.0)
+            let params = SubscribeLockedProductParams::builder("1".to_string(), dec!(1.0))
                 .auto_subscribe(true)
                 .source_account("SPOT".to_string())
                 .redeem_to(String::new())
@@ -1708,7 +1715,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockEarnApiClient { force_error: true };
 
-            let params = SubscribeLockedProductParams::builder("1".to_string(), 1.0)
+            let params = SubscribeLockedProductParams::builder("1".to_string(), dec!(1.0))
                 .build()
                 .unwrap();
 

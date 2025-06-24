@@ -22,7 +22,7 @@ pub struct AssetDetailResponseSky {
     #[serde(rename = "depositStatus", skip_serializing_if = "Option::is_none")]
     pub deposit_status: Option<bool>,
     #[serde(rename = "withdrawFee", skip_serializing_if = "Option::is_none")]
-    pub withdraw_fee: Option<f32>,
+    pub withdraw_fee: Option<rust_decimal::Decimal>,
     #[serde(rename = "withdrawStatus", skip_serializing_if = "Option::is_none")]
     pub withdraw_status: Option<bool>,
 }
