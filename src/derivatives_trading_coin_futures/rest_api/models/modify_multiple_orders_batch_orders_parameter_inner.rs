@@ -26,9 +26,9 @@ pub struct ModifyMultipleOrdersBatchOrdersParameterInner {
     #[serde(rename = "side", skip_serializing_if = "Option::is_none")]
     pub side: Option<SideEnum>,
     #[serde(rename = "quantity", skip_serializing_if = "Option::is_none")]
-    pub quantity: Option<f32>,
+    pub quantity: Option<rust_decimal::Decimal>,
     #[serde(rename = "price", skip_serializing_if = "Option::is_none")]
-    pub price: Option<f32>,
+    pub price: Option<rust_decimal::Decimal>,
     #[serde(rename = "recvWindow", skip_serializing_if = "Option::is_none")]
     pub recv_window: Option<i64>,
 }

@@ -20,7 +20,7 @@
 use anyhow::Context;
 use async_trait::async_trait;
 use derive_builder::Builder;
-use rust_decimal::{Decimal, prelude::FromPrimitive};
+use rust_decimal::prelude::*;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::{collections::BTreeMap, sync::Arc};
@@ -695,7 +695,6 @@ impl AccountApi for AccountApiClient {
         let AccountCommissionParams { symbol, id } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
-
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
@@ -841,7 +840,6 @@ impl AccountApi for AccountApiClient {
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
-
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
@@ -892,7 +890,6 @@ impl AccountApi for AccountApiClient {
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
-
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
@@ -946,7 +943,6 @@ impl AccountApi for AccountApiClient {
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
-
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
@@ -997,7 +993,6 @@ impl AccountApi for AccountApiClient {
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
-
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
@@ -1114,9 +1109,7 @@ impl AccountApi for AccountApiClient {
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
-
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
-
         payload.insert("orderId".to_string(), serde_json::json!(order_id));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
@@ -1197,7 +1190,6 @@ impl AccountApi for AccountApiClient {
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
-
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));

@@ -15,7 +15,7 @@
 use async_trait::async_trait;
 use derive_builder::Builder;
 use reqwest;
-use rust_decimal::{Decimal, prelude::FromPrimitive};
+use rust_decimal::prelude::*;
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::collections::BTreeMap;
@@ -280,12 +280,12 @@ pub struct SetMarketMakerProtectionConfigParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub qty_limit: Option<f32>,
+    pub qty_limit: Option<rust_decimal::Decimal>,
     /// net delta limit
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub delta_limit: Option<f32>,
+    pub delta_limit: Option<rust_decimal::Decimal>,
     ///
     /// The `recv_window` parameter.
     ///
@@ -529,12 +529,10 @@ impl MarketMakerEndpointsApi for MarketMakerEndpointsApiClient {
         }
 
         if let Some(rw) = qty_limit {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("qtyLimit".to_string(), json!(rw));
         }
 
         if let Some(rw) = delta_limit {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("deltaLimit".to_string(), json!(rw));
         }
 
@@ -1158,7 +1156,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockMarketMakerEndpointsApiClient { force_error: false };
 
-            let params = SetMarketMakerProtectionConfigParams::builder().underlying("underlying_example".to_string()).window_time_in_milliseconds(789).frozen_time_in_milliseconds(789).qty_limit(1.0).delta_limit(1.0).recv_window(5000).build().unwrap();
+            let params = SetMarketMakerProtectionConfigParams::builder().underlying("underlying_example".to_string()).window_time_in_milliseconds(789).frozen_time_in_milliseconds(789).qty_limit(dec!(1.0)).delta_limit(dec!(1.0)).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"underlyingId":2,"underlying":"BTCUSDT","windowTimeInMilliseconds":3000,"frozenTimeInMilliseconds":300000,"qtyLimit":"2","deltaLimit":"2.3","lastTriggerTime":0}"#).unwrap();
             let expected_response : models::SetMarketMakerProtectionConfigResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::SetMarketMakerProtectionConfigResponse");

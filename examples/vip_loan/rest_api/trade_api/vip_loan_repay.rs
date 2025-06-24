@@ -1,4 +1,5 @@
 use anyhow::{Context, Result};
+use rust_decimal::prelude::*;
 use std::env;
 use tracing::info;
 
@@ -21,7 +22,7 @@ async fn main() -> Result<()> {
     let rest_client = VIPLoanRestApi::production(rest_conf);
 
     // Setup the API parameters
-    let params = VipLoanRepayParams::builder(1, 1.0).build()?;
+    let params = VipLoanRepayParams::builder(1, dec!(1.0)).build()?;
 
     // Make the API call
     let response = rest_client

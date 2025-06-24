@@ -1,4 +1,5 @@
 use anyhow::{Context, Result};
+use rust_decimal::prelude::*;
 use std::env;
 use tracing::info;
 
@@ -25,12 +26,12 @@ async fn main() -> Result<()> {
         "symbol_example".to_string(),
         "working_type_example".to_string(),
         "working_side_example".to_string(),
-        1.0,
-        1.0,
-        1.0,
+        dec!(1.0),
+        dec!(1.0),
+        dec!(1.0),
         "Order Types".to_string(),
         "pending_side_example".to_string(),
-        1.0,
+        dec!(1.0),
     )
     .build()?;
 

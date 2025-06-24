@@ -20,7 +20,7 @@
 use anyhow::Context;
 use async_trait::async_trait;
 use derive_builder::Builder;
-use rust_decimal::{Decimal, prelude::FromPrimitive};
+use rust_decimal::prelude::*;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::{collections::BTreeMap, sync::Arc};
@@ -206,7 +206,6 @@ impl UserDataStreamApi for UserDataStreamApiClient {
         let UserDataStreamPingParams { listen_key, id } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
-
         payload.insert("listenKey".to_string(), serde_json::json!(listen_key));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
@@ -258,7 +257,6 @@ impl UserDataStreamApi for UserDataStreamApiClient {
         let UserDataStreamStopParams { listen_key, id } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
-
         payload.insert("listenKey".to_string(), serde_json::json!(listen_key));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));

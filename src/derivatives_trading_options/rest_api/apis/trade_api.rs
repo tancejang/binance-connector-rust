@@ -15,7 +15,7 @@
 use async_trait::async_trait;
 use derive_builder::Builder;
 use reqwest;
-use rust_decimal::{Decimal, prelude::FromPrimitive};
+use rust_decimal::prelude::*;
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::collections::BTreeMap;
@@ -390,12 +390,12 @@ pub struct NewOrderParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub quantity: f32,
+    pub quantity: rust_decimal::Decimal,
     /// Order Price
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub price: Option<f32>,
+    pub price: Option<rust_decimal::Decimal>,
     /// Time in force method（Default GTC）
     ///
     /// This field is **optional.
@@ -449,7 +449,7 @@ impl NewOrderParams {
         symbol: String,
         side: NewOrderSideEnum,
         r#type: NewOrderTypeEnum,
-        quantity: f32,
+        quantity: rust_decimal::Decimal,
     ) -> NewOrderParamsBuilder {
         NewOrderParamsBuilder::default()
             .symbol(symbol)
@@ -938,11 +938,9 @@ impl TradeApi for TradeApiClient {
 
         query_params.insert("type".to_string(), json!(r#type));
 
-        let quantity_value = Decimal::from_f32(quantity).unwrap_or_default();
-        query_params.insert("quantity".to_string(), json!(quantity_value));
+        query_params.insert("quantity".to_string(), json!(quantity));
 
         if let Some(rw) = price {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("price".to_string(), json!(rw));
         }
 
@@ -1905,7 +1903,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = NewOrderParams::builder("symbol_example".to_string(),NewOrderSideEnum::Buy,NewOrderTypeEnum::Limit,1.0,).build().unwrap();
+            let params = NewOrderParams::builder("symbol_example".to_string(),NewOrderSideEnum::Buy,NewOrderTypeEnum::Limit,dec!(1.0),).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"orderId":4611875134427365000,"symbol":"BTC-200730-9000-C","price":"100","quantity":"1","side":"BUY","type":"LIMIT","createDate":1592465880683,"reduceOnly":false,"postOnly":false,"mmp":false,"executedQty":"0","fee":"0","timeInForce":"GTC","createTime":1592465880683,"updateTime":1566818724722,"status":"ACCEPTED","avgPrice":"0","clientOrderId":"","priceScale":2,"quantityScale":2,"optionSide":"CALL","quoteAsset":"USDT"}"#).unwrap();
             let expected_response : models::NewOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::NewOrderResponse");
@@ -1922,7 +1920,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = NewOrderParams::builder("symbol_example".to_string(),NewOrderSideEnum::Buy,NewOrderTypeEnum::Limit,1.0,).price(1.0).time_in_force(NewOrderTimeInForceEnum::Gtc).reduce_only(false).post_only(false).new_order_resp_type(NewOrderNewOrderRespTypeEnum::Ack).client_order_id("1".to_string()).is_mmp(true).recv_window(5000).build().unwrap();
+            let params = NewOrderParams::builder("symbol_example".to_string(),NewOrderSideEnum::Buy,NewOrderTypeEnum::Limit,dec!(1.0),).price(dec!(1.0)).time_in_force(NewOrderTimeInForceEnum::Gtc).reduce_only(false).post_only(false).new_order_resp_type(NewOrderNewOrderRespTypeEnum::Ack).client_order_id("1".to_string()).is_mmp(true).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"orderId":4611875134427365000,"symbol":"BTC-200730-9000-C","price":"100","quantity":"1","side":"BUY","type":"LIMIT","createDate":1592465880683,"reduceOnly":false,"postOnly":false,"mmp":false,"executedQty":"0","fee":"0","timeInForce":"GTC","createTime":1592465880683,"updateTime":1566818724722,"status":"ACCEPTED","avgPrice":"0","clientOrderId":"","priceScale":2,"quantityScale":2,"optionSide":"CALL","quoteAsset":"USDT"}"#).unwrap();
             let expected_response : models::NewOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::NewOrderResponse");
@@ -1943,7 +1941,7 @@ mod tests {
                 "symbol_example".to_string(),
                 NewOrderSideEnum::Buy,
                 NewOrderTypeEnum::Limit,
-                1.0,
+                dec!(1.0),
             )
             .build()
             .unwrap();

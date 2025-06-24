@@ -28,7 +28,7 @@ pub struct GetNftWithdrawHistoryResponseListInner {
     #[serde(rename = "timestamp", skip_serializing_if = "Option::is_none")]
     pub timestamp: Option<i64>,
     #[serde(rename = "fee", skip_serializing_if = "Option::is_none")]
-    pub fee: Option<f32>,
+    pub fee: Option<rust_decimal::Decimal>,
     #[serde(rename = "feeAsset", skip_serializing_if = "Option::is_none")]
     pub fee_asset: Option<String>,
 }

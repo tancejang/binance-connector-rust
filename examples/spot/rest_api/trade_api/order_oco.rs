@@ -1,4 +1,5 @@
 use anyhow::{Context, Result};
+use rust_decimal::prelude::*;
 use std::env;
 use tracing::info;
 
@@ -24,9 +25,14 @@ async fn main() -> Result<()> {
     let rest_client = SpotRestApi::production(rest_conf);
 
     // Setup the API parameters
-    let params =
-        OrderOcoParams::builder("BNBUSDT".to_string(), OrderOcoSideEnum::Buy, 1.0, 1.0, 1.0)
-            .build()?;
+    let params = OrderOcoParams::builder(
+        "BNBUSDT".to_string(),
+        OrderOcoSideEnum::Buy,
+        dec!(1.0),
+        dec!(1.0),
+        dec!(1.0),
+    )
+    .build()?;
 
     // Make the API call
     let response = rest_client

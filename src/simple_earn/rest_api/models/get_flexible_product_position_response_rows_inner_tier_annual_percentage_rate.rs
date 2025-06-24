@@ -18,9 +18,9 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct GetFlexibleProductPositionResponseRowsInnerTierAnnualPercentageRate {
     #[serde(rename = "0-5BTC", skip_serializing_if = "Option::is_none")]
-    pub param_0_5_btc: Option<f32>,
+    pub param_0_5_btc: Option<rust_decimal::Decimal>,
     #[serde(rename = "5-10BTC", skip_serializing_if = "Option::is_none")]
-    pub param_5_10_btc: Option<f32>,
+    pub param_5_10_btc: Option<rust_decimal::Decimal>,
 }
 
 impl GetFlexibleProductPositionResponseRowsInnerTierAnnualPercentageRate {

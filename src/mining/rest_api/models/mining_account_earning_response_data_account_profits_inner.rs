@@ -28,7 +28,7 @@ pub struct MiningAccountEarningResponseDataAccountProfitsInner {
     #[serde(rename = "subName", skip_serializing_if = "Option::is_none")]
     pub sub_name: Option<String>,
     #[serde(rename = "amount", skip_serializing_if = "Option::is_none")]
-    pub amount: Option<f32>,
+    pub amount: Option<rust_decimal::Decimal>,
 }
 
 impl MiningAccountEarningResponseDataAccountProfitsInner {

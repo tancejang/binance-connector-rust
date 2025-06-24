@@ -24,9 +24,9 @@ pub struct PlaceMultipleOrdersOrdersParameterInner {
     #[serde(rename = "type", skip_serializing_if = "Option::is_none")]
     pub r#type: Option<TypeEnum>,
     #[serde(rename = "quantity", skip_serializing_if = "Option::is_none")]
-    pub quantity: Option<f32>,
+    pub quantity: Option<rust_decimal::Decimal>,
     #[serde(rename = "price", skip_serializing_if = "Option::is_none")]
-    pub price: Option<f32>,
+    pub price: Option<rust_decimal::Decimal>,
     #[serde(rename = "timeInForce", skip_serializing_if = "Option::is_none")]
     pub time_in_force: Option<TimeInForceEnum>,
     #[serde(rename = "reduceOnly", skip_serializing_if = "Option::is_none")]

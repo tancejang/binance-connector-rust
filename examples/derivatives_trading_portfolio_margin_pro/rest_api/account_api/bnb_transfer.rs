@@ -1,4 +1,5 @@
 use anyhow::{Context, Result};
+use rust_decimal::prelude::*;
 use std::env;
 use tracing::info;
 
@@ -23,7 +24,8 @@ async fn main() -> Result<()> {
     let rest_client = DerivativesTradingPortfolioMarginProRestApi::production(rest_conf);
 
     // Setup the API parameters
-    let params = BnbTransferParams::builder(1.0, "transfer_side_example".to_string()).build()?;
+    let params =
+        BnbTransferParams::builder(dec!(1.0), "transfer_side_example".to_string()).build()?;
 
     // Make the API call
     let response = rest_client

@@ -26,9 +26,9 @@ pub struct NotionalBracketForPairResponseInnerBracketsInner {
     #[serde(rename = "qtylFloor", skip_serializing_if = "Option::is_none")]
     pub qtyl_floor: Option<i64>,
     #[serde(rename = "maintMarginRatio", skip_serializing_if = "Option::is_none")]
-    pub maint_margin_ratio: Option<f32>,
+    pub maint_margin_ratio: Option<rust_decimal::Decimal>,
     #[serde(rename = "cum", skip_serializing_if = "Option::is_none")]
-    pub cum: Option<f32>,
+    pub cum: Option<rust_decimal::Decimal>,
 }
 
 impl NotionalBracketForPairResponseInnerBracketsInner {

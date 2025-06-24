@@ -20,16 +20,16 @@ pub struct QueryLiabilityCoinLeverageBracketInCrossMarginProModeResponseInnerBra
     #[serde(rename = "leverage", skip_serializing_if = "Option::is_none")]
     pub leverage: Option<i64>,
     #[serde(rename = "maxDebt", skip_serializing_if = "Option::is_none")]
-    pub max_debt: Option<f32>,
+    pub max_debt: Option<rust_decimal::Decimal>,
     #[serde(
         rename = "maintenanceMarginRate",
         skip_serializing_if = "Option::is_none"
     )]
-    pub maintenance_margin_rate: Option<f32>,
+    pub maintenance_margin_rate: Option<rust_decimal::Decimal>,
     #[serde(rename = "initialMarginRate", skip_serializing_if = "Option::is_none")]
-    pub initial_margin_rate: Option<f32>,
+    pub initial_margin_rate: Option<rust_decimal::Decimal>,
     #[serde(rename = "fastNum", skip_serializing_if = "Option::is_none")]
-    pub fast_num: Option<f32>,
+    pub fast_num: Option<rust_decimal::Decimal>,
 }
 
 impl QueryLiabilityCoinLeverageBracketInCrossMarginProModeResponseInnerBracketsInner {

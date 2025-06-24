@@ -24,11 +24,11 @@ pub struct EarningsListResponseDataAccountProfitsInner {
     #[serde(rename = "hashTransfer", skip_serializing_if = "Option::is_none")]
     pub hash_transfer: Option<i64>,
     #[serde(rename = "transferAmount", skip_serializing_if = "Option::is_none")]
-    pub transfer_amount: Option<f32>,
+    pub transfer_amount: Option<rust_decimal::Decimal>,
     #[serde(rename = "dayHashRate", skip_serializing_if = "Option::is_none")]
     pub day_hash_rate: Option<i64>,
     #[serde(rename = "profitAmount", skip_serializing_if = "Option::is_none")]
-    pub profit_amount: Option<f32>,
+    pub profit_amount: Option<rust_decimal::Decimal>,
     #[serde(rename = "coinName", skip_serializing_if = "Option::is_none")]
     pub coin_name: Option<String>,
     #[serde(rename = "status", skip_serializing_if = "Option::is_none")]

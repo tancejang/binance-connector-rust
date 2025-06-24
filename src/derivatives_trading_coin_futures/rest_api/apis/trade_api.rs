@@ -15,7 +15,7 @@
 use async_trait::async_trait;
 use derive_builder::Builder;
 use reqwest;
-use rust_decimal::{Decimal, prelude::FromPrimitive};
+use rust_decimal::prelude::*;
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::collections::BTreeMap;
@@ -1054,7 +1054,7 @@ pub struct ModifyIsolatedPositionMarginParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub amount: f32,
+    pub amount: rust_decimal::Decimal,
     ///
     /// The `r#type` parameter.
     ///
@@ -1080,13 +1080,13 @@ impl ModifyIsolatedPositionMarginParams {
     /// Required parameters:
     ///
     /// * `symbol` — String
-    /// * `amount` — f32
+    /// * `amount` — `rust_decimal::Decimal`
     /// * `r#type` — String
     ///
     #[must_use]
     pub fn builder(
         symbol: String,
-        amount: f32,
+        amount: rust_decimal::Decimal,
         r#type: ModifyIsolatedPositionMarginTypeEnum,
     ) -> ModifyIsolatedPositionMarginParamsBuilder {
         ModifyIsolatedPositionMarginParamsBuilder::default()
@@ -1163,13 +1163,13 @@ pub struct ModifyOrderParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub quantity: Option<f32>,
+    pub quantity: Option<rust_decimal::Decimal>,
     ///
     /// The `price` parameter.
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub price: Option<f32>,
+    pub price: Option<rust_decimal::Decimal>,
     /// only avaliable for `LIMIT`/`STOP`/`TAKE_PROFIT` order; can be set to `OPPONENT`/ `OPPONENT_5`/ `OPPONENT_10`/ `OPPONENT_20`: /`QUEUE`/ `QUEUE_5`/ `QUEUE_10`/ `QUEUE_20`; Can't be passed together with `price`
     ///
     /// This field is **optional.
@@ -1237,7 +1237,7 @@ pub struct NewOrderParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub quantity: Option<f32>,
+    pub quantity: Option<rust_decimal::Decimal>,
     /// "true" or "false". default "false". Cannot be sent in Hedge Mode; cannot be sent with `closePosition`=`true`(Close-All)
     ///
     /// This field is **optional.
@@ -1248,7 +1248,7 @@ pub struct NewOrderParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub price: Option<f32>,
+    pub price: Option<rust_decimal::Decimal>,
     /// A unique id among open orders. Automatically generated if not sent. Can only be string following the rule: `^[\.A-Z\:/a-z0-9_-]{1,36}$`
     ///
     /// This field is **optional.
@@ -1258,7 +1258,7 @@ pub struct NewOrderParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub stop_price: Option<f32>,
+    pub stop_price: Option<rust_decimal::Decimal>,
     /// `true`, `false`；Close-All,used with `STOP_MARKET` or `TAKE_PROFIT_MARKET`.
     ///
     /// This field is **optional.
@@ -1268,12 +1268,12 @@ pub struct NewOrderParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub activation_price: Option<f32>,
+    pub activation_price: Option<rust_decimal::Decimal>,
     /// Used with `TRAILING_STOP_MARKET` orders, min 0.1, max 10 where 1 for 1%
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub callback_rate: Option<f32>,
+    pub callback_rate: Option<rust_decimal::Decimal>,
     /// stopPrice triggered by: "`MARK_PRICE`", "`CONTRACT_PRICE`". Default "`CONTRACT_PRICE`"
     ///
     /// This field is **optional.
@@ -2077,8 +2077,7 @@ impl TradeApi for TradeApiClient {
 
         query_params.insert("symbol".to_string(), json!(symbol));
 
-        let amount_value = Decimal::from_f32(amount).unwrap_or_default();
-        query_params.insert("amount".to_string(), json!(amount_value));
+        query_params.insert("amount".to_string(), json!(amount));
 
         query_params.insert("type".to_string(), json!(r#type));
 
@@ -2167,12 +2166,10 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = quantity {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("quantity".to_string(), json!(rw));
         }
 
         if let Some(rw) = price {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("price".to_string(), json!(rw));
         }
 
@@ -2242,7 +2239,6 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = quantity {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("quantity".to_string(), json!(rw));
         }
 
@@ -2251,7 +2247,6 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = price {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("price".to_string(), json!(rw));
         }
 
@@ -2260,7 +2255,6 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = stop_price {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("stopPrice".to_string(), json!(rw));
         }
 
@@ -2269,12 +2263,10 @@ impl TradeApi for TradeApiClient {
         }
 
         if let Some(rw) = activation_price {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("activationPrice".to_string(), json!(rw));
         }
 
         if let Some(rw) = callback_rate {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("callbackRate".to_string(), json!(rw));
         }
 
@@ -3814,7 +3806,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = ModifyIsolatedPositionMarginParams::builder("symbol_example".to_string(),1.0,ModifyIsolatedPositionMarginTypeEnum::Limit,).build().unwrap();
+            let params = ModifyIsolatedPositionMarginParams::builder("symbol_example".to_string(),dec!(1.0),ModifyIsolatedPositionMarginTypeEnum::Limit,).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"amount":100,"code":200,"msg":"Successfully modify position margin.","type":1}"#).unwrap();
             let expected_response : models::ModifyIsolatedPositionMarginResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::ModifyIsolatedPositionMarginResponse");
@@ -3831,7 +3823,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = ModifyIsolatedPositionMarginParams::builder("symbol_example".to_string(),1.0,ModifyIsolatedPositionMarginTypeEnum::Limit,).position_side(ModifyIsolatedPositionMarginPositionSideEnum::Both).recv_window(5000).build().unwrap();
+            let params = ModifyIsolatedPositionMarginParams::builder("symbol_example".to_string(),dec!(1.0),ModifyIsolatedPositionMarginTypeEnum::Limit,).position_side(ModifyIsolatedPositionMarginPositionSideEnum::Both).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"amount":100,"code":200,"msg":"Successfully modify position margin.","type":1}"#).unwrap();
             let expected_response : models::ModifyIsolatedPositionMarginResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::ModifyIsolatedPositionMarginResponse");
@@ -3850,7 +3842,7 @@ mod tests {
 
             let params = ModifyIsolatedPositionMarginParams::builder(
                 "symbol_example".to_string(),
-                1.0,
+                dec!(1.0),
                 ModifyIsolatedPositionMarginTypeEnum::Limit,
             )
             .build()
@@ -3937,7 +3929,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = ModifyOrderParams::builder("symbol_example".to_string(),ModifyOrderSideEnum::Buy,).order_id(1).orig_client_order_id("1".to_string()).quantity(1.0).price(1.0).price_match(ModifyOrderPriceMatchEnum::None).recv_window(5000).build().unwrap();
+            let params = ModifyOrderParams::builder("symbol_example".to_string(),ModifyOrderSideEnum::Buy,).order_id(1).orig_client_order_id("1".to_string()).quantity(dec!(1.0)).price(dec!(1.0)).price_match(ModifyOrderPriceMatchEnum::None).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"orderId":20072994037,"symbol":"BTCUSD_PERP","pair":"BTCUSD","status":"NEW","clientOrderId":"LJ9R4QZDihCaS8UAOOLpgW","price":"30005","avgPrice":"0.0","origQty":"1","executedQty":"0","cumQty":"0","cumBase":"0","timeInForce":"GTC","type":"LIMIT","reduceOnly":false,"closePosition":false,"side":"BUY","positionSide":"LONG","stopPrice":"0","workingType":"CONTRACT_PRICE","priceProtect":false,"origType":"LIMIT","priceMatch":"NONE","selfTradePreventionMode":"NONE","updateTime":1629182711600}"#).unwrap();
             let expected_response : models::ModifyOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::ModifyOrderResponse");
@@ -3990,7 +3982,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = NewOrderParams::builder("symbol_example".to_string(),NewOrderSideEnum::Buy,NewOrderTypeEnum::Limit,).position_side(NewOrderPositionSideEnum::Both).time_in_force(NewOrderTimeInForceEnum::Gtc).quantity(1.0).reduce_only("false".to_string()).price(1.0).new_client_order_id("1".to_string()).stop_price(1.0).close_position("close_position_example".to_string()).activation_price(1.0).callback_rate(1.0).working_type(NewOrderWorkingTypeEnum::MarkPrice).price_protect("false".to_string()).new_order_resp_type(NewOrderNewOrderRespTypeEnum::Ack).price_match(NewOrderPriceMatchEnum::None).self_trade_prevention_mode(NewOrderSelfTradePreventionModeEnum::None).recv_window(5000).build().unwrap();
+            let params = NewOrderParams::builder("symbol_example".to_string(),NewOrderSideEnum::Buy,NewOrderTypeEnum::Limit,).position_side(NewOrderPositionSideEnum::Both).time_in_force(NewOrderTimeInForceEnum::Gtc).quantity(dec!(1.0)).reduce_only("false".to_string()).price(dec!(1.0)).new_client_order_id("1".to_string()).stop_price(dec!(1.0)).close_position("close_position_example".to_string()).activation_price(dec!(1.0)).callback_rate(dec!(1.0)).working_type(NewOrderWorkingTypeEnum::MarkPrice).price_protect("false".to_string()).new_order_resp_type(NewOrderNewOrderRespTypeEnum::Ack).price_match(NewOrderPriceMatchEnum::None).self_trade_prevention_mode(NewOrderSelfTradePreventionModeEnum::None).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"clientOrderId":"testOrder","cumQty":"0","cumBase":"0","executedQty":"0","orderId":22542179,"avgPrice":"0.0","origQty":"10","price":"0","reduceOnly":false,"side":"BUY","positionSide":"SHORT","status":"NEW","stopPrice":"9300","closePosition":false,"symbol":"BTCUSD_200925","pair":"BTCUSD","timeInForce":"GTC","type":"TRAILING_STOP_MARKET","origType":"TRAILING_STOP_MARKET","activatePrice":"9020","priceRate":"0.3","updateTime":1566818724722,"workingType":"CONTRACT_PRICE","priceProtect":false,"priceMatch":"NONE","selfTradePreventionMode":"NONE"}"#).unwrap();
             let expected_response : models::NewOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::NewOrderResponse");

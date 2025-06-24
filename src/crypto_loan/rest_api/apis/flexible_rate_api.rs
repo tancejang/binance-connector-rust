@@ -15,7 +15,7 @@
 use async_trait::async_trait;
 use derive_builder::Builder;
 use reqwest;
-use rust_decimal::{Decimal, prelude::FromPrimitive};
+use rust_decimal::prelude::*;
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::collections::BTreeMap;
@@ -157,7 +157,7 @@ pub struct FlexibleLoanAdjustLtvParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub adjustment_amount: f32,
+    pub adjustment_amount: rust_decimal::Decimal,
     /// "ADDITIONAL", "REDUCED"
     ///
     /// This field is **required.
@@ -178,14 +178,14 @@ impl FlexibleLoanAdjustLtvParams {
     ///
     /// * `loan_coin` — String
     /// * `collateral_coin` — String
-    /// * `adjustment_amount` — f32
+    /// * `adjustment_amount` — `rust_decimal::Decimal`
     /// * `direction` — \"ADDITIONAL\", \"REDUCED\"
     ///
     #[must_use]
     pub fn builder(
         loan_coin: String,
         collateral_coin: String,
-        adjustment_amount: f32,
+        adjustment_amount: rust_decimal::Decimal,
         direction: String,
     ) -> FlexibleLoanAdjustLtvParamsBuilder {
         FlexibleLoanAdjustLtvParamsBuilder::default()
@@ -260,7 +260,7 @@ pub struct FlexibleLoanRepayParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub repay_amount: f32,
+    pub repay_amount: rust_decimal::Decimal,
     /// Default: TRUE. TRUE: Return extra collateral to spot account; FALSE: Keep extra collateral in the order, and lower LTV.
     ///
     /// This field is **optional.
@@ -297,7 +297,7 @@ impl FlexibleLoanRepayParams {
     pub fn builder(
         loan_coin: String,
         collateral_coin: String,
-        repay_amount: f32,
+        repay_amount: rust_decimal::Decimal,
     ) -> FlexibleLoanRepayParamsBuilder {
         FlexibleLoanRepayParamsBuilder::default()
             .loan_coin(loan_coin)
@@ -692,11 +692,7 @@ impl FlexibleRateApi for FlexibleRateApiClient {
 
         query_params.insert("collateralCoin".to_string(), json!(collateral_coin));
 
-        let adjustment_amount_value = Decimal::from_f32(adjustment_amount).unwrap_or_default();
-        query_params.insert(
-            "adjustmentAmount".to_string(),
-            json!(adjustment_amount_value),
-        );
+        query_params.insert("adjustmentAmount".to_string(), json!(adjustment_amount));
 
         query_params.insert("direction".to_string(), json!(direction));
 
@@ -774,8 +770,7 @@ impl FlexibleRateApi for FlexibleRateApiClient {
 
         query_params.insert("collateralCoin".to_string(), json!(collateral_coin));
 
-        let repay_amount_value = Decimal::from_f32(repay_amount).unwrap_or_default();
-        query_params.insert("repayAmount".to_string(), json!(repay_amount_value));
+        query_params.insert("repayAmount".to_string(), json!(repay_amount));
 
         if let Some(rw) = collateral_return {
             query_params.insert("collateralReturn".to_string(), json!(rw));
@@ -1566,7 +1561,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockFlexibleRateApiClient { force_error: false };
 
-            let params = FlexibleLoanAdjustLtvParams::builder("loan_coin_example".to_string(),"collateral_coin_example".to_string(),1.0,"direction_example".to_string(),).build().unwrap();
+            let params = FlexibleLoanAdjustLtvParams::builder("loan_coin_example".to_string(),"collateral_coin_example".to_string(),dec!(1.0),"direction_example".to_string(),).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"loanCoin":"BUSD","collateralCoin":"BNB","direction":"ADDITIONAL","adjustmentAmount":"5.235","currentLTV":"0.52","status":"Succeeds"}"#).unwrap();
             let expected_response : models::FlexibleLoanAdjustLtvResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::FlexibleLoanAdjustLtvResponse");
@@ -1583,7 +1578,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockFlexibleRateApiClient { force_error: false };
 
-            let params = FlexibleLoanAdjustLtvParams::builder("loan_coin_example".to_string(),"collateral_coin_example".to_string(),1.0,"direction_example".to_string(),).recv_window(5000).build().unwrap();
+            let params = FlexibleLoanAdjustLtvParams::builder("loan_coin_example".to_string(),"collateral_coin_example".to_string(),dec!(1.0),"direction_example".to_string(),).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"loanCoin":"BUSD","collateralCoin":"BNB","direction":"ADDITIONAL","adjustmentAmount":"5.235","currentLTV":"0.52","status":"Succeeds"}"#).unwrap();
             let expected_response : models::FlexibleLoanAdjustLtvResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::FlexibleLoanAdjustLtvResponse");
@@ -1603,7 +1598,7 @@ mod tests {
             let params = FlexibleLoanAdjustLtvParams::builder(
                 "loan_coin_example".to_string(),
                 "collateral_coin_example".to_string(),
-                1.0,
+                dec!(1.0),
                 "direction_example".to_string(),
             )
             .build()
@@ -1678,7 +1673,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockFlexibleRateApiClient { force_error: false };
 
-            let params = FlexibleLoanRepayParams::builder("loan_coin_example".to_string(),"collateral_coin_example".to_string(),1.0,).build().unwrap();
+            let params = FlexibleLoanRepayParams::builder("loan_coin_example".to_string(),"collateral_coin_example".to_string(),dec!(1.0),).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"loanCoin":"BUSD","collateralCoin":"BNB","remainingDebt":"100.5","remainingCollateral":"5.253","fullRepayment":false,"currentLTV":"0.25","repayStatus":"Repaid"}"#).unwrap();
             let expected_response : models::FlexibleLoanRepayResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::FlexibleLoanRepayResponse");
@@ -1695,7 +1690,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockFlexibleRateApiClient { force_error: false };
 
-            let params = FlexibleLoanRepayParams::builder("loan_coin_example".to_string(),"collateral_coin_example".to_string(),1.0,).collateral_return(true).full_repayment(false).repayment_type(1).recv_window(5000).build().unwrap();
+            let params = FlexibleLoanRepayParams::builder("loan_coin_example".to_string(),"collateral_coin_example".to_string(),dec!(1.0),).collateral_return(true).full_repayment(false).repayment_type(1).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"loanCoin":"BUSD","collateralCoin":"BNB","remainingDebt":"100.5","remainingCollateral":"5.253","fullRepayment":false,"currentLTV":"0.25","repayStatus":"Repaid"}"#).unwrap();
             let expected_response : models::FlexibleLoanRepayResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::FlexibleLoanRepayResponse");
@@ -1715,7 +1710,7 @@ mod tests {
             let params = FlexibleLoanRepayParams::builder(
                 "loan_coin_example".to_string(),
                 "collateral_coin_example".to_string(),
-                1.0,
+                dec!(1.0),
             )
             .build()
             .unwrap();

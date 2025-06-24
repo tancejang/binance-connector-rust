@@ -15,7 +15,7 @@
 use async_trait::async_trait;
 use derive_builder::Builder;
 use reqwest;
-use rust_decimal::{Decimal, prelude::FromPrimitive};
+use rust_decimal::prelude::*;
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::collections::BTreeMap;
@@ -235,7 +235,7 @@ pub struct TimeWeightedAveragePriceSpotAlgoParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub quantity: f32,
+    pub quantity: rust_decimal::Decimal,
     /// Duration for TWAP orders in seconds. [300, 86400]
     ///
     /// This field is **required.
@@ -250,7 +250,7 @@ pub struct TimeWeightedAveragePriceSpotAlgoParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub limit_price: Option<f32>,
+    pub limit_price: Option<rust_decimal::Decimal>,
 }
 
 impl TimeWeightedAveragePriceSpotAlgoParams {
@@ -267,7 +267,7 @@ impl TimeWeightedAveragePriceSpotAlgoParams {
     pub fn builder(
         symbol: String,
         side: String,
-        quantity: f32,
+        quantity: rust_decimal::Decimal,
         duration: i64,
     ) -> TimeWeightedAveragePriceSpotAlgoParamsBuilder {
         TimeWeightedAveragePriceSpotAlgoParamsBuilder::default()
@@ -459,8 +459,7 @@ impl SpotAlgoApi for SpotAlgoApiClient {
 
         query_params.insert("side".to_string(), json!(side));
 
-        let quantity_value = Decimal::from_f32(quantity).unwrap_or_default();
-        query_params.insert("quantity".to_string(), json!(quantity_value));
+        query_params.insert("quantity".to_string(), json!(quantity));
 
         query_params.insert("duration".to_string(), json!(duration));
 
@@ -469,7 +468,6 @@ impl SpotAlgoApi for SpotAlgoApiClient {
         }
 
         if let Some(rw) = limit_price {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("limitPrice".to_string(), json!(rw));
         }
 
@@ -881,7 +879,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockSpotAlgoApiClient { force_error: false };
 
-            let params = TimeWeightedAveragePriceSpotAlgoParams::builder("BTCUSDT".to_string(),"BUY".to_string(),1.0,5000,).build().unwrap();
+            let params = TimeWeightedAveragePriceSpotAlgoParams::builder("BTCUSDT".to_string(),"BUY".to_string(),dec!(1.0),5000,).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"clientAlgoId":"65ce1630101a480b85915d7e11fd5078","success":true,"code":0,"msg":"OK"}"#).unwrap();
             let expected_response : models::TimeWeightedAveragePriceSpotAlgoResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::TimeWeightedAveragePriceSpotAlgoResponse");
@@ -898,7 +896,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockSpotAlgoApiClient { force_error: false };
 
-            let params = TimeWeightedAveragePriceSpotAlgoParams::builder("BTCUSDT".to_string(),"BUY".to_string(),1.0,5000,).client_algo_id("1".to_string()).limit_price(1.0).build().unwrap();
+            let params = TimeWeightedAveragePriceSpotAlgoParams::builder("BTCUSDT".to_string(),"BUY".to_string(),dec!(1.0),5000,).client_algo_id("1".to_string()).limit_price(dec!(1.0)).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"clientAlgoId":"65ce1630101a480b85915d7e11fd5078","success":true,"code":0,"msg":"OK"}"#).unwrap();
             let expected_response : models::TimeWeightedAveragePriceSpotAlgoResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::TimeWeightedAveragePriceSpotAlgoResponse");
@@ -918,7 +916,7 @@ mod tests {
             let params = TimeWeightedAveragePriceSpotAlgoParams::builder(
                 "BTCUSDT".to_string(),
                 "BUY".to_string(),
-                1.0,
+                dec!(1.0),
                 5000,
             )
             .build()

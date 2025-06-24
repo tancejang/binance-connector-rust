@@ -15,7 +15,7 @@
 use async_trait::async_trait;
 use derive_builder::Builder;
 use reqwest;
-use rust_decimal::{Decimal, prelude::FromPrimitive};
+use rust_decimal::prelude::*;
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::collections::BTreeMap;
@@ -170,12 +170,12 @@ pub struct SendQuoteRequestParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub from_amount: Option<f32>,
+    pub from_amount: Option<rust_decimal::Decimal>,
     /// When specified, it is the amount you will be credited after the conversion
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub to_amount: Option<f32>,
+    pub to_amount: Option<rust_decimal::Decimal>,
     /// 10s, default 10s
     ///
     /// This field is **optional.
@@ -324,12 +324,10 @@ impl ConvertApi for ConvertApiClient {
         query_params.insert("toAsset".to_string(), json!(to_asset));
 
         if let Some(rw) = from_amount {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("fromAmount".to_string(), json!(rw));
         }
 
         if let Some(rw) = to_amount {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("toAmount".to_string(), json!(rw));
         }
 
@@ -665,7 +663,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockConvertApiClient { force_error: false };
 
-            let params = SendQuoteRequestParams::builder("from_asset_example".to_string(),"to_asset_example".to_string(),).from_amount(1.0).to_amount(1.0).valid_time("10s".to_string()).recv_window(5000).build().unwrap();
+            let params = SendQuoteRequestParams::builder("from_asset_example".to_string(),"to_asset_example".to_string(),).from_amount(dec!(1.0)).to_amount(dec!(1.0)).valid_time("10s".to_string()).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"quoteId":"12415572564","ratio":"38163.7","inverseRatio":"0.0000262","validTimestamp":1623319461670,"toAmount":"3816.37","fromAmount":"0.1"}"#).unwrap();
             let expected_response : models::SendQuoteRequestResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::SendQuoteRequestResponse");

@@ -24,9 +24,9 @@ pub struct PortfolioMarginUmTradingQuantitativeRulesIndicatorsResponseIndicators
     #[serde(rename = "indicator", skip_serializing_if = "Option::is_none")]
     pub indicator: Option<String>,
     #[serde(rename = "value", skip_serializing_if = "Option::is_none")]
-    pub value: Option<f32>,
+    pub value: Option<rust_decimal::Decimal>,
     #[serde(rename = "triggerValue", skip_serializing_if = "Option::is_none")]
-    pub trigger_value: Option<f32>,
+    pub trigger_value: Option<rust_decimal::Decimal>,
 }
 
 impl PortfolioMarginUmTradingQuantitativeRulesIndicatorsResponseIndicatorsBtcusdtInner {

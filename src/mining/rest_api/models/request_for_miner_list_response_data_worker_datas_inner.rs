@@ -26,7 +26,7 @@ pub struct RequestForMinerListResponseDataWorkerDatasInner {
     #[serde(rename = "hashRate", skip_serializing_if = "Option::is_none")]
     pub hash_rate: Option<i64>,
     #[serde(rename = "dayHashRate", skip_serializing_if = "Option::is_none")]
-    pub day_hash_rate: Option<f32>,
+    pub day_hash_rate: Option<rust_decimal::Decimal>,
     #[serde(rename = "rejectRate", skip_serializing_if = "Option::is_none")]
     pub reject_rate: Option<i64>,
     #[serde(rename = "lastShareTime", skip_serializing_if = "Option::is_none")]

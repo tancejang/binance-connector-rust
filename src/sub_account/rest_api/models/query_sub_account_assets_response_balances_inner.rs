@@ -24,7 +24,7 @@ pub struct QuerySubAccountAssetsResponseBalancesInner {
     #[serde(rename = "asset", skip_serializing_if = "Option::is_none")]
     pub asset: Option<String>,
     #[serde(rename = "free", skip_serializing_if = "Option::is_none")]
-    pub free: Option<f32>,
+    pub free: Option<rust_decimal::Decimal>,
     #[serde(rename = "locked", skip_serializing_if = "Option::is_none")]
     pub locked: Option<i64>,
 }

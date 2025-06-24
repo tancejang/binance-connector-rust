@@ -28,19 +28,19 @@ pub struct ModifyMultipleOrdersBatchOrdersParameterInner {
     #[serde(rename = "timeInForce", skip_serializing_if = "Option::is_none")]
     pub time_in_force: Option<TimeInForceEnum>,
     #[serde(rename = "quantity", skip_serializing_if = "Option::is_none")]
-    pub quantity: Option<f32>,
+    pub quantity: Option<rust_decimal::Decimal>,
     #[serde(rename = "reduceOnly", skip_serializing_if = "Option::is_none")]
     pub reduce_only: Option<String>,
     #[serde(rename = "price", skip_serializing_if = "Option::is_none")]
-    pub price: Option<f32>,
+    pub price: Option<rust_decimal::Decimal>,
     #[serde(rename = "newClientOrderId", skip_serializing_if = "Option::is_none")]
     pub new_client_order_id: Option<String>,
     #[serde(rename = "stopPrice", skip_serializing_if = "Option::is_none")]
-    pub stop_price: Option<f32>,
+    pub stop_price: Option<rust_decimal::Decimal>,
     #[serde(rename = "activationPrice", skip_serializing_if = "Option::is_none")]
-    pub activation_price: Option<f32>,
+    pub activation_price: Option<rust_decimal::Decimal>,
     #[serde(rename = "callbackRate", skip_serializing_if = "Option::is_none")]
-    pub callback_rate: Option<f32>,
+    pub callback_rate: Option<rust_decimal::Decimal>,
     #[serde(rename = "workingType", skip_serializing_if = "Option::is_none")]
     pub working_type: Option<WorkingTypeEnum>,
     #[serde(rename = "priceProtect", skip_serializing_if = "Option::is_none")]

@@ -15,7 +15,7 @@
 use async_trait::async_trait;
 use derive_builder::Builder;
 use reqwest;
-use rust_decimal::{Decimal, prelude::FromPrimitive};
+use rust_decimal::prelude::*;
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::collections::BTreeMap;
@@ -134,7 +134,7 @@ pub struct BnbTransferParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub amount: f32,
+    pub amount: rust_decimal::Decimal,
     /// "`TO_UM","FROM_UM`"
     ///
     /// This field is **required.
@@ -153,11 +153,14 @@ impl BnbTransferParams {
     ///
     /// Required parameters:
     ///
-    /// * `amount` — f32
+    /// * `amount` — `rust_decimal::Decimal`
     /// * `transfer_side` — \"`TO_UM`\",\"`FROM_UM`\"
     ///
     #[must_use]
-    pub fn builder(amount: f32, transfer_side: String) -> BnbTransferParamsBuilder {
+    pub fn builder(
+        amount: rust_decimal::Decimal,
+        transfer_side: String,
+    ) -> BnbTransferParamsBuilder {
         BnbTransferParamsBuilder::default()
             .amount(amount)
             .transfer_side(transfer_side)
@@ -413,7 +416,7 @@ pub struct MintBfusdForPortfolioMarginParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub amount: f32,
+    pub amount: rust_decimal::Decimal,
     ///
     /// The `recv_window` parameter.
     ///
@@ -429,13 +432,13 @@ impl MintBfusdForPortfolioMarginParams {
     ///
     /// * `from_asset` — `BFUSD` only
     /// * `target_asset` — `USDT` only
-    /// * `amount` — f32
+    /// * `amount` — `rust_decimal::Decimal`
     ///
     #[must_use]
     pub fn builder(
         from_asset: String,
         target_asset: String,
-        amount: f32,
+        amount: rust_decimal::Decimal,
     ) -> MintBfusdForPortfolioMarginParamsBuilder {
         MintBfusdForPortfolioMarginParamsBuilder::default()
             .from_asset(from_asset)
@@ -607,7 +610,7 @@ pub struct RedeemBfusdForPortfolioMarginParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub amount: f32,
+    pub amount: rust_decimal::Decimal,
     ///
     /// The `recv_window` parameter.
     ///
@@ -623,13 +626,13 @@ impl RedeemBfusdForPortfolioMarginParams {
     ///
     /// * `from_asset` — `BFUSD` only
     /// * `target_asset` — `USDT` only
-    /// * `amount` — f32
+    /// * `amount` — `rust_decimal::Decimal`
     ///
     #[must_use]
     pub fn builder(
         from_asset: String,
         target_asset: String,
-        amount: f32,
+        amount: rust_decimal::Decimal,
     ) -> RedeemBfusdForPortfolioMarginParamsBuilder {
         RedeemBfusdForPortfolioMarginParamsBuilder::default()
             .from_asset(from_asset)
@@ -687,7 +690,7 @@ pub struct TransferLdusdtForPortfolioMarginParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub amount: f32,
+    pub amount: rust_decimal::Decimal,
     ///
     /// The `recv_window` parameter.
     ///
@@ -703,13 +706,13 @@ impl TransferLdusdtForPortfolioMarginParams {
     ///
     /// * `asset` — `LDUSDT` only
     /// * `transfer_type` — `EARN_TO_FUTURE` /`FUTURE_TO_EARN`
-    /// * `amount` — f32
+    /// * `amount` — `rust_decimal::Decimal`
     ///
     #[must_use]
     pub fn builder(
         asset: String,
         transfer_type: String,
-        amount: f32,
+        amount: rust_decimal::Decimal,
     ) -> TransferLdusdtForPortfolioMarginParamsBuilder {
         TransferLdusdtForPortfolioMarginParamsBuilder::default()
             .asset(asset)
@@ -732,8 +735,7 @@ impl AccountApi for AccountApiClient {
 
         let mut query_params = BTreeMap::new();
 
-        let amount_value = Decimal::from_f32(amount).unwrap_or_default();
-        query_params.insert("amount".to_string(), json!(amount_value));
+        query_params.insert("amount".to_string(), json!(amount));
 
         query_params.insert("transferSide".to_string(), json!(transfer_side));
 
@@ -1012,8 +1014,7 @@ impl AccountApi for AccountApiClient {
 
         query_params.insert("targetAsset".to_string(), json!(target_asset));
 
-        let amount_value = Decimal::from_f32(amount).unwrap_or_default();
-        query_params.insert("amount".to_string(), json!(amount_value));
+        query_params.insert("amount".to_string(), json!(amount));
 
         if let Some(rw) = recv_window {
             query_params.insert("recvWindow".to_string(), json!(rw));
@@ -1217,8 +1218,7 @@ impl AccountApi for AccountApiClient {
 
         query_params.insert("targetAsset".to_string(), json!(target_asset));
 
-        let amount_value = Decimal::from_f32(amount).unwrap_or_default();
-        query_params.insert("amount".to_string(), json!(amount_value));
+        query_params.insert("amount".to_string(), json!(amount));
 
         if let Some(rw) = recv_window {
             query_params.insert("recvWindow".to_string(), json!(rw));
@@ -1287,8 +1287,7 @@ impl AccountApi for AccountApiClient {
 
         query_params.insert("transferType".to_string(), json!(transfer_type));
 
-        let amount_value = Decimal::from_f32(amount).unwrap_or_default();
-        query_params.insert("amount".to_string(), json!(amount_value));
+        query_params.insert("amount".to_string(), json!(amount));
 
         if let Some(rw) = recv_window {
             query_params.insert("recvWindow".to_string(), json!(rw));
@@ -1787,7 +1786,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockAccountApiClient { force_error: false };
 
-            let params = BnbTransferParams::builder(1.0, "transfer_side_example".to_string())
+            let params = BnbTransferParams::builder(dec!(1.0), "transfer_side_example".to_string())
                 .build()
                 .unwrap();
 
@@ -1811,7 +1810,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockAccountApiClient { force_error: false };
 
-            let params = BnbTransferParams::builder(1.0, "transfer_side_example".to_string())
+            let params = BnbTransferParams::builder(dec!(1.0), "transfer_side_example".to_string())
                 .recv_window(5000)
                 .build()
                 .unwrap();
@@ -1836,7 +1835,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockAccountApiClient { force_error: true };
 
-            let params = BnbTransferParams::builder(1.0, "transfer_side_example".to_string())
+            let params = BnbTransferParams::builder(dec!(1.0), "transfer_side_example".to_string())
                 .build()
                 .unwrap();
 
@@ -2334,7 +2333,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockAccountApiClient { force_error: false };
 
-            let params = MintBfusdForPortfolioMarginParams::builder("from_asset_example".to_string(),"target_asset_example".to_string(),1.0,).build().unwrap();
+            let params = MintBfusdForPortfolioMarginParams::builder("from_asset_example".to_string(),"target_asset_example".to_string(),dec!(1.0),).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"fromAsset":"USDT","targetAsset":"BFUSD","fromAssetQty":10,"targetAssetQty":9.998,"rate":0.9998}"#).unwrap();
             let expected_response : models::MintBfusdForPortfolioMarginResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::MintBfusdForPortfolioMarginResponse");
@@ -2351,7 +2350,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockAccountApiClient { force_error: false };
 
-            let params = MintBfusdForPortfolioMarginParams::builder("from_asset_example".to_string(),"target_asset_example".to_string(),1.0,).recv_window(5000).build().unwrap();
+            let params = MintBfusdForPortfolioMarginParams::builder("from_asset_example".to_string(),"target_asset_example".to_string(),dec!(1.0),).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"fromAsset":"USDT","targetAsset":"BFUSD","fromAssetQty":10,"targetAssetQty":9.998,"rate":0.9998}"#).unwrap();
             let expected_response : models::MintBfusdForPortfolioMarginResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::MintBfusdForPortfolioMarginResponse");
@@ -2371,7 +2370,7 @@ mod tests {
             let params = MintBfusdForPortfolioMarginParams::builder(
                 "from_asset_example".to_string(),
                 "target_asset_example".to_string(),
-                1.0,
+                dec!(1.0),
             )
             .build()
             .unwrap();
@@ -2647,7 +2646,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockAccountApiClient { force_error: false };
 
-            let params = RedeemBfusdForPortfolioMarginParams::builder("from_asset_example".to_string(),"target_asset_example".to_string(),1.0,).build().unwrap();
+            let params = RedeemBfusdForPortfolioMarginParams::builder("from_asset_example".to_string(),"target_asset_example".to_string(),dec!(1.0),).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"fromAsset":"BFUSD","targetAsset":"USDT","fromAssetQty":9.99800001,"targetAssetQty":9.996000409998,"rate":0.9998}"#).unwrap();
             let expected_response : models::RedeemBfusdForPortfolioMarginResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::RedeemBfusdForPortfolioMarginResponse");
@@ -2664,7 +2663,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockAccountApiClient { force_error: false };
 
-            let params = RedeemBfusdForPortfolioMarginParams::builder("from_asset_example".to_string(),"target_asset_example".to_string(),1.0,).recv_window(5000).build().unwrap();
+            let params = RedeemBfusdForPortfolioMarginParams::builder("from_asset_example".to_string(),"target_asset_example".to_string(),dec!(1.0),).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"fromAsset":"BFUSD","targetAsset":"USDT","fromAssetQty":9.99800001,"targetAssetQty":9.996000409998,"rate":0.9998}"#).unwrap();
             let expected_response : models::RedeemBfusdForPortfolioMarginResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::RedeemBfusdForPortfolioMarginResponse");
@@ -2684,7 +2683,7 @@ mod tests {
             let params = RedeemBfusdForPortfolioMarginParams::builder(
                 "from_asset_example".to_string(),
                 "target_asset_example".to_string(),
-                1.0,
+                dec!(1.0),
             )
             .build()
             .unwrap();
@@ -2774,7 +2773,7 @@ mod tests {
             let params = TransferLdusdtForPortfolioMarginParams::builder(
                 "asset_example".to_string(),
                 "transfer_type_example".to_string(),
-                1.0,
+                dec!(1.0),
             )
             .build()
             .unwrap();
@@ -2802,7 +2801,7 @@ mod tests {
             let params = TransferLdusdtForPortfolioMarginParams::builder(
                 "asset_example".to_string(),
                 "transfer_type_example".to_string(),
-                1.0,
+                dec!(1.0),
             )
             .recv_window(5000)
             .build()
@@ -2831,7 +2830,7 @@ mod tests {
             let params = TransferLdusdtForPortfolioMarginParams::builder(
                 "asset_example".to_string(),
                 "transfer_type_example".to_string(),
-                1.0,
+                dec!(1.0),
             )
             .build()
             .unwrap();

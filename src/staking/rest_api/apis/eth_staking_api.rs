@@ -15,7 +15,7 @@
 use async_trait::async_trait;
 use derive_builder::Builder;
 use reqwest;
-use rust_decimal::{Decimal, prelude::FromPrimitive};
+use rust_decimal::prelude::*;
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::collections::BTreeMap;
@@ -415,7 +415,7 @@ pub struct RedeemEthParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub amount: f32,
+    pub amount: rust_decimal::Decimal,
     /// WBETH or BETH, default to BETH
     ///
     /// This field is **optional.
@@ -437,7 +437,7 @@ impl RedeemEthParams {
     /// * `amount` — Amount in SOL.
     ///
     #[must_use]
-    pub fn builder(amount: f32) -> RedeemEthParamsBuilder {
+    pub fn builder(amount: rust_decimal::Decimal) -> RedeemEthParamsBuilder {
         RedeemEthParamsBuilder::default().amount(amount)
     }
 }
@@ -452,7 +452,7 @@ pub struct SubscribeEthStakingParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub amount: f32,
+    pub amount: rust_decimal::Decimal,
     ///
     /// The `recv_window` parameter.
     ///
@@ -469,7 +469,7 @@ impl SubscribeEthStakingParams {
     /// * `amount` — Amount in SOL.
     ///
     #[must_use]
-    pub fn builder(amount: f32) -> SubscribeEthStakingParamsBuilder {
+    pub fn builder(amount: rust_decimal::Decimal) -> SubscribeEthStakingParamsBuilder {
         SubscribeEthStakingParamsBuilder::default().amount(amount)
     }
 }
@@ -484,7 +484,7 @@ pub struct WrapBethParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub amount: f32,
+    pub amount: rust_decimal::Decimal,
     ///
     /// The `recv_window` parameter.
     ///
@@ -501,7 +501,7 @@ impl WrapBethParams {
     /// * `amount` — Amount in SOL.
     ///
     #[must_use]
-    pub fn builder(amount: f32) -> WrapBethParamsBuilder {
+    pub fn builder(amount: rust_decimal::Decimal) -> WrapBethParamsBuilder {
         WrapBethParamsBuilder::default().amount(amount)
     }
 }
@@ -868,8 +868,7 @@ impl EthStakingApi for EthStakingApiClient {
 
         let mut query_params = BTreeMap::new();
 
-        let amount_value = Decimal::from_f32(amount).unwrap_or_default();
-        query_params.insert("amount".to_string(), json!(amount_value));
+        query_params.insert("amount".to_string(), json!(amount));
 
         if let Some(rw) = asset {
             query_params.insert("asset".to_string(), json!(rw));
@@ -905,8 +904,7 @@ impl EthStakingApi for EthStakingApiClient {
 
         let mut query_params = BTreeMap::new();
 
-        let amount_value = Decimal::from_f32(amount).unwrap_or_default();
-        query_params.insert("amount".to_string(), json!(amount_value));
+        query_params.insert("amount".to_string(), json!(amount));
 
         if let Some(rw) = recv_window {
             query_params.insert("recvWindow".to_string(), json!(rw));
@@ -938,8 +936,7 @@ impl EthStakingApi for EthStakingApiClient {
 
         let mut query_params = BTreeMap::new();
 
-        let amount_value = Decimal::from_f32(amount).unwrap_or_default();
-        query_params.insert("amount".to_string(), json!(amount_value));
+        query_params.insert("amount".to_string(), json!(amount));
 
         if let Some(rw) = recv_window {
             query_params.insert("recvWindow".to_string(), json!(rw));
@@ -1702,7 +1699,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockEthStakingApiClient { force_error: false };
 
-            let params = RedeemEthParams::builder(1.0,).build().unwrap();
+            let params = RedeemEthParams::builder(dec!(1.0),).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"success":true,"ethAmount":"0.23092091","conversionRatio":"1.00121234","arrivalTime":1575018510000}"#).unwrap();
             let expected_response : models::RedeemEthResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::RedeemEthResponse");
@@ -1719,7 +1716,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockEthStakingApiClient { force_error: false };
 
-            let params = RedeemEthParams::builder(1.0,).asset("BETH".to_string()).recv_window(5000).build().unwrap();
+            let params = RedeemEthParams::builder(dec!(1.0),).asset("BETH".to_string()).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"success":true,"ethAmount":"0.23092091","conversionRatio":"1.00121234","arrivalTime":1575018510000}"#).unwrap();
             let expected_response : models::RedeemEthResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::RedeemEthResponse");
@@ -1736,7 +1733,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockEthStakingApiClient { force_error: true };
 
-            let params = RedeemEthParams::builder(1.0).build().unwrap();
+            let params = RedeemEthParams::builder(dec!(1.0)).build().unwrap();
 
             match client.redeem_eth(params).await {
                 Ok(_) => panic!("Expected an error"),
@@ -1752,7 +1749,9 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockEthStakingApiClient { force_error: false };
 
-            let params = SubscribeEthStakingParams::builder(1.0).build().unwrap();
+            let params = SubscribeEthStakingParams::builder(dec!(1.0))
+                .build()
+                .unwrap();
 
             let resp_json: Value = serde_json::from_str(
                 r#"{"success":true,"wbethAmount":"0.23092091","conversionRatio":"1.001212342342"}"#,
@@ -1777,7 +1776,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockEthStakingApiClient { force_error: false };
 
-            let params = SubscribeEthStakingParams::builder(1.0)
+            let params = SubscribeEthStakingParams::builder(dec!(1.0))
                 .recv_window(5000)
                 .build()
                 .unwrap();
@@ -1805,7 +1804,9 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockEthStakingApiClient { force_error: true };
 
-            let params = SubscribeEthStakingParams::builder(1.0).build().unwrap();
+            let params = SubscribeEthStakingParams::builder(dec!(1.0))
+                .build()
+                .unwrap();
 
             match client.subscribe_eth_staking(params).await {
                 Ok(_) => panic!("Expected an error"),
@@ -1821,7 +1822,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockEthStakingApiClient { force_error: false };
 
-            let params = WrapBethParams::builder(1.0).build().unwrap();
+            let params = WrapBethParams::builder(dec!(1.0)).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(
                 r#"{"success":true,"wbethAmount":"0.23092091","exchangeRate":"1.001212343432"}"#,
@@ -1843,7 +1844,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockEthStakingApiClient { force_error: false };
 
-            let params = WrapBethParams::builder(1.0)
+            let params = WrapBethParams::builder(dec!(1.0))
                 .recv_window(5000)
                 .build()
                 .unwrap();
@@ -1868,7 +1869,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockEthStakingApiClient { force_error: true };
 
-            let params = WrapBethParams::builder(1.0).build().unwrap();
+            let params = WrapBethParams::builder(dec!(1.0)).build().unwrap();
 
             match client.wrap_beth(params).await {
                 Ok(_) => panic!("Expected an error"),

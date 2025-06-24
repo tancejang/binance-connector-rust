@@ -20,7 +20,7 @@
 use anyhow::Context;
 use async_trait::async_trait;
 use derive_builder::Builder;
-use rust_decimal::{Decimal, prelude::FromPrimitive};
+use rust_decimal::prelude::*;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::{collections::BTreeMap, sync::Arc};
@@ -1344,7 +1344,7 @@ pub struct OrderAmendKeepPriorityParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub new_qty: f32,
+    pub new_qty: rust_decimal::Decimal,
     /// Unique WebSocket request ID.
     ///
     /// This field is **optional.
@@ -1381,7 +1381,10 @@ impl OrderAmendKeepPriorityParams {
     /// * `new_qty` — `newQty` must be greater than 0 and less than the order's quantity.
     ///
     #[must_use]
-    pub fn builder(symbol: String, new_qty: f32) -> OrderAmendKeepPriorityParamsBuilder {
+    pub fn builder(
+        symbol: String,
+        new_qty: rust_decimal::Decimal,
+    ) -> OrderAmendKeepPriorityParamsBuilder {
         OrderAmendKeepPriorityParamsBuilder::default()
             .symbol(symbol)
             .new_qty(new_qty)
@@ -1508,19 +1511,19 @@ pub struct OrderCancelReplaceParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub price: Option<f32>,
+    pub price: Option<rust_decimal::Decimal>,
     ///
     /// The `quantity` parameter.
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub quantity: Option<f32>,
+    pub quantity: Option<rust_decimal::Decimal>,
     ///
     /// The `quote_order_qty` parameter.
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub quote_order_qty: Option<f32>,
+    pub quote_order_qty: Option<rust_decimal::Decimal>,
     /// The new client order ID for the order after being amended. <br> If not sent, one will be randomly generated. <br> It is possible to reuse the current clientOrderId by sending it as the `newClientOrderId`.
     ///
     /// This field is **optional.
@@ -1537,18 +1540,18 @@ pub struct OrderCancelReplaceParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub stop_price: Option<f32>,
+    pub stop_price: Option<rust_decimal::Decimal>,
     /// See Trailing Stop order FAQ
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub trailing_delta: Option<f32>,
+    pub trailing_delta: Option<rust_decimal::Decimal>,
     ///
     /// The `iceberg_qty` parameter.
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub iceberg_qty: Option<f32>,
+    pub iceberg_qty: Option<rust_decimal::Decimal>,
     /// Arbitrary numeric value identifying the order within an order strategy.
     ///
     /// This field is **optional.
@@ -1685,13 +1688,13 @@ pub struct OrderListPlaceParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub price: f32,
+    pub price: rust_decimal::Decimal,
     ///
     /// The `quantity` parameter.
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub quantity: f32,
+    pub quantity: rust_decimal::Decimal,
     /// Unique WebSocket request ID.
     ///
     /// This field is **optional.
@@ -1713,7 +1716,7 @@ pub struct OrderListPlaceParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub limit_iceberg_qty: Option<f32>,
+    pub limit_iceberg_qty: Option<rust_decimal::Decimal>,
     /// Arbitrary numeric value identifying the limit order within an order strategy.
     ///
     /// This field is **optional.
@@ -1729,7 +1732,7 @@ pub struct OrderListPlaceParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub stop_price: Option<f32>,
+    pub stop_price: Option<rust_decimal::Decimal>,
     /// See [Trailing Stop order FAQ](faqs/trailing-stop-faq.md)
     ///
     /// This field is **optional.
@@ -1745,7 +1748,7 @@ pub struct OrderListPlaceParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub stop_limit_price: Option<f32>,
+    pub stop_limit_price: Option<rust_decimal::Decimal>,
     ///
     /// The `stop_limit_time_in_force` parameter.
     ///
@@ -1757,7 +1760,7 @@ pub struct OrderListPlaceParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub stop_iceberg_qty: Option<f32>,
+    pub stop_iceberg_qty: Option<rust_decimal::Decimal>,
     /// Arbitrary numeric value identifying the stop order within an order strategy.
     ///
     /// This field is **optional.
@@ -1795,14 +1798,14 @@ impl OrderListPlaceParams {
     /// * `symbol` — String
     /// * `side` — String
     /// * `price` — Price for the limit order
-    /// * `quantity` — f32
+    /// * `quantity` — `rust_decimal::Decimal`
     ///
     #[must_use]
     pub fn builder(
         symbol: String,
         side: OrderListPlaceSideEnum,
-        price: f32,
-        quantity: f32,
+        price: rust_decimal::Decimal,
+        quantity: rust_decimal::Decimal,
     ) -> OrderListPlaceParamsBuilder {
         OrderListPlaceParamsBuilder::default()
             .symbol(symbol)
@@ -1835,7 +1838,7 @@ pub struct OrderListPlaceOcoParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub quantity: f32,
+    pub quantity: rust_decimal::Decimal,
     ///
     /// The `above_type` parameter.
     ///
@@ -1873,12 +1876,12 @@ pub struct OrderListPlaceOcoParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub above_price: Option<f32>,
+    pub above_price: Option<rust_decimal::Decimal>,
     /// Can be used if `aboveType` is `STOP_LOSS`, `STOP_LOSS_LIMIT`, `TAKE_PROFIT`, `TAKE_PROFIT_LIMIT`. <br>Either `aboveStopPrice` or `aboveTrailingDelta` or both, must be specified.
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub above_stop_price: Option<f32>,
+    pub above_stop_price: Option<rust_decimal::Decimal>,
     /// See [Trailing Stop order FAQ](faqs/trailing-stop-faq.md).
     ///
     /// This field is **optional.
@@ -1888,7 +1891,7 @@ pub struct OrderListPlaceOcoParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub above_time_in_force: Option<f32>,
+    pub above_time_in_force: Option<rust_decimal::Decimal>,
     /// Arbitrary numeric value identifying the above order within an order strategy.
     ///
     /// This field is **optional.
@@ -1914,12 +1917,12 @@ pub struct OrderListPlaceOcoParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub below_price: Option<f32>,
+    pub below_price: Option<rust_decimal::Decimal>,
     /// Can be used if `belowType` is `STOP_LOSS`, `STOP_LOSS_LIMIT`, `TAKE_PROFIT` or `TAKE_PROFIT_LIMIT`. <br>Either `belowStopPrice` or `belowTrailingDelta` or both, must be specified.
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub below_stop_price: Option<f32>,
+    pub below_stop_price: Option<rust_decimal::Decimal>,
     /// See [Trailing Stop order FAQ](faqs/trailing-stop-faq.md).
     ///
     /// This field is **optional.
@@ -1967,7 +1970,7 @@ impl OrderListPlaceOcoParams {
     ///
     /// * `symbol` — String
     /// * `side` — String
-    /// * `quantity` — f32
+    /// * `quantity` — `rust_decimal::Decimal`
     /// * `above_type` — String
     /// * `below_type` — String
     ///
@@ -1975,7 +1978,7 @@ impl OrderListPlaceOcoParams {
     pub fn builder(
         symbol: String,
         side: OrderListPlaceOcoSideEnum,
-        quantity: f32,
+        quantity: rust_decimal::Decimal,
         above_type: OrderListPlaceOcoAboveTypeEnum,
         below_type: OrderListPlaceOcoBelowTypeEnum,
     ) -> OrderListPlaceOcoParamsBuilder {
@@ -2017,12 +2020,12 @@ pub struct OrderListPlaceOtoParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub working_price: f32,
+    pub working_price: rust_decimal::Decimal,
     /// Sets the quantity for the working order.
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub working_quantity: f32,
+    pub working_quantity: rust_decimal::Decimal,
     ///
     /// The `pending_type` parameter.
     ///
@@ -2039,7 +2042,7 @@ pub struct OrderListPlaceOtoParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub pending_quantity: f32,
+    pub pending_quantity: rust_decimal::Decimal,
     /// Unique WebSocket request ID.
     ///
     /// This field is **optional.
@@ -2072,7 +2075,7 @@ pub struct OrderListPlaceOtoParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub working_iceberg_qty: Option<f32>,
+    pub working_iceberg_qty: Option<rust_decimal::Decimal>,
     ///
     /// The `working_time_in_force` parameter.
     ///
@@ -2099,24 +2102,24 @@ pub struct OrderListPlaceOtoParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub pending_price: Option<f32>,
+    pub pending_price: Option<rust_decimal::Decimal>,
     ///
     /// The `pending_stop_price` parameter.
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub pending_stop_price: Option<f32>,
+    pub pending_stop_price: Option<rust_decimal::Decimal>,
     ///
     /// The `pending_trailing_delta` parameter.
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub pending_trailing_delta: Option<f32>,
+    pub pending_trailing_delta: Option<rust_decimal::Decimal>,
     /// This can only be used if `pendingTimeInForce` is `GTC`, or if `pendingType` is `LIMIT_MAKER`.
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub pending_iceberg_qty: Option<f32>,
+    pub pending_iceberg_qty: Option<rust_decimal::Decimal>,
     ///
     /// The `pending_time_in_force` parameter.
     ///
@@ -2148,7 +2151,7 @@ impl OrderListPlaceOtoParams {
     /// * `symbol` — String
     /// * `working_type` — String
     /// * `working_side` — String
-    /// * `working_price` — f32
+    /// * `working_price` — `rust_decimal::Decimal`
     /// * `working_quantity` — Sets the quantity for the working order.
     /// * `pending_type` — String
     /// * `pending_side` — String
@@ -2159,11 +2162,11 @@ impl OrderListPlaceOtoParams {
         symbol: String,
         working_type: OrderListPlaceOtoWorkingTypeEnum,
         working_side: OrderListPlaceOtoWorkingSideEnum,
-        working_price: f32,
-        working_quantity: f32,
+        working_price: rust_decimal::Decimal,
+        working_quantity: rust_decimal::Decimal,
         pending_type: OrderListPlaceOtoPendingTypeEnum,
         pending_side: OrderListPlaceOtoPendingSideEnum,
-        pending_quantity: f32,
+        pending_quantity: rust_decimal::Decimal,
     ) -> OrderListPlaceOtoParamsBuilder {
         OrderListPlaceOtoParamsBuilder::default()
             .symbol(symbol)
@@ -2206,12 +2209,12 @@ pub struct OrderListPlaceOtocoParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub working_price: f32,
+    pub working_price: rust_decimal::Decimal,
     /// Sets the quantity for the working order.
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub working_quantity: f32,
+    pub working_quantity: rust_decimal::Decimal,
     ///
     /// The `pending_side` parameter.
     ///
@@ -2222,7 +2225,7 @@ pub struct OrderListPlaceOtocoParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub pending_quantity: f32,
+    pub pending_quantity: rust_decimal::Decimal,
     ///
     /// The `pending_above_type` parameter.
     ///
@@ -2261,7 +2264,7 @@ pub struct OrderListPlaceOtocoParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub working_iceberg_qty: Option<f32>,
+    pub working_iceberg_qty: Option<rust_decimal::Decimal>,
     ///
     /// The `working_time_in_force` parameter.
     ///
@@ -2287,22 +2290,22 @@ pub struct OrderListPlaceOtocoParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub pending_above_price: Option<f32>,
+    pub pending_above_price: Option<rust_decimal::Decimal>,
     /// Can be used if `pendingAboveType` is `STOP_LOSS`, `STOP_LOSS_LIMIT`, `TAKE_PROFIT`, `TAKE_PROFIT_LIMIT`
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub pending_above_stop_price: Option<f32>,
+    pub pending_above_stop_price: Option<rust_decimal::Decimal>,
     /// See [Trailing Stop FAQ](faqs/trailing-stop-faq.md)
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub pending_above_trailing_delta: Option<f32>,
+    pub pending_above_trailing_delta: Option<rust_decimal::Decimal>,
     /// This can only be used if `pendingAboveTimeInForce` is `GTC` or if `pendingAboveType` is `LIMIT_MAKER`.
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub pending_above_iceberg_qty: Option<f32>,
+    pub pending_above_iceberg_qty: Option<rust_decimal::Decimal>,
     ///
     /// The `pending_above_time_in_force` parameter.
     ///
@@ -2334,23 +2337,23 @@ pub struct OrderListPlaceOtocoParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub pending_below_price: Option<f32>,
+    pub pending_below_price: Option<rust_decimal::Decimal>,
     /// Can be used if `pendingBelowType` is `STOP_LOSS`, `STOP_LOSS_LIMIT, TAKE_PROFIT or TAKE_PROFIT_LIMIT`. <br>Either `pendingBelowStopPrice` or `pendingBelowTrailingDelta` or both, must be specified.
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub pending_below_stop_price: Option<f32>,
+    pub pending_below_stop_price: Option<rust_decimal::Decimal>,
     ///
     /// The `pending_below_trailing_delta` parameter.
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub pending_below_trailing_delta: Option<f32>,
+    pub pending_below_trailing_delta: Option<rust_decimal::Decimal>,
     /// This can only be used if `pendingBelowTimeInForce` is `GTC`, or if `pendingBelowType` is `LIMIT_MAKER`.
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub pending_below_iceberg_qty: Option<f32>,
+    pub pending_below_iceberg_qty: Option<rust_decimal::Decimal>,
     ///
     /// The `pending_below_time_in_force` parameter.
     ///
@@ -2382,7 +2385,7 @@ impl OrderListPlaceOtocoParams {
     /// * `symbol` — String
     /// * `working_type` — String
     /// * `working_side` — String
-    /// * `working_price` — f32
+    /// * `working_price` — `rust_decimal::Decimal`
     /// * `working_quantity` — Sets the quantity for the working order.
     /// * `pending_side` — String
     /// * `pending_quantity` — Sets the quantity for the pending order.
@@ -2393,10 +2396,10 @@ impl OrderListPlaceOtocoParams {
         symbol: String,
         working_type: OrderListPlaceOtocoWorkingTypeEnum,
         working_side: OrderListPlaceOtocoWorkingSideEnum,
-        working_price: f32,
-        working_quantity: f32,
+        working_price: rust_decimal::Decimal,
+        working_quantity: rust_decimal::Decimal,
         pending_side: OrderListPlaceOtocoPendingSideEnum,
-        pending_quantity: f32,
+        pending_quantity: rust_decimal::Decimal,
         pending_above_type: OrderListPlaceOtocoPendingAboveTypeEnum,
     ) -> OrderListPlaceOtocoParamsBuilder {
         OrderListPlaceOtocoParamsBuilder::default()
@@ -2451,19 +2454,19 @@ pub struct OrderPlaceParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub price: Option<f32>,
+    pub price: Option<rust_decimal::Decimal>,
     ///
     /// The `quantity` parameter.
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub quantity: Option<f32>,
+    pub quantity: Option<rust_decimal::Decimal>,
     ///
     /// The `quote_order_qty` parameter.
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub quote_order_qty: Option<f32>,
+    pub quote_order_qty: Option<rust_decimal::Decimal>,
     /// The new client order ID for the order after being amended. <br> If not sent, one will be randomly generated. <br> It is possible to reuse the current clientOrderId by sending it as the `newClientOrderId`.
     ///
     /// This field is **optional.
@@ -2480,7 +2483,7 @@ pub struct OrderPlaceParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub stop_price: Option<f32>,
+    pub stop_price: Option<rust_decimal::Decimal>,
     /// See [Trailing Stop order FAQ](faqs/trailing-stop-faq.md)
     ///
     /// This field is **optional.
@@ -2491,7 +2494,7 @@ pub struct OrderPlaceParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub iceberg_qty: Option<f32>,
+    pub iceberg_qty: Option<rust_decimal::Decimal>,
     /// Arbitrary numeric value identifying the order within an order strategy.
     ///
     /// This field is **optional.
@@ -2594,7 +2597,7 @@ pub struct SorOrderPlaceParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub quantity: f32,
+    pub quantity: rust_decimal::Decimal,
     /// Unique WebSocket request ID.
     ///
     /// This field is **optional.
@@ -2611,7 +2614,7 @@ pub struct SorOrderPlaceParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub price: Option<f32>,
+    pub price: Option<rust_decimal::Decimal>,
     /// The new client order ID for the order after being amended. <br> If not sent, one will be randomly generated. <br> It is possible to reuse the current clientOrderId by sending it as the `newClientOrderId`.
     ///
     /// This field is **optional.
@@ -2628,7 +2631,7 @@ pub struct SorOrderPlaceParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub iceberg_qty: Option<f32>,
+    pub iceberg_qty: Option<rust_decimal::Decimal>,
     /// Arbitrary numeric value identifying the order within an order strategy.
     ///
     /// This field is **optional.
@@ -2661,14 +2664,14 @@ impl SorOrderPlaceParams {
     /// * `symbol` — String
     /// * `side` — String
     /// * `r#type` — String
-    /// * `quantity` — f32
+    /// * `quantity` — `rust_decimal::Decimal`
     ///
     #[must_use]
     pub fn builder(
         symbol: String,
         side: SorOrderPlaceSideEnum,
         r#type: SorOrderPlaceTypeEnum,
-        quantity: f32,
+        quantity: rust_decimal::Decimal,
     ) -> SorOrderPlaceParamsBuilder {
         SorOrderPlaceParamsBuilder::default()
             .symbol(symbol)
@@ -2719,7 +2722,6 @@ impl TradeApi for TradeApiClient {
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
-
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
@@ -2758,10 +2760,8 @@ impl TradeApi for TradeApiClient {
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
-
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
-        let new_qty_value = Decimal::from_f32(new_qty).unwrap_or_default();
-        payload.insert("newQty".to_string(), serde_json::json!(new_qty_value));
+        payload.insert("newQty".to_string(), serde_json::json!(new_qty));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
         }
@@ -2807,7 +2807,6 @@ impl TradeApi for TradeApiClient {
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
-
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
@@ -2873,16 +2872,12 @@ impl TradeApi for TradeApiClient {
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
-
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
-
         payload.insert(
             "cancelReplaceMode".to_string(),
             serde_json::json!(cancel_replace_mode),
         );
-
         payload.insert("side".to_string(), serde_json::json!(side));
-
         payload.insert("type".to_string(), serde_json::json!(r#type));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
@@ -2906,15 +2901,12 @@ impl TradeApi for TradeApiClient {
             payload.insert("timeInForce".to_string(), serde_json::json!(value));
         }
         if let Some(value) = price {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("price".to_string(), serde_json::json!(value));
         }
         if let Some(value) = quantity {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("quantity".to_string(), serde_json::json!(value));
         }
         if let Some(value) = quote_order_qty {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("quoteOrderQty".to_string(), serde_json::json!(value));
         }
         if let Some(value) = new_client_order_id {
@@ -2924,15 +2916,12 @@ impl TradeApi for TradeApiClient {
             payload.insert("newOrderRespType".to_string(), serde_json::json!(value));
         }
         if let Some(value) = stop_price {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("stopPrice".to_string(), serde_json::json!(value));
         }
         if let Some(value) = trailing_delta {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("trailingDelta".to_string(), serde_json::json!(value));
         }
         if let Some(value) = iceberg_qty {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("icebergQty".to_string(), serde_json::json!(value));
         }
         if let Some(value) = strategy_id {
@@ -2988,7 +2977,6 @@ impl TradeApi for TradeApiClient {
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
-
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
@@ -3049,14 +3037,10 @@ impl TradeApi for TradeApiClient {
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
-
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
-
         payload.insert("side".to_string(), serde_json::json!(side));
-        let price_value = Decimal::from_f32(price).unwrap_or_default();
-        payload.insert("price".to_string(), serde_json::json!(price_value));
-        let quantity_value = Decimal::from_f32(quantity).unwrap_or_default();
-        payload.insert("quantity".to_string(), serde_json::json!(quantity_value));
+        payload.insert("price".to_string(), serde_json::json!(price));
+        payload.insert("quantity".to_string(), serde_json::json!(quantity));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
         }
@@ -3067,7 +3051,6 @@ impl TradeApi for TradeApiClient {
             payload.insert("limitClientOrderId".to_string(), serde_json::json!(value));
         }
         if let Some(value) = limit_iceberg_qty {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("limitIcebergQty".to_string(), serde_json::json!(value));
         }
         if let Some(value) = limit_strategy_id {
@@ -3077,7 +3060,6 @@ impl TradeApi for TradeApiClient {
             payload.insert("limitStrategyType".to_string(), serde_json::json!(value));
         }
         if let Some(value) = stop_price {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("stopPrice".to_string(), serde_json::json!(value));
         }
         if let Some(value) = trailing_delta {
@@ -3087,14 +3069,12 @@ impl TradeApi for TradeApiClient {
             payload.insert("stopClientOrderId".to_string(), serde_json::json!(value));
         }
         if let Some(value) = stop_limit_price {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("stopLimitPrice".to_string(), serde_json::json!(value));
         }
         if let Some(value) = stop_limit_time_in_force {
             payload.insert("stopLimitTimeInForce".to_string(), serde_json::json!(value));
         }
         if let Some(value) = stop_iceberg_qty {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("stopIcebergQty".to_string(), serde_json::json!(value));
         }
         if let Some(value) = stop_strategy_id {
@@ -3164,15 +3144,10 @@ impl TradeApi for TradeApiClient {
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
-
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
-
         payload.insert("side".to_string(), serde_json::json!(side));
-        let quantity_value = Decimal::from_f32(quantity).unwrap_or_default();
-        payload.insert("quantity".to_string(), serde_json::json!(quantity_value));
-
+        payload.insert("quantity".to_string(), serde_json::json!(quantity));
         payload.insert("aboveType".to_string(), serde_json::json!(above_type));
-
         payload.insert("belowType".to_string(), serde_json::json!(below_type));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
@@ -3187,18 +3162,15 @@ impl TradeApi for TradeApiClient {
             payload.insert("aboveIcebergQty".to_string(), serde_json::json!(value));
         }
         if let Some(value) = above_price {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("abovePrice".to_string(), serde_json::json!(value));
         }
         if let Some(value) = above_stop_price {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("aboveStopPrice".to_string(), serde_json::json!(value));
         }
         if let Some(value) = above_trailing_delta {
             payload.insert("aboveTrailingDelta".to_string(), serde_json::json!(value));
         }
         if let Some(value) = above_time_in_force {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("aboveTimeInForce".to_string(), serde_json::json!(value));
         }
         if let Some(value) = above_strategy_id {
@@ -3214,11 +3186,9 @@ impl TradeApi for TradeApiClient {
             payload.insert("belowIcebergQty".to_string(), serde_json::json!(value));
         }
         if let Some(value) = below_price {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("belowPrice".to_string(), serde_json::json!(value));
         }
         if let Some(value) = below_stop_price {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("belowStopPrice".to_string(), serde_json::json!(value));
         }
         if let Some(value) = below_trailing_delta {
@@ -3294,30 +3264,19 @@ impl TradeApi for TradeApiClient {
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
-
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
-
         payload.insert("workingType".to_string(), serde_json::json!(working_type));
-
         payload.insert("workingSide".to_string(), serde_json::json!(working_side));
-        let working_price_value = Decimal::from_f32(working_price).unwrap_or_default();
-        payload.insert(
-            "workingPrice".to_string(),
-            serde_json::json!(working_price_value),
-        );
-        let working_quantity_value = Decimal::from_f32(working_quantity).unwrap_or_default();
+        payload.insert("workingPrice".to_string(), serde_json::json!(working_price));
         payload.insert(
             "workingQuantity".to_string(),
-            serde_json::json!(working_quantity_value),
+            serde_json::json!(working_quantity),
         );
-
         payload.insert("pendingType".to_string(), serde_json::json!(pending_type));
-
         payload.insert("pendingSide".to_string(), serde_json::json!(pending_side));
-        let pending_quantity_value = Decimal::from_f32(pending_quantity).unwrap_or_default();
         payload.insert(
             "pendingQuantity".to_string(),
-            serde_json::json!(pending_quantity_value),
+            serde_json::json!(pending_quantity),
         );
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
@@ -3338,7 +3297,6 @@ impl TradeApi for TradeApiClient {
             payload.insert("workingClientOrderId".to_string(), serde_json::json!(value));
         }
         if let Some(value) = working_iceberg_qty {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("workingIcebergQty".to_string(), serde_json::json!(value));
         }
         if let Some(value) = working_time_in_force {
@@ -3354,19 +3312,15 @@ impl TradeApi for TradeApiClient {
             payload.insert("pendingClientOrderId".to_string(), serde_json::json!(value));
         }
         if let Some(value) = pending_price {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("pendingPrice".to_string(), serde_json::json!(value));
         }
         if let Some(value) = pending_stop_price {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("pendingStopPrice".to_string(), serde_json::json!(value));
         }
         if let Some(value) = pending_trailing_delta {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("pendingTrailingDelta".to_string(), serde_json::json!(value));
         }
         if let Some(value) = pending_iceberg_qty {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("pendingIcebergQty".to_string(), serde_json::json!(value));
         }
         if let Some(value) = pending_time_in_force {
@@ -3439,30 +3393,19 @@ impl TradeApi for TradeApiClient {
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
-
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
-
         payload.insert("workingType".to_string(), serde_json::json!(working_type));
-
         payload.insert("workingSide".to_string(), serde_json::json!(working_side));
-        let working_price_value = Decimal::from_f32(working_price).unwrap_or_default();
-        payload.insert(
-            "workingPrice".to_string(),
-            serde_json::json!(working_price_value),
-        );
-        let working_quantity_value = Decimal::from_f32(working_quantity).unwrap_or_default();
+        payload.insert("workingPrice".to_string(), serde_json::json!(working_price));
         payload.insert(
             "workingQuantity".to_string(),
-            serde_json::json!(working_quantity_value),
+            serde_json::json!(working_quantity),
         );
-
         payload.insert("pendingSide".to_string(), serde_json::json!(pending_side));
-        let pending_quantity_value = Decimal::from_f32(pending_quantity).unwrap_or_default();
         payload.insert(
             "pendingQuantity".to_string(),
-            serde_json::json!(pending_quantity_value),
+            serde_json::json!(pending_quantity),
         );
-
         payload.insert(
             "pendingAboveType".to_string(),
             serde_json::json!(pending_above_type),
@@ -3486,7 +3429,6 @@ impl TradeApi for TradeApiClient {
             payload.insert("workingClientOrderId".to_string(), serde_json::json!(value));
         }
         if let Some(value) = working_iceberg_qty {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("workingIcebergQty".to_string(), serde_json::json!(value));
         }
         if let Some(value) = working_time_in_force {
@@ -3505,25 +3447,21 @@ impl TradeApi for TradeApiClient {
             );
         }
         if let Some(value) = pending_above_price {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("pendingAbovePrice".to_string(), serde_json::json!(value));
         }
         if let Some(value) = pending_above_stop_price {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert(
                 "pendingAboveStopPrice".to_string(),
                 serde_json::json!(value),
             );
         }
         if let Some(value) = pending_above_trailing_delta {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert(
                 "pendingAboveTrailingDelta".to_string(),
                 serde_json::json!(value),
             );
         }
         if let Some(value) = pending_above_iceberg_qty {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert(
                 "pendingAboveIcebergQty".to_string(),
                 serde_json::json!(value),
@@ -3557,25 +3495,21 @@ impl TradeApi for TradeApiClient {
             );
         }
         if let Some(value) = pending_below_price {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("pendingBelowPrice".to_string(), serde_json::json!(value));
         }
         if let Some(value) = pending_below_stop_price {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert(
                 "pendingBelowStopPrice".to_string(),
                 serde_json::json!(value),
             );
         }
         if let Some(value) = pending_below_trailing_delta {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert(
                 "pendingBelowTrailingDelta".to_string(),
                 serde_json::json!(value),
             );
         }
         if let Some(value) = pending_below_iceberg_qty {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert(
                 "pendingBelowIcebergQty".to_string(),
                 serde_json::json!(value),
@@ -3642,11 +3576,8 @@ impl TradeApi for TradeApiClient {
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
-
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
-
         payload.insert("side".to_string(), serde_json::json!(side));
-
         payload.insert("type".to_string(), serde_json::json!(r#type));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
@@ -3655,15 +3586,12 @@ impl TradeApi for TradeApiClient {
             payload.insert("timeInForce".to_string(), serde_json::json!(value));
         }
         if let Some(value) = price {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("price".to_string(), serde_json::json!(value));
         }
         if let Some(value) = quantity {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("quantity".to_string(), serde_json::json!(value));
         }
         if let Some(value) = quote_order_qty {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("quoteOrderQty".to_string(), serde_json::json!(value));
         }
         if let Some(value) = new_client_order_id {
@@ -3673,14 +3601,12 @@ impl TradeApi for TradeApiClient {
             payload.insert("newOrderRespType".to_string(), serde_json::json!(value));
         }
         if let Some(value) = stop_price {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("stopPrice".to_string(), serde_json::json!(value));
         }
         if let Some(value) = trailing_delta {
             payload.insert("trailingDelta".to_string(), serde_json::json!(value));
         }
         if let Some(value) = iceberg_qty {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("icebergQty".to_string(), serde_json::json!(value));
         }
         if let Some(value) = strategy_id {
@@ -3769,14 +3695,10 @@ impl TradeApi for TradeApiClient {
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
-
         payload.insert("symbol".to_string(), serde_json::json!(symbol));
-
         payload.insert("side".to_string(), serde_json::json!(side));
-
         payload.insert("type".to_string(), serde_json::json!(r#type));
-        let quantity_value = Decimal::from_f32(quantity).unwrap_or_default();
-        payload.insert("quantity".to_string(), serde_json::json!(quantity_value));
+        payload.insert("quantity".to_string(), serde_json::json!(quantity));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
         }
@@ -3784,7 +3706,6 @@ impl TradeApi for TradeApiClient {
             payload.insert("timeInForce".to_string(), serde_json::json!(value));
         }
         if let Some(value) = price {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("price".to_string(), serde_json::json!(value));
         }
         if let Some(value) = new_client_order_id {
@@ -3794,7 +3715,6 @@ impl TradeApi for TradeApiClient {
             payload.insert("newOrderRespType".to_string(), serde_json::json!(value));
         }
         if let Some(value) = iceberg_qty {
-            let value = Decimal::from_f32(value).unwrap_or_default();
             payload.insert("icebergQty".to_string(), serde_json::json!(value));
         }
         if let Some(value) = strategy_id {
@@ -4038,7 +3958,7 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = spawn(async move {
-                let params = OrderAmendKeepPriorityParams::builder("BNBUSDT".to_string(),1.0,).build().unwrap();
+                let params = OrderAmendKeepPriorityParams::builder("BNBUSDT".to_string(),dec!(1.0),).build().unwrap();
                 client.order_amend_keep_priority(params).await
             });
 
@@ -4081,7 +4001,7 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = tokio::spawn(async move {
-                let params = OrderAmendKeepPriorityParams::builder("BNBUSDT".to_string(),1.0,).build().unwrap();
+                let params = OrderAmendKeepPriorityParams::builder("BNBUSDT".to_string(),dec!(1.0),).build().unwrap();
                 client.order_amend_keep_priority(params).await
             });
 
@@ -4131,9 +4051,10 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = spawn(async move {
-                let params = OrderAmendKeepPriorityParams::builder("BNBUSDT".to_string(), 1.0)
-                    .build()
-                    .unwrap();
+                let params =
+                    OrderAmendKeepPriorityParams::builder("BNBUSDT".to_string(), dec!(1.0))
+                        .build()
+                        .unwrap();
                 client.order_amend_keep_priority(params).await
             });
 
@@ -4563,7 +4484,7 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = spawn(async move {
-                let params = OrderListPlaceParams::builder("BNBUSDT".to_string(),OrderListPlaceSideEnum::Buy,1.0,1.0,).build().unwrap();
+                let params = OrderListPlaceParams::builder("BNBUSDT".to_string(),OrderListPlaceSideEnum::Buy,dec!(1.0),dec!(1.0),).build().unwrap();
                 client.order_list_place(params).await
             });
 
@@ -4606,7 +4527,7 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = tokio::spawn(async move {
-                let params = OrderListPlaceParams::builder("BNBUSDT".to_string(),OrderListPlaceSideEnum::Buy,1.0,1.0,).build().unwrap();
+                let params = OrderListPlaceParams::builder("BNBUSDT".to_string(),OrderListPlaceSideEnum::Buy,dec!(1.0),dec!(1.0),).build().unwrap();
                 client.order_list_place(params).await
             });
 
@@ -4659,8 +4580,8 @@ mod tests {
                 let params = OrderListPlaceParams::builder(
                     "BNBUSDT".to_string(),
                     OrderListPlaceSideEnum::Buy,
-                    1.0,
-                    1.0,
+                    dec!(1.0),
+                    dec!(1.0),
                 )
                 .build()
                 .unwrap();
@@ -4698,7 +4619,7 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = spawn(async move {
-                let params = OrderListPlaceOcoParams::builder("BNBUSDT".to_string(),OrderListPlaceOcoSideEnum::Buy,1.0,OrderListPlaceOcoAboveTypeEnum::StopLossLimit,OrderListPlaceOcoBelowTypeEnum::StopLoss,).build().unwrap();
+                let params = OrderListPlaceOcoParams::builder("BNBUSDT".to_string(),OrderListPlaceOcoSideEnum::Buy,dec!(1.0),OrderListPlaceOcoAboveTypeEnum::StopLossLimit,OrderListPlaceOcoBelowTypeEnum::StopLoss,).build().unwrap();
                 client.order_list_place_oco(params).await
             });
 
@@ -4741,7 +4662,7 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = tokio::spawn(async move {
-                let params = OrderListPlaceOcoParams::builder("BNBUSDT".to_string(),OrderListPlaceOcoSideEnum::Buy,1.0,OrderListPlaceOcoAboveTypeEnum::StopLossLimit,OrderListPlaceOcoBelowTypeEnum::StopLoss,).build().unwrap();
+                let params = OrderListPlaceOcoParams::builder("BNBUSDT".to_string(),OrderListPlaceOcoSideEnum::Buy,dec!(1.0),OrderListPlaceOcoAboveTypeEnum::StopLossLimit,OrderListPlaceOcoBelowTypeEnum::StopLoss,).build().unwrap();
                 client.order_list_place_oco(params).await
             });
 
@@ -4794,7 +4715,7 @@ mod tests {
                 let params = OrderListPlaceOcoParams::builder(
                     "BNBUSDT".to_string(),
                     OrderListPlaceOcoSideEnum::Buy,
-                    1.0,
+                    dec!(1.0),
                     OrderListPlaceOcoAboveTypeEnum::StopLossLimit,
                     OrderListPlaceOcoBelowTypeEnum::StopLoss,
                 )
@@ -4834,7 +4755,7 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = spawn(async move {
-                let params = OrderListPlaceOtoParams::builder("BNBUSDT".to_string(),OrderListPlaceOtoWorkingTypeEnum::Limit,OrderListPlaceOtoWorkingSideEnum::Buy,1.0,1.0,OrderListPlaceOtoPendingTypeEnum::Limit,OrderListPlaceOtoPendingSideEnum::Buy,1.0,).build().unwrap();
+                let params = OrderListPlaceOtoParams::builder("BNBUSDT".to_string(),OrderListPlaceOtoWorkingTypeEnum::Limit,OrderListPlaceOtoWorkingSideEnum::Buy,dec!(1.0),dec!(1.0),OrderListPlaceOtoPendingTypeEnum::Limit,OrderListPlaceOtoPendingSideEnum::Buy,dec!(1.0),).build().unwrap();
                 client.order_list_place_oto(params).await
             });
 
@@ -4877,7 +4798,7 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = tokio::spawn(async move {
-                let params = OrderListPlaceOtoParams::builder("BNBUSDT".to_string(),OrderListPlaceOtoWorkingTypeEnum::Limit,OrderListPlaceOtoWorkingSideEnum::Buy,1.0,1.0,OrderListPlaceOtoPendingTypeEnum::Limit,OrderListPlaceOtoPendingSideEnum::Buy,1.0,).build().unwrap();
+                let params = OrderListPlaceOtoParams::builder("BNBUSDT".to_string(),OrderListPlaceOtoWorkingTypeEnum::Limit,OrderListPlaceOtoWorkingSideEnum::Buy,dec!(1.0),dec!(1.0),OrderListPlaceOtoPendingTypeEnum::Limit,OrderListPlaceOtoPendingSideEnum::Buy,dec!(1.0),).build().unwrap();
                 client.order_list_place_oto(params).await
             });
 
@@ -4931,11 +4852,11 @@ mod tests {
                     "BNBUSDT".to_string(),
                     OrderListPlaceOtoWorkingTypeEnum::Limit,
                     OrderListPlaceOtoWorkingSideEnum::Buy,
-                    1.0,
-                    1.0,
+                    dec!(1.0),
+                    dec!(1.0),
                     OrderListPlaceOtoPendingTypeEnum::Limit,
                     OrderListPlaceOtoPendingSideEnum::Buy,
-                    1.0,
+                    dec!(1.0),
                 )
                 .build()
                 .unwrap();
@@ -4973,7 +4894,7 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = spawn(async move {
-                let params = OrderListPlaceOtocoParams::builder("BNBUSDT".to_string(),OrderListPlaceOtocoWorkingTypeEnum::Limit,OrderListPlaceOtocoWorkingSideEnum::Buy,1.0,1.0,OrderListPlaceOtocoPendingSideEnum::Buy,1.0,OrderListPlaceOtocoPendingAboveTypeEnum::StopLossLimit,).build().unwrap();
+                let params = OrderListPlaceOtocoParams::builder("BNBUSDT".to_string(),OrderListPlaceOtocoWorkingTypeEnum::Limit,OrderListPlaceOtocoWorkingSideEnum::Buy,dec!(1.0),dec!(1.0),OrderListPlaceOtocoPendingSideEnum::Buy,dec!(1.0),OrderListPlaceOtocoPendingAboveTypeEnum::StopLossLimit,).build().unwrap();
                 client.order_list_place_otoco(params).await
             });
 
@@ -5016,7 +4937,7 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = tokio::spawn(async move {
-                let params = OrderListPlaceOtocoParams::builder("BNBUSDT".to_string(),OrderListPlaceOtocoWorkingTypeEnum::Limit,OrderListPlaceOtocoWorkingSideEnum::Buy,1.0,1.0,OrderListPlaceOtocoPendingSideEnum::Buy,1.0,OrderListPlaceOtocoPendingAboveTypeEnum::StopLossLimit,).build().unwrap();
+                let params = OrderListPlaceOtocoParams::builder("BNBUSDT".to_string(),OrderListPlaceOtocoWorkingTypeEnum::Limit,OrderListPlaceOtocoWorkingSideEnum::Buy,dec!(1.0),dec!(1.0),OrderListPlaceOtocoPendingSideEnum::Buy,dec!(1.0),OrderListPlaceOtocoPendingAboveTypeEnum::StopLossLimit,).build().unwrap();
                 client.order_list_place_otoco(params).await
             });
 
@@ -5070,10 +4991,10 @@ mod tests {
                     "BNBUSDT".to_string(),
                     OrderListPlaceOtocoWorkingTypeEnum::Limit,
                     OrderListPlaceOtocoWorkingSideEnum::Buy,
-                    1.0,
-                    1.0,
+                    dec!(1.0),
+                    dec!(1.0),
                     OrderListPlaceOtocoPendingSideEnum::Buy,
-                    1.0,
+                    dec!(1.0),
                     OrderListPlaceOtocoPendingAboveTypeEnum::StopLossLimit,
                 )
                 .build()
@@ -5374,7 +5295,7 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = spawn(async move {
-                let params = SorOrderPlaceParams::builder("BNBUSDT".to_string(),SorOrderPlaceSideEnum::Buy,SorOrderPlaceTypeEnum::Market,1.0,).build().unwrap();
+                let params = SorOrderPlaceParams::builder("BNBUSDT".to_string(),SorOrderPlaceSideEnum::Buy,SorOrderPlaceTypeEnum::Market,dec!(1.0),).build().unwrap();
                 client.sor_order_place(params).await
             });
 
@@ -5417,7 +5338,7 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = tokio::spawn(async move {
-                let params = SorOrderPlaceParams::builder("BNBUSDT".to_string(),SorOrderPlaceSideEnum::Buy,SorOrderPlaceTypeEnum::Market,1.0,).build().unwrap();
+                let params = SorOrderPlaceParams::builder("BNBUSDT".to_string(),SorOrderPlaceSideEnum::Buy,SorOrderPlaceTypeEnum::Market,dec!(1.0),).build().unwrap();
                 client.sor_order_place(params).await
             });
 
@@ -5471,7 +5392,7 @@ mod tests {
                     "BNBUSDT".to_string(),
                     SorOrderPlaceSideEnum::Buy,
                     SorOrderPlaceTypeEnum::Market,
-                    1.0,
+                    dec!(1.0),
                 )
                 .build()
                 .unwrap();

@@ -24,7 +24,7 @@ pub struct ContractInfoStreamResponseBksInner {
     #[serde(rename = "bnc", skip_serializing_if = "Option::is_none")]
     pub bnc: Option<i64>,
     #[serde(rename = "mmr", skip_serializing_if = "Option::is_none")]
-    pub mmr: Option<f32>,
+    pub mmr: Option<rust_decimal::Decimal>,
     #[serde(rename = "cf", skip_serializing_if = "Option::is_none")]
     pub cf: Option<i64>,
     #[serde(rename = "mi", skip_serializing_if = "Option::is_none")]

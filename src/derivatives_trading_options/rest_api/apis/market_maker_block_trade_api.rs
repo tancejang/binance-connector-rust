@@ -15,7 +15,7 @@
 use async_trait::async_trait;
 use derive_builder::Builder;
 use reqwest;
-use rust_decimal::{Decimal, prelude::FromPrimitive};
+use rust_decimal::prelude::*;
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::collections::BTreeMap;
@@ -262,12 +262,12 @@ pub struct NewBlockTradeOrderParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub price: f32,
+    pub price: rust_decimal::Decimal,
     /// Order Quantity
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub quantity: f32,
+    pub quantity: rust_decimal::Decimal,
     ///
     /// The `recv_window` parameter.
     ///
@@ -294,8 +294,8 @@ impl NewBlockTradeOrderParams {
         legs: Vec<serde_json::Value>,
         symbol: String,
         side: NewBlockTradeOrderSideEnum,
-        price: f32,
-        quantity: f32,
+        price: rust_decimal::Decimal,
+        quantity: rust_decimal::Decimal,
     ) -> NewBlockTradeOrderParamsBuilder {
         NewBlockTradeOrderParamsBuilder::default()
             .liquidity(liquidity)
@@ -559,11 +559,9 @@ impl MarketMakerBlockTradeApi for MarketMakerBlockTradeApiClient {
 
         query_params.insert("side".to_string(), json!(side));
 
-        let price_value = Decimal::from_f32(price).unwrap_or_default();
-        query_params.insert("price".to_string(), json!(price_value));
+        query_params.insert("price".to_string(), json!(price));
 
-        let quantity_value = Decimal::from_f32(quantity).unwrap_or_default();
-        query_params.insert("quantity".to_string(), json!(quantity_value));
+        query_params.insert("quantity".to_string(), json!(quantity));
 
         if let Some(rw) = recv_window {
             query_params.insert("recvWindow".to_string(), json!(rw));
@@ -1106,7 +1104,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockMarketMakerBlockTradeApiClient { force_error: false };
 
-            let params = NewBlockTradeOrderParams::builder("liquidity_example".to_string(),[].to_vec(),"symbol_example".to_string(),NewBlockTradeOrderSideEnum::Buy,1.0,1.0,).build().unwrap();
+            let params = NewBlockTradeOrderParams::builder("liquidity_example".to_string(),[].to_vec(),"symbol_example".to_string(),NewBlockTradeOrderSideEnum::Buy,dec!(1.0),dec!(1.0),).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"blockTradeSettlementKey":"3668822b8-1baa-6a2f-adb8-d3de6289b361","expireTime":1730171888109,"liquidity":"TAKER","status":"RECEIVED","legs":[{"symbol":"BNB-241101-700-C","side":"BUY","quantity":"1.2","price":"2.8"}]}"#).unwrap();
             let expected_response : models::NewBlockTradeOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::NewBlockTradeOrderResponse");
@@ -1123,7 +1121,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockMarketMakerBlockTradeApiClient { force_error: false };
 
-            let params = NewBlockTradeOrderParams::builder("liquidity_example".to_string(),[].to_vec(),"symbol_example".to_string(),NewBlockTradeOrderSideEnum::Buy,1.0,1.0,).recv_window(5000).build().unwrap();
+            let params = NewBlockTradeOrderParams::builder("liquidity_example".to_string(),[].to_vec(),"symbol_example".to_string(),NewBlockTradeOrderSideEnum::Buy,dec!(1.0),dec!(1.0),).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"blockTradeSettlementKey":"3668822b8-1baa-6a2f-adb8-d3de6289b361","expireTime":1730171888109,"liquidity":"TAKER","status":"RECEIVED","legs":[{"symbol":"BNB-241101-700-C","side":"BUY","quantity":"1.2","price":"2.8"}]}"#).unwrap();
             let expected_response : models::NewBlockTradeOrderResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::NewBlockTradeOrderResponse");
@@ -1145,8 +1143,8 @@ mod tests {
                 [].to_vec(),
                 "symbol_example".to_string(),
                 NewBlockTradeOrderSideEnum::Buy,
-                1.0,
-                1.0,
+                dec!(1.0),
+                dec!(1.0),
             )
             .build()
             .unwrap();

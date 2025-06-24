@@ -26,7 +26,7 @@ pub struct UmNotionalAndLeverageBracketsResponseInnerBracketsInner {
     #[serde(rename = "notionalFloor", skip_serializing_if = "Option::is_none")]
     pub notional_floor: Option<i64>,
     #[serde(rename = "maintMarginRatio", skip_serializing_if = "Option::is_none")]
-    pub maint_margin_ratio: Option<f32>,
+    pub maint_margin_ratio: Option<rust_decimal::Decimal>,
     #[serde(rename = "cum", skip_serializing_if = "Option::is_none")]
     pub cum: Option<i64>,
 }

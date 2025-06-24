@@ -1,4 +1,5 @@
 use anyhow::{Context, Result};
+use rust_decimal::prelude::*;
 use std::env;
 use tracing::info;
 
@@ -25,7 +26,7 @@ async fn main() -> Result<()> {
         "from_account_type_example".to_string(),
         "to_account_type_example".to_string(),
         "asset_example".to_string(),
-        1.0,
+        dec!(1.0),
     )
     .build()?;
 

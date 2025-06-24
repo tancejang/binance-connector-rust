@@ -15,7 +15,7 @@
 use async_trait::async_trait;
 use derive_builder::Builder;
 use reqwest;
-use rust_decimal::{Decimal, prelude::FromPrimitive};
+use rust_decimal::prelude::*;
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::collections::BTreeMap;
@@ -125,7 +125,7 @@ pub struct DepositAddressParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub amount: Option<f32>,
+    pub amount: Option<rust_decimal::Decimal>,
     ///
     /// The `recv_window` parameter.
     ///
@@ -308,7 +308,7 @@ pub struct WithdrawParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub amount: f32,
+    pub amount: rust_decimal::Decimal,
     /// client side id for withdrawal, if provided in POST `/sapi/v1/capital/withdraw/apply`, can be used here for query.
     ///
     /// This field is **optional.
@@ -355,10 +355,14 @@ impl WithdrawParams {
     ///
     /// * `coin` — String
     /// * `address` — String
-    /// * `amount` — f32
+    /// * `amount` — `rust_decimal::Decimal`
     ///
     #[must_use]
-    pub fn builder(coin: String, address: String, amount: f32) -> WithdrawParamsBuilder {
+    pub fn builder(
+        coin: String,
+        address: String,
+        amount: rust_decimal::Decimal,
+    ) -> WithdrawParamsBuilder {
         WithdrawParamsBuilder::default()
             .coin(coin)
             .address(address)
@@ -481,7 +485,6 @@ impl CapitalApi for CapitalApiClient {
         }
 
         if let Some(rw) = amount {
-            let rw = Decimal::from_f32(rw).unwrap_or_default();
             query_params.insert("amount".to_string(), json!(rw));
         }
 
@@ -710,8 +713,7 @@ impl CapitalApi for CapitalApiClient {
 
         query_params.insert("address".to_string(), json!(address));
 
-        let amount_value = Decimal::from_f32(amount).unwrap_or_default();
-        query_params.insert("amount".to_string(), json!(amount_value));
+        query_params.insert("amount".to_string(), json!(amount));
 
         if let Some(rw) = withdraw_order_id {
             query_params.insert("withdrawOrderId".to_string(), json!(rw));
@@ -1161,7 +1163,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockCapitalApiClient { force_error: false };
 
-            let params = DepositAddressParams::builder("coin_example".to_string(),).network("network_example".to_string()).amount(1.0).recv_window(5000).build().unwrap();
+            let params = DepositAddressParams::builder("coin_example".to_string(),).network("network_example".to_string()).amount(dec!(1.0)).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"address":"1HPn8Rx2y6nNSfagQBKy27GB99Vbzg89wv","coin":"BTC","tag":"","url":"https://btc.com/1HPn8Rx2y6nNSfagQBKy27GB99Vbzg89wv"}"#).unwrap();
             let expected_response : models::DepositAddressResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::DepositAddressResponse");
@@ -1480,7 +1482,7 @@ mod tests {
             let params = WithdrawParams::builder(
                 "coin_example".to_string(),
                 "address_example".to_string(),
-                1.0,
+                dec!(1.0),
             )
             .build()
             .unwrap();
@@ -1506,7 +1508,7 @@ mod tests {
             let params = WithdrawParams::builder(
                 "coin_example".to_string(),
                 "address_example".to_string(),
-                1.0,
+                dec!(1.0),
             )
             .withdraw_order_id("1".to_string())
             .network("network_example".to_string())
@@ -1539,7 +1541,7 @@ mod tests {
             let params = WithdrawParams::builder(
                 "coin_example".to_string(),
                 "address_example".to_string(),
-                1.0,
+                dec!(1.0),
             )
             .build()
             .unwrap();
