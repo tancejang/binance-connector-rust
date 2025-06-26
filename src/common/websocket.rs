@@ -20,7 +20,7 @@ use tokio::{
     net::TcpStream,
     select, spawn,
     sync::{
-        Mutex, Notify, broadcast,
+        Mutex, Notify,
         mpsc::{Receiver, Sender, UnboundedSender, channel, unbounded_channel},
         oneshot,
     },
@@ -84,7 +84,7 @@ pub enum WebsocketBase {
 }
 
 pub struct WebsocketEventEmitter {
-    tx: broadcast::Sender<WebsocketEvent>,
+    subscribers: Arc<std::sync::Mutex<Vec<UnboundedSender<WebsocketEvent>>>>,
 }
 
 impl Default for WebsocketEventEmitter {
@@ -96,19 +96,24 @@ impl Default for WebsocketEventEmitter {
 impl WebsocketEventEmitter {
     #[must_use]
     pub fn new() -> Self {
-        let (tx, _rx) = broadcast::channel(100);
-        Self { tx }
+        Self {
+            subscribers: Arc::new(std::sync::Mutex::new(Vec::new())),
+        }
     }
 
-    /// Subscribes to WebSocket events and returns a `Subscription` that allows receiving events.
+    /// Subscribes to WebSocket events and returns a `Subscription` that allows event processing.
+    ///
+    /// This method creates an unbounded channel for receiving WebSocket events and
+    /// spawns an asynchronous task to process these events using the provided callback function.
     ///
     /// # Arguments
     ///
     /// * `callback` - A mutable function that will be called for each received WebSocket event.
+    ///   The callback must be thread-safe and have a static lifetime.
     ///
     /// # Returns
     ///
-    /// A `Subscription` that can be used to manage the event subscription.
+    /// A `Subscription` that can be used to unsubscribe and stop event processing.
     ///
     /// # Examples
     ///
@@ -116,35 +121,55 @@ impl WebsocketEventEmitter {
     /// let emitter = `WebsocketEventEmitter::new()`;
     /// let subscription = emitter.subscribe(|event| {
     ///     // Handle WebSocket event
+    ///     println!("Received event: {:?}", event);
     /// });
-    /// // Later, unsubscribe if needed
+    ///
+    /// // Later, when no longer needed
     /// `subscription.unsubscribe()`;
     ///
     pub fn subscribe<F>(&self, mut callback: F) -> Subscription
     where
         F: FnMut(WebsocketEvent) + Send + 'static,
     {
-        let mut rx = self.tx.subscribe();
+        let (tx, mut rx) = unbounded_channel();
+        let mut guard = match self.subscribers.lock() {
+            Ok(guard) => guard,
+            Err(poisoned) => poisoned.into_inner(),
+        };
+        guard.push(tx);
+        drop(guard);
+
         let handle = spawn(async move {
-            while let Ok(event) = rx.recv().await {
+            while let Some(event) = rx.recv().await {
                 callback(event);
             }
         });
         Subscription { handle }
     }
 
-    /// Sends a WebSocket event to all subscribers of this event emitter.
+    /// Emits a WebSocket event to all registered subscribers.
+    ///
+    /// This method sends the given event to all active subscribers. If a subscriber
+    /// has been dropped without unsubscribing, a warning is logged and the subscriber
+    /// is removed from the list.
     ///
     /// # Arguments
     ///
-    /// * `event` - The WebSocket event to be sent.
-    ///
-    /// # Remarks
-    ///
-    /// This method uses a broadcast channel to distribute the event to all registered subscribers.
-    /// If no subscribers are currently listening, the event is silently dropped.
-    fn emit(&self, event: WebsocketEvent) {
-        let _ = self.tx.send(event);
+    /// * `event` - The WebSocket event to be emitted to all subscribers.
+    pub fn emit(&self, event: &WebsocketEvent) {
+        let mut guard = match self.subscribers.lock() {
+            Ok(guard) => guard,
+            Err(poisoned) => poisoned.into_inner(),
+        };
+
+        guard.retain(|tx| {
+            if tx.send(event.clone()).is_ok() {
+                true
+            } else {
+                warn!("subscriber dropped without unsubscribing");
+                false
+            }
+        });
     }
 }
 
@@ -642,7 +667,7 @@ impl WebsocketCommon {
                 return;
             }
 
-            self.events.emit(WebsocketEvent::Open);
+            self.events.emit(&WebsocketEvent::Open);
         }
     }
 
@@ -666,7 +691,7 @@ impl WebsocketCommon {
                 handler_clone.on_message(data, conn_clone).await;
             });
         }
-        self.events.emit(WebsocketEvent::Message(msg));
+        self.events.emit(&WebsocketEvent::Message(msg));
     }
 
     /// Creates a WebSocket connection with optional configuration and agent
@@ -882,7 +907,7 @@ impl WebsocketCommon {
                     }
                     Ok(Message::Ping(payload)) => {
                         info!("PING received from server on {}", reader_conn.id);
-                        common.events.emit(WebsocketEvent::Ping);
+                        common.events.emit(&WebsocketEvent::Ping);
                         if let Some(tx) = reader_conn.state.lock().await.ws_write_tx.clone() {
                             let _ = tx.send(Message::Pong(payload));
                             info!(
@@ -893,7 +918,7 @@ impl WebsocketCommon {
                     }
                     Ok(Message::Pong(_)) => {
                         info!("Received PONG from server on {}", reader_conn.id);
-                        common.events.emit(WebsocketEvent::Pong);
+                        common.events.emit(&WebsocketEvent::Pong);
                     }
                     Ok(Message::Close(frame)) => {
                         let (code, reason) = frame
@@ -902,7 +927,7 @@ impl WebsocketCommon {
                             });
                         common
                             .events
-                            .emit(WebsocketEvent::Close(code, reason.clone()));
+                            .emit(&WebsocketEvent::Close(code, reason.clone()));
 
                         let mut conn_state = reader_conn.state.lock().await;
                         if !conn_state.close_initiated
@@ -932,7 +957,7 @@ impl WebsocketCommon {
                     }
                     Err(e) => {
                         error!("WebSocket error on {}: {:?}", reader_conn.id, e);
-                        common.events.emit(WebsocketEvent::Error(e.to_string()));
+                        common.events.emit(&WebsocketEvent::Error(e.to_string()));
                     }
                     _ => {}
                 }
@@ -2366,7 +2391,11 @@ mod tests {
         atomic::{AtomicBool, AtomicUsize, Ordering},
     };
     use tokio::net::TcpListener;
-    use tokio::sync::{Mutex, mpsc::unbounded_channel, oneshot};
+    use tokio::sync::{
+        Mutex,
+        mpsc::{Receiver, unbounded_channel},
+        oneshot,
+    };
     use tokio::time::{Duration, advance, pause, resume, sleep, timeout};
     use tokio_tungstenite::{accept_async, accept_hdr_async, tungstenite, tungstenite::Message};
     use tungstenite::handshake::server::Request;
@@ -2451,6 +2480,21 @@ mod tests {
         WebsocketStreams::new(config, connections)
     }
 
+    fn subscribe_to_emitter(emitter: &WebsocketEventEmitter) -> Receiver<WebsocketEvent> {
+        let (test_tx, test_rx) = tokio::sync::mpsc::channel(16);
+        let _sub = emitter.subscribe(move |evt| {
+            let _ = test_tx.try_send(evt);
+        });
+        test_rx
+    }
+
+    async fn expect_websocket_event(rx: &mut Receiver<WebsocketEvent>) -> WebsocketEvent {
+        timeout(Duration::from_millis(200), rx.recv())
+            .await
+            .expect("timed out waiting for event")
+            .expect("subscriber channel closed")
+    }
+
     mod event_emitter {
         use super::*;
 
@@ -2466,11 +2510,67 @@ mod tests {
                         let _ = sender.send(event);
                     }
                 });
-                emitter.emit(WebsocketEvent::Open);
+                emitter.emit(&WebsocketEvent::Open);
                 let received = timeout(Duration::from_millis(100), rx)
                     .await
                     .expect("timed out");
                 assert_eq!(received, Ok(WebsocketEvent::Open));
+            });
+        }
+
+        #[test]
+        fn single_subscriber_gets_event() {
+            TOKIO_SHARED_RT.block_on(async {
+                let emitter = WebsocketEventEmitter::new();
+                let mut rx = subscribe_to_emitter(&emitter);
+
+                let e1 = WebsocketEvent::Open;
+                emitter.emit(&e1);
+
+                let got = expect_websocket_event(&mut rx).await;
+                assert_eq!(got, e1);
+            });
+        }
+
+        #[test]
+        fn multiple_subscribers_get_event() {
+            TOKIO_SHARED_RT.block_on(async {
+                let emitter = WebsocketEventEmitter::new();
+                let mut rx1 = subscribe_to_emitter(&emitter);
+                let mut rx2 = subscribe_to_emitter(&emitter);
+
+                let e = WebsocketEvent::Message("hello".into());
+                emitter.emit(&e);
+
+                assert_eq!(expect_websocket_event(&mut rx1).await, e.clone());
+                assert_eq!(expect_websocket_event(&mut rx2).await, e);
+            });
+        }
+
+        #[test]
+        fn closed_subscribers_are_pruned() {
+            TOKIO_SHARED_RT.block_on(async {
+                let emitter = WebsocketEventEmitter::new();
+                let rx1 = subscribe_to_emitter(&emitter);
+                let mut rx2 = subscribe_to_emitter(&emitter);
+                drop(rx1);
+
+                let e = WebsocketEvent::Pong;
+                emitter.emit(&e);
+
+                assert_eq!(expect_websocket_event(&mut rx2).await, e);
+            });
+        }
+
+        #[test]
+        fn prune_on_error_does_not_hang() {
+            TOKIO_SHARED_RT.block_on(async {
+                let emitter = WebsocketEventEmitter::new();
+                let rx = subscribe_to_emitter(&emitter);
+                drop(rx);
+
+                let e = WebsocketEvent::Close(1000, "bye".into());
+                emitter.emit(&e);
             });
         }
     }

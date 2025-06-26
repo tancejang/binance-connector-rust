@@ -1,11 +1,11 @@
 /*
- * Binance Spot WebSocket API
+ * Binance Spot WebSocket Streams
  *
- * OpenAPI Specifications for the Binance Spot WebSocket API
+ * OpenAPI Specifications for the Binance Spot WebSocket Streams
  *
  * API documents:
- * - [Github web-socket-api documentation file](https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-api.md)
- * - [General API information for web-socket-api on website](https://developers.binance.com/docs/binance-spot-api-docs/web-socket-api/general-api-information)
+ * - [Github web-socket-streams documentation file](https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md)
+ * - [General API information for web-socket-streams on website](https://developers.binance.com/docs/binance-spot-api-docs/web-socket-streams)
  *
  *
  * The version of the OpenAPI document: 1.0.0
@@ -17,11 +17,11 @@
  */
 
 #![allow(unused_imports)]
-use crate::spot::websocket_api::models;
+use crate::spot::websocket_streams::models;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
-pub struct TickerResponse2RateLimitsInner {
+pub struct RateLimitsInner {
     #[serde(rename = "rateLimitType", skip_serializing_if = "Option::is_none")]
     pub rate_limit_type: Option<String>,
     #[serde(rename = "interval", skip_serializing_if = "Option::is_none")]
@@ -34,10 +34,10 @@ pub struct TickerResponse2RateLimitsInner {
     pub count: Option<i64>,
 }
 
-impl TickerResponse2RateLimitsInner {
+impl RateLimitsInner {
     #[must_use]
-    pub fn new() -> TickerResponse2RateLimitsInner {
-        TickerResponse2RateLimitsInner {
+    pub fn new() -> RateLimitsInner {
+        RateLimitsInner {
             rate_limit_type: None,
             interval: None,
             interval_num: None,

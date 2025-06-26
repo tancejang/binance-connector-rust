@@ -29,7 +29,7 @@ pub struct SorOrderPlaceResponse {
     #[serde(rename = "result", skip_serializing_if = "Option::is_none")]
     pub result: Option<Vec<models::SorOrderPlaceResponseResultInner>>,
     #[serde(rename = "rateLimits", skip_serializing_if = "Option::is_none")]
-    pub rate_limits: Option<Vec<models::PingResponseRateLimitsInner>>,
+    pub rate_limits: Option<Vec<models::RateLimitsInner>>,
 }
 
 impl SorOrderPlaceResponse {

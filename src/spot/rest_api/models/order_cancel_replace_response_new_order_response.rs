@@ -21,21 +21,17 @@ use crate::spot::rest_api::models;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
-pub struct OrderCancelReplaceResponseDataCancelResponse {
-    #[serde(rename = "code", skip_serializing_if = "Option::is_none")]
-    pub code: Option<i64>,
-    #[serde(rename = "msg", skip_serializing_if = "Option::is_none")]
-    pub msg: Option<String>,
+pub struct OrderCancelReplaceResponseNewOrderResponse {
     #[serde(rename = "symbol", skip_serializing_if = "Option::is_none")]
     pub symbol: Option<String>,
-    #[serde(rename = "origClientOrderId", skip_serializing_if = "Option::is_none")]
-    pub orig_client_order_id: Option<String>,
     #[serde(rename = "orderId", skip_serializing_if = "Option::is_none")]
     pub order_id: Option<i64>,
     #[serde(rename = "orderListId", skip_serializing_if = "Option::is_none")]
     pub order_list_id: Option<i64>,
     #[serde(rename = "clientOrderId", skip_serializing_if = "Option::is_none")]
     pub client_order_id: Option<String>,
+    #[serde(rename = "transactTime", skip_serializing_if = "Option::is_none")]
+    pub transact_time: Option<i64>,
     #[serde(rename = "price", skip_serializing_if = "Option::is_none")]
     pub price: Option<String>,
     #[serde(rename = "origQty", skip_serializing_if = "Option::is_none")]
@@ -57,26 +53,26 @@ pub struct OrderCancelReplaceResponseDataCancelResponse {
     pub r#type: Option<String>,
     #[serde(rename = "side", skip_serializing_if = "Option::is_none")]
     pub side: Option<String>,
+    #[serde(rename = "workingTime", skip_serializing_if = "Option::is_none")]
+    pub working_time: Option<i64>,
+    #[serde(rename = "fills", skip_serializing_if = "Option::is_none")]
+    pub fills: Option<Vec<String>>,
     #[serde(
         rename = "selfTradePreventionMode",
         skip_serializing_if = "Option::is_none"
     )]
     pub self_trade_prevention_mode: Option<String>,
-    #[serde(rename = "transactTime", skip_serializing_if = "Option::is_none")]
-    pub transact_time: Option<i64>,
 }
 
-impl OrderCancelReplaceResponseDataCancelResponse {
+impl OrderCancelReplaceResponseNewOrderResponse {
     #[must_use]
-    pub fn new() -> OrderCancelReplaceResponseDataCancelResponse {
-        OrderCancelReplaceResponseDataCancelResponse {
-            code: None,
-            msg: None,
+    pub fn new() -> OrderCancelReplaceResponseNewOrderResponse {
+        OrderCancelReplaceResponseNewOrderResponse {
             symbol: None,
-            orig_client_order_id: None,
             order_id: None,
             order_list_id: None,
             client_order_id: None,
+            transact_time: None,
             price: None,
             orig_qty: None,
             executed_qty: None,
@@ -86,8 +82,9 @@ impl OrderCancelReplaceResponseDataCancelResponse {
             time_in_force: None,
             r#type: None,
             side: None,
+            working_time: None,
+            fills: None,
             self_trade_prevention_mode: None,
-            transact_time: None,
         }
     }
 }

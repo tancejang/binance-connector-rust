@@ -29,7 +29,7 @@ pub struct UserDataStreamPingResponse {
     #[serde(rename = "response", skip_serializing_if = "Option::is_none")]
     pub response: Option<serde_json::Value>,
     #[serde(rename = "rateLimits", skip_serializing_if = "Option::is_none")]
-    pub rate_limits: Option<Vec<models::AvgPriceResponseRateLimitsInner>>,
+    pub rate_limits: Option<Vec<models::RateLimitsInner>>,
 }
 
 impl UserDataStreamPingResponse {

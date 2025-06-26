@@ -1,11 +1,11 @@
 /*
- * Binance Spot WebSocket API
+ * Binance Spot REST API
  *
- * OpenAPI Specifications for the Binance Spot WebSocket API
+ * OpenAPI Specifications for the Binance Spot REST API
  *
  * API documents:
- * - [Github web-socket-api documentation file](https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-api.md)
- * - [General API information for web-socket-api on website](https://developers.binance.com/docs/binance-spot-api-docs/web-socket-api/general-api-information)
+ * - [Github rest-api documentation file](https://github.com/binance/binance-spot-api-docs/blob/master/rest-api.md)
+ * - [General API information for rest-api on website](https://developers.binance.com/docs/binance-spot-api-docs/rest-api/general-api-information)
  *
  *
  * The version of the OpenAPI document: 1.0.0
@@ -17,11 +17,11 @@
  */
 
 #![allow(unused_imports)]
-use crate::spot::websocket_api::models;
+use crate::spot::rest_api::models;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
-pub struct AccountCommissionResponseRateLimitsInner {
+pub struct RateLimitsInner {
     #[serde(rename = "rateLimitType", skip_serializing_if = "Option::is_none")]
     pub rate_limit_type: Option<String>,
     #[serde(rename = "interval", skip_serializing_if = "Option::is_none")]
@@ -34,10 +34,10 @@ pub struct AccountCommissionResponseRateLimitsInner {
     pub count: Option<i64>,
 }
 
-impl AccountCommissionResponseRateLimitsInner {
+impl RateLimitsInner {
     #[must_use]
-    pub fn new() -> AccountCommissionResponseRateLimitsInner {
-        AccountCommissionResponseRateLimitsInner {
+    pub fn new() -> RateLimitsInner {
+        RateLimitsInner {
             rate_limit_type: None,
             interval: None,
             interval_num: None,

@@ -22,6 +22,14 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct OrderCancelReplaceResponse {
+    #[serde(rename = "cancelResult", skip_serializing_if = "Option::is_none")]
+    pub cancel_result: Option<String>,
+    #[serde(rename = "newOrderResult", skip_serializing_if = "Option::is_none")]
+    pub new_order_result: Option<String>,
+    #[serde(rename = "cancelResponse", skip_serializing_if = "Option::is_none")]
+    pub cancel_response: Option<Box<models::OrderCancelReplaceResponseCancelResponse>>,
+    #[serde(rename = "newOrderResponse", skip_serializing_if = "Option::is_none")]
+    pub new_order_response: Option<Box<models::OrderCancelReplaceResponseNewOrderResponse>>,
     #[serde(rename = "code", skip_serializing_if = "Option::is_none")]
     pub code: Option<i64>,
     #[serde(rename = "msg", skip_serializing_if = "Option::is_none")]
@@ -34,6 +42,10 @@ impl OrderCancelReplaceResponse {
     #[must_use]
     pub fn new() -> OrderCancelReplaceResponse {
         OrderCancelReplaceResponse {
+            cancel_result: None,
+            new_order_result: None,
+            cancel_response: None,
+            new_order_response: None,
             code: None,
             msg: None,
             data: None,

@@ -29,7 +29,7 @@ pub struct OpenOrdersStatusResponse {
     #[serde(rename = "result", skip_serializing_if = "Option::is_none")]
     pub result: Option<Vec<models::OpenOrdersStatusResponseResultInner>>,
     #[serde(rename = "rateLimits", skip_serializing_if = "Option::is_none")]
-    pub rate_limits: Option<Vec<models::OpenOrderListsStatusResponseRateLimitsInner>>,
+    pub rate_limits: Option<Vec<models::RateLimitsInner>>,
 }
 
 impl OpenOrdersStatusResponse {

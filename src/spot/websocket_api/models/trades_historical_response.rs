@@ -29,7 +29,7 @@ pub struct TradesHistoricalResponse {
     #[serde(rename = "result", skip_serializing_if = "Option::is_none")]
     pub result: Option<Vec<models::TradesHistoricalResponseResultInner>>,
     #[serde(rename = "rateLimits", skip_serializing_if = "Option::is_none")]
-    pub rate_limits: Option<Vec<models::TradesHistoricalResponseRateLimitsInner>>,
+    pub rate_limits: Option<Vec<models::RateLimitsInner>>,
 }
 
 impl TradesHistoricalResponse {

@@ -29,7 +29,7 @@ pub struct OrderListPlaceOtoResponse {
     #[serde(rename = "result", skip_serializing_if = "Option::is_none")]
     pub result: Option<Box<models::OrderListPlaceOtoResponseResult>>,
     #[serde(rename = "rateLimits", skip_serializing_if = "Option::is_none")]
-    pub rate_limits: Option<Vec<models::OrderListPlaceOtoResponseRateLimitsInner>>,
+    pub rate_limits: Option<Vec<models::RateLimitsInner>>,
 }
 
 impl OrderListPlaceOtoResponse {

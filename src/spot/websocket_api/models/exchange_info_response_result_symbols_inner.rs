@@ -82,7 +82,7 @@ pub struct ExchangeInfoResponseResultSymbolsInner {
     )]
     pub is_margin_trading_allowed: Option<bool>,
     #[serde(rename = "filters", skip_serializing_if = "Option::is_none")]
-    pub filters: Option<Vec<models::ExchangeInfoResponseResultExchangeFiltersInner>>,
+    pub filters: Option<Vec<models::ExchangeFiltersInner>>,
     #[serde(rename = "permissions", skip_serializing_if = "Option::is_none")]
     pub permissions: Option<Vec<String>>,
     #[serde(rename = "permissionSets", skip_serializing_if = "Option::is_none")]

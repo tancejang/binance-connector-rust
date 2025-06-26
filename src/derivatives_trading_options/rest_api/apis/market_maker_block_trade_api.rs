@@ -85,8 +85,20 @@ impl NewBlockTradeOrderSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewBlockTradeOrderSideEnum::Buy => "BUY",
-            NewBlockTradeOrderSideEnum::Sell => "SELL",
+            Self::Buy => "BUY",
+            Self::Sell => "SELL",
+        }
+    }
+}
+
+impl std::str::FromStr for NewBlockTradeOrderSideEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "BUY" => Ok(Self::Buy),
+            "SELL" => Ok(Self::Sell),
+            other => Err(format!("invalid NewBlockTradeOrderSideEnum: {}", other).into()),
         }
     }
 }
