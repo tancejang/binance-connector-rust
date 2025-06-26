@@ -24,14 +24,32 @@ use serde::{Deserialize, Serialize};
 pub struct Ticker24hrResponse2Inner {
     #[serde(rename = "symbol", skip_serializing_if = "Option::is_none")]
     pub symbol: Option<String>,
+    #[serde(rename = "priceChange", skip_serializing_if = "Option::is_none")]
+    pub price_change: Option<String>,
+    #[serde(rename = "priceChangePercent", skip_serializing_if = "Option::is_none")]
+    pub price_change_percent: Option<String>,
+    #[serde(rename = "weightedAvgPrice", skip_serializing_if = "Option::is_none")]
+    pub weighted_avg_price: Option<String>,
+    #[serde(rename = "prevClosePrice", skip_serializing_if = "Option::is_none")]
+    pub prev_close_price: Option<String>,
+    #[serde(rename = "lastPrice", skip_serializing_if = "Option::is_none")]
+    pub last_price: Option<String>,
+    #[serde(rename = "lastQty", skip_serializing_if = "Option::is_none")]
+    pub last_qty: Option<String>,
+    #[serde(rename = "bidPrice", skip_serializing_if = "Option::is_none")]
+    pub bid_price: Option<String>,
+    #[serde(rename = "bidQty", skip_serializing_if = "Option::is_none")]
+    pub bid_qty: Option<String>,
+    #[serde(rename = "askPrice", skip_serializing_if = "Option::is_none")]
+    pub ask_price: Option<String>,
+    #[serde(rename = "askQty", skip_serializing_if = "Option::is_none")]
+    pub ask_qty: Option<String>,
     #[serde(rename = "openPrice", skip_serializing_if = "Option::is_none")]
     pub open_price: Option<String>,
     #[serde(rename = "highPrice", skip_serializing_if = "Option::is_none")]
     pub high_price: Option<String>,
     #[serde(rename = "lowPrice", skip_serializing_if = "Option::is_none")]
     pub low_price: Option<String>,
-    #[serde(rename = "lastPrice", skip_serializing_if = "Option::is_none")]
-    pub last_price: Option<String>,
     #[serde(rename = "volume", skip_serializing_if = "Option::is_none")]
     pub volume: Option<String>,
     #[serde(rename = "quoteVolume", skip_serializing_if = "Option::is_none")]
@@ -53,10 +71,19 @@ impl Ticker24hrResponse2Inner {
     pub fn new() -> Ticker24hrResponse2Inner {
         Ticker24hrResponse2Inner {
             symbol: None,
+            price_change: None,
+            price_change_percent: None,
+            weighted_avg_price: None,
+            prev_close_price: None,
+            last_price: None,
+            last_qty: None,
+            bid_price: None,
+            bid_qty: None,
+            ask_price: None,
+            ask_qty: None,
             open_price: None,
             high_price: None,
             low_price: None,
-            last_price: None,
             volume: None,
             quote_volume: None,
             open_time: None,

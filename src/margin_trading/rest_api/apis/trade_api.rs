@@ -159,8 +159,20 @@ impl MarginAccountNewOcoSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            MarginAccountNewOcoSideEnum::Buy => "BUY",
-            MarginAccountNewOcoSideEnum::Sell => "SELL",
+            Self::Buy => "BUY",
+            Self::Sell => "SELL",
+        }
+    }
+}
+
+impl std::str::FromStr for MarginAccountNewOcoSideEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "BUY" => Ok(Self::Buy),
+            "SELL" => Ok(Self::Sell),
+            other => Err(format!("invalid MarginAccountNewOcoSideEnum: {}", other).into()),
         }
     }
 }
@@ -180,9 +192,24 @@ impl MarginAccountNewOcoNewOrderRespTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            MarginAccountNewOcoNewOrderRespTypeEnum::Ack => "ACK",
-            MarginAccountNewOcoNewOrderRespTypeEnum::Result => "RESULT",
-            MarginAccountNewOcoNewOrderRespTypeEnum::Full => "FULL",
+            Self::Ack => "ACK",
+            Self::Result => "RESULT",
+            Self::Full => "FULL",
+        }
+    }
+}
+
+impl std::str::FromStr for MarginAccountNewOcoNewOrderRespTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "ACK" => Ok(Self::Ack),
+            "RESULT" => Ok(Self::Result),
+            "FULL" => Ok(Self::Full),
+            other => {
+                Err(format!("invalid MarginAccountNewOcoNewOrderRespTypeEnum: {}", other).into())
+            }
         }
     }
 }
@@ -200,8 +227,20 @@ impl MarginAccountNewOrderSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            MarginAccountNewOrderSideEnum::Buy => "BUY",
-            MarginAccountNewOrderSideEnum::Sell => "SELL",
+            Self::Buy => "BUY",
+            Self::Sell => "SELL",
+        }
+    }
+}
+
+impl std::str::FromStr for MarginAccountNewOrderSideEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "BUY" => Ok(Self::Buy),
+            "SELL" => Ok(Self::Sell),
+            other => Err(format!("invalid MarginAccountNewOrderSideEnum: {}", other).into()),
         }
     }
 }
@@ -221,9 +260,26 @@ impl MarginAccountNewOrderNewOrderRespTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            MarginAccountNewOrderNewOrderRespTypeEnum::Ack => "ACK",
-            MarginAccountNewOrderNewOrderRespTypeEnum::Result => "RESULT",
-            MarginAccountNewOrderNewOrderRespTypeEnum::Full => "FULL",
+            Self::Ack => "ACK",
+            Self::Result => "RESULT",
+            Self::Full => "FULL",
+        }
+    }
+}
+
+impl std::str::FromStr for MarginAccountNewOrderNewOrderRespTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "ACK" => Ok(Self::Ack),
+            "RESULT" => Ok(Self::Result),
+            "FULL" => Ok(Self::Full),
+            other => Err(format!(
+                "invalid MarginAccountNewOrderNewOrderRespTypeEnum: {}",
+                other
+            )
+            .into()),
         }
     }
 }
@@ -243,9 +299,22 @@ impl MarginAccountNewOrderTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            MarginAccountNewOrderTimeInForceEnum::Gtc => "GTC",
-            MarginAccountNewOrderTimeInForceEnum::Ioc => "IOC",
-            MarginAccountNewOrderTimeInForceEnum::Fok => "FOK",
+            Self::Gtc => "GTC",
+            Self::Ioc => "IOC",
+            Self::Fok => "FOK",
+        }
+    }
+}
+
+impl std::str::FromStr for MarginAccountNewOrderTimeInForceEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "GTC" => Ok(Self::Gtc),
+            "IOC" => Ok(Self::Ioc),
+            "FOK" => Ok(Self::Fok),
+            other => Err(format!("invalid MarginAccountNewOrderTimeInForceEnum: {}", other).into()),
         }
     }
 }
@@ -265,9 +334,24 @@ impl MarginAccountNewOtoNewOrderRespTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            MarginAccountNewOtoNewOrderRespTypeEnum::Ack => "ACK",
-            MarginAccountNewOtoNewOrderRespTypeEnum::Result => "RESULT",
-            MarginAccountNewOtoNewOrderRespTypeEnum::Full => "FULL",
+            Self::Ack => "ACK",
+            Self::Result => "RESULT",
+            Self::Full => "FULL",
+        }
+    }
+}
+
+impl std::str::FromStr for MarginAccountNewOtoNewOrderRespTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "ACK" => Ok(Self::Ack),
+            "RESULT" => Ok(Self::Result),
+            "FULL" => Ok(Self::Full),
+            other => {
+                Err(format!("invalid MarginAccountNewOtoNewOrderRespTypeEnum: {}", other).into())
+            }
         }
     }
 }
@@ -287,9 +371,26 @@ impl MarginAccountNewOtocoNewOrderRespTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            MarginAccountNewOtocoNewOrderRespTypeEnum::Ack => "ACK",
-            MarginAccountNewOtocoNewOrderRespTypeEnum::Result => "RESULT",
-            MarginAccountNewOtocoNewOrderRespTypeEnum::Full => "FULL",
+            Self::Ack => "ACK",
+            Self::Result => "RESULT",
+            Self::Full => "FULL",
+        }
+    }
+}
+
+impl std::str::FromStr for MarginAccountNewOtocoNewOrderRespTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "ACK" => Ok(Self::Ack),
+            "RESULT" => Ok(Self::Result),
+            "FULL" => Ok(Self::Full),
+            other => Err(format!(
+                "invalid MarginAccountNewOtocoNewOrderRespTypeEnum: {}",
+                other
+            )
+            .into()),
         }
     }
 }

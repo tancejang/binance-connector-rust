@@ -24,6 +24,12 @@ use serde::{Deserialize, Serialize};
 pub struct TickerTradingDayResponse2Inner {
     #[serde(rename = "symbol", skip_serializing_if = "Option::is_none")]
     pub symbol: Option<String>,
+    #[serde(rename = "priceChange", skip_serializing_if = "Option::is_none")]
+    pub price_change: Option<String>,
+    #[serde(rename = "priceChangePercent", skip_serializing_if = "Option::is_none")]
+    pub price_change_percent: Option<String>,
+    #[serde(rename = "weightedAvgPrice", skip_serializing_if = "Option::is_none")]
+    pub weighted_avg_price: Option<String>,
     #[serde(rename = "openPrice", skip_serializing_if = "Option::is_none")]
     pub open_price: Option<String>,
     #[serde(rename = "highPrice", skip_serializing_if = "Option::is_none")]
@@ -53,6 +59,9 @@ impl TickerTradingDayResponse2Inner {
     pub fn new() -> TickerTradingDayResponse2Inner {
         TickerTradingDayResponse2Inner {
             symbol: None,
+            price_change: None,
+            price_change_percent: None,
+            weighted_avg_price: None,
             open_price: None,
             high_price: None,
             low_price: None,

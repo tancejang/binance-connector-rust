@@ -1,5 +1,48 @@
 # Changelog
 
+## 6.0.0 - 2025-06-26
+
+### Added (1)
+
+- Added implementation of the `FromStr` trait for enums.
+
+### Changed (10)
+
+- Replaced the bounded broadcast channel in `WebsocketEventEmitter` with an unbounded channel.
+
+**Spot**
+
+#### REST API
+
+- `RateLimits` is unified as a single object
+- `ExchangeFilters` is unified as a single object
+- Modified response for `exchange_info()` method (`GET /api/v3/exchangeInfo`):
+  - `rate_limits`: item property `count` added
+- Modified response for `order_cancel_replace()` method (`POST /api/v3/order/cancelReplace`):
+  - property `newOrderResponse` added
+  - property `newOrderResult` added
+  - property `cancelResponse` added
+  - property `cancelResult` added
+  - `data`.`cancelResponse`: property `code` added
+  - `data`.`cancelResponse`: property `msg` added
+  - `data`.`newOrderResponse`: property `symbol` added
+  - `data`.`newOrderResponse`: property `transactTime` added
+  - `data`.`newOrderResponse`: property `clientOrderId` added
+  - `data`.`newOrderResponse`: property `orderId` added
+  - `data`.`newOrderResponse`: property `orderListId` added
+
+- Modified response for `ticker()` method (`GET /api/v3/ticker`)
+- Modified response for `ticker24hr()` method (`GET /api/v3/ticker/24hr`)
+- Modified response for `ticker_trading_day()` method (`GET /api/v3/ticker/tradingDay`)
+
+#### WebSocket API
+
+- `RateLimits` is unified as a single object
+- `ExchangeFilters` is unified as a single object
+- Modified response for `exchange_info()` method (`POST /exchangeInfo`):
+  - `rate_limits`: item property `count` added
+  - `result`.`rate_limits`: item property `count` added
+
 ## 5.0.0 - 2025-06-24
 
 ### Changed (3)

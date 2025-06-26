@@ -287,8 +287,20 @@ impl MarginAccountNewOcoSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            MarginAccountNewOcoSideEnum::Buy => "BUY",
-            MarginAccountNewOcoSideEnum::Sell => "SELL",
+            Self::Buy => "BUY",
+            Self::Sell => "SELL",
+        }
+    }
+}
+
+impl std::str::FromStr for MarginAccountNewOcoSideEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "BUY" => Ok(Self::Buy),
+            "SELL" => Ok(Self::Sell),
+            other => Err(format!("invalid MarginAccountNewOcoSideEnum: {}", other).into()),
         }
     }
 }
@@ -308,9 +320,26 @@ impl MarginAccountNewOcoStopLimitTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            MarginAccountNewOcoStopLimitTimeInForceEnum::Gtc => "GTC",
-            MarginAccountNewOcoStopLimitTimeInForceEnum::Ioc => "IOC",
-            MarginAccountNewOcoStopLimitTimeInForceEnum::Fok => "FOK",
+            Self::Gtc => "GTC",
+            Self::Ioc => "IOC",
+            Self::Fok => "FOK",
+        }
+    }
+}
+
+impl std::str::FromStr for MarginAccountNewOcoStopLimitTimeInForceEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "GTC" => Ok(Self::Gtc),
+            "IOC" => Ok(Self::Ioc),
+            "FOK" => Ok(Self::Fok),
+            other => Err(format!(
+                "invalid MarginAccountNewOcoStopLimitTimeInForceEnum: {}",
+                other
+            )
+            .into()),
         }
     }
 }
@@ -328,8 +357,22 @@ impl MarginAccountNewOcoNewOrderRespTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            MarginAccountNewOcoNewOrderRespTypeEnum::Ack => "ACK",
-            MarginAccountNewOcoNewOrderRespTypeEnum::Result => "RESULT",
+            Self::Ack => "ACK",
+            Self::Result => "RESULT",
+        }
+    }
+}
+
+impl std::str::FromStr for MarginAccountNewOcoNewOrderRespTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "ACK" => Ok(Self::Ack),
+            "RESULT" => Ok(Self::Result),
+            other => {
+                Err(format!("invalid MarginAccountNewOcoNewOrderRespTypeEnum: {}", other).into())
+            }
         }
     }
 }
@@ -349,9 +392,24 @@ impl MarginAccountNewOcoSideEffectTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            MarginAccountNewOcoSideEffectTypeEnum::NoSideEffect => "NO_SIDE_EFFECT",
-            MarginAccountNewOcoSideEffectTypeEnum::MarginBuy => "MARGIN_BUY",
-            MarginAccountNewOcoSideEffectTypeEnum::AutoRepay => "AUTO_REPAY",
+            Self::NoSideEffect => "NO_SIDE_EFFECT",
+            Self::MarginBuy => "MARGIN_BUY",
+            Self::AutoRepay => "AUTO_REPAY",
+        }
+    }
+}
+
+impl std::str::FromStr for MarginAccountNewOcoSideEffectTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "NO_SIDE_EFFECT" => Ok(Self::NoSideEffect),
+            "MARGIN_BUY" => Ok(Self::MarginBuy),
+            "AUTO_REPAY" => Ok(Self::AutoRepay),
+            other => {
+                Err(format!("invalid MarginAccountNewOcoSideEffectTypeEnum: {}", other).into())
+            }
         }
     }
 }
@@ -369,8 +427,20 @@ impl ModifyCmOrderSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            ModifyCmOrderSideEnum::Buy => "BUY",
-            ModifyCmOrderSideEnum::Sell => "SELL",
+            Self::Buy => "BUY",
+            Self::Sell => "SELL",
+        }
+    }
+}
+
+impl std::str::FromStr for ModifyCmOrderSideEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "BUY" => Ok(Self::Buy),
+            "SELL" => Ok(Self::Sell),
+            other => Err(format!("invalid ModifyCmOrderSideEnum: {}", other).into()),
         }
     }
 }
@@ -402,15 +472,34 @@ impl ModifyCmOrderPriceMatchEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            ModifyCmOrderPriceMatchEnum::None => "NONE",
-            ModifyCmOrderPriceMatchEnum::Opponent => "OPPONENT",
-            ModifyCmOrderPriceMatchEnum::Opponent5 => "OPPONENT_5",
-            ModifyCmOrderPriceMatchEnum::Opponent10 => "OPPONENT_10",
-            ModifyCmOrderPriceMatchEnum::Opponent20 => "OPPONENT_20",
-            ModifyCmOrderPriceMatchEnum::Queue => "QUEUE",
-            ModifyCmOrderPriceMatchEnum::Queue5 => "QUEUE_5",
-            ModifyCmOrderPriceMatchEnum::Queue10 => "QUEUE_10",
-            ModifyCmOrderPriceMatchEnum::Queue20 => "QUEUE_20",
+            Self::None => "NONE",
+            Self::Opponent => "OPPONENT",
+            Self::Opponent5 => "OPPONENT_5",
+            Self::Opponent10 => "OPPONENT_10",
+            Self::Opponent20 => "OPPONENT_20",
+            Self::Queue => "QUEUE",
+            Self::Queue5 => "QUEUE_5",
+            Self::Queue10 => "QUEUE_10",
+            Self::Queue20 => "QUEUE_20",
+        }
+    }
+}
+
+impl std::str::FromStr for ModifyCmOrderPriceMatchEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "NONE" => Ok(Self::None),
+            "OPPONENT" => Ok(Self::Opponent),
+            "OPPONENT_5" => Ok(Self::Opponent5),
+            "OPPONENT_10" => Ok(Self::Opponent10),
+            "OPPONENT_20" => Ok(Self::Opponent20),
+            "QUEUE" => Ok(Self::Queue),
+            "QUEUE_5" => Ok(Self::Queue5),
+            "QUEUE_10" => Ok(Self::Queue10),
+            "QUEUE_20" => Ok(Self::Queue20),
+            other => Err(format!("invalid ModifyCmOrderPriceMatchEnum: {}", other).into()),
         }
     }
 }
@@ -428,8 +517,20 @@ impl ModifyUmOrderSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            ModifyUmOrderSideEnum::Buy => "BUY",
-            ModifyUmOrderSideEnum::Sell => "SELL",
+            Self::Buy => "BUY",
+            Self::Sell => "SELL",
+        }
+    }
+}
+
+impl std::str::FromStr for ModifyUmOrderSideEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "BUY" => Ok(Self::Buy),
+            "SELL" => Ok(Self::Sell),
+            other => Err(format!("invalid ModifyUmOrderSideEnum: {}", other).into()),
         }
     }
 }
@@ -461,15 +562,34 @@ impl ModifyUmOrderPriceMatchEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            ModifyUmOrderPriceMatchEnum::None => "NONE",
-            ModifyUmOrderPriceMatchEnum::Opponent => "OPPONENT",
-            ModifyUmOrderPriceMatchEnum::Opponent5 => "OPPONENT_5",
-            ModifyUmOrderPriceMatchEnum::Opponent10 => "OPPONENT_10",
-            ModifyUmOrderPriceMatchEnum::Opponent20 => "OPPONENT_20",
-            ModifyUmOrderPriceMatchEnum::Queue => "QUEUE",
-            ModifyUmOrderPriceMatchEnum::Queue5 => "QUEUE_5",
-            ModifyUmOrderPriceMatchEnum::Queue10 => "QUEUE_10",
-            ModifyUmOrderPriceMatchEnum::Queue20 => "QUEUE_20",
+            Self::None => "NONE",
+            Self::Opponent => "OPPONENT",
+            Self::Opponent5 => "OPPONENT_5",
+            Self::Opponent10 => "OPPONENT_10",
+            Self::Opponent20 => "OPPONENT_20",
+            Self::Queue => "QUEUE",
+            Self::Queue5 => "QUEUE_5",
+            Self::Queue10 => "QUEUE_10",
+            Self::Queue20 => "QUEUE_20",
+        }
+    }
+}
+
+impl std::str::FromStr for ModifyUmOrderPriceMatchEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "NONE" => Ok(Self::None),
+            "OPPONENT" => Ok(Self::Opponent),
+            "OPPONENT_5" => Ok(Self::Opponent5),
+            "OPPONENT_10" => Ok(Self::Opponent10),
+            "OPPONENT_20" => Ok(Self::Opponent20),
+            "QUEUE" => Ok(Self::Queue),
+            "QUEUE_5" => Ok(Self::Queue5),
+            "QUEUE_10" => Ok(Self::Queue10),
+            "QUEUE_20" => Ok(Self::Queue20),
+            other => Err(format!("invalid ModifyUmOrderPriceMatchEnum: {}", other).into()),
         }
     }
 }
@@ -487,8 +607,20 @@ impl NewCmConditionalOrderSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewCmConditionalOrderSideEnum::Buy => "BUY",
-            NewCmConditionalOrderSideEnum::Sell => "SELL",
+            Self::Buy => "BUY",
+            Self::Sell => "SELL",
+        }
+    }
+}
+
+impl std::str::FromStr for NewCmConditionalOrderSideEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "BUY" => Ok(Self::Buy),
+            "SELL" => Ok(Self::Sell),
+            other => Err(format!("invalid NewCmConditionalOrderSideEnum: {}", other).into()),
         }
     }
 }
@@ -512,11 +644,28 @@ impl NewCmConditionalOrderStrategyTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewCmConditionalOrderStrategyTypeEnum::Stop => "STOP",
-            NewCmConditionalOrderStrategyTypeEnum::StopMarket => "STOP_MARKET",
-            NewCmConditionalOrderStrategyTypeEnum::TakeProfit => "TAKE_PROFIT",
-            NewCmConditionalOrderStrategyTypeEnum::TakeProfitMarket => "TAKE_PROFIT_MARKET",
-            NewCmConditionalOrderStrategyTypeEnum::TrailingStopMarket => "TRAILING_STOP_MARKET",
+            Self::Stop => "STOP",
+            Self::StopMarket => "STOP_MARKET",
+            Self::TakeProfit => "TAKE_PROFIT",
+            Self::TakeProfitMarket => "TAKE_PROFIT_MARKET",
+            Self::TrailingStopMarket => "TRAILING_STOP_MARKET",
+        }
+    }
+}
+
+impl std::str::FromStr for NewCmConditionalOrderStrategyTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "STOP" => Ok(Self::Stop),
+            "STOP_MARKET" => Ok(Self::StopMarket),
+            "TAKE_PROFIT" => Ok(Self::TakeProfit),
+            "TAKE_PROFIT_MARKET" => Ok(Self::TakeProfitMarket),
+            "TRAILING_STOP_MARKET" => Ok(Self::TrailingStopMarket),
+            other => {
+                Err(format!("invalid NewCmConditionalOrderStrategyTypeEnum: {}", other).into())
+            }
         }
     }
 }
@@ -536,9 +685,24 @@ impl NewCmConditionalOrderPositionSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewCmConditionalOrderPositionSideEnum::Both => "BOTH",
-            NewCmConditionalOrderPositionSideEnum::Long => "LONG",
-            NewCmConditionalOrderPositionSideEnum::Short => "SHORT",
+            Self::Both => "BOTH",
+            Self::Long => "LONG",
+            Self::Short => "SHORT",
+        }
+    }
+}
+
+impl std::str::FromStr for NewCmConditionalOrderPositionSideEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "BOTH" => Ok(Self::Both),
+            "LONG" => Ok(Self::Long),
+            "SHORT" => Ok(Self::Short),
+            other => {
+                Err(format!("invalid NewCmConditionalOrderPositionSideEnum: {}", other).into())
+            }
         }
     }
 }
@@ -560,10 +724,24 @@ impl NewCmConditionalOrderTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewCmConditionalOrderTimeInForceEnum::Gtc => "GTC",
-            NewCmConditionalOrderTimeInForceEnum::Ioc => "IOC",
-            NewCmConditionalOrderTimeInForceEnum::Fok => "FOK",
-            NewCmConditionalOrderTimeInForceEnum::Gtx => "GTX",
+            Self::Gtc => "GTC",
+            Self::Ioc => "IOC",
+            Self::Fok => "FOK",
+            Self::Gtx => "GTX",
+        }
+    }
+}
+
+impl std::str::FromStr for NewCmConditionalOrderTimeInForceEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "GTC" => Ok(Self::Gtc),
+            "IOC" => Ok(Self::Ioc),
+            "FOK" => Ok(Self::Fok),
+            "GTX" => Ok(Self::Gtx),
+            other => Err(format!("invalid NewCmConditionalOrderTimeInForceEnum: {}", other).into()),
         }
     }
 }
@@ -579,7 +757,18 @@ impl NewCmConditionalOrderWorkingTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewCmConditionalOrderWorkingTypeEnum::MarkPrice => "MARK_PRICE",
+            Self::MarkPrice => "MARK_PRICE",
+        }
+    }
+}
+
+impl std::str::FromStr for NewCmConditionalOrderWorkingTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "MARK_PRICE" => Ok(Self::MarkPrice),
+            other => Err(format!("invalid NewCmConditionalOrderWorkingTypeEnum: {}", other).into()),
         }
     }
 }
@@ -597,8 +786,20 @@ impl NewCmOrderSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewCmOrderSideEnum::Buy => "BUY",
-            NewCmOrderSideEnum::Sell => "SELL",
+            Self::Buy => "BUY",
+            Self::Sell => "SELL",
+        }
+    }
+}
+
+impl std::str::FromStr for NewCmOrderSideEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "BUY" => Ok(Self::Buy),
+            "SELL" => Ok(Self::Sell),
+            other => Err(format!("invalid NewCmOrderSideEnum: {}", other).into()),
         }
     }
 }
@@ -616,8 +817,20 @@ impl NewCmOrderTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewCmOrderTypeEnum::Limit => "LIMIT",
-            NewCmOrderTypeEnum::Market => "MARKET",
+            Self::Limit => "LIMIT",
+            Self::Market => "MARKET",
+        }
+    }
+}
+
+impl std::str::FromStr for NewCmOrderTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "LIMIT" => Ok(Self::Limit),
+            "MARKET" => Ok(Self::Market),
+            other => Err(format!("invalid NewCmOrderTypeEnum: {}", other).into()),
         }
     }
 }
@@ -637,9 +850,22 @@ impl NewCmOrderPositionSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewCmOrderPositionSideEnum::Both => "BOTH",
-            NewCmOrderPositionSideEnum::Long => "LONG",
-            NewCmOrderPositionSideEnum::Short => "SHORT",
+            Self::Both => "BOTH",
+            Self::Long => "LONG",
+            Self::Short => "SHORT",
+        }
+    }
+}
+
+impl std::str::FromStr for NewCmOrderPositionSideEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "BOTH" => Ok(Self::Both),
+            "LONG" => Ok(Self::Long),
+            "SHORT" => Ok(Self::Short),
+            other => Err(format!("invalid NewCmOrderPositionSideEnum: {}", other).into()),
         }
     }
 }
@@ -661,10 +887,24 @@ impl NewCmOrderTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewCmOrderTimeInForceEnum::Gtc => "GTC",
-            NewCmOrderTimeInForceEnum::Ioc => "IOC",
-            NewCmOrderTimeInForceEnum::Fok => "FOK",
-            NewCmOrderTimeInForceEnum::Gtx => "GTX",
+            Self::Gtc => "GTC",
+            Self::Ioc => "IOC",
+            Self::Fok => "FOK",
+            Self::Gtx => "GTX",
+        }
+    }
+}
+
+impl std::str::FromStr for NewCmOrderTimeInForceEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "GTC" => Ok(Self::Gtc),
+            "IOC" => Ok(Self::Ioc),
+            "FOK" => Ok(Self::Fok),
+            "GTX" => Ok(Self::Gtx),
+            other => Err(format!("invalid NewCmOrderTimeInForceEnum: {}", other).into()),
         }
     }
 }
@@ -696,15 +936,34 @@ impl NewCmOrderPriceMatchEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewCmOrderPriceMatchEnum::None => "NONE",
-            NewCmOrderPriceMatchEnum::Opponent => "OPPONENT",
-            NewCmOrderPriceMatchEnum::Opponent5 => "OPPONENT_5",
-            NewCmOrderPriceMatchEnum::Opponent10 => "OPPONENT_10",
-            NewCmOrderPriceMatchEnum::Opponent20 => "OPPONENT_20",
-            NewCmOrderPriceMatchEnum::Queue => "QUEUE",
-            NewCmOrderPriceMatchEnum::Queue5 => "QUEUE_5",
-            NewCmOrderPriceMatchEnum::Queue10 => "QUEUE_10",
-            NewCmOrderPriceMatchEnum::Queue20 => "QUEUE_20",
+            Self::None => "NONE",
+            Self::Opponent => "OPPONENT",
+            Self::Opponent5 => "OPPONENT_5",
+            Self::Opponent10 => "OPPONENT_10",
+            Self::Opponent20 => "OPPONENT_20",
+            Self::Queue => "QUEUE",
+            Self::Queue5 => "QUEUE_5",
+            Self::Queue10 => "QUEUE_10",
+            Self::Queue20 => "QUEUE_20",
+        }
+    }
+}
+
+impl std::str::FromStr for NewCmOrderPriceMatchEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "NONE" => Ok(Self::None),
+            "OPPONENT" => Ok(Self::Opponent),
+            "OPPONENT_5" => Ok(Self::Opponent5),
+            "OPPONENT_10" => Ok(Self::Opponent10),
+            "OPPONENT_20" => Ok(Self::Opponent20),
+            "QUEUE" => Ok(Self::Queue),
+            "QUEUE_5" => Ok(Self::Queue5),
+            "QUEUE_10" => Ok(Self::Queue10),
+            "QUEUE_20" => Ok(Self::Queue20),
+            other => Err(format!("invalid NewCmOrderPriceMatchEnum: {}", other).into()),
         }
     }
 }
@@ -722,8 +981,20 @@ impl NewCmOrderNewOrderRespTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewCmOrderNewOrderRespTypeEnum::Ack => "ACK",
-            NewCmOrderNewOrderRespTypeEnum::Result => "RESULT",
+            Self::Ack => "ACK",
+            Self::Result => "RESULT",
+        }
+    }
+}
+
+impl std::str::FromStr for NewCmOrderNewOrderRespTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "ACK" => Ok(Self::Ack),
+            "RESULT" => Ok(Self::Result),
+            other => Err(format!("invalid NewCmOrderNewOrderRespTypeEnum: {}", other).into()),
         }
     }
 }
@@ -741,8 +1012,20 @@ impl NewMarginOrderSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewMarginOrderSideEnum::Buy => "BUY",
-            NewMarginOrderSideEnum::Sell => "SELL",
+            Self::Buy => "BUY",
+            Self::Sell => "SELL",
+        }
+    }
+}
+
+impl std::str::FromStr for NewMarginOrderSideEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "BUY" => Ok(Self::Buy),
+            "SELL" => Ok(Self::Sell),
+            other => Err(format!("invalid NewMarginOrderSideEnum: {}", other).into()),
         }
     }
 }
@@ -760,8 +1043,20 @@ impl NewMarginOrderTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewMarginOrderTypeEnum::Limit => "LIMIT",
-            NewMarginOrderTypeEnum::Market => "MARKET",
+            Self::Limit => "LIMIT",
+            Self::Market => "MARKET",
+        }
+    }
+}
+
+impl std::str::FromStr for NewMarginOrderTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "LIMIT" => Ok(Self::Limit),
+            "MARKET" => Ok(Self::Market),
+            other => Err(format!("invalid NewMarginOrderTypeEnum: {}", other).into()),
         }
     }
 }
@@ -779,8 +1074,20 @@ impl NewMarginOrderNewOrderRespTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewMarginOrderNewOrderRespTypeEnum::Ack => "ACK",
-            NewMarginOrderNewOrderRespTypeEnum::Result => "RESULT",
+            Self::Ack => "ACK",
+            Self::Result => "RESULT",
+        }
+    }
+}
+
+impl std::str::FromStr for NewMarginOrderNewOrderRespTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "ACK" => Ok(Self::Ack),
+            "RESULT" => Ok(Self::Result),
+            other => Err(format!("invalid NewMarginOrderNewOrderRespTypeEnum: {}", other).into()),
         }
     }
 }
@@ -800,9 +1107,22 @@ impl NewMarginOrderSideEffectTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewMarginOrderSideEffectTypeEnum::NoSideEffect => "NO_SIDE_EFFECT",
-            NewMarginOrderSideEffectTypeEnum::MarginBuy => "MARGIN_BUY",
-            NewMarginOrderSideEffectTypeEnum::AutoRepay => "AUTO_REPAY",
+            Self::NoSideEffect => "NO_SIDE_EFFECT",
+            Self::MarginBuy => "MARGIN_BUY",
+            Self::AutoRepay => "AUTO_REPAY",
+        }
+    }
+}
+
+impl std::str::FromStr for NewMarginOrderSideEffectTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "NO_SIDE_EFFECT" => Ok(Self::NoSideEffect),
+            "MARGIN_BUY" => Ok(Self::MarginBuy),
+            "AUTO_REPAY" => Ok(Self::AutoRepay),
+            other => Err(format!("invalid NewMarginOrderSideEffectTypeEnum: {}", other).into()),
         }
     }
 }
@@ -824,10 +1144,24 @@ impl NewMarginOrderTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewMarginOrderTimeInForceEnum::Gtc => "GTC",
-            NewMarginOrderTimeInForceEnum::Ioc => "IOC",
-            NewMarginOrderTimeInForceEnum::Fok => "FOK",
-            NewMarginOrderTimeInForceEnum::Gtx => "GTX",
+            Self::Gtc => "GTC",
+            Self::Ioc => "IOC",
+            Self::Fok => "FOK",
+            Self::Gtx => "GTX",
+        }
+    }
+}
+
+impl std::str::FromStr for NewMarginOrderTimeInForceEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "GTC" => Ok(Self::Gtc),
+            "IOC" => Ok(Self::Ioc),
+            "FOK" => Ok(Self::Fok),
+            "GTX" => Ok(Self::Gtx),
+            other => Err(format!("invalid NewMarginOrderTimeInForceEnum: {}", other).into()),
         }
     }
 }
@@ -849,10 +1183,28 @@ impl NewMarginOrderSelfTradePreventionModeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewMarginOrderSelfTradePreventionModeEnum::None => "NONE",
-            NewMarginOrderSelfTradePreventionModeEnum::ExpireTaker => "EXPIRE_TAKER",
-            NewMarginOrderSelfTradePreventionModeEnum::ExpireBoth => "EXPIRE_BOTH",
-            NewMarginOrderSelfTradePreventionModeEnum::ExpireMaker => "EXPIRE_MAKER",
+            Self::None => "NONE",
+            Self::ExpireTaker => "EXPIRE_TAKER",
+            Self::ExpireBoth => "EXPIRE_BOTH",
+            Self::ExpireMaker => "EXPIRE_MAKER",
+        }
+    }
+}
+
+impl std::str::FromStr for NewMarginOrderSelfTradePreventionModeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "NONE" => Ok(Self::None),
+            "EXPIRE_TAKER" => Ok(Self::ExpireTaker),
+            "EXPIRE_BOTH" => Ok(Self::ExpireBoth),
+            "EXPIRE_MAKER" => Ok(Self::ExpireMaker),
+            other => Err(format!(
+                "invalid NewMarginOrderSelfTradePreventionModeEnum: {}",
+                other
+            )
+            .into()),
         }
     }
 }
@@ -870,8 +1222,20 @@ impl NewUmConditionalOrderSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewUmConditionalOrderSideEnum::Buy => "BUY",
-            NewUmConditionalOrderSideEnum::Sell => "SELL",
+            Self::Buy => "BUY",
+            Self::Sell => "SELL",
+        }
+    }
+}
+
+impl std::str::FromStr for NewUmConditionalOrderSideEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "BUY" => Ok(Self::Buy),
+            "SELL" => Ok(Self::Sell),
+            other => Err(format!("invalid NewUmConditionalOrderSideEnum: {}", other).into()),
         }
     }
 }
@@ -895,11 +1259,28 @@ impl NewUmConditionalOrderStrategyTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewUmConditionalOrderStrategyTypeEnum::Stop => "STOP",
-            NewUmConditionalOrderStrategyTypeEnum::StopMarket => "STOP_MARKET",
-            NewUmConditionalOrderStrategyTypeEnum::TakeProfit => "TAKE_PROFIT",
-            NewUmConditionalOrderStrategyTypeEnum::TakeProfitMarket => "TAKE_PROFIT_MARKET",
-            NewUmConditionalOrderStrategyTypeEnum::TrailingStopMarket => "TRAILING_STOP_MARKET",
+            Self::Stop => "STOP",
+            Self::StopMarket => "STOP_MARKET",
+            Self::TakeProfit => "TAKE_PROFIT",
+            Self::TakeProfitMarket => "TAKE_PROFIT_MARKET",
+            Self::TrailingStopMarket => "TRAILING_STOP_MARKET",
+        }
+    }
+}
+
+impl std::str::FromStr for NewUmConditionalOrderStrategyTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "STOP" => Ok(Self::Stop),
+            "STOP_MARKET" => Ok(Self::StopMarket),
+            "TAKE_PROFIT" => Ok(Self::TakeProfit),
+            "TAKE_PROFIT_MARKET" => Ok(Self::TakeProfitMarket),
+            "TRAILING_STOP_MARKET" => Ok(Self::TrailingStopMarket),
+            other => {
+                Err(format!("invalid NewUmConditionalOrderStrategyTypeEnum: {}", other).into())
+            }
         }
     }
 }
@@ -919,9 +1300,24 @@ impl NewUmConditionalOrderPositionSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewUmConditionalOrderPositionSideEnum::Both => "BOTH",
-            NewUmConditionalOrderPositionSideEnum::Long => "LONG",
-            NewUmConditionalOrderPositionSideEnum::Short => "SHORT",
+            Self::Both => "BOTH",
+            Self::Long => "LONG",
+            Self::Short => "SHORT",
+        }
+    }
+}
+
+impl std::str::FromStr for NewUmConditionalOrderPositionSideEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "BOTH" => Ok(Self::Both),
+            "LONG" => Ok(Self::Long),
+            "SHORT" => Ok(Self::Short),
+            other => {
+                Err(format!("invalid NewUmConditionalOrderPositionSideEnum: {}", other).into())
+            }
         }
     }
 }
@@ -943,10 +1339,24 @@ impl NewUmConditionalOrderTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewUmConditionalOrderTimeInForceEnum::Gtc => "GTC",
-            NewUmConditionalOrderTimeInForceEnum::Ioc => "IOC",
-            NewUmConditionalOrderTimeInForceEnum::Fok => "FOK",
-            NewUmConditionalOrderTimeInForceEnum::Gtx => "GTX",
+            Self::Gtc => "GTC",
+            Self::Ioc => "IOC",
+            Self::Fok => "FOK",
+            Self::Gtx => "GTX",
+        }
+    }
+}
+
+impl std::str::FromStr for NewUmConditionalOrderTimeInForceEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "GTC" => Ok(Self::Gtc),
+            "IOC" => Ok(Self::Ioc),
+            "FOK" => Ok(Self::Fok),
+            "GTX" => Ok(Self::Gtx),
+            other => Err(format!("invalid NewUmConditionalOrderTimeInForceEnum: {}", other).into()),
         }
     }
 }
@@ -962,7 +1372,18 @@ impl NewUmConditionalOrderWorkingTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewUmConditionalOrderWorkingTypeEnum::MarkPrice => "MARK_PRICE",
+            Self::MarkPrice => "MARK_PRICE",
+        }
+    }
+}
+
+impl std::str::FromStr for NewUmConditionalOrderWorkingTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "MARK_PRICE" => Ok(Self::MarkPrice),
+            other => Err(format!("invalid NewUmConditionalOrderWorkingTypeEnum: {}", other).into()),
         }
     }
 }
@@ -994,15 +1415,34 @@ impl NewUmConditionalOrderPriceMatchEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewUmConditionalOrderPriceMatchEnum::None => "NONE",
-            NewUmConditionalOrderPriceMatchEnum::Opponent => "OPPONENT",
-            NewUmConditionalOrderPriceMatchEnum::Opponent5 => "OPPONENT_5",
-            NewUmConditionalOrderPriceMatchEnum::Opponent10 => "OPPONENT_10",
-            NewUmConditionalOrderPriceMatchEnum::Opponent20 => "OPPONENT_20",
-            NewUmConditionalOrderPriceMatchEnum::Queue => "QUEUE",
-            NewUmConditionalOrderPriceMatchEnum::Queue5 => "QUEUE_5",
-            NewUmConditionalOrderPriceMatchEnum::Queue10 => "QUEUE_10",
-            NewUmConditionalOrderPriceMatchEnum::Queue20 => "QUEUE_20",
+            Self::None => "NONE",
+            Self::Opponent => "OPPONENT",
+            Self::Opponent5 => "OPPONENT_5",
+            Self::Opponent10 => "OPPONENT_10",
+            Self::Opponent20 => "OPPONENT_20",
+            Self::Queue => "QUEUE",
+            Self::Queue5 => "QUEUE_5",
+            Self::Queue10 => "QUEUE_10",
+            Self::Queue20 => "QUEUE_20",
+        }
+    }
+}
+
+impl std::str::FromStr for NewUmConditionalOrderPriceMatchEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "NONE" => Ok(Self::None),
+            "OPPONENT" => Ok(Self::Opponent),
+            "OPPONENT_5" => Ok(Self::Opponent5),
+            "OPPONENT_10" => Ok(Self::Opponent10),
+            "OPPONENT_20" => Ok(Self::Opponent20),
+            "QUEUE" => Ok(Self::Queue),
+            "QUEUE_5" => Ok(Self::Queue5),
+            "QUEUE_10" => Ok(Self::Queue10),
+            "QUEUE_20" => Ok(Self::Queue20),
+            other => Err(format!("invalid NewUmConditionalOrderPriceMatchEnum: {}", other).into()),
         }
     }
 }
@@ -1024,10 +1464,28 @@ impl NewUmConditionalOrderSelfTradePreventionModeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewUmConditionalOrderSelfTradePreventionModeEnum::None => "NONE",
-            NewUmConditionalOrderSelfTradePreventionModeEnum::ExpireTaker => "EXPIRE_TAKER",
-            NewUmConditionalOrderSelfTradePreventionModeEnum::ExpireBoth => "EXPIRE_BOTH",
-            NewUmConditionalOrderSelfTradePreventionModeEnum::ExpireMaker => "EXPIRE_MAKER",
+            Self::None => "NONE",
+            Self::ExpireTaker => "EXPIRE_TAKER",
+            Self::ExpireBoth => "EXPIRE_BOTH",
+            Self::ExpireMaker => "EXPIRE_MAKER",
+        }
+    }
+}
+
+impl std::str::FromStr for NewUmConditionalOrderSelfTradePreventionModeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "NONE" => Ok(Self::None),
+            "EXPIRE_TAKER" => Ok(Self::ExpireTaker),
+            "EXPIRE_BOTH" => Ok(Self::ExpireBoth),
+            "EXPIRE_MAKER" => Ok(Self::ExpireMaker),
+            other => Err(format!(
+                "invalid NewUmConditionalOrderSelfTradePreventionModeEnum: {}",
+                other
+            )
+            .into()),
         }
     }
 }
@@ -1045,8 +1503,20 @@ impl NewUmOrderSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewUmOrderSideEnum::Buy => "BUY",
-            NewUmOrderSideEnum::Sell => "SELL",
+            Self::Buy => "BUY",
+            Self::Sell => "SELL",
+        }
+    }
+}
+
+impl std::str::FromStr for NewUmOrderSideEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "BUY" => Ok(Self::Buy),
+            "SELL" => Ok(Self::Sell),
+            other => Err(format!("invalid NewUmOrderSideEnum: {}", other).into()),
         }
     }
 }
@@ -1064,8 +1534,20 @@ impl NewUmOrderTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewUmOrderTypeEnum::Limit => "LIMIT",
-            NewUmOrderTypeEnum::Market => "MARKET",
+            Self::Limit => "LIMIT",
+            Self::Market => "MARKET",
+        }
+    }
+}
+
+impl std::str::FromStr for NewUmOrderTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "LIMIT" => Ok(Self::Limit),
+            "MARKET" => Ok(Self::Market),
+            other => Err(format!("invalid NewUmOrderTypeEnum: {}", other).into()),
         }
     }
 }
@@ -1085,9 +1567,22 @@ impl NewUmOrderPositionSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewUmOrderPositionSideEnum::Both => "BOTH",
-            NewUmOrderPositionSideEnum::Long => "LONG",
-            NewUmOrderPositionSideEnum::Short => "SHORT",
+            Self::Both => "BOTH",
+            Self::Long => "LONG",
+            Self::Short => "SHORT",
+        }
+    }
+}
+
+impl std::str::FromStr for NewUmOrderPositionSideEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "BOTH" => Ok(Self::Both),
+            "LONG" => Ok(Self::Long),
+            "SHORT" => Ok(Self::Short),
+            other => Err(format!("invalid NewUmOrderPositionSideEnum: {}", other).into()),
         }
     }
 }
@@ -1109,10 +1604,24 @@ impl NewUmOrderTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewUmOrderTimeInForceEnum::Gtc => "GTC",
-            NewUmOrderTimeInForceEnum::Ioc => "IOC",
-            NewUmOrderTimeInForceEnum::Fok => "FOK",
-            NewUmOrderTimeInForceEnum::Gtx => "GTX",
+            Self::Gtc => "GTC",
+            Self::Ioc => "IOC",
+            Self::Fok => "FOK",
+            Self::Gtx => "GTX",
+        }
+    }
+}
+
+impl std::str::FromStr for NewUmOrderTimeInForceEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "GTC" => Ok(Self::Gtc),
+            "IOC" => Ok(Self::Ioc),
+            "FOK" => Ok(Self::Fok),
+            "GTX" => Ok(Self::Gtx),
+            other => Err(format!("invalid NewUmOrderTimeInForceEnum: {}", other).into()),
         }
     }
 }
@@ -1130,8 +1639,20 @@ impl NewUmOrderNewOrderRespTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewUmOrderNewOrderRespTypeEnum::Ack => "ACK",
-            NewUmOrderNewOrderRespTypeEnum::Result => "RESULT",
+            Self::Ack => "ACK",
+            Self::Result => "RESULT",
+        }
+    }
+}
+
+impl std::str::FromStr for NewUmOrderNewOrderRespTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "ACK" => Ok(Self::Ack),
+            "RESULT" => Ok(Self::Result),
+            other => Err(format!("invalid NewUmOrderNewOrderRespTypeEnum: {}", other).into()),
         }
     }
 }
@@ -1163,15 +1684,34 @@ impl NewUmOrderPriceMatchEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewUmOrderPriceMatchEnum::None => "NONE",
-            NewUmOrderPriceMatchEnum::Opponent => "OPPONENT",
-            NewUmOrderPriceMatchEnum::Opponent5 => "OPPONENT_5",
-            NewUmOrderPriceMatchEnum::Opponent10 => "OPPONENT_10",
-            NewUmOrderPriceMatchEnum::Opponent20 => "OPPONENT_20",
-            NewUmOrderPriceMatchEnum::Queue => "QUEUE",
-            NewUmOrderPriceMatchEnum::Queue5 => "QUEUE_5",
-            NewUmOrderPriceMatchEnum::Queue10 => "QUEUE_10",
-            NewUmOrderPriceMatchEnum::Queue20 => "QUEUE_20",
+            Self::None => "NONE",
+            Self::Opponent => "OPPONENT",
+            Self::Opponent5 => "OPPONENT_5",
+            Self::Opponent10 => "OPPONENT_10",
+            Self::Opponent20 => "OPPONENT_20",
+            Self::Queue => "QUEUE",
+            Self::Queue5 => "QUEUE_5",
+            Self::Queue10 => "QUEUE_10",
+            Self::Queue20 => "QUEUE_20",
+        }
+    }
+}
+
+impl std::str::FromStr for NewUmOrderPriceMatchEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "NONE" => Ok(Self::None),
+            "OPPONENT" => Ok(Self::Opponent),
+            "OPPONENT_5" => Ok(Self::Opponent5),
+            "OPPONENT_10" => Ok(Self::Opponent10),
+            "OPPONENT_20" => Ok(Self::Opponent20),
+            "QUEUE" => Ok(Self::Queue),
+            "QUEUE_5" => Ok(Self::Queue5),
+            "QUEUE_10" => Ok(Self::Queue10),
+            "QUEUE_20" => Ok(Self::Queue20),
+            other => Err(format!("invalid NewUmOrderPriceMatchEnum: {}", other).into()),
         }
     }
 }
@@ -1193,10 +1733,26 @@ impl NewUmOrderSelfTradePreventionModeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewUmOrderSelfTradePreventionModeEnum::None => "NONE",
-            NewUmOrderSelfTradePreventionModeEnum::ExpireTaker => "EXPIRE_TAKER",
-            NewUmOrderSelfTradePreventionModeEnum::ExpireBoth => "EXPIRE_BOTH",
-            NewUmOrderSelfTradePreventionModeEnum::ExpireMaker => "EXPIRE_MAKER",
+            Self::None => "NONE",
+            Self::ExpireTaker => "EXPIRE_TAKER",
+            Self::ExpireBoth => "EXPIRE_BOTH",
+            Self::ExpireMaker => "EXPIRE_MAKER",
+        }
+    }
+}
+
+impl std::str::FromStr for NewUmOrderSelfTradePreventionModeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "NONE" => Ok(Self::None),
+            "EXPIRE_TAKER" => Ok(Self::ExpireTaker),
+            "EXPIRE_BOTH" => Ok(Self::ExpireBoth),
+            "EXPIRE_MAKER" => Ok(Self::ExpireMaker),
+            other => {
+                Err(format!("invalid NewUmOrderSelfTradePreventionModeEnum: {}", other).into())
+            }
         }
     }
 }
@@ -1214,8 +1770,24 @@ impl QueryUsersCmForceOrdersAutoCloseTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            QueryUsersCmForceOrdersAutoCloseTypeEnum::Liquidation => "LIQUIDATION",
-            QueryUsersCmForceOrdersAutoCloseTypeEnum::Adl => "ADL",
+            Self::Liquidation => "LIQUIDATION",
+            Self::Adl => "ADL",
+        }
+    }
+}
+
+impl std::str::FromStr for QueryUsersCmForceOrdersAutoCloseTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "LIQUIDATION" => Ok(Self::Liquidation),
+            "ADL" => Ok(Self::Adl),
+            other => Err(format!(
+                "invalid QueryUsersCmForceOrdersAutoCloseTypeEnum: {}",
+                other
+            )
+            .into()),
         }
     }
 }
@@ -1233,8 +1805,24 @@ impl QueryUsersUmForceOrdersAutoCloseTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            QueryUsersUmForceOrdersAutoCloseTypeEnum::Liquidation => "LIQUIDATION",
-            QueryUsersUmForceOrdersAutoCloseTypeEnum::Adl => "ADL",
+            Self::Liquidation => "LIQUIDATION",
+            Self::Adl => "ADL",
+        }
+    }
+}
+
+impl std::str::FromStr for QueryUsersUmForceOrdersAutoCloseTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "LIQUIDATION" => Ok(Self::Liquidation),
+            "ADL" => Ok(Self::Adl),
+            other => Err(format!(
+                "invalid QueryUsersUmForceOrdersAutoCloseTypeEnum: {}",
+                other
+            )
+            .into()),
         }
     }
 }

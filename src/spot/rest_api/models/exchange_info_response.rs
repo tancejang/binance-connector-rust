@@ -27,9 +27,9 @@ pub struct ExchangeInfoResponse {
     #[serde(rename = "serverTime", skip_serializing_if = "Option::is_none")]
     pub server_time: Option<i64>,
     #[serde(rename = "rateLimits", skip_serializing_if = "Option::is_none")]
-    pub rate_limits: Option<Vec<models::ExchangeInfoResponseRateLimitsInner>>,
+    pub rate_limits: Option<Vec<models::RateLimitsInner>>,
     #[serde(rename = "exchangeFilters", skip_serializing_if = "Option::is_none")]
-    pub exchange_filters: Option<Vec<models::ExchangeInfoResponseExchangeFiltersInner>>,
+    pub exchange_filters: Option<Vec<models::ExchangeFiltersInner>>,
     #[serde(rename = "symbols", skip_serializing_if = "Option::is_none")]
     pub symbols: Option<Vec<models::ExchangeInfoResponseSymbolsInner>>,
 }

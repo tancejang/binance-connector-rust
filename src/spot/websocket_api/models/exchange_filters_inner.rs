@@ -1,11 +1,11 @@
 /*
- * Binance Spot REST API
+ * Binance Spot WebSocket API
  *
- * OpenAPI Specifications for the Binance Spot REST API
+ * OpenAPI Specifications for the Binance Spot WebSocket API
  *
  * API documents:
- * - [Github rest-api documentation file](https://github.com/binance/binance-spot-api-docs/blob/master/rest-api.md)
- * - [General API information for rest-api on website](https://developers.binance.com/docs/binance-spot-api-docs/rest-api/general-api-information)
+ * - [Github web-socket-api documentation file](https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-api.md)
+ * - [General API information for web-socket-api on website](https://developers.binance.com/docs/binance-spot-api-docs/web-socket-api/general-api-information)
  *
  *
  * The version of the OpenAPI document: 1.0.0
@@ -17,11 +17,11 @@
  */
 
 #![allow(unused_imports)]
-use crate::spot::rest_api::models;
+use crate::spot::websocket_api::models;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
-pub struct ExchangeInfoResponseExchangeFiltersInner {
+pub struct ExchangeFiltersInner {
     #[serde(rename = "filterType", skip_serializing_if = "Option::is_none")]
     pub filter_type: Option<String>,
     #[serde(rename = "minPrice", skip_serializing_if = "Option::is_none")]
@@ -95,10 +95,10 @@ pub struct ExchangeInfoResponseExchangeFiltersInner {
     pub max_trailing_below_delta: Option<i64>,
 }
 
-impl ExchangeInfoResponseExchangeFiltersInner {
+impl ExchangeFiltersInner {
     #[must_use]
-    pub fn new() -> ExchangeInfoResponseExchangeFiltersInner {
-        ExchangeInfoResponseExchangeFiltersInner {
+    pub fn new() -> ExchangeFiltersInner {
+        ExchangeFiltersInner {
             filter_type: None,
             min_price: None,
             max_price: None,

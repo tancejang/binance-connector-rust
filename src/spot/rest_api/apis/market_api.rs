@@ -138,22 +138,48 @@ impl KlinesIntervalEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            KlinesIntervalEnum::Interval1s => "1s",
-            KlinesIntervalEnum::Interval1m => "1m",
-            KlinesIntervalEnum::Interval3m => "3m",
-            KlinesIntervalEnum::Interval5m => "5m",
-            KlinesIntervalEnum::Interval15m => "15m",
-            KlinesIntervalEnum::Interval30m => "30m",
-            KlinesIntervalEnum::Interval1h => "1h",
-            KlinesIntervalEnum::Interval2h => "2h",
-            KlinesIntervalEnum::Interval4h => "4h",
-            KlinesIntervalEnum::Interval6h => "6h",
-            KlinesIntervalEnum::Interval8h => "8h",
-            KlinesIntervalEnum::Interval12h => "12h",
-            KlinesIntervalEnum::Interval1d => "1d",
-            KlinesIntervalEnum::Interval3d => "3d",
-            KlinesIntervalEnum::Interval1w => "1w",
-            KlinesIntervalEnum::Interval1M => "1M",
+            Self::Interval1s => "1s",
+            Self::Interval1m => "1m",
+            Self::Interval3m => "3m",
+            Self::Interval5m => "5m",
+            Self::Interval15m => "15m",
+            Self::Interval30m => "30m",
+            Self::Interval1h => "1h",
+            Self::Interval2h => "2h",
+            Self::Interval4h => "4h",
+            Self::Interval6h => "6h",
+            Self::Interval8h => "8h",
+            Self::Interval12h => "12h",
+            Self::Interval1d => "1d",
+            Self::Interval3d => "3d",
+            Self::Interval1w => "1w",
+            Self::Interval1M => "1M",
+        }
+    }
+}
+
+impl std::str::FromStr for KlinesIntervalEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "1s" => Ok(Self::Interval1s),
+            "1m" => Ok(Self::Interval1m),
+            "3m" => Ok(Self::Interval3m),
+            "5m" => Ok(Self::Interval5m),
+            "15m" => Ok(Self::Interval15m),
+            "30m" => Ok(Self::Interval30m),
+            "1h" => Ok(Self::Interval1h),
+            "2h" => Ok(Self::Interval2h),
+            "4h" => Ok(Self::Interval4h),
+            "6h" => Ok(Self::Interval6h),
+            "8h" => Ok(Self::Interval8h),
+            "12h" => Ok(Self::Interval12h),
+            "1d" => Ok(Self::Interval1d),
+            "3d" => Ok(Self::Interval3d),
+            "1w" => Ok(Self::Interval1w),
+            "1M" => Ok(Self::Interval1M),
+            other => Err(format!("invalid KlinesIntervalEnum: {}", other).into()),
         }
     }
 }
@@ -343,94 +369,192 @@ impl TickerWindowSizeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            TickerWindowSizeEnum::WindowSize1m => "1m",
-            TickerWindowSizeEnum::WindowSize2m => "2m",
-            TickerWindowSizeEnum::WindowSize3m => "3m",
-            TickerWindowSizeEnum::WindowSize4m => "4m",
-            TickerWindowSizeEnum::WindowSize5m => "5m",
-            TickerWindowSizeEnum::WindowSize6m => "6m",
-            TickerWindowSizeEnum::WindowSize7m => "7m",
-            TickerWindowSizeEnum::WindowSize8m => "8m",
-            TickerWindowSizeEnum::WindowSize9m => "9m",
-            TickerWindowSizeEnum::WindowSize10m => "10m",
-            TickerWindowSizeEnum::WindowSize11m => "11m",
-            TickerWindowSizeEnum::WindowSize12m => "12m",
-            TickerWindowSizeEnum::WindowSize13m => "13m",
-            TickerWindowSizeEnum::WindowSize14m => "14m",
-            TickerWindowSizeEnum::WindowSize15m => "15m",
-            TickerWindowSizeEnum::WindowSize16m => "16m",
-            TickerWindowSizeEnum::WindowSize17m => "17m",
-            TickerWindowSizeEnum::WindowSize18m => "18m",
-            TickerWindowSizeEnum::WindowSize19m => "19m",
-            TickerWindowSizeEnum::WindowSize20m => "20m",
-            TickerWindowSizeEnum::WindowSize21m => "21m",
-            TickerWindowSizeEnum::WindowSize22m => "22m",
-            TickerWindowSizeEnum::WindowSize23m => "23m",
-            TickerWindowSizeEnum::WindowSize24m => "24m",
-            TickerWindowSizeEnum::WindowSize25m => "25m",
-            TickerWindowSizeEnum::WindowSize26m => "26m",
-            TickerWindowSizeEnum::WindowSize27m => "27m",
-            TickerWindowSizeEnum::WindowSize28m => "28m",
-            TickerWindowSizeEnum::WindowSize29m => "29m",
-            TickerWindowSizeEnum::WindowSize30m => "30m",
-            TickerWindowSizeEnum::WindowSize31m => "31m",
-            TickerWindowSizeEnum::WindowSize32m => "32m",
-            TickerWindowSizeEnum::WindowSize33m => "33m",
-            TickerWindowSizeEnum::WindowSize34m => "34m",
-            TickerWindowSizeEnum::WindowSize35m => "35m",
-            TickerWindowSizeEnum::WindowSize36m => "36m",
-            TickerWindowSizeEnum::WindowSize37m => "37m",
-            TickerWindowSizeEnum::WindowSize38m => "38m",
-            TickerWindowSizeEnum::WindowSize39m => "39m",
-            TickerWindowSizeEnum::WindowSize40m => "40m",
-            TickerWindowSizeEnum::WindowSize41m => "41m",
-            TickerWindowSizeEnum::WindowSize42m => "42m",
-            TickerWindowSizeEnum::WindowSize43m => "43m",
-            TickerWindowSizeEnum::WindowSize44m => "44m",
-            TickerWindowSizeEnum::WindowSize45m => "45m",
-            TickerWindowSizeEnum::WindowSize46m => "46m",
-            TickerWindowSizeEnum::WindowSize47m => "47m",
-            TickerWindowSizeEnum::WindowSize48m => "48m",
-            TickerWindowSizeEnum::WindowSize49m => "49m",
-            TickerWindowSizeEnum::WindowSize50m => "50m",
-            TickerWindowSizeEnum::WindowSize51m => "51m",
-            TickerWindowSizeEnum::WindowSize52m => "52m",
-            TickerWindowSizeEnum::WindowSize53m => "53m",
-            TickerWindowSizeEnum::WindowSize54m => "54m",
-            TickerWindowSizeEnum::WindowSize55m => "55m",
-            TickerWindowSizeEnum::WindowSize56m => "56m",
-            TickerWindowSizeEnum::WindowSize57m => "57m",
-            TickerWindowSizeEnum::WindowSize58m => "58m",
-            TickerWindowSizeEnum::WindowSize59m => "59m",
-            TickerWindowSizeEnum::WindowSize1h => "1h",
-            TickerWindowSizeEnum::WindowSize2h => "2h",
-            TickerWindowSizeEnum::WindowSize3h => "3h",
-            TickerWindowSizeEnum::WindowSize4h => "4h",
-            TickerWindowSizeEnum::WindowSize5h => "5h",
-            TickerWindowSizeEnum::WindowSize6h => "6h",
-            TickerWindowSizeEnum::WindowSize7h => "7h",
-            TickerWindowSizeEnum::WindowSize8h => "8h",
-            TickerWindowSizeEnum::WindowSize9h => "9h",
-            TickerWindowSizeEnum::WindowSize10h => "10h",
-            TickerWindowSizeEnum::WindowSize11h => "11h",
-            TickerWindowSizeEnum::WindowSize12h => "12h",
-            TickerWindowSizeEnum::WindowSize13h => "13h",
-            TickerWindowSizeEnum::WindowSize14h => "14h",
-            TickerWindowSizeEnum::WindowSize15h => "15h",
-            TickerWindowSizeEnum::WindowSize16h => "16h",
-            TickerWindowSizeEnum::WindowSize17h => "17h",
-            TickerWindowSizeEnum::WindowSize18h => "18h",
-            TickerWindowSizeEnum::WindowSize19h => "19h",
-            TickerWindowSizeEnum::WindowSize20h => "20h",
-            TickerWindowSizeEnum::WindowSize21h => "21h",
-            TickerWindowSizeEnum::WindowSize22h => "22h",
-            TickerWindowSizeEnum::WindowSize23h => "23h",
-            TickerWindowSizeEnum::WindowSize1d => "1d",
-            TickerWindowSizeEnum::WindowSize2d => "2d",
-            TickerWindowSizeEnum::WindowSize3d => "3d",
-            TickerWindowSizeEnum::WindowSize4d => "4d",
-            TickerWindowSizeEnum::WindowSize5d => "5d",
-            TickerWindowSizeEnum::WindowSize6d => "6d",
+            Self::WindowSize1m => "1m",
+            Self::WindowSize2m => "2m",
+            Self::WindowSize3m => "3m",
+            Self::WindowSize4m => "4m",
+            Self::WindowSize5m => "5m",
+            Self::WindowSize6m => "6m",
+            Self::WindowSize7m => "7m",
+            Self::WindowSize8m => "8m",
+            Self::WindowSize9m => "9m",
+            Self::WindowSize10m => "10m",
+            Self::WindowSize11m => "11m",
+            Self::WindowSize12m => "12m",
+            Self::WindowSize13m => "13m",
+            Self::WindowSize14m => "14m",
+            Self::WindowSize15m => "15m",
+            Self::WindowSize16m => "16m",
+            Self::WindowSize17m => "17m",
+            Self::WindowSize18m => "18m",
+            Self::WindowSize19m => "19m",
+            Self::WindowSize20m => "20m",
+            Self::WindowSize21m => "21m",
+            Self::WindowSize22m => "22m",
+            Self::WindowSize23m => "23m",
+            Self::WindowSize24m => "24m",
+            Self::WindowSize25m => "25m",
+            Self::WindowSize26m => "26m",
+            Self::WindowSize27m => "27m",
+            Self::WindowSize28m => "28m",
+            Self::WindowSize29m => "29m",
+            Self::WindowSize30m => "30m",
+            Self::WindowSize31m => "31m",
+            Self::WindowSize32m => "32m",
+            Self::WindowSize33m => "33m",
+            Self::WindowSize34m => "34m",
+            Self::WindowSize35m => "35m",
+            Self::WindowSize36m => "36m",
+            Self::WindowSize37m => "37m",
+            Self::WindowSize38m => "38m",
+            Self::WindowSize39m => "39m",
+            Self::WindowSize40m => "40m",
+            Self::WindowSize41m => "41m",
+            Self::WindowSize42m => "42m",
+            Self::WindowSize43m => "43m",
+            Self::WindowSize44m => "44m",
+            Self::WindowSize45m => "45m",
+            Self::WindowSize46m => "46m",
+            Self::WindowSize47m => "47m",
+            Self::WindowSize48m => "48m",
+            Self::WindowSize49m => "49m",
+            Self::WindowSize50m => "50m",
+            Self::WindowSize51m => "51m",
+            Self::WindowSize52m => "52m",
+            Self::WindowSize53m => "53m",
+            Self::WindowSize54m => "54m",
+            Self::WindowSize55m => "55m",
+            Self::WindowSize56m => "56m",
+            Self::WindowSize57m => "57m",
+            Self::WindowSize58m => "58m",
+            Self::WindowSize59m => "59m",
+            Self::WindowSize1h => "1h",
+            Self::WindowSize2h => "2h",
+            Self::WindowSize3h => "3h",
+            Self::WindowSize4h => "4h",
+            Self::WindowSize5h => "5h",
+            Self::WindowSize6h => "6h",
+            Self::WindowSize7h => "7h",
+            Self::WindowSize8h => "8h",
+            Self::WindowSize9h => "9h",
+            Self::WindowSize10h => "10h",
+            Self::WindowSize11h => "11h",
+            Self::WindowSize12h => "12h",
+            Self::WindowSize13h => "13h",
+            Self::WindowSize14h => "14h",
+            Self::WindowSize15h => "15h",
+            Self::WindowSize16h => "16h",
+            Self::WindowSize17h => "17h",
+            Self::WindowSize18h => "18h",
+            Self::WindowSize19h => "19h",
+            Self::WindowSize20h => "20h",
+            Self::WindowSize21h => "21h",
+            Self::WindowSize22h => "22h",
+            Self::WindowSize23h => "23h",
+            Self::WindowSize1d => "1d",
+            Self::WindowSize2d => "2d",
+            Self::WindowSize3d => "3d",
+            Self::WindowSize4d => "4d",
+            Self::WindowSize5d => "5d",
+            Self::WindowSize6d => "6d",
+        }
+    }
+}
+
+impl std::str::FromStr for TickerWindowSizeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "1m" => Ok(Self::WindowSize1m),
+            "2m" => Ok(Self::WindowSize2m),
+            "3m" => Ok(Self::WindowSize3m),
+            "4m" => Ok(Self::WindowSize4m),
+            "5m" => Ok(Self::WindowSize5m),
+            "6m" => Ok(Self::WindowSize6m),
+            "7m" => Ok(Self::WindowSize7m),
+            "8m" => Ok(Self::WindowSize8m),
+            "9m" => Ok(Self::WindowSize9m),
+            "10m" => Ok(Self::WindowSize10m),
+            "11m" => Ok(Self::WindowSize11m),
+            "12m" => Ok(Self::WindowSize12m),
+            "13m" => Ok(Self::WindowSize13m),
+            "14m" => Ok(Self::WindowSize14m),
+            "15m" => Ok(Self::WindowSize15m),
+            "16m" => Ok(Self::WindowSize16m),
+            "17m" => Ok(Self::WindowSize17m),
+            "18m" => Ok(Self::WindowSize18m),
+            "19m" => Ok(Self::WindowSize19m),
+            "20m" => Ok(Self::WindowSize20m),
+            "21m" => Ok(Self::WindowSize21m),
+            "22m" => Ok(Self::WindowSize22m),
+            "23m" => Ok(Self::WindowSize23m),
+            "24m" => Ok(Self::WindowSize24m),
+            "25m" => Ok(Self::WindowSize25m),
+            "26m" => Ok(Self::WindowSize26m),
+            "27m" => Ok(Self::WindowSize27m),
+            "28m" => Ok(Self::WindowSize28m),
+            "29m" => Ok(Self::WindowSize29m),
+            "30m" => Ok(Self::WindowSize30m),
+            "31m" => Ok(Self::WindowSize31m),
+            "32m" => Ok(Self::WindowSize32m),
+            "33m" => Ok(Self::WindowSize33m),
+            "34m" => Ok(Self::WindowSize34m),
+            "35m" => Ok(Self::WindowSize35m),
+            "36m" => Ok(Self::WindowSize36m),
+            "37m" => Ok(Self::WindowSize37m),
+            "38m" => Ok(Self::WindowSize38m),
+            "39m" => Ok(Self::WindowSize39m),
+            "40m" => Ok(Self::WindowSize40m),
+            "41m" => Ok(Self::WindowSize41m),
+            "42m" => Ok(Self::WindowSize42m),
+            "43m" => Ok(Self::WindowSize43m),
+            "44m" => Ok(Self::WindowSize44m),
+            "45m" => Ok(Self::WindowSize45m),
+            "46m" => Ok(Self::WindowSize46m),
+            "47m" => Ok(Self::WindowSize47m),
+            "48m" => Ok(Self::WindowSize48m),
+            "49m" => Ok(Self::WindowSize49m),
+            "50m" => Ok(Self::WindowSize50m),
+            "51m" => Ok(Self::WindowSize51m),
+            "52m" => Ok(Self::WindowSize52m),
+            "53m" => Ok(Self::WindowSize53m),
+            "54m" => Ok(Self::WindowSize54m),
+            "55m" => Ok(Self::WindowSize55m),
+            "56m" => Ok(Self::WindowSize56m),
+            "57m" => Ok(Self::WindowSize57m),
+            "58m" => Ok(Self::WindowSize58m),
+            "59m" => Ok(Self::WindowSize59m),
+            "1h" => Ok(Self::WindowSize1h),
+            "2h" => Ok(Self::WindowSize2h),
+            "3h" => Ok(Self::WindowSize3h),
+            "4h" => Ok(Self::WindowSize4h),
+            "5h" => Ok(Self::WindowSize5h),
+            "6h" => Ok(Self::WindowSize6h),
+            "7h" => Ok(Self::WindowSize7h),
+            "8h" => Ok(Self::WindowSize8h),
+            "9h" => Ok(Self::WindowSize9h),
+            "10h" => Ok(Self::WindowSize10h),
+            "11h" => Ok(Self::WindowSize11h),
+            "12h" => Ok(Self::WindowSize12h),
+            "13h" => Ok(Self::WindowSize13h),
+            "14h" => Ok(Self::WindowSize14h),
+            "15h" => Ok(Self::WindowSize15h),
+            "16h" => Ok(Self::WindowSize16h),
+            "17h" => Ok(Self::WindowSize17h),
+            "18h" => Ok(Self::WindowSize18h),
+            "19h" => Ok(Self::WindowSize19h),
+            "20h" => Ok(Self::WindowSize20h),
+            "21h" => Ok(Self::WindowSize21h),
+            "22h" => Ok(Self::WindowSize22h),
+            "23h" => Ok(Self::WindowSize23h),
+            "1d" => Ok(Self::WindowSize1d),
+            "2d" => Ok(Self::WindowSize2d),
+            "3d" => Ok(Self::WindowSize3d),
+            "4d" => Ok(Self::WindowSize4d),
+            "5d" => Ok(Self::WindowSize5d),
+            "6d" => Ok(Self::WindowSize6d),
+            other => Err(format!("invalid TickerWindowSizeEnum: {}", other).into()),
         }
     }
 }
@@ -448,8 +572,20 @@ impl TickerTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            TickerTypeEnum::Full => "FULL",
-            TickerTypeEnum::Mini => "MINI",
+            Self::Full => "FULL",
+            Self::Mini => "MINI",
+        }
+    }
+}
+
+impl std::str::FromStr for TickerTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "FULL" => Ok(Self::Full),
+            "MINI" => Ok(Self::Mini),
+            other => Err(format!("invalid TickerTypeEnum: {}", other).into()),
         }
     }
 }
@@ -467,8 +603,20 @@ impl Ticker24hrTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            Ticker24hrTypeEnum::Full => "FULL",
-            Ticker24hrTypeEnum::Mini => "MINI",
+            Self::Full => "FULL",
+            Self::Mini => "MINI",
+        }
+    }
+}
+
+impl std::str::FromStr for Ticker24hrTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "FULL" => Ok(Self::Full),
+            "MINI" => Ok(Self::Mini),
+            other => Err(format!("invalid Ticker24hrTypeEnum: {}", other).into()),
         }
     }
 }
@@ -486,8 +634,20 @@ impl TickerTradingDayTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            TickerTradingDayTypeEnum::Full => "FULL",
-            TickerTradingDayTypeEnum::Mini => "MINI",
+            Self::Full => "FULL",
+            Self::Mini => "MINI",
+        }
+    }
+}
+
+impl std::str::FromStr for TickerTradingDayTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "FULL" => Ok(Self::Full),
+            "MINI" => Ok(Self::Mini),
+            other => Err(format!("invalid TickerTradingDayTypeEnum: {}", other).into()),
         }
     }
 }
@@ -533,22 +693,48 @@ impl UiKlinesIntervalEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            UiKlinesIntervalEnum::Interval1s => "1s",
-            UiKlinesIntervalEnum::Interval1m => "1m",
-            UiKlinesIntervalEnum::Interval3m => "3m",
-            UiKlinesIntervalEnum::Interval5m => "5m",
-            UiKlinesIntervalEnum::Interval15m => "15m",
-            UiKlinesIntervalEnum::Interval30m => "30m",
-            UiKlinesIntervalEnum::Interval1h => "1h",
-            UiKlinesIntervalEnum::Interval2h => "2h",
-            UiKlinesIntervalEnum::Interval4h => "4h",
-            UiKlinesIntervalEnum::Interval6h => "6h",
-            UiKlinesIntervalEnum::Interval8h => "8h",
-            UiKlinesIntervalEnum::Interval12h => "12h",
-            UiKlinesIntervalEnum::Interval1d => "1d",
-            UiKlinesIntervalEnum::Interval3d => "3d",
-            UiKlinesIntervalEnum::Interval1w => "1w",
-            UiKlinesIntervalEnum::Interval1M => "1M",
+            Self::Interval1s => "1s",
+            Self::Interval1m => "1m",
+            Self::Interval3m => "3m",
+            Self::Interval5m => "5m",
+            Self::Interval15m => "15m",
+            Self::Interval30m => "30m",
+            Self::Interval1h => "1h",
+            Self::Interval2h => "2h",
+            Self::Interval4h => "4h",
+            Self::Interval6h => "6h",
+            Self::Interval8h => "8h",
+            Self::Interval12h => "12h",
+            Self::Interval1d => "1d",
+            Self::Interval3d => "3d",
+            Self::Interval1w => "1w",
+            Self::Interval1M => "1M",
+        }
+    }
+}
+
+impl std::str::FromStr for UiKlinesIntervalEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "1s" => Ok(Self::Interval1s),
+            "1m" => Ok(Self::Interval1m),
+            "3m" => Ok(Self::Interval3m),
+            "5m" => Ok(Self::Interval5m),
+            "15m" => Ok(Self::Interval15m),
+            "30m" => Ok(Self::Interval30m),
+            "1h" => Ok(Self::Interval1h),
+            "2h" => Ok(Self::Interval2h),
+            "4h" => Ok(Self::Interval4h),
+            "6h" => Ok(Self::Interval6h),
+            "8h" => Ok(Self::Interval8h),
+            "12h" => Ok(Self::Interval12h),
+            "1d" => Ok(Self::Interval1d),
+            "3d" => Ok(Self::Interval3d),
+            "1w" => Ok(Self::Interval1w),
+            "1M" => Ok(Self::Interval1M),
+            other => Err(format!("invalid UiKlinesIntervalEnum: {}", other).into()),
         }
     }
 }
@@ -1658,7 +1844,7 @@ mod tests {
                 );
             }
 
-            let resp_json: Value = serde_json::from_str(r#"{"symbol":"LTCBTC","openPrice":"0.10000000","highPrice":"2.00000000","lowPrice":"0.10000000","lastPrice":"2.00000000","volume":"39.00000000","quoteVolume":"13.40000000","openTime":1656986580000,"closeTime":1657001016795,"firstId":0,"lastId":34,"count":35}"#).unwrap();
+            let resp_json: Value = serde_json::from_str(r#"{"symbol":"LTCBTC","priceChange":"-8.00000000","priceChangePercent":"-88.889","weightedAvgPrice":"2.60427807","openPrice":"0.10000000","highPrice":"2.00000000","lowPrice":"0.10000000","lastPrice":"2.00000000","volume":"39.00000000","quoteVolume":"13.40000000","openTime":1656986580000,"closeTime":1657001016795,"firstId":0,"lastId":34,"count":35}"#).unwrap();
             let dummy_response: models::TickerResponse = serde_json::from_value(resp_json.clone())
                 .expect("should parse into models::TickerResponse");
 
@@ -1682,7 +1868,7 @@ mod tests {
                 );
             }
 
-            let resp_json: Value = serde_json::from_str(r#"{"symbol":"BNBBTC","openPrice":"99.00000000","highPrice":"100.00000000","lowPrice":"0.10000000","lastPrice":"4.00000200","volume":"8913.30000000","quoteVolume":"15.30000000","openTime":1499783499040,"closeTime":1499869899040,"firstId":28385,"lastId":28460,"count":76}"#).unwrap();
+            let resp_json: Value = serde_json::from_str(r#"{"symbol":"BNBBTC","priceChange":"-94.99999800","priceChangePercent":"-95.960","weightedAvgPrice":"0.29628482","prevClosePrice":"0.10002000","lastPrice":"4.00000200","lastQty":"200.00000000","bidPrice":"4.00000000","bidQty":"100.00000000","askPrice":"4.00000200","askQty":"100.00000000","openPrice":"99.00000000","highPrice":"100.00000000","lowPrice":"0.10000000","volume":"8913.30000000","quoteVolume":"15.30000000","openTime":1499783499040,"closeTime":1499869899040,"firstId":28385,"lastId":28460,"count":76}"#).unwrap();
             let dummy_response: models::Ticker24hrResponse =
                 serde_json::from_value(resp_json.clone())
                     .expect("should parse into models::Ticker24hrResponse");
@@ -1758,7 +1944,7 @@ mod tests {
                 );
             }
 
-            let resp_json: Value = serde_json::from_str(r#"{"symbol":"BTCUSDT","openPrice":"26304.80000000","highPrice":"26397.46000000","lowPrice":"26088.34000000","lastPrice":"26221.67000000","volume":"18495.35066000","quoteVolume":"485217905.04210480","openTime":1695686400000,"closeTime":1695772799999,"firstId":3220151555,"lastId":3220849281,"count":697727}"#).unwrap();
+            let resp_json: Value = serde_json::from_str(r#"{"symbol":"BTCUSDT","priceChange":"-83.13000000","priceChangePercent":"-0.317","weightedAvgPrice":"26234.58803036","openPrice":"26304.80000000","highPrice":"26397.46000000","lowPrice":"26088.34000000","lastPrice":"26221.67000000","volume":"18495.35066000","quoteVolume":"485217905.04210480","openTime":1695686400000,"closeTime":1695772799999,"firstId":3220151555,"lastId":3220849281,"count":697727}"#).unwrap();
             let dummy_response: models::TickerTradingDayResponse =
                 serde_json::from_value(resp_json.clone())
                     .expect("should parse into models::TickerTradingDayResponse");
@@ -2131,7 +2317,7 @@ mod tests {
 
             let params = TickerParams::builder().build().unwrap();
 
-            let resp_json: Value = serde_json::from_str(r#"{"symbol":"LTCBTC","openPrice":"0.10000000","highPrice":"2.00000000","lowPrice":"0.10000000","lastPrice":"2.00000000","volume":"39.00000000","quoteVolume":"13.40000000","openTime":1656986580000,"closeTime":1657001016795,"firstId":0,"lastId":34,"count":35}"#).unwrap();
+            let resp_json: Value = serde_json::from_str(r#"{"symbol":"LTCBTC","priceChange":"-8.00000000","priceChangePercent":"-88.889","weightedAvgPrice":"2.60427807","openPrice":"0.10000000","highPrice":"2.00000000","lowPrice":"0.10000000","lastPrice":"2.00000000","volume":"39.00000000","quoteVolume":"13.40000000","openTime":1656986580000,"closeTime":1657001016795,"firstId":0,"lastId":34,"count":35}"#).unwrap();
             let expected_response : models::TickerResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::TickerResponse");
 
             let resp = client.ticker(params).await.expect("Expected a response");
@@ -2148,7 +2334,7 @@ mod tests {
 
             let params = TickerParams::builder().symbol("BNBUSDT".to_string()).symbols(["null".to_string(),].to_vec()).window_size(TickerWindowSizeEnum::WindowSize1m).r#type(TickerTypeEnum::Full).build().unwrap();
 
-            let resp_json: Value = serde_json::from_str(r#"{"symbol":"LTCBTC","openPrice":"0.10000000","highPrice":"2.00000000","lowPrice":"0.10000000","lastPrice":"2.00000000","volume":"39.00000000","quoteVolume":"13.40000000","openTime":1656986580000,"closeTime":1657001016795,"firstId":0,"lastId":34,"count":35}"#).unwrap();
+            let resp_json: Value = serde_json::from_str(r#"{"symbol":"LTCBTC","priceChange":"-8.00000000","priceChangePercent":"-88.889","weightedAvgPrice":"2.60427807","openPrice":"0.10000000","highPrice":"2.00000000","lowPrice":"0.10000000","lastPrice":"2.00000000","volume":"39.00000000","quoteVolume":"13.40000000","openTime":1656986580000,"closeTime":1657001016795,"firstId":0,"lastId":34,"count":35}"#).unwrap();
             let expected_response : models::TickerResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::TickerResponse");
 
             let resp = client.ticker(params).await.expect("Expected a response");
@@ -2181,7 +2367,7 @@ mod tests {
 
             let params = Ticker24hrParams::builder().build().unwrap();
 
-            let resp_json: Value = serde_json::from_str(r#"{"symbol":"BNBBTC","openPrice":"99.00000000","highPrice":"100.00000000","lowPrice":"0.10000000","lastPrice":"4.00000200","volume":"8913.30000000","quoteVolume":"15.30000000","openTime":1499783499040,"closeTime":1499869899040,"firstId":28385,"lastId":28460,"count":76}"#).unwrap();
+            let resp_json: Value = serde_json::from_str(r#"{"symbol":"BNBBTC","priceChange":"-94.99999800","priceChangePercent":"-95.960","weightedAvgPrice":"0.29628482","prevClosePrice":"0.10002000","lastPrice":"4.00000200","lastQty":"200.00000000","bidPrice":"4.00000000","bidQty":"100.00000000","askPrice":"4.00000200","askQty":"100.00000000","openPrice":"99.00000000","highPrice":"100.00000000","lowPrice":"0.10000000","volume":"8913.30000000","quoteVolume":"15.30000000","openTime":1499783499040,"closeTime":1499869899040,"firstId":28385,"lastId":28460,"count":76}"#).unwrap();
             let expected_response : models::Ticker24hrResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::Ticker24hrResponse");
 
             let resp = client.ticker24hr(params).await.expect("Expected a response");
@@ -2198,7 +2384,7 @@ mod tests {
 
             let params = Ticker24hrParams::builder().symbol("BNBUSDT".to_string()).symbols(["null".to_string(),].to_vec()).r#type(Ticker24hrTypeEnum::Full).build().unwrap();
 
-            let resp_json: Value = serde_json::from_str(r#"{"symbol":"BNBBTC","openPrice":"99.00000000","highPrice":"100.00000000","lowPrice":"0.10000000","lastPrice":"4.00000200","volume":"8913.30000000","quoteVolume":"15.30000000","openTime":1499783499040,"closeTime":1499869899040,"firstId":28385,"lastId":28460,"count":76}"#).unwrap();
+            let resp_json: Value = serde_json::from_str(r#"{"symbol":"BNBBTC","priceChange":"-94.99999800","priceChangePercent":"-95.960","weightedAvgPrice":"0.29628482","prevClosePrice":"0.10002000","lastPrice":"4.00000200","lastQty":"200.00000000","bidPrice":"4.00000000","bidQty":"100.00000000","askPrice":"4.00000200","askQty":"100.00000000","openPrice":"99.00000000","highPrice":"100.00000000","lowPrice":"0.10000000","volume":"8913.30000000","quoteVolume":"15.30000000","openTime":1499783499040,"closeTime":1499869899040,"firstId":28385,"lastId":28460,"count":76}"#).unwrap();
             let expected_response : models::Ticker24hrResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::Ticker24hrResponse");
 
             let resp = client.ticker24hr(params).await.expect("Expected a response");
@@ -2347,7 +2533,7 @@ mod tests {
 
             let params = TickerTradingDayParams::builder().build().unwrap();
 
-            let resp_json: Value = serde_json::from_str(r#"{"symbol":"BTCUSDT","openPrice":"26304.80000000","highPrice":"26397.46000000","lowPrice":"26088.34000000","lastPrice":"26221.67000000","volume":"18495.35066000","quoteVolume":"485217905.04210480","openTime":1695686400000,"closeTime":1695772799999,"firstId":3220151555,"lastId":3220849281,"count":697727}"#).unwrap();
+            let resp_json: Value = serde_json::from_str(r#"{"symbol":"BTCUSDT","priceChange":"-83.13000000","priceChangePercent":"-0.317","weightedAvgPrice":"26234.58803036","openPrice":"26304.80000000","highPrice":"26397.46000000","lowPrice":"26088.34000000","lastPrice":"26221.67000000","volume":"18495.35066000","quoteVolume":"485217905.04210480","openTime":1695686400000,"closeTime":1695772799999,"firstId":3220151555,"lastId":3220849281,"count":697727}"#).unwrap();
             let expected_response : models::TickerTradingDayResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::TickerTradingDayResponse");
 
             let resp = client.ticker_trading_day(params).await.expect("Expected a response");
@@ -2364,7 +2550,7 @@ mod tests {
 
             let params = TickerTradingDayParams::builder().symbol("BNBUSDT".to_string()).symbols(["null".to_string(),].to_vec()).time_zone("time_zone_example".to_string()).r#type(TickerTradingDayTypeEnum::Full).build().unwrap();
 
-            let resp_json: Value = serde_json::from_str(r#"{"symbol":"BTCUSDT","openPrice":"26304.80000000","highPrice":"26397.46000000","lowPrice":"26088.34000000","lastPrice":"26221.67000000","volume":"18495.35066000","quoteVolume":"485217905.04210480","openTime":1695686400000,"closeTime":1695772799999,"firstId":3220151555,"lastId":3220849281,"count":697727}"#).unwrap();
+            let resp_json: Value = serde_json::from_str(r#"{"symbol":"BTCUSDT","priceChange":"-83.13000000","priceChangePercent":"-0.317","weightedAvgPrice":"26234.58803036","openPrice":"26304.80000000","highPrice":"26397.46000000","lowPrice":"26088.34000000","lastPrice":"26221.67000000","volume":"18495.35066000","quoteVolume":"485217905.04210480","openTime":1695686400000,"closeTime":1695772799999,"firstId":3220151555,"lastId":3220849281,"count":697727}"#).unwrap();
             let expected_response : models::TickerTradingDayResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::TickerTradingDayResponse");
 
             let resp = client.ticker_trading_day(params).await.expect("Expected a response");

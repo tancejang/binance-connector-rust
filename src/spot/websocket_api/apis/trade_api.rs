@@ -115,10 +115,24 @@ impl OrderCancelCancelRestrictionsEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderCancelCancelRestrictionsEnum::OnlyNew => "ONLY_NEW",
-            OrderCancelCancelRestrictionsEnum::New => "NEW",
-            OrderCancelCancelRestrictionsEnum::OnlyPartiallyFilled => "ONLY_PARTIALLY_FILLED",
-            OrderCancelCancelRestrictionsEnum::PartiallyFilled => "PARTIALLY_FILLED",
+            Self::OnlyNew => "ONLY_NEW",
+            Self::New => "NEW",
+            Self::OnlyPartiallyFilled => "ONLY_PARTIALLY_FILLED",
+            Self::PartiallyFilled => "PARTIALLY_FILLED",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderCancelCancelRestrictionsEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "ONLY_NEW" => Ok(Self::OnlyNew),
+            "NEW" => Ok(Self::New),
+            "ONLY_PARTIALLY_FILLED" => Ok(Self::OnlyPartiallyFilled),
+            "PARTIALLY_FILLED" => Ok(Self::PartiallyFilled),
+            other => Err(format!("invalid OrderCancelCancelRestrictionsEnum: {}", other).into()),
         }
     }
 }
@@ -136,8 +150,22 @@ impl OrderCancelReplaceCancelReplaceModeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderCancelReplaceCancelReplaceModeEnum::StopOnFailure => "STOP_ON_FAILURE",
-            OrderCancelReplaceCancelReplaceModeEnum::AllowFailure => "ALLOW_FAILURE",
+            Self::StopOnFailure => "STOP_ON_FAILURE",
+            Self::AllowFailure => "ALLOW_FAILURE",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderCancelReplaceCancelReplaceModeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "STOP_ON_FAILURE" => Ok(Self::StopOnFailure),
+            "ALLOW_FAILURE" => Ok(Self::AllowFailure),
+            other => {
+                Err(format!("invalid OrderCancelReplaceCancelReplaceModeEnum: {}", other).into())
+            }
         }
     }
 }
@@ -155,8 +183,20 @@ impl OrderCancelReplaceSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderCancelReplaceSideEnum::Buy => "BUY",
-            OrderCancelReplaceSideEnum::Sell => "SELL",
+            Self::Buy => "BUY",
+            Self::Sell => "SELL",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderCancelReplaceSideEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "BUY" => Ok(Self::Buy),
+            "SELL" => Ok(Self::Sell),
+            other => Err(format!("invalid OrderCancelReplaceSideEnum: {}", other).into()),
         }
     }
 }
@@ -186,14 +226,32 @@ impl OrderCancelReplaceTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderCancelReplaceTypeEnum::Market => "MARKET",
-            OrderCancelReplaceTypeEnum::Limit => "LIMIT",
-            OrderCancelReplaceTypeEnum::StopLoss => "STOP_LOSS",
-            OrderCancelReplaceTypeEnum::StopLossLimit => "STOP_LOSS_LIMIT",
-            OrderCancelReplaceTypeEnum::TakeProfit => "TAKE_PROFIT",
-            OrderCancelReplaceTypeEnum::TakeProfitLimit => "TAKE_PROFIT_LIMIT",
-            OrderCancelReplaceTypeEnum::LimitMaker => "LIMIT_MAKER",
-            OrderCancelReplaceTypeEnum::NonRepresentable => "NON_REPRESENTABLE",
+            Self::Market => "MARKET",
+            Self::Limit => "LIMIT",
+            Self::StopLoss => "STOP_LOSS",
+            Self::StopLossLimit => "STOP_LOSS_LIMIT",
+            Self::TakeProfit => "TAKE_PROFIT",
+            Self::TakeProfitLimit => "TAKE_PROFIT_LIMIT",
+            Self::LimitMaker => "LIMIT_MAKER",
+            Self::NonRepresentable => "NON_REPRESENTABLE",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderCancelReplaceTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "MARKET" => Ok(Self::Market),
+            "LIMIT" => Ok(Self::Limit),
+            "STOP_LOSS" => Ok(Self::StopLoss),
+            "STOP_LOSS_LIMIT" => Ok(Self::StopLossLimit),
+            "TAKE_PROFIT" => Ok(Self::TakeProfit),
+            "TAKE_PROFIT_LIMIT" => Ok(Self::TakeProfitLimit),
+            "LIMIT_MAKER" => Ok(Self::LimitMaker),
+            "NON_REPRESENTABLE" => Ok(Self::NonRepresentable),
+            other => Err(format!("invalid OrderCancelReplaceTypeEnum: {}", other).into()),
         }
     }
 }
@@ -215,10 +273,24 @@ impl OrderCancelReplaceTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderCancelReplaceTimeInForceEnum::Gtc => "GTC",
-            OrderCancelReplaceTimeInForceEnum::Ioc => "IOC",
-            OrderCancelReplaceTimeInForceEnum::Fok => "FOK",
-            OrderCancelReplaceTimeInForceEnum::NonRepresentable => "NON_REPRESENTABLE",
+            Self::Gtc => "GTC",
+            Self::Ioc => "IOC",
+            Self::Fok => "FOK",
+            Self::NonRepresentable => "NON_REPRESENTABLE",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderCancelReplaceTimeInForceEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "GTC" => Ok(Self::Gtc),
+            "IOC" => Ok(Self::Ioc),
+            "FOK" => Ok(Self::Fok),
+            "NON_REPRESENTABLE" => Ok(Self::NonRepresentable),
+            other => Err(format!("invalid OrderCancelReplaceTimeInForceEnum: {}", other).into()),
         }
     }
 }
@@ -242,11 +314,28 @@ impl OrderCancelReplaceNewOrderRespTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderCancelReplaceNewOrderRespTypeEnum::Ack => "ACK",
-            OrderCancelReplaceNewOrderRespTypeEnum::Result => "RESULT",
-            OrderCancelReplaceNewOrderRespTypeEnum::Full => "FULL",
-            OrderCancelReplaceNewOrderRespTypeEnum::Market => "MARKET",
-            OrderCancelReplaceNewOrderRespTypeEnum::Limit => "LIMIT",
+            Self::Ack => "ACK",
+            Self::Result => "RESULT",
+            Self::Full => "FULL",
+            Self::Market => "MARKET",
+            Self::Limit => "LIMIT",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderCancelReplaceNewOrderRespTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "ACK" => Ok(Self::Ack),
+            "RESULT" => Ok(Self::Result),
+            "FULL" => Ok(Self::Full),
+            "MARKET" => Ok(Self::Market),
+            "LIMIT" => Ok(Self::Limit),
+            other => {
+                Err(format!("invalid OrderCancelReplaceNewOrderRespTypeEnum: {}", other).into())
+            }
         }
     }
 }
@@ -272,12 +361,32 @@ impl OrderCancelReplaceSelfTradePreventionModeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderCancelReplaceSelfTradePreventionModeEnum::None => "NONE",
-            OrderCancelReplaceSelfTradePreventionModeEnum::ExpireTaker => "EXPIRE_TAKER",
-            OrderCancelReplaceSelfTradePreventionModeEnum::ExpireMaker => "EXPIRE_MAKER",
-            OrderCancelReplaceSelfTradePreventionModeEnum::ExpireBoth => "EXPIRE_BOTH",
-            OrderCancelReplaceSelfTradePreventionModeEnum::Decrement => "DECREMENT",
-            OrderCancelReplaceSelfTradePreventionModeEnum::NonRepresentable => "NON_REPRESENTABLE",
+            Self::None => "NONE",
+            Self::ExpireTaker => "EXPIRE_TAKER",
+            Self::ExpireMaker => "EXPIRE_MAKER",
+            Self::ExpireBoth => "EXPIRE_BOTH",
+            Self::Decrement => "DECREMENT",
+            Self::NonRepresentable => "NON_REPRESENTABLE",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderCancelReplaceSelfTradePreventionModeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "NONE" => Ok(Self::None),
+            "EXPIRE_TAKER" => Ok(Self::ExpireTaker),
+            "EXPIRE_MAKER" => Ok(Self::ExpireMaker),
+            "EXPIRE_BOTH" => Ok(Self::ExpireBoth),
+            "DECREMENT" => Ok(Self::Decrement),
+            "NON_REPRESENTABLE" => Ok(Self::NonRepresentable),
+            other => Err(format!(
+                "invalid OrderCancelReplaceSelfTradePreventionModeEnum: {}",
+                other
+            )
+            .into()),
         }
     }
 }
@@ -299,12 +408,28 @@ impl OrderCancelReplaceCancelRestrictionsEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderCancelReplaceCancelRestrictionsEnum::OnlyNew => "ONLY_NEW",
-            OrderCancelReplaceCancelRestrictionsEnum::New => "NEW",
-            OrderCancelReplaceCancelRestrictionsEnum::OnlyPartiallyFilled => {
-                "ONLY_PARTIALLY_FILLED"
-            }
-            OrderCancelReplaceCancelRestrictionsEnum::PartiallyFilled => "PARTIALLY_FILLED",
+            Self::OnlyNew => "ONLY_NEW",
+            Self::New => "NEW",
+            Self::OnlyPartiallyFilled => "ONLY_PARTIALLY_FILLED",
+            Self::PartiallyFilled => "PARTIALLY_FILLED",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderCancelReplaceCancelRestrictionsEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "ONLY_NEW" => Ok(Self::OnlyNew),
+            "NEW" => Ok(Self::New),
+            "ONLY_PARTIALLY_FILLED" => Ok(Self::OnlyPartiallyFilled),
+            "PARTIALLY_FILLED" => Ok(Self::PartiallyFilled),
+            other => Err(format!(
+                "invalid OrderCancelReplaceCancelRestrictionsEnum: {}",
+                other
+            )
+            .into()),
         }
     }
 }
@@ -322,8 +447,24 @@ impl OrderCancelReplaceOrderRateLimitExceededModeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderCancelReplaceOrderRateLimitExceededModeEnum::DoNothing => "DO_NOTHING",
-            OrderCancelReplaceOrderRateLimitExceededModeEnum::CancelOnly => "CANCEL_ONLY",
+            Self::DoNothing => "DO_NOTHING",
+            Self::CancelOnly => "CANCEL_ONLY",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderCancelReplaceOrderRateLimitExceededModeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "DO_NOTHING" => Ok(Self::DoNothing),
+            "CANCEL_ONLY" => Ok(Self::CancelOnly),
+            other => Err(format!(
+                "invalid OrderCancelReplaceOrderRateLimitExceededModeEnum: {}",
+                other
+            )
+            .into()),
         }
     }
 }
@@ -341,8 +482,20 @@ impl OrderListPlaceSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceSideEnum::Buy => "BUY",
-            OrderListPlaceSideEnum::Sell => "SELL",
+            Self::Buy => "BUY",
+            Self::Sell => "SELL",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderListPlaceSideEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "BUY" => Ok(Self::Buy),
+            "SELL" => Ok(Self::Sell),
+            other => Err(format!("invalid OrderListPlaceSideEnum: {}", other).into()),
         }
     }
 }
@@ -362,9 +515,24 @@ impl OrderListPlaceStopLimitTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceStopLimitTimeInForceEnum::Gtc => "GTC",
-            OrderListPlaceStopLimitTimeInForceEnum::Fok => "FOK",
-            OrderListPlaceStopLimitTimeInForceEnum::Ioc => "IOC",
+            Self::Gtc => "GTC",
+            Self::Fok => "FOK",
+            Self::Ioc => "IOC",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderListPlaceStopLimitTimeInForceEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "GTC" => Ok(Self::Gtc),
+            "FOK" => Ok(Self::Fok),
+            "IOC" => Ok(Self::Ioc),
+            other => {
+                Err(format!("invalid OrderListPlaceStopLimitTimeInForceEnum: {}", other).into())
+            }
         }
     }
 }
@@ -388,11 +556,26 @@ impl OrderListPlaceNewOrderRespTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceNewOrderRespTypeEnum::Ack => "ACK",
-            OrderListPlaceNewOrderRespTypeEnum::Result => "RESULT",
-            OrderListPlaceNewOrderRespTypeEnum::Full => "FULL",
-            OrderListPlaceNewOrderRespTypeEnum::Market => "MARKET",
-            OrderListPlaceNewOrderRespTypeEnum::Limit => "LIMIT",
+            Self::Ack => "ACK",
+            Self::Result => "RESULT",
+            Self::Full => "FULL",
+            Self::Market => "MARKET",
+            Self::Limit => "LIMIT",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderListPlaceNewOrderRespTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "ACK" => Ok(Self::Ack),
+            "RESULT" => Ok(Self::Result),
+            "FULL" => Ok(Self::Full),
+            "MARKET" => Ok(Self::Market),
+            "LIMIT" => Ok(Self::Limit),
+            other => Err(format!("invalid OrderListPlaceNewOrderRespTypeEnum: {}", other).into()),
         }
     }
 }
@@ -418,12 +601,32 @@ impl OrderListPlaceSelfTradePreventionModeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceSelfTradePreventionModeEnum::None => "NONE",
-            OrderListPlaceSelfTradePreventionModeEnum::ExpireTaker => "EXPIRE_TAKER",
-            OrderListPlaceSelfTradePreventionModeEnum::ExpireMaker => "EXPIRE_MAKER",
-            OrderListPlaceSelfTradePreventionModeEnum::ExpireBoth => "EXPIRE_BOTH",
-            OrderListPlaceSelfTradePreventionModeEnum::Decrement => "DECREMENT",
-            OrderListPlaceSelfTradePreventionModeEnum::NonRepresentable => "NON_REPRESENTABLE",
+            Self::None => "NONE",
+            Self::ExpireTaker => "EXPIRE_TAKER",
+            Self::ExpireMaker => "EXPIRE_MAKER",
+            Self::ExpireBoth => "EXPIRE_BOTH",
+            Self::Decrement => "DECREMENT",
+            Self::NonRepresentable => "NON_REPRESENTABLE",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderListPlaceSelfTradePreventionModeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "NONE" => Ok(Self::None),
+            "EXPIRE_TAKER" => Ok(Self::ExpireTaker),
+            "EXPIRE_MAKER" => Ok(Self::ExpireMaker),
+            "EXPIRE_BOTH" => Ok(Self::ExpireBoth),
+            "DECREMENT" => Ok(Self::Decrement),
+            "NON_REPRESENTABLE" => Ok(Self::NonRepresentable),
+            other => Err(format!(
+                "invalid OrderListPlaceSelfTradePreventionModeEnum: {}",
+                other
+            )
+            .into()),
         }
     }
 }
@@ -441,8 +644,20 @@ impl OrderListPlaceOcoSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOcoSideEnum::Buy => "BUY",
-            OrderListPlaceOcoSideEnum::Sell => "SELL",
+            Self::Buy => "BUY",
+            Self::Sell => "SELL",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderListPlaceOcoSideEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "BUY" => Ok(Self::Buy),
+            "SELL" => Ok(Self::Sell),
+            other => Err(format!("invalid OrderListPlaceOcoSideEnum: {}", other).into()),
         }
     }
 }
@@ -466,11 +681,26 @@ impl OrderListPlaceOcoAboveTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOcoAboveTypeEnum::StopLossLimit => "STOP_LOSS_LIMIT",
-            OrderListPlaceOcoAboveTypeEnum::StopLoss => "STOP_LOSS",
-            OrderListPlaceOcoAboveTypeEnum::LimitMaker => "LIMIT_MAKER",
-            OrderListPlaceOcoAboveTypeEnum::TakeProfit => "TAKE_PROFIT",
-            OrderListPlaceOcoAboveTypeEnum::TakeProfitLimit => "TAKE_PROFIT_LIMIT",
+            Self::StopLossLimit => "STOP_LOSS_LIMIT",
+            Self::StopLoss => "STOP_LOSS",
+            Self::LimitMaker => "LIMIT_MAKER",
+            Self::TakeProfit => "TAKE_PROFIT",
+            Self::TakeProfitLimit => "TAKE_PROFIT_LIMIT",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderListPlaceOcoAboveTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "STOP_LOSS_LIMIT" => Ok(Self::StopLossLimit),
+            "STOP_LOSS" => Ok(Self::StopLoss),
+            "LIMIT_MAKER" => Ok(Self::LimitMaker),
+            "TAKE_PROFIT" => Ok(Self::TakeProfit),
+            "TAKE_PROFIT_LIMIT" => Ok(Self::TakeProfitLimit),
+            other => Err(format!("invalid OrderListPlaceOcoAboveTypeEnum: {}", other).into()),
         }
     }
 }
@@ -492,10 +722,24 @@ impl OrderListPlaceOcoBelowTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOcoBelowTypeEnum::StopLoss => "STOP_LOSS",
-            OrderListPlaceOcoBelowTypeEnum::StopLossLimit => "STOP_LOSS_LIMIT",
-            OrderListPlaceOcoBelowTypeEnum::TakeProfit => "TAKE_PROFIT",
-            OrderListPlaceOcoBelowTypeEnum::TakeProfitLimit => "TAKE_PROFIT_LIMIT",
+            Self::StopLoss => "STOP_LOSS",
+            Self::StopLossLimit => "STOP_LOSS_LIMIT",
+            Self::TakeProfit => "TAKE_PROFIT",
+            Self::TakeProfitLimit => "TAKE_PROFIT_LIMIT",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderListPlaceOcoBelowTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "STOP_LOSS" => Ok(Self::StopLoss),
+            "STOP_LOSS_LIMIT" => Ok(Self::StopLossLimit),
+            "TAKE_PROFIT" => Ok(Self::TakeProfit),
+            "TAKE_PROFIT_LIMIT" => Ok(Self::TakeProfitLimit),
+            other => Err(format!("invalid OrderListPlaceOcoBelowTypeEnum: {}", other).into()),
         }
     }
 }
@@ -515,9 +759,24 @@ impl OrderListPlaceOcoBelowTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOcoBelowTimeInForceEnum::Belowtype => "belowType",
-            OrderListPlaceOcoBelowTimeInForceEnum::StopLossLimit => "STOP_LOSS_LIMIT",
-            OrderListPlaceOcoBelowTimeInForceEnum::TakeProfitLimit => "TAKE_PROFIT_LIMIT",
+            Self::Belowtype => "belowType",
+            Self::StopLossLimit => "STOP_LOSS_LIMIT",
+            Self::TakeProfitLimit => "TAKE_PROFIT_LIMIT",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderListPlaceOcoBelowTimeInForceEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "belowType" => Ok(Self::Belowtype),
+            "STOP_LOSS_LIMIT" => Ok(Self::StopLossLimit),
+            "TAKE_PROFIT_LIMIT" => Ok(Self::TakeProfitLimit),
+            other => {
+                Err(format!("invalid OrderListPlaceOcoBelowTimeInForceEnum: {}", other).into())
+            }
         }
     }
 }
@@ -541,11 +800,28 @@ impl OrderListPlaceOcoNewOrderRespTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOcoNewOrderRespTypeEnum::Ack => "ACK",
-            OrderListPlaceOcoNewOrderRespTypeEnum::Result => "RESULT",
-            OrderListPlaceOcoNewOrderRespTypeEnum::Full => "FULL",
-            OrderListPlaceOcoNewOrderRespTypeEnum::Market => "MARKET",
-            OrderListPlaceOcoNewOrderRespTypeEnum::Limit => "LIMIT",
+            Self::Ack => "ACK",
+            Self::Result => "RESULT",
+            Self::Full => "FULL",
+            Self::Market => "MARKET",
+            Self::Limit => "LIMIT",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderListPlaceOcoNewOrderRespTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "ACK" => Ok(Self::Ack),
+            "RESULT" => Ok(Self::Result),
+            "FULL" => Ok(Self::Full),
+            "MARKET" => Ok(Self::Market),
+            "LIMIT" => Ok(Self::Limit),
+            other => {
+                Err(format!("invalid OrderListPlaceOcoNewOrderRespTypeEnum: {}", other).into())
+            }
         }
     }
 }
@@ -571,12 +847,32 @@ impl OrderListPlaceOcoSelfTradePreventionModeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOcoSelfTradePreventionModeEnum::None => "NONE",
-            OrderListPlaceOcoSelfTradePreventionModeEnum::ExpireTaker => "EXPIRE_TAKER",
-            OrderListPlaceOcoSelfTradePreventionModeEnum::ExpireMaker => "EXPIRE_MAKER",
-            OrderListPlaceOcoSelfTradePreventionModeEnum::ExpireBoth => "EXPIRE_BOTH",
-            OrderListPlaceOcoSelfTradePreventionModeEnum::Decrement => "DECREMENT",
-            OrderListPlaceOcoSelfTradePreventionModeEnum::NonRepresentable => "NON_REPRESENTABLE",
+            Self::None => "NONE",
+            Self::ExpireTaker => "EXPIRE_TAKER",
+            Self::ExpireMaker => "EXPIRE_MAKER",
+            Self::ExpireBoth => "EXPIRE_BOTH",
+            Self::Decrement => "DECREMENT",
+            Self::NonRepresentable => "NON_REPRESENTABLE",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderListPlaceOcoSelfTradePreventionModeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "NONE" => Ok(Self::None),
+            "EXPIRE_TAKER" => Ok(Self::ExpireTaker),
+            "EXPIRE_MAKER" => Ok(Self::ExpireMaker),
+            "EXPIRE_BOTH" => Ok(Self::ExpireBoth),
+            "DECREMENT" => Ok(Self::Decrement),
+            "NON_REPRESENTABLE" => Ok(Self::NonRepresentable),
+            other => Err(format!(
+                "invalid OrderListPlaceOcoSelfTradePreventionModeEnum: {}",
+                other
+            )
+            .into()),
         }
     }
 }
@@ -594,8 +890,20 @@ impl OrderListPlaceOtoWorkingTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtoWorkingTypeEnum::Limit => "LIMIT",
-            OrderListPlaceOtoWorkingTypeEnum::LimitMaker => "LIMIT_MAKER",
+            Self::Limit => "LIMIT",
+            Self::LimitMaker => "LIMIT_MAKER",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderListPlaceOtoWorkingTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "LIMIT" => Ok(Self::Limit),
+            "LIMIT_MAKER" => Ok(Self::LimitMaker),
+            other => Err(format!("invalid OrderListPlaceOtoWorkingTypeEnum: {}", other).into()),
         }
     }
 }
@@ -613,8 +921,20 @@ impl OrderListPlaceOtoWorkingSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtoWorkingSideEnum::Buy => "BUY",
-            OrderListPlaceOtoWorkingSideEnum::Sell => "SELL",
+            Self::Buy => "BUY",
+            Self::Sell => "SELL",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderListPlaceOtoWorkingSideEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "BUY" => Ok(Self::Buy),
+            "SELL" => Ok(Self::Sell),
+            other => Err(format!("invalid OrderListPlaceOtoWorkingSideEnum: {}", other).into()),
         }
     }
 }
@@ -642,13 +962,30 @@ impl OrderListPlaceOtoPendingTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtoPendingTypeEnum::Limit => "LIMIT",
-            OrderListPlaceOtoPendingTypeEnum::Market => "MARKET",
-            OrderListPlaceOtoPendingTypeEnum::StopLoss => "STOP_LOSS",
-            OrderListPlaceOtoPendingTypeEnum::StopLossLimit => "STOP_LOSS_LIMIT",
-            OrderListPlaceOtoPendingTypeEnum::TakeProfit => "TAKE_PROFIT",
-            OrderListPlaceOtoPendingTypeEnum::TakeProfitLimit => "TAKE_PROFIT_LIMIT",
-            OrderListPlaceOtoPendingTypeEnum::LimitMaker => "LIMIT_MAKER",
+            Self::Limit => "LIMIT",
+            Self::Market => "MARKET",
+            Self::StopLoss => "STOP_LOSS",
+            Self::StopLossLimit => "STOP_LOSS_LIMIT",
+            Self::TakeProfit => "TAKE_PROFIT",
+            Self::TakeProfitLimit => "TAKE_PROFIT_LIMIT",
+            Self::LimitMaker => "LIMIT_MAKER",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderListPlaceOtoPendingTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "LIMIT" => Ok(Self::Limit),
+            "MARKET" => Ok(Self::Market),
+            "STOP_LOSS" => Ok(Self::StopLoss),
+            "STOP_LOSS_LIMIT" => Ok(Self::StopLossLimit),
+            "TAKE_PROFIT" => Ok(Self::TakeProfit),
+            "TAKE_PROFIT_LIMIT" => Ok(Self::TakeProfitLimit),
+            "LIMIT_MAKER" => Ok(Self::LimitMaker),
+            other => Err(format!("invalid OrderListPlaceOtoPendingTypeEnum: {}", other).into()),
         }
     }
 }
@@ -666,8 +1003,20 @@ impl OrderListPlaceOtoPendingSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtoPendingSideEnum::Buy => "BUY",
-            OrderListPlaceOtoPendingSideEnum::Sell => "SELL",
+            Self::Buy => "BUY",
+            Self::Sell => "SELL",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderListPlaceOtoPendingSideEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "BUY" => Ok(Self::Buy),
+            "SELL" => Ok(Self::Sell),
+            other => Err(format!("invalid OrderListPlaceOtoPendingSideEnum: {}", other).into()),
         }
     }
 }
@@ -691,11 +1040,28 @@ impl OrderListPlaceOtoNewOrderRespTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtoNewOrderRespTypeEnum::Ack => "ACK",
-            OrderListPlaceOtoNewOrderRespTypeEnum::Result => "RESULT",
-            OrderListPlaceOtoNewOrderRespTypeEnum::Full => "FULL",
-            OrderListPlaceOtoNewOrderRespTypeEnum::Market => "MARKET",
-            OrderListPlaceOtoNewOrderRespTypeEnum::Limit => "LIMIT",
+            Self::Ack => "ACK",
+            Self::Result => "RESULT",
+            Self::Full => "FULL",
+            Self::Market => "MARKET",
+            Self::Limit => "LIMIT",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderListPlaceOtoNewOrderRespTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "ACK" => Ok(Self::Ack),
+            "RESULT" => Ok(Self::Result),
+            "FULL" => Ok(Self::Full),
+            "MARKET" => Ok(Self::Market),
+            "LIMIT" => Ok(Self::Limit),
+            other => {
+                Err(format!("invalid OrderListPlaceOtoNewOrderRespTypeEnum: {}", other).into())
+            }
         }
     }
 }
@@ -721,12 +1087,32 @@ impl OrderListPlaceOtoSelfTradePreventionModeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtoSelfTradePreventionModeEnum::None => "NONE",
-            OrderListPlaceOtoSelfTradePreventionModeEnum::ExpireTaker => "EXPIRE_TAKER",
-            OrderListPlaceOtoSelfTradePreventionModeEnum::ExpireMaker => "EXPIRE_MAKER",
-            OrderListPlaceOtoSelfTradePreventionModeEnum::ExpireBoth => "EXPIRE_BOTH",
-            OrderListPlaceOtoSelfTradePreventionModeEnum::Decrement => "DECREMENT",
-            OrderListPlaceOtoSelfTradePreventionModeEnum::NonRepresentable => "NON_REPRESENTABLE",
+            Self::None => "NONE",
+            Self::ExpireTaker => "EXPIRE_TAKER",
+            Self::ExpireMaker => "EXPIRE_MAKER",
+            Self::ExpireBoth => "EXPIRE_BOTH",
+            Self::Decrement => "DECREMENT",
+            Self::NonRepresentable => "NON_REPRESENTABLE",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderListPlaceOtoSelfTradePreventionModeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "NONE" => Ok(Self::None),
+            "EXPIRE_TAKER" => Ok(Self::ExpireTaker),
+            "EXPIRE_MAKER" => Ok(Self::ExpireMaker),
+            "EXPIRE_BOTH" => Ok(Self::ExpireBoth),
+            "DECREMENT" => Ok(Self::Decrement),
+            "NON_REPRESENTABLE" => Ok(Self::NonRepresentable),
+            other => Err(format!(
+                "invalid OrderListPlaceOtoSelfTradePreventionModeEnum: {}",
+                other
+            )
+            .into()),
         }
     }
 }
@@ -746,9 +1132,24 @@ impl OrderListPlaceOtoWorkingTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtoWorkingTimeInForceEnum::Gtc => "GTC",
-            OrderListPlaceOtoWorkingTimeInForceEnum::Ioc => "IOC",
-            OrderListPlaceOtoWorkingTimeInForceEnum::Fok => "FOK",
+            Self::Gtc => "GTC",
+            Self::Ioc => "IOC",
+            Self::Fok => "FOK",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderListPlaceOtoWorkingTimeInForceEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "GTC" => Ok(Self::Gtc),
+            "IOC" => Ok(Self::Ioc),
+            "FOK" => Ok(Self::Fok),
+            other => {
+                Err(format!("invalid OrderListPlaceOtoWorkingTimeInForceEnum: {}", other).into())
+            }
         }
     }
 }
@@ -768,9 +1169,24 @@ impl OrderListPlaceOtoPendingTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtoPendingTimeInForceEnum::Gtc => "GTC",
-            OrderListPlaceOtoPendingTimeInForceEnum::Ioc => "IOC",
-            OrderListPlaceOtoPendingTimeInForceEnum::Fok => "FOK",
+            Self::Gtc => "GTC",
+            Self::Ioc => "IOC",
+            Self::Fok => "FOK",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderListPlaceOtoPendingTimeInForceEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "GTC" => Ok(Self::Gtc),
+            "IOC" => Ok(Self::Ioc),
+            "FOK" => Ok(Self::Fok),
+            other => {
+                Err(format!("invalid OrderListPlaceOtoPendingTimeInForceEnum: {}", other).into())
+            }
         }
     }
 }
@@ -788,8 +1204,20 @@ impl OrderListPlaceOtocoWorkingTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtocoWorkingTypeEnum::Limit => "LIMIT",
-            OrderListPlaceOtocoWorkingTypeEnum::LimitMaker => "LIMIT_MAKER",
+            Self::Limit => "LIMIT",
+            Self::LimitMaker => "LIMIT_MAKER",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderListPlaceOtocoWorkingTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "LIMIT" => Ok(Self::Limit),
+            "LIMIT_MAKER" => Ok(Self::LimitMaker),
+            other => Err(format!("invalid OrderListPlaceOtocoWorkingTypeEnum: {}", other).into()),
         }
     }
 }
@@ -807,8 +1235,20 @@ impl OrderListPlaceOtocoWorkingSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtocoWorkingSideEnum::Buy => "BUY",
-            OrderListPlaceOtocoWorkingSideEnum::Sell => "SELL",
+            Self::Buy => "BUY",
+            Self::Sell => "SELL",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderListPlaceOtocoWorkingSideEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "BUY" => Ok(Self::Buy),
+            "SELL" => Ok(Self::Sell),
+            other => Err(format!("invalid OrderListPlaceOtocoWorkingSideEnum: {}", other).into()),
         }
     }
 }
@@ -826,8 +1266,20 @@ impl OrderListPlaceOtocoPendingSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtocoPendingSideEnum::Buy => "BUY",
-            OrderListPlaceOtocoPendingSideEnum::Sell => "SELL",
+            Self::Buy => "BUY",
+            Self::Sell => "SELL",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderListPlaceOtocoPendingSideEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "BUY" => Ok(Self::Buy),
+            "SELL" => Ok(Self::Sell),
+            other => Err(format!("invalid OrderListPlaceOtocoPendingSideEnum: {}", other).into()),
         }
     }
 }
@@ -851,11 +1303,28 @@ impl OrderListPlaceOtocoPendingAboveTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtocoPendingAboveTypeEnum::StopLossLimit => "STOP_LOSS_LIMIT",
-            OrderListPlaceOtocoPendingAboveTypeEnum::StopLoss => "STOP_LOSS",
-            OrderListPlaceOtocoPendingAboveTypeEnum::LimitMaker => "LIMIT_MAKER",
-            OrderListPlaceOtocoPendingAboveTypeEnum::TakeProfit => "TAKE_PROFIT",
-            OrderListPlaceOtocoPendingAboveTypeEnum::TakeProfitLimit => "TAKE_PROFIT_LIMIT",
+            Self::StopLossLimit => "STOP_LOSS_LIMIT",
+            Self::StopLoss => "STOP_LOSS",
+            Self::LimitMaker => "LIMIT_MAKER",
+            Self::TakeProfit => "TAKE_PROFIT",
+            Self::TakeProfitLimit => "TAKE_PROFIT_LIMIT",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderListPlaceOtocoPendingAboveTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "STOP_LOSS_LIMIT" => Ok(Self::StopLossLimit),
+            "STOP_LOSS" => Ok(Self::StopLoss),
+            "LIMIT_MAKER" => Ok(Self::LimitMaker),
+            "TAKE_PROFIT" => Ok(Self::TakeProfit),
+            "TAKE_PROFIT_LIMIT" => Ok(Self::TakeProfitLimit),
+            other => {
+                Err(format!("invalid OrderListPlaceOtocoPendingAboveTypeEnum: {}", other).into())
+            }
         }
     }
 }
@@ -879,11 +1348,28 @@ impl OrderListPlaceOtocoNewOrderRespTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtocoNewOrderRespTypeEnum::Ack => "ACK",
-            OrderListPlaceOtocoNewOrderRespTypeEnum::Result => "RESULT",
-            OrderListPlaceOtocoNewOrderRespTypeEnum::Full => "FULL",
-            OrderListPlaceOtocoNewOrderRespTypeEnum::Market => "MARKET",
-            OrderListPlaceOtocoNewOrderRespTypeEnum::Limit => "LIMIT",
+            Self::Ack => "ACK",
+            Self::Result => "RESULT",
+            Self::Full => "FULL",
+            Self::Market => "MARKET",
+            Self::Limit => "LIMIT",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderListPlaceOtocoNewOrderRespTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "ACK" => Ok(Self::Ack),
+            "RESULT" => Ok(Self::Result),
+            "FULL" => Ok(Self::Full),
+            "MARKET" => Ok(Self::Market),
+            "LIMIT" => Ok(Self::Limit),
+            other => {
+                Err(format!("invalid OrderListPlaceOtocoNewOrderRespTypeEnum: {}", other).into())
+            }
         }
     }
 }
@@ -909,12 +1395,32 @@ impl OrderListPlaceOtocoSelfTradePreventionModeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtocoSelfTradePreventionModeEnum::None => "NONE",
-            OrderListPlaceOtocoSelfTradePreventionModeEnum::ExpireTaker => "EXPIRE_TAKER",
-            OrderListPlaceOtocoSelfTradePreventionModeEnum::ExpireMaker => "EXPIRE_MAKER",
-            OrderListPlaceOtocoSelfTradePreventionModeEnum::ExpireBoth => "EXPIRE_BOTH",
-            OrderListPlaceOtocoSelfTradePreventionModeEnum::Decrement => "DECREMENT",
-            OrderListPlaceOtocoSelfTradePreventionModeEnum::NonRepresentable => "NON_REPRESENTABLE",
+            Self::None => "NONE",
+            Self::ExpireTaker => "EXPIRE_TAKER",
+            Self::ExpireMaker => "EXPIRE_MAKER",
+            Self::ExpireBoth => "EXPIRE_BOTH",
+            Self::Decrement => "DECREMENT",
+            Self::NonRepresentable => "NON_REPRESENTABLE",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderListPlaceOtocoSelfTradePreventionModeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "NONE" => Ok(Self::None),
+            "EXPIRE_TAKER" => Ok(Self::ExpireTaker),
+            "EXPIRE_MAKER" => Ok(Self::ExpireMaker),
+            "EXPIRE_BOTH" => Ok(Self::ExpireBoth),
+            "DECREMENT" => Ok(Self::Decrement),
+            "NON_REPRESENTABLE" => Ok(Self::NonRepresentable),
+            other => Err(format!(
+                "invalid OrderListPlaceOtocoSelfTradePreventionModeEnum: {}",
+                other
+            )
+            .into()),
         }
     }
 }
@@ -934,9 +1440,26 @@ impl OrderListPlaceOtocoWorkingTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtocoWorkingTimeInForceEnum::Gtc => "GTC",
-            OrderListPlaceOtocoWorkingTimeInForceEnum::Ioc => "IOC",
-            OrderListPlaceOtocoWorkingTimeInForceEnum::Fok => "FOK",
+            Self::Gtc => "GTC",
+            Self::Ioc => "IOC",
+            Self::Fok => "FOK",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderListPlaceOtocoWorkingTimeInForceEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "GTC" => Ok(Self::Gtc),
+            "IOC" => Ok(Self::Ioc),
+            "FOK" => Ok(Self::Fok),
+            other => Err(format!(
+                "invalid OrderListPlaceOtocoWorkingTimeInForceEnum: {}",
+                other
+            )
+            .into()),
         }
     }
 }
@@ -956,9 +1479,26 @@ impl OrderListPlaceOtocoPendingAboveTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtocoPendingAboveTimeInForceEnum::Gtc => "GTC",
-            OrderListPlaceOtocoPendingAboveTimeInForceEnum::Ioc => "IOC",
-            OrderListPlaceOtocoPendingAboveTimeInForceEnum::Fok => "FOK",
+            Self::Gtc => "GTC",
+            Self::Ioc => "IOC",
+            Self::Fok => "FOK",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderListPlaceOtocoPendingAboveTimeInForceEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "GTC" => Ok(Self::Gtc),
+            "IOC" => Ok(Self::Ioc),
+            "FOK" => Ok(Self::Fok),
+            other => Err(format!(
+                "invalid OrderListPlaceOtocoPendingAboveTimeInForceEnum: {}",
+                other
+            )
+            .into()),
         }
     }
 }
@@ -980,10 +1520,26 @@ impl OrderListPlaceOtocoPendingBelowTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtocoPendingBelowTypeEnum::StopLoss => "STOP_LOSS",
-            OrderListPlaceOtocoPendingBelowTypeEnum::StopLossLimit => "STOP_LOSS_LIMIT",
-            OrderListPlaceOtocoPendingBelowTypeEnum::TakeProfit => "TAKE_PROFIT",
-            OrderListPlaceOtocoPendingBelowTypeEnum::TakeProfitLimit => "TAKE_PROFIT_LIMIT",
+            Self::StopLoss => "STOP_LOSS",
+            Self::StopLossLimit => "STOP_LOSS_LIMIT",
+            Self::TakeProfit => "TAKE_PROFIT",
+            Self::TakeProfitLimit => "TAKE_PROFIT_LIMIT",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderListPlaceOtocoPendingBelowTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "STOP_LOSS" => Ok(Self::StopLoss),
+            "STOP_LOSS_LIMIT" => Ok(Self::StopLossLimit),
+            "TAKE_PROFIT" => Ok(Self::TakeProfit),
+            "TAKE_PROFIT_LIMIT" => Ok(Self::TakeProfitLimit),
+            other => {
+                Err(format!("invalid OrderListPlaceOtocoPendingBelowTypeEnum: {}", other).into())
+            }
         }
     }
 }
@@ -1003,9 +1559,26 @@ impl OrderListPlaceOtocoPendingBelowTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderListPlaceOtocoPendingBelowTimeInForceEnum::Gtc => "GTC",
-            OrderListPlaceOtocoPendingBelowTimeInForceEnum::Ioc => "IOC",
-            OrderListPlaceOtocoPendingBelowTimeInForceEnum::Fok => "FOK",
+            Self::Gtc => "GTC",
+            Self::Ioc => "IOC",
+            Self::Fok => "FOK",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderListPlaceOtocoPendingBelowTimeInForceEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "GTC" => Ok(Self::Gtc),
+            "IOC" => Ok(Self::Ioc),
+            "FOK" => Ok(Self::Fok),
+            other => Err(format!(
+                "invalid OrderListPlaceOtocoPendingBelowTimeInForceEnum: {}",
+                other
+            )
+            .into()),
         }
     }
 }
@@ -1023,8 +1596,20 @@ impl OrderPlaceSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderPlaceSideEnum::Buy => "BUY",
-            OrderPlaceSideEnum::Sell => "SELL",
+            Self::Buy => "BUY",
+            Self::Sell => "SELL",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderPlaceSideEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "BUY" => Ok(Self::Buy),
+            "SELL" => Ok(Self::Sell),
+            other => Err(format!("invalid OrderPlaceSideEnum: {}", other).into()),
         }
     }
 }
@@ -1054,14 +1639,32 @@ impl OrderPlaceTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderPlaceTypeEnum::Market => "MARKET",
-            OrderPlaceTypeEnum::Limit => "LIMIT",
-            OrderPlaceTypeEnum::StopLoss => "STOP_LOSS",
-            OrderPlaceTypeEnum::StopLossLimit => "STOP_LOSS_LIMIT",
-            OrderPlaceTypeEnum::TakeProfit => "TAKE_PROFIT",
-            OrderPlaceTypeEnum::TakeProfitLimit => "TAKE_PROFIT_LIMIT",
-            OrderPlaceTypeEnum::LimitMaker => "LIMIT_MAKER",
-            OrderPlaceTypeEnum::NonRepresentable => "NON_REPRESENTABLE",
+            Self::Market => "MARKET",
+            Self::Limit => "LIMIT",
+            Self::StopLoss => "STOP_LOSS",
+            Self::StopLossLimit => "STOP_LOSS_LIMIT",
+            Self::TakeProfit => "TAKE_PROFIT",
+            Self::TakeProfitLimit => "TAKE_PROFIT_LIMIT",
+            Self::LimitMaker => "LIMIT_MAKER",
+            Self::NonRepresentable => "NON_REPRESENTABLE",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderPlaceTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "MARKET" => Ok(Self::Market),
+            "LIMIT" => Ok(Self::Limit),
+            "STOP_LOSS" => Ok(Self::StopLoss),
+            "STOP_LOSS_LIMIT" => Ok(Self::StopLossLimit),
+            "TAKE_PROFIT" => Ok(Self::TakeProfit),
+            "TAKE_PROFIT_LIMIT" => Ok(Self::TakeProfitLimit),
+            "LIMIT_MAKER" => Ok(Self::LimitMaker),
+            "NON_REPRESENTABLE" => Ok(Self::NonRepresentable),
+            other => Err(format!("invalid OrderPlaceTypeEnum: {}", other).into()),
         }
     }
 }
@@ -1083,10 +1686,24 @@ impl OrderPlaceTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderPlaceTimeInForceEnum::Gtc => "GTC",
-            OrderPlaceTimeInForceEnum::Ioc => "IOC",
-            OrderPlaceTimeInForceEnum::Fok => "FOK",
-            OrderPlaceTimeInForceEnum::NonRepresentable => "NON_REPRESENTABLE",
+            Self::Gtc => "GTC",
+            Self::Ioc => "IOC",
+            Self::Fok => "FOK",
+            Self::NonRepresentable => "NON_REPRESENTABLE",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderPlaceTimeInForceEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "GTC" => Ok(Self::Gtc),
+            "IOC" => Ok(Self::Ioc),
+            "FOK" => Ok(Self::Fok),
+            "NON_REPRESENTABLE" => Ok(Self::NonRepresentable),
+            other => Err(format!("invalid OrderPlaceTimeInForceEnum: {}", other).into()),
         }
     }
 }
@@ -1110,11 +1727,26 @@ impl OrderPlaceNewOrderRespTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderPlaceNewOrderRespTypeEnum::Ack => "ACK",
-            OrderPlaceNewOrderRespTypeEnum::Result => "RESULT",
-            OrderPlaceNewOrderRespTypeEnum::Full => "FULL",
-            OrderPlaceNewOrderRespTypeEnum::Market => "MARKET",
-            OrderPlaceNewOrderRespTypeEnum::Limit => "LIMIT",
+            Self::Ack => "ACK",
+            Self::Result => "RESULT",
+            Self::Full => "FULL",
+            Self::Market => "MARKET",
+            Self::Limit => "LIMIT",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderPlaceNewOrderRespTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "ACK" => Ok(Self::Ack),
+            "RESULT" => Ok(Self::Result),
+            "FULL" => Ok(Self::Full),
+            "MARKET" => Ok(Self::Market),
+            "LIMIT" => Ok(Self::Limit),
+            other => Err(format!("invalid OrderPlaceNewOrderRespTypeEnum: {}", other).into()),
         }
     }
 }
@@ -1140,12 +1772,30 @@ impl OrderPlaceSelfTradePreventionModeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OrderPlaceSelfTradePreventionModeEnum::None => "NONE",
-            OrderPlaceSelfTradePreventionModeEnum::ExpireTaker => "EXPIRE_TAKER",
-            OrderPlaceSelfTradePreventionModeEnum::ExpireMaker => "EXPIRE_MAKER",
-            OrderPlaceSelfTradePreventionModeEnum::ExpireBoth => "EXPIRE_BOTH",
-            OrderPlaceSelfTradePreventionModeEnum::Decrement => "DECREMENT",
-            OrderPlaceSelfTradePreventionModeEnum::NonRepresentable => "NON_REPRESENTABLE",
+            Self::None => "NONE",
+            Self::ExpireTaker => "EXPIRE_TAKER",
+            Self::ExpireMaker => "EXPIRE_MAKER",
+            Self::ExpireBoth => "EXPIRE_BOTH",
+            Self::Decrement => "DECREMENT",
+            Self::NonRepresentable => "NON_REPRESENTABLE",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderPlaceSelfTradePreventionModeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "NONE" => Ok(Self::None),
+            "EXPIRE_TAKER" => Ok(Self::ExpireTaker),
+            "EXPIRE_MAKER" => Ok(Self::ExpireMaker),
+            "EXPIRE_BOTH" => Ok(Self::ExpireBoth),
+            "DECREMENT" => Ok(Self::Decrement),
+            "NON_REPRESENTABLE" => Ok(Self::NonRepresentable),
+            other => {
+                Err(format!("invalid OrderPlaceSelfTradePreventionModeEnum: {}", other).into())
+            }
         }
     }
 }
@@ -1163,8 +1813,20 @@ impl SorOrderPlaceSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            SorOrderPlaceSideEnum::Buy => "BUY",
-            SorOrderPlaceSideEnum::Sell => "SELL",
+            Self::Buy => "BUY",
+            Self::Sell => "SELL",
+        }
+    }
+}
+
+impl std::str::FromStr for SorOrderPlaceSideEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "BUY" => Ok(Self::Buy),
+            "SELL" => Ok(Self::Sell),
+            other => Err(format!("invalid SorOrderPlaceSideEnum: {}", other).into()),
         }
     }
 }
@@ -1194,14 +1856,32 @@ impl SorOrderPlaceTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            SorOrderPlaceTypeEnum::Market => "MARKET",
-            SorOrderPlaceTypeEnum::Limit => "LIMIT",
-            SorOrderPlaceTypeEnum::StopLoss => "STOP_LOSS",
-            SorOrderPlaceTypeEnum::StopLossLimit => "STOP_LOSS_LIMIT",
-            SorOrderPlaceTypeEnum::TakeProfit => "TAKE_PROFIT",
-            SorOrderPlaceTypeEnum::TakeProfitLimit => "TAKE_PROFIT_LIMIT",
-            SorOrderPlaceTypeEnum::LimitMaker => "LIMIT_MAKER",
-            SorOrderPlaceTypeEnum::NonRepresentable => "NON_REPRESENTABLE",
+            Self::Market => "MARKET",
+            Self::Limit => "LIMIT",
+            Self::StopLoss => "STOP_LOSS",
+            Self::StopLossLimit => "STOP_LOSS_LIMIT",
+            Self::TakeProfit => "TAKE_PROFIT",
+            Self::TakeProfitLimit => "TAKE_PROFIT_LIMIT",
+            Self::LimitMaker => "LIMIT_MAKER",
+            Self::NonRepresentable => "NON_REPRESENTABLE",
+        }
+    }
+}
+
+impl std::str::FromStr for SorOrderPlaceTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "MARKET" => Ok(Self::Market),
+            "LIMIT" => Ok(Self::Limit),
+            "STOP_LOSS" => Ok(Self::StopLoss),
+            "STOP_LOSS_LIMIT" => Ok(Self::StopLossLimit),
+            "TAKE_PROFIT" => Ok(Self::TakeProfit),
+            "TAKE_PROFIT_LIMIT" => Ok(Self::TakeProfitLimit),
+            "LIMIT_MAKER" => Ok(Self::LimitMaker),
+            "NON_REPRESENTABLE" => Ok(Self::NonRepresentable),
+            other => Err(format!("invalid SorOrderPlaceTypeEnum: {}", other).into()),
         }
     }
 }
@@ -1223,10 +1903,24 @@ impl SorOrderPlaceTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            SorOrderPlaceTimeInForceEnum::Gtc => "GTC",
-            SorOrderPlaceTimeInForceEnum::Ioc => "IOC",
-            SorOrderPlaceTimeInForceEnum::Fok => "FOK",
-            SorOrderPlaceTimeInForceEnum::NonRepresentable => "NON_REPRESENTABLE",
+            Self::Gtc => "GTC",
+            Self::Ioc => "IOC",
+            Self::Fok => "FOK",
+            Self::NonRepresentable => "NON_REPRESENTABLE",
+        }
+    }
+}
+
+impl std::str::FromStr for SorOrderPlaceTimeInForceEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "GTC" => Ok(Self::Gtc),
+            "IOC" => Ok(Self::Ioc),
+            "FOK" => Ok(Self::Fok),
+            "NON_REPRESENTABLE" => Ok(Self::NonRepresentable),
+            other => Err(format!("invalid SorOrderPlaceTimeInForceEnum: {}", other).into()),
         }
     }
 }
@@ -1250,11 +1944,26 @@ impl SorOrderPlaceNewOrderRespTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            SorOrderPlaceNewOrderRespTypeEnum::Ack => "ACK",
-            SorOrderPlaceNewOrderRespTypeEnum::Result => "RESULT",
-            SorOrderPlaceNewOrderRespTypeEnum::Full => "FULL",
-            SorOrderPlaceNewOrderRespTypeEnum::Market => "MARKET",
-            SorOrderPlaceNewOrderRespTypeEnum::Limit => "LIMIT",
+            Self::Ack => "ACK",
+            Self::Result => "RESULT",
+            Self::Full => "FULL",
+            Self::Market => "MARKET",
+            Self::Limit => "LIMIT",
+        }
+    }
+}
+
+impl std::str::FromStr for SorOrderPlaceNewOrderRespTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "ACK" => Ok(Self::Ack),
+            "RESULT" => Ok(Self::Result),
+            "FULL" => Ok(Self::Full),
+            "MARKET" => Ok(Self::Market),
+            "LIMIT" => Ok(Self::Limit),
+            other => Err(format!("invalid SorOrderPlaceNewOrderRespTypeEnum: {}", other).into()),
         }
     }
 }
@@ -1280,12 +1989,32 @@ impl SorOrderPlaceSelfTradePreventionModeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            SorOrderPlaceSelfTradePreventionModeEnum::None => "NONE",
-            SorOrderPlaceSelfTradePreventionModeEnum::ExpireTaker => "EXPIRE_TAKER",
-            SorOrderPlaceSelfTradePreventionModeEnum::ExpireMaker => "EXPIRE_MAKER",
-            SorOrderPlaceSelfTradePreventionModeEnum::ExpireBoth => "EXPIRE_BOTH",
-            SorOrderPlaceSelfTradePreventionModeEnum::Decrement => "DECREMENT",
-            SorOrderPlaceSelfTradePreventionModeEnum::NonRepresentable => "NON_REPRESENTABLE",
+            Self::None => "NONE",
+            Self::ExpireTaker => "EXPIRE_TAKER",
+            Self::ExpireMaker => "EXPIRE_MAKER",
+            Self::ExpireBoth => "EXPIRE_BOTH",
+            Self::Decrement => "DECREMENT",
+            Self::NonRepresentable => "NON_REPRESENTABLE",
+        }
+    }
+}
+
+impl std::str::FromStr for SorOrderPlaceSelfTradePreventionModeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "NONE" => Ok(Self::None),
+            "EXPIRE_TAKER" => Ok(Self::ExpireTaker),
+            "EXPIRE_MAKER" => Ok(Self::ExpireMaker),
+            "EXPIRE_BOTH" => Ok(Self::ExpireBoth),
+            "DECREMENT" => Ok(Self::Decrement),
+            "NON_REPRESENTABLE" => Ok(Self::NonRepresentable),
+            other => Err(format!(
+                "invalid SorOrderPlaceSelfTradePreventionModeEnum: {}",
+                other
+            )
+            .into()),
         }
     }
 }
@@ -4229,7 +4958,7 @@ mod tests {
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/order.cancelReplace".trim_start_matches('/'));
 
-            let mut resp_json: Value = serde_json::from_str(r#"{"id":"99de1036-b5e2-4e0f-9b5c-13d751c93a1a","status":200,"result":{"cancelResult":"SUCCESS","newOrderResult":"SUCCESS","cancelResponse":{"symbol":"BTCUSDT","origClientOrderId":"4d96324ff9d44481926157","orderId":125690984230,"orderListId":-1,"clientOrderId":"91fe37ce9e69c90d6358c0","transactTime":1684804350068,"price":"23450.00000000","origQty":"0.00847000","executedQty":"0.00001000","origQuoteOrderQty":"0.000000","cummulativeQuoteQty":"0.23450000","status":"CANCELED","timeInForce":"GTC","type":"LIMIT","side":"SELL","selfTradePreventionMode":"NONE"},"newOrderResponse":{"symbol":"BTCUSDT","orderId":12569099453,"orderListId":-1,"clientOrderId":"bX5wROblo6YeDwa9iTLeyY","transactTime":1660813156959,"price":"23416.10000000","origQty":"0.00847000","executedQty":"0.00000000","origQuoteOrderQty":"0.000000","cummulativeQuoteQty":"0.00000000","status":"NEW","timeInForce":"GTC","type":"LIMIT","side":"SELL","selfTradePreventionMode":"NONE"}},"rateLimits":[{"rateLimitType":"REQUEST_WEIGHT","interval":"MINUTE","intervalNum":1,"limit":6000,"count":1},{"rateLimitType":"ORDERS","interval":"DAY","intervalNum":1,"limit":160000,"count":1},{"rateLimitType":"ORDERS","interval":"SECOND","intervalNum":10,"limit":50,"count":1}]}"#).unwrap();
+            let mut resp_json: Value = serde_json::from_str(r#"{"id":"99de1036-b5e2-4e0f-9b5c-13d751c93a1a","status":200,"result":{"cancelResult":"SUCCESS","newOrderResult":"SUCCESS","cancelResponse":{"symbol":"BTCUSDT","origClientOrderId":"4d96324ff9d44481926157","orderId":125690984230,"orderListId":-1,"clientOrderId":"91fe37ce9e69c90d6358c0","transactTime":1684804350068,"price":"23450.00000000","origQty":"0.00847000","executedQty":"0.00001000","origQuoteOrderQty":"0.000000","cummulativeQuoteQty":"0.23450000","status":"CANCELED","timeInForce":"GTC","type":"LIMIT","side":"SELL","selfTradePreventionMode":"NONE"},"newOrderResponse":{"symbol":"BTCUSDT","orderId":12569099453,"orderListId":-1,"clientOrderId":"bX5wROblo6YeDwa9iTLeyY","transactTime":1660813156959,"price":"23416.10000000","origQty":"0.00847000","executedQty":"0.00000000","origQuoteOrderQty":"0.000000","cummulativeQuoteQty":"0.00000000","status":"NEW","timeInForce":"GTC","type":"LIMIT","side":"SELL","selfTradePreventionMode":"NONE"}},"rateLimits":[{"rateLimitType":"ORDERS","interval":"SECOND","intervalNum":10,"limit":50,"count":1},{"rateLimitType":"ORDERS","interval":"DAY","intervalNum":1,"limit":160000,"count":1},{"rateLimitType":"REQUEST_WEIGHT","interval":"MINUTE","intervalNum":1,"limit":6000,"count":1}]}"#).unwrap();
             resp_json["id"] = id.into();
 
             let raw_data = resp_json.get("result").or_else(|| resp_json.get("response")).expect("no response in JSON");
@@ -4494,7 +5223,7 @@ mod tests {
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/orderList.place".trim_start_matches('/'));
 
-            let mut resp_json: Value = serde_json::from_str(r#"{"id":"57833dc0-e3f2-43fb-ba20-46480973b0aa","status":200,"result":{"orderListId":1274512,"contingencyType":"OCO","listStatusType":"EXEC_STARTED","listOrderStatus":"EXECUTING","listClientOrderId":"08985fedd9ea2cf6b28996","transactionTime":1660801713793,"symbol":"BTCUSDT","orders":[{"symbol":"BTCUSDT","orderId":12569138902,"clientOrderId":"jLnZpj5enfMXTuhKB1d0us"},{"symbol":"BTCUSDT","orderId":12569138901,"clientOrderId":"BqtFCj5odMoWtSqGk2X9tU"}],"orderReports":[{"symbol":"BTCUSDT","orderId":12569138902,"orderListId":1274512,"clientOrderId":"jLnZpj5enfMXTuhKB1d0us","transactTime":1660801713793,"price":"23420.00000000","origQty":"0.00650000","executedQty":"0.00000000","origQuoteOrderQty":"0.000000","cummulativeQuoteQty":"0.00000000","status":"NEW","timeInForce":"GTC","type":"LIMIT_MAKER","side":"SELL","workingTime":1660801713793,"selfTradePreventionMode":"NONE"},{"symbol":"BTCUSDT","orderId":12569138901,"orderListId":1274512,"clientOrderId":"BqtFCj5odMoWtSqGk2X9tU","transactTime":1660801713793,"price":"23410.00000000","origQty":"0.00650000","executedQty":"0.00000000","origQuoteOrderQty":"0.000000","cummulativeQuoteQty":"0.00000000","status":"NEW","timeInForce":"GTC","type":"STOP_LOSS_LIMIT","side":"SELL","stopPrice":"23405.00000000","workingTime":-1,"selfTradePreventionMode":"NONE"}]},"rateLimits":[{"rateLimitType":"REQUEST_WEIGHT","interval":"MINUTE","intervalNum":1,"limit":6000,"count":1},{"rateLimitType":"ORDERS","interval":"DAY","intervalNum":1,"limit":160000,"count":2},{"rateLimitType":"ORDERS","interval":"SECOND","intervalNum":10,"limit":50,"count":2}]}"#).unwrap();
+            let mut resp_json: Value = serde_json::from_str(r#"{"id":"57833dc0-e3f2-43fb-ba20-46480973b0aa","status":200,"result":{"orderListId":1274512,"contingencyType":"OCO","listStatusType":"EXEC_STARTED","listOrderStatus":"EXECUTING","listClientOrderId":"08985fedd9ea2cf6b28996","transactionTime":1660801713793,"symbol":"BTCUSDT","orders":[{"symbol":"BTCUSDT","orderId":12569138902,"clientOrderId":"jLnZpj5enfMXTuhKB1d0us"},{"symbol":"BTCUSDT","orderId":12569138901,"clientOrderId":"BqtFCj5odMoWtSqGk2X9tU"}],"orderReports":[{"symbol":"BTCUSDT","orderId":12569138902,"orderListId":1274512,"clientOrderId":"jLnZpj5enfMXTuhKB1d0us","transactTime":1660801713793,"price":"23420.00000000","origQty":"0.00650000","executedQty":"0.00000000","origQuoteOrderQty":"0.000000","cummulativeQuoteQty":"0.00000000","status":"NEW","timeInForce":"GTC","type":"LIMIT_MAKER","side":"SELL","workingTime":1660801713793,"selfTradePreventionMode":"NONE"},{"symbol":"BTCUSDT","orderId":12569138901,"orderListId":1274512,"clientOrderId":"BqtFCj5odMoWtSqGk2X9tU","transactTime":1660801713793,"price":"23410.00000000","origQty":"0.00650000","executedQty":"0.00000000","origQuoteOrderQty":"0.000000","cummulativeQuoteQty":"0.00000000","status":"NEW","timeInForce":"GTC","type":"STOP_LOSS_LIMIT","side":"SELL","stopPrice":"23405.00000000","workingTime":-1,"selfTradePreventionMode":"NONE"}]},"rateLimits":[{"rateLimitType":"ORDERS","interval":"SECOND","intervalNum":10,"limit":50,"count":2},{"rateLimitType":"ORDERS","interval":"DAY","intervalNum":1,"limit":160000,"count":2},{"rateLimitType":"REQUEST_WEIGHT","interval":"MINUTE","intervalNum":1,"limit":6000,"count":1}]}"#).unwrap();
             resp_json["id"] = id.into();
 
             let raw_data = resp_json.get("result").or_else(|| resp_json.get("response")).expect("no response in JSON");
@@ -4629,7 +5358,7 @@ mod tests {
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/orderList.place.oco".trim_start_matches('/'));
 
-            let mut resp_json: Value = serde_json::from_str(r#"{"id":"56374a46-3261-486b-a211-99ed972eb648","status":200,"result":{"orderListId":2,"contingencyType":"OCO","listStatusType":"EXEC_STARTED","listOrderStatus":"EXECUTING","listClientOrderId":"cKPMnDCbcLQILtDYM4f4fX","transactionTime":1711062760648,"symbol":"LTCBNB","orders":[{"symbol":"LTCBNB","orderId":3,"clientOrderId":"Z2IMlR79XNY5LU0tOxrWyW"},{"symbol":"LTCBNB","orderId":2,"clientOrderId":"0m6I4wfxvTUrOBSMUl0OPU"}],"orderReports":[{"symbol":"LTCBNB","orderId":3,"orderListId":2,"clientOrderId":"Z2IMlR79XNY5LU0tOxrWyW","transactTime":1711062760648,"price":"1.49999999","origQty":"1.000000","executedQty":"0.000000","origQuoteOrderQty":"0.000000","cummulativeQuoteQty":"0.00000000","status":"NEW","timeInForce":"GTC","type":"LIMIT_MAKER","side":"BUY","workingTime":1711062760648,"selfTradePreventionMode":"NONE"},{"symbol":"LTCBNB","orderId":2,"orderListId":2,"clientOrderId":"0m6I4wfxvTUrOBSMUl0OPU","transactTime":1711062760648,"price":"1.50000000","origQty":"1.000000","executedQty":"0.000000","origQuoteOrderQty":"0.000000","cummulativeQuoteQty":"0.00000000","status":"NEW","timeInForce":"GTC","type":"STOP_LOSS_LIMIT","side":"BUY","stopPrice":"1.50000001","workingTime":-1,"selfTradePreventionMode":"NONE"}]},"rateLimits":[{"rateLimitType":"REQUEST_WEIGHT","interval":"MINUTE","intervalNum":1,"limit":6000,"count":1},{"rateLimitType":"ORDERS","interval":"DAY","intervalNum":1,"limit":160000,"count":2},{"rateLimitType":"ORDERS","interval":"SECOND","intervalNum":10,"limit":50,"count":2}]}"#).unwrap();
+            let mut resp_json: Value = serde_json::from_str(r#"{"id":"56374a46-3261-486b-a211-99ed972eb648","status":200,"result":{"orderListId":2,"contingencyType":"OCO","listStatusType":"EXEC_STARTED","listOrderStatus":"EXECUTING","listClientOrderId":"cKPMnDCbcLQILtDYM4f4fX","transactionTime":1711062760648,"symbol":"LTCBNB","orders":[{"symbol":"LTCBNB","orderId":3,"clientOrderId":"Z2IMlR79XNY5LU0tOxrWyW"},{"symbol":"LTCBNB","orderId":2,"clientOrderId":"0m6I4wfxvTUrOBSMUl0OPU"}],"orderReports":[{"symbol":"LTCBNB","orderId":3,"orderListId":2,"clientOrderId":"Z2IMlR79XNY5LU0tOxrWyW","transactTime":1711062760648,"price":"1.49999999","origQty":"1.000000","executedQty":"0.000000","origQuoteOrderQty":"0.000000","cummulativeQuoteQty":"0.00000000","status":"NEW","timeInForce":"GTC","type":"LIMIT_MAKER","side":"BUY","workingTime":1711062760648,"selfTradePreventionMode":"NONE"},{"symbol":"LTCBNB","orderId":2,"orderListId":2,"clientOrderId":"0m6I4wfxvTUrOBSMUl0OPU","transactTime":1711062760648,"price":"1.50000000","origQty":"1.000000","executedQty":"0.000000","origQuoteOrderQty":"0.000000","cummulativeQuoteQty":"0.00000000","status":"NEW","timeInForce":"GTC","type":"STOP_LOSS_LIMIT","side":"BUY","stopPrice":"1.50000001","workingTime":-1,"selfTradePreventionMode":"NONE"}]},"rateLimits":[{"rateLimitType":"ORDERS","interval":"SECOND","intervalNum":10,"limit":50,"count":2},{"rateLimitType":"ORDERS","interval":"DAY","intervalNum":1,"limit":160000,"count":2},{"rateLimitType":"REQUEST_WEIGHT","interval":"MINUTE","intervalNum":1,"limit":6000,"count":1}]}"#).unwrap();
             resp_json["id"] = id.into();
 
             let raw_data = resp_json.get("result").or_else(|| resp_json.get("response")).expect("no response in JSON");
@@ -4765,7 +5494,7 @@ mod tests {
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/orderList.place.oto".trim_start_matches('/'));
 
-            let mut resp_json: Value = serde_json::from_str(r#"{"id":"1712544395950","status":200,"result":{"orderListId":626,"contingencyType":"OTO","listStatusType":"EXEC_STARTED","listOrderStatus":"EXECUTING","listClientOrderId":"KA4EBjGnzvSwSCQsDdTrlf","transactionTime":1712544395981,"symbol":"1712544378871","orders":[{"symbol":"LTCBNB","orderId":14,"clientOrderId":"9MxJSE1TYkmyx5lbGLve7R"},{"symbol":"LTCBNB","orderId":13,"clientOrderId":"YiAUtM9yJjl1a2jXHSp9Ny"}],"orderReports":[{"symbol":"LTCBNB","orderId":14,"orderListId":626,"clientOrderId":"9MxJSE1TYkmyx5lbGLve7R","transactTime":1712544395981,"price":"0.000000","origQty":"1.000000","executedQty":"0.000000","origQuoteOrderQty":"0.000000","cummulativeQuoteQty":"0.000000","status":"PENDING_NEW","timeInForce":"GTC","type":"MARKET","side":"BUY","workingTime":-1,"selfTradePreventionMode":"NONE"},{"symbol":"LTCBNB","orderId":13,"orderListId":626,"clientOrderId":"YiAUtM9yJjl1a2jXHSp9Ny","transactTime":1712544395981,"price":"1.000000","origQty":"1.000000","executedQty":"0.000000","origQuoteOrderQty":"0.000000","cummulativeQuoteQty":"0.000000","status":"NEW","timeInForce":"GTC","type":"LIMIT","side":"SELL","workingTime":1712544395981,"selfTradePreventionMode":"NONE"}]},"rateLimits":[{"rateLimitType":"REQUEST_WEIGHT","interval":"MINUTE","intervalNum":1,"limit":1000,"count":38},{"rateLimitType":"ORDERS","interval":"MINUTE","intervalNum":1,"limit":10000000,"count":10}]}"#).unwrap();
+            let mut resp_json: Value = serde_json::from_str(r#"{"id":"1712544395950","status":200,"result":{"orderListId":626,"contingencyType":"OTO","listStatusType":"EXEC_STARTED","listOrderStatus":"EXECUTING","listClientOrderId":"KA4EBjGnzvSwSCQsDdTrlf","transactionTime":1712544395981,"symbol":"1712544378871","orders":[{"symbol":"LTCBNB","orderId":14,"clientOrderId":"9MxJSE1TYkmyx5lbGLve7R"},{"symbol":"LTCBNB","orderId":13,"clientOrderId":"YiAUtM9yJjl1a2jXHSp9Ny"}],"orderReports":[{"symbol":"LTCBNB","orderId":14,"orderListId":626,"clientOrderId":"9MxJSE1TYkmyx5lbGLve7R","transactTime":1712544395981,"price":"0.000000","origQty":"1.000000","executedQty":"0.000000","origQuoteOrderQty":"0.000000","cummulativeQuoteQty":"0.000000","status":"PENDING_NEW","timeInForce":"GTC","type":"MARKET","side":"BUY","workingTime":-1,"selfTradePreventionMode":"NONE"},{"symbol":"LTCBNB","orderId":13,"orderListId":626,"clientOrderId":"YiAUtM9yJjl1a2jXHSp9Ny","transactTime":1712544395981,"price":"1.000000","origQty":"1.000000","executedQty":"0.000000","origQuoteOrderQty":"0.000000","cummulativeQuoteQty":"0.000000","status":"NEW","timeInForce":"GTC","type":"LIMIT","side":"SELL","workingTime":1712544395981,"selfTradePreventionMode":"NONE"}]},"rateLimits":[{"rateLimitType":"ORDERS","interval":"MINUTE","intervalNum":1,"limit":10000000,"count":10},{"rateLimitType":"REQUEST_WEIGHT","interval":"MINUTE","intervalNum":1,"limit":1000,"count":38}]}"#).unwrap();
             resp_json["id"] = id.into();
 
             let raw_data = resp_json.get("result").or_else(|| resp_json.get("response")).expect("no response in JSON");
@@ -4904,7 +5633,7 @@ mod tests {
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/orderList.place.otoco".trim_start_matches('/'));
 
-            let mut resp_json: Value = serde_json::from_str(r#"{"id":"1712544408508","status":200,"result":{"orderListId":629,"contingencyType":"OTO","listStatusType":"EXEC_STARTED","listOrderStatus":"EXECUTING","listClientOrderId":"GaeJHjZPasPItFj4x7Mqm6","transactionTime":1712544408537,"symbol":"1712544378871","orders":[{"symbol":"LTCBNB","orderId":25,"clientOrderId":"ilpIoShcFZ1ZGgSASKxMPt"},{"symbol":"LTCBNB","orderId":24,"clientOrderId":"YcCPKCDMQIjNvLtNswt82X"},{"symbol":"LTCBNB","orderId":23,"clientOrderId":"OVQOpKwfmPCfaBTD0n7e7H"}],"orderReports":[{"symbol":"LTCBNB","orderId":25,"orderListId":629,"clientOrderId":"ilpIoShcFZ1ZGgSASKxMPt","transactTime":1712544408537,"price":"5.000000","origQty":"5.000000","executedQty":"0.000000","origQuoteOrderQty":"0.000000","cummulativeQuoteQty":"0.000000","status":"PENDING_NEW","timeInForce":"GTC","type":"LIMIT_MAKER","side":"SELL","workingTime":-1,"selfTradePreventionMode":"NONE"},{"symbol":"LTCBNB","orderId":24,"orderListId":629,"clientOrderId":"YcCPKCDMQIjNvLtNswt82X","transactTime":1712544408537,"price":"0.000000","origQty":"5.000000","executedQty":"0.000000","origQuoteOrderQty":"0.000000","cummulativeQuoteQty":"0.000000","status":"PENDING_NEW","timeInForce":"GTC","type":"STOP_LOSS","side":"SELL","stopPrice":"0.500000","workingTime":-1,"selfTradePreventionMode":"NONE"},{"symbol":"LTCBNB","orderId":23,"orderListId":629,"clientOrderId":"OVQOpKwfmPCfaBTD0n7e7H","transactTime":1712544408537,"price":"1.500000","origQty":"1.000000","executedQty":"0.000000","origQuoteOrderQty":"0.000000","cummulativeQuoteQty":"0.000000","status":"NEW","timeInForce":"GTC","type":"LIMIT","side":"BUY","workingTime":1712544408537,"selfTradePreventionMode":"NONE"}]},"rateLimits":[{"rateLimitType":"REQUEST_WEIGHT","interval":"MINUTE","intervalNum":1,"limit":1000,"count":65},{"rateLimitType":"ORDERS","interval":"MINUTE","intervalNum":1,"limit":10000000,"count":18}]}"#).unwrap();
+            let mut resp_json: Value = serde_json::from_str(r#"{"id":"1712544408508","status":200,"result":{"orderListId":629,"contingencyType":"OTO","listStatusType":"EXEC_STARTED","listOrderStatus":"EXECUTING","listClientOrderId":"GaeJHjZPasPItFj4x7Mqm6","transactionTime":1712544408537,"symbol":"1712544378871","orders":[{"symbol":"LTCBNB","orderId":25,"clientOrderId":"ilpIoShcFZ1ZGgSASKxMPt"},{"symbol":"LTCBNB","orderId":24,"clientOrderId":"YcCPKCDMQIjNvLtNswt82X"},{"symbol":"LTCBNB","orderId":23,"clientOrderId":"OVQOpKwfmPCfaBTD0n7e7H"}],"orderReports":[{"symbol":"LTCBNB","orderId":25,"orderListId":629,"clientOrderId":"ilpIoShcFZ1ZGgSASKxMPt","transactTime":1712544408537,"price":"5.000000","origQty":"5.000000","executedQty":"0.000000","origQuoteOrderQty":"0.000000","cummulativeQuoteQty":"0.000000","status":"PENDING_NEW","timeInForce":"GTC","type":"LIMIT_MAKER","side":"SELL","workingTime":-1,"selfTradePreventionMode":"NONE"},{"symbol":"LTCBNB","orderId":24,"orderListId":629,"clientOrderId":"YcCPKCDMQIjNvLtNswt82X","transactTime":1712544408537,"price":"0.000000","origQty":"5.000000","executedQty":"0.000000","origQuoteOrderQty":"0.000000","cummulativeQuoteQty":"0.000000","status":"PENDING_NEW","timeInForce":"GTC","type":"STOP_LOSS","side":"SELL","stopPrice":"0.500000","workingTime":-1,"selfTradePreventionMode":"NONE"},{"symbol":"LTCBNB","orderId":23,"orderListId":629,"clientOrderId":"OVQOpKwfmPCfaBTD0n7e7H","transactTime":1712544408537,"price":"1.500000","origQty":"1.000000","executedQty":"0.000000","origQuoteOrderQty":"0.000000","cummulativeQuoteQty":"0.000000","status":"NEW","timeInForce":"GTC","type":"LIMIT","side":"BUY","workingTime":1712544408537,"selfTradePreventionMode":"NONE"}]},"rateLimits":[{"rateLimitType":"ORDERS","interval":"MINUTE","intervalNum":1,"limit":10000000,"count":18},{"rateLimitType":"REQUEST_WEIGHT","interval":"MINUTE","intervalNum":1,"limit":1000,"count":65}]}"#).unwrap();
             resp_json["id"] = id.into();
 
             let raw_data = resp_json.get("result").or_else(|| resp_json.get("response")).expect("no response in JSON");
@@ -5043,7 +5772,7 @@ mod tests {
             let id = v["id"].as_str().unwrap();
             assert_eq!(v["method"], "/order.place".trim_start_matches('/'));
 
-            let mut resp_json: Value = serde_json::from_str(r#"{"id":"56374a46-3061-486b-a311-99ee972eb648","status":200,"result":{"symbol":"BTCUSDT","orderId":12569099453,"orderListId":-1,"clientOrderId":"4d96324ff9d44481926157ec08158a40","transactTime":1660801715793,"price":"23416.10000000","origQty":"0.00847000","executedQty":"0.00847000","origQuoteOrderQty":"0.000000","cummulativeQuoteQty":"198.33521500","status":"FILLED","timeInForce":"GTC","type":"LIMIT","side":"SELL","workingTime":1660801715793,"selfTradePreventionMode":"NONE","fills":[{"price":"23416.50000000","qty":"0.00212000","commission":"0.000000","commissionAsset":"BNB","tradeId":1650422482},{"price":"23416.10000000","qty":"0.00635000","commission":"0.000000","commissionAsset":"BNB","tradeId":1650422481},{"price":"23416.50000000","qty":"0.00212000","commission":"0.000000","commissionAsset":"BNB","tradeId":1650422482},{"price":"23416.10000000","qty":"0.00635000","commission":"0.000000","commissionAsset":"BNB","tradeId":1650422481}]},"rateLimits":[{"rateLimitType":"REQUEST_WEIGHT","interval":"MINUTE","intervalNum":1,"limit":6000,"count":1},{"rateLimitType":"ORDERS","interval":"DAY","intervalNum":1,"limit":160000,"count":1},{"rateLimitType":"ORDERS","interval":"SECOND","intervalNum":10,"limit":50,"count":1}]}"#).unwrap();
+            let mut resp_json: Value = serde_json::from_str(r#"{"id":"56374a46-3061-486b-a311-99ee972eb648","status":200,"result":{"symbol":"BTCUSDT","orderId":12569099453,"orderListId":-1,"clientOrderId":"4d96324ff9d44481926157ec08158a40","transactTime":1660801715793,"price":"23416.10000000","origQty":"0.00847000","executedQty":"0.00847000","origQuoteOrderQty":"0.000000","cummulativeQuoteQty":"198.33521500","status":"FILLED","timeInForce":"GTC","type":"LIMIT","side":"SELL","workingTime":1660801715793,"selfTradePreventionMode":"NONE","fills":[{"price":"23416.50000000","qty":"0.00212000","commission":"0.000000","commissionAsset":"BNB","tradeId":1650422482},{"price":"23416.10000000","qty":"0.00635000","commission":"0.000000","commissionAsset":"BNB","tradeId":1650422481},{"price":"23416.50000000","qty":"0.00212000","commission":"0.000000","commissionAsset":"BNB","tradeId":1650422482},{"price":"23416.10000000","qty":"0.00635000","commission":"0.000000","commissionAsset":"BNB","tradeId":1650422481}]},"rateLimits":[{"rateLimitType":"ORDERS","interval":"SECOND","intervalNum":10,"limit":50,"count":1},{"rateLimitType":"ORDERS","interval":"DAY","intervalNum":1,"limit":160000,"count":1},{"rateLimitType":"REQUEST_WEIGHT","interval":"MINUTE","intervalNum":1,"limit":6000,"count":1}]}"#).unwrap();
             resp_json["id"] = id.into();
 
             let raw_data = resp_json.get("result").or_else(|| resp_json.get("response")).expect("no response in JSON");

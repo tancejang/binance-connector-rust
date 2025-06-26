@@ -21,7 +21,7 @@ use crate::spot::websocket_api::models;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
-pub struct OrderListPlaceOtoResponseRateLimitsInner {
+pub struct RateLimitsInner {
     #[serde(rename = "rateLimitType", skip_serializing_if = "Option::is_none")]
     pub rate_limit_type: Option<String>,
     #[serde(rename = "interval", skip_serializing_if = "Option::is_none")]
@@ -34,10 +34,10 @@ pub struct OrderListPlaceOtoResponseRateLimitsInner {
     pub count: Option<i64>,
 }
 
-impl OrderListPlaceOtoResponseRateLimitsInner {
+impl RateLimitsInner {
     #[must_use]
-    pub fn new() -> OrderListPlaceOtoResponseRateLimitsInner {
-        OrderListPlaceOtoResponseRateLimitsInner {
+    pub fn new() -> RateLimitsInner {
+        RateLimitsInner {
             rate_limit_type: None,
             interval: None,
             interval_num: None,

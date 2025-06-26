@@ -105,8 +105,20 @@ impl NewOrderSideEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewOrderSideEnum::Buy => "BUY",
-            NewOrderSideEnum::Sell => "SELL",
+            Self::Buy => "BUY",
+            Self::Sell => "SELL",
+        }
+    }
+}
+
+impl std::str::FromStr for NewOrderSideEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "BUY" => Ok(Self::Buy),
+            "SELL" => Ok(Self::Sell),
+            other => Err(format!("invalid NewOrderSideEnum: {}", other).into()),
         }
     }
 }
@@ -122,7 +134,18 @@ impl NewOrderTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewOrderTypeEnum::Limit => "LIMIT",
+            Self::Limit => "LIMIT",
+        }
+    }
+}
+
+impl std::str::FromStr for NewOrderTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "LIMIT" => Ok(Self::Limit),
+            other => Err(format!("invalid NewOrderTypeEnum: {}", other).into()),
         }
     }
 }
@@ -142,9 +165,22 @@ impl NewOrderTimeInForceEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewOrderTimeInForceEnum::Gtc => "GTC",
-            NewOrderTimeInForceEnum::Ioc => "IOC",
-            NewOrderTimeInForceEnum::Fok => "FOK",
+            Self::Gtc => "GTC",
+            Self::Ioc => "IOC",
+            Self::Fok => "FOK",
+        }
+    }
+}
+
+impl std::str::FromStr for NewOrderTimeInForceEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "GTC" => Ok(Self::Gtc),
+            "IOC" => Ok(Self::Ioc),
+            "FOK" => Ok(Self::Fok),
+            other => Err(format!("invalid NewOrderTimeInForceEnum: {}", other).into()),
         }
     }
 }
@@ -162,8 +198,20 @@ impl NewOrderNewOrderRespTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            NewOrderNewOrderRespTypeEnum::Ack => "ACK",
-            NewOrderNewOrderRespTypeEnum::Result => "RESULT",
+            Self::Ack => "ACK",
+            Self::Result => "RESULT",
+        }
+    }
+}
+
+impl std::str::FromStr for NewOrderNewOrderRespTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "ACK" => Ok(Self::Ack),
+            "RESULT" => Ok(Self::Result),
+            other => Err(format!("invalid NewOrderNewOrderRespTypeEnum: {}", other).into()),
         }
     }
 }

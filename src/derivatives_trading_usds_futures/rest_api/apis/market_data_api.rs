@@ -189,12 +189,28 @@ impl BasisContractTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            BasisContractTypeEnum::Perpetual => "PERPETUAL",
-            BasisContractTypeEnum::CurrentMonth => "CURRENT_MONTH",
-            BasisContractTypeEnum::NextMonth => "NEXT_MONTH",
-            BasisContractTypeEnum::CurrentQuarter => "CURRENT_QUARTER",
-            BasisContractTypeEnum::NextQuarter => "NEXT_QUARTER",
-            BasisContractTypeEnum::PerpetualDelivering => "PERPETUAL_DELIVERING",
+            Self::Perpetual => "PERPETUAL",
+            Self::CurrentMonth => "CURRENT_MONTH",
+            Self::NextMonth => "NEXT_MONTH",
+            Self::CurrentQuarter => "CURRENT_QUARTER",
+            Self::NextQuarter => "NEXT_QUARTER",
+            Self::PerpetualDelivering => "PERPETUAL_DELIVERING",
+        }
+    }
+}
+
+impl std::str::FromStr for BasisContractTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "PERPETUAL" => Ok(Self::Perpetual),
+            "CURRENT_MONTH" => Ok(Self::CurrentMonth),
+            "NEXT_MONTH" => Ok(Self::NextMonth),
+            "CURRENT_QUARTER" => Ok(Self::CurrentQuarter),
+            "NEXT_QUARTER" => Ok(Self::NextQuarter),
+            "PERPETUAL_DELIVERING" => Ok(Self::PerpetualDelivering),
+            other => Err(format!("invalid BasisContractTypeEnum: {}", other).into()),
         }
     }
 }
@@ -226,15 +242,34 @@ impl BasisPeriodEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            BasisPeriodEnum::Period5m => "5m",
-            BasisPeriodEnum::Period15m => "15m",
-            BasisPeriodEnum::Period30m => "30m",
-            BasisPeriodEnum::Period1h => "1h",
-            BasisPeriodEnum::Period2h => "2h",
-            BasisPeriodEnum::Period4h => "4h",
-            BasisPeriodEnum::Period6h => "6h",
-            BasisPeriodEnum::Period12h => "12h",
-            BasisPeriodEnum::Period1d => "1d",
+            Self::Period5m => "5m",
+            Self::Period15m => "15m",
+            Self::Period30m => "30m",
+            Self::Period1h => "1h",
+            Self::Period2h => "2h",
+            Self::Period4h => "4h",
+            Self::Period6h => "6h",
+            Self::Period12h => "12h",
+            Self::Period1d => "1d",
+        }
+    }
+}
+
+impl std::str::FromStr for BasisPeriodEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "5m" => Ok(Self::Period5m),
+            "15m" => Ok(Self::Period15m),
+            "30m" => Ok(Self::Period30m),
+            "1h" => Ok(Self::Period1h),
+            "2h" => Ok(Self::Period2h),
+            "4h" => Ok(Self::Period4h),
+            "6h" => Ok(Self::Period6h),
+            "12h" => Ok(Self::Period12h),
+            "1d" => Ok(Self::Period1d),
+            other => Err(format!("invalid BasisPeriodEnum: {}", other).into()),
         }
     }
 }
@@ -260,16 +295,32 @@ impl ContinuousContractKlineCandlestickDataContractTypeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            ContinuousContractKlineCandlestickDataContractTypeEnum::Perpetual => "PERPETUAL",
-            ContinuousContractKlineCandlestickDataContractTypeEnum::CurrentMonth => "CURRENT_MONTH",
-            ContinuousContractKlineCandlestickDataContractTypeEnum::NextMonth => "NEXT_MONTH",
-            ContinuousContractKlineCandlestickDataContractTypeEnum::CurrentQuarter => {
-                "CURRENT_QUARTER"
-            }
-            ContinuousContractKlineCandlestickDataContractTypeEnum::NextQuarter => "NEXT_QUARTER",
-            ContinuousContractKlineCandlestickDataContractTypeEnum::PerpetualDelivering => {
-                "PERPETUAL_DELIVERING"
-            }
+            Self::Perpetual => "PERPETUAL",
+            Self::CurrentMonth => "CURRENT_MONTH",
+            Self::NextMonth => "NEXT_MONTH",
+            Self::CurrentQuarter => "CURRENT_QUARTER",
+            Self::NextQuarter => "NEXT_QUARTER",
+            Self::PerpetualDelivering => "PERPETUAL_DELIVERING",
+        }
+    }
+}
+
+impl std::str::FromStr for ContinuousContractKlineCandlestickDataContractTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "PERPETUAL" => Ok(Self::Perpetual),
+            "CURRENT_MONTH" => Ok(Self::CurrentMonth),
+            "NEXT_MONTH" => Ok(Self::NextMonth),
+            "CURRENT_QUARTER" => Ok(Self::CurrentQuarter),
+            "NEXT_QUARTER" => Ok(Self::NextQuarter),
+            "PERPETUAL_DELIVERING" => Ok(Self::PerpetualDelivering),
+            other => Err(format!(
+                "invalid ContinuousContractKlineCandlestickDataContractTypeEnum: {}",
+                other
+            )
+            .into()),
         }
     }
 }
@@ -313,21 +364,50 @@ impl ContinuousContractKlineCandlestickDataIntervalEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            ContinuousContractKlineCandlestickDataIntervalEnum::Interval1m => "1m",
-            ContinuousContractKlineCandlestickDataIntervalEnum::Interval3m => "3m",
-            ContinuousContractKlineCandlestickDataIntervalEnum::Interval5m => "5m",
-            ContinuousContractKlineCandlestickDataIntervalEnum::Interval15m => "15m",
-            ContinuousContractKlineCandlestickDataIntervalEnum::Interval30m => "30m",
-            ContinuousContractKlineCandlestickDataIntervalEnum::Interval1h => "1h",
-            ContinuousContractKlineCandlestickDataIntervalEnum::Interval2h => "2h",
-            ContinuousContractKlineCandlestickDataIntervalEnum::Interval4h => "4h",
-            ContinuousContractKlineCandlestickDataIntervalEnum::Interval6h => "6h",
-            ContinuousContractKlineCandlestickDataIntervalEnum::Interval8h => "8h",
-            ContinuousContractKlineCandlestickDataIntervalEnum::Interval12h => "12h",
-            ContinuousContractKlineCandlestickDataIntervalEnum::Interval1d => "1d",
-            ContinuousContractKlineCandlestickDataIntervalEnum::Interval3d => "3d",
-            ContinuousContractKlineCandlestickDataIntervalEnum::Interval1w => "1w",
-            ContinuousContractKlineCandlestickDataIntervalEnum::Interval1M => "1M",
+            Self::Interval1m => "1m",
+            Self::Interval3m => "3m",
+            Self::Interval5m => "5m",
+            Self::Interval15m => "15m",
+            Self::Interval30m => "30m",
+            Self::Interval1h => "1h",
+            Self::Interval2h => "2h",
+            Self::Interval4h => "4h",
+            Self::Interval6h => "6h",
+            Self::Interval8h => "8h",
+            Self::Interval12h => "12h",
+            Self::Interval1d => "1d",
+            Self::Interval3d => "3d",
+            Self::Interval1w => "1w",
+            Self::Interval1M => "1M",
+        }
+    }
+}
+
+impl std::str::FromStr for ContinuousContractKlineCandlestickDataIntervalEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "1m" => Ok(Self::Interval1m),
+            "3m" => Ok(Self::Interval3m),
+            "5m" => Ok(Self::Interval5m),
+            "15m" => Ok(Self::Interval15m),
+            "30m" => Ok(Self::Interval30m),
+            "1h" => Ok(Self::Interval1h),
+            "2h" => Ok(Self::Interval2h),
+            "4h" => Ok(Self::Interval4h),
+            "6h" => Ok(Self::Interval6h),
+            "8h" => Ok(Self::Interval8h),
+            "12h" => Ok(Self::Interval12h),
+            "1d" => Ok(Self::Interval1d),
+            "3d" => Ok(Self::Interval3d),
+            "1w" => Ok(Self::Interval1w),
+            "1M" => Ok(Self::Interval1M),
+            other => Err(format!(
+                "invalid ContinuousContractKlineCandlestickDataIntervalEnum: {}",
+                other
+            )
+            .into()),
         }
     }
 }
@@ -371,21 +451,50 @@ impl IndexPriceKlineCandlestickDataIntervalEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            IndexPriceKlineCandlestickDataIntervalEnum::Interval1m => "1m",
-            IndexPriceKlineCandlestickDataIntervalEnum::Interval3m => "3m",
-            IndexPriceKlineCandlestickDataIntervalEnum::Interval5m => "5m",
-            IndexPriceKlineCandlestickDataIntervalEnum::Interval15m => "15m",
-            IndexPriceKlineCandlestickDataIntervalEnum::Interval30m => "30m",
-            IndexPriceKlineCandlestickDataIntervalEnum::Interval1h => "1h",
-            IndexPriceKlineCandlestickDataIntervalEnum::Interval2h => "2h",
-            IndexPriceKlineCandlestickDataIntervalEnum::Interval4h => "4h",
-            IndexPriceKlineCandlestickDataIntervalEnum::Interval6h => "6h",
-            IndexPriceKlineCandlestickDataIntervalEnum::Interval8h => "8h",
-            IndexPriceKlineCandlestickDataIntervalEnum::Interval12h => "12h",
-            IndexPriceKlineCandlestickDataIntervalEnum::Interval1d => "1d",
-            IndexPriceKlineCandlestickDataIntervalEnum::Interval3d => "3d",
-            IndexPriceKlineCandlestickDataIntervalEnum::Interval1w => "1w",
-            IndexPriceKlineCandlestickDataIntervalEnum::Interval1M => "1M",
+            Self::Interval1m => "1m",
+            Self::Interval3m => "3m",
+            Self::Interval5m => "5m",
+            Self::Interval15m => "15m",
+            Self::Interval30m => "30m",
+            Self::Interval1h => "1h",
+            Self::Interval2h => "2h",
+            Self::Interval4h => "4h",
+            Self::Interval6h => "6h",
+            Self::Interval8h => "8h",
+            Self::Interval12h => "12h",
+            Self::Interval1d => "1d",
+            Self::Interval3d => "3d",
+            Self::Interval1w => "1w",
+            Self::Interval1M => "1M",
+        }
+    }
+}
+
+impl std::str::FromStr for IndexPriceKlineCandlestickDataIntervalEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "1m" => Ok(Self::Interval1m),
+            "3m" => Ok(Self::Interval3m),
+            "5m" => Ok(Self::Interval5m),
+            "15m" => Ok(Self::Interval15m),
+            "30m" => Ok(Self::Interval30m),
+            "1h" => Ok(Self::Interval1h),
+            "2h" => Ok(Self::Interval2h),
+            "4h" => Ok(Self::Interval4h),
+            "6h" => Ok(Self::Interval6h),
+            "8h" => Ok(Self::Interval8h),
+            "12h" => Ok(Self::Interval12h),
+            "1d" => Ok(Self::Interval1d),
+            "3d" => Ok(Self::Interval3d),
+            "1w" => Ok(Self::Interval1w),
+            "1M" => Ok(Self::Interval1M),
+            other => Err(format!(
+                "invalid IndexPriceKlineCandlestickDataIntervalEnum: {}",
+                other
+            )
+            .into()),
         }
     }
 }
@@ -429,21 +538,46 @@ impl KlineCandlestickDataIntervalEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            KlineCandlestickDataIntervalEnum::Interval1m => "1m",
-            KlineCandlestickDataIntervalEnum::Interval3m => "3m",
-            KlineCandlestickDataIntervalEnum::Interval5m => "5m",
-            KlineCandlestickDataIntervalEnum::Interval15m => "15m",
-            KlineCandlestickDataIntervalEnum::Interval30m => "30m",
-            KlineCandlestickDataIntervalEnum::Interval1h => "1h",
-            KlineCandlestickDataIntervalEnum::Interval2h => "2h",
-            KlineCandlestickDataIntervalEnum::Interval4h => "4h",
-            KlineCandlestickDataIntervalEnum::Interval6h => "6h",
-            KlineCandlestickDataIntervalEnum::Interval8h => "8h",
-            KlineCandlestickDataIntervalEnum::Interval12h => "12h",
-            KlineCandlestickDataIntervalEnum::Interval1d => "1d",
-            KlineCandlestickDataIntervalEnum::Interval3d => "3d",
-            KlineCandlestickDataIntervalEnum::Interval1w => "1w",
-            KlineCandlestickDataIntervalEnum::Interval1M => "1M",
+            Self::Interval1m => "1m",
+            Self::Interval3m => "3m",
+            Self::Interval5m => "5m",
+            Self::Interval15m => "15m",
+            Self::Interval30m => "30m",
+            Self::Interval1h => "1h",
+            Self::Interval2h => "2h",
+            Self::Interval4h => "4h",
+            Self::Interval6h => "6h",
+            Self::Interval8h => "8h",
+            Self::Interval12h => "12h",
+            Self::Interval1d => "1d",
+            Self::Interval3d => "3d",
+            Self::Interval1w => "1w",
+            Self::Interval1M => "1M",
+        }
+    }
+}
+
+impl std::str::FromStr for KlineCandlestickDataIntervalEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "1m" => Ok(Self::Interval1m),
+            "3m" => Ok(Self::Interval3m),
+            "5m" => Ok(Self::Interval5m),
+            "15m" => Ok(Self::Interval15m),
+            "30m" => Ok(Self::Interval30m),
+            "1h" => Ok(Self::Interval1h),
+            "2h" => Ok(Self::Interval2h),
+            "4h" => Ok(Self::Interval4h),
+            "6h" => Ok(Self::Interval6h),
+            "8h" => Ok(Self::Interval8h),
+            "12h" => Ok(Self::Interval12h),
+            "1d" => Ok(Self::Interval1d),
+            "3d" => Ok(Self::Interval3d),
+            "1w" => Ok(Self::Interval1w),
+            "1M" => Ok(Self::Interval1M),
+            other => Err(format!("invalid KlineCandlestickDataIntervalEnum: {}", other).into()),
         }
     }
 }
@@ -475,15 +609,34 @@ impl LongShortRatioPeriodEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            LongShortRatioPeriodEnum::Period5m => "5m",
-            LongShortRatioPeriodEnum::Period15m => "15m",
-            LongShortRatioPeriodEnum::Period30m => "30m",
-            LongShortRatioPeriodEnum::Period1h => "1h",
-            LongShortRatioPeriodEnum::Period2h => "2h",
-            LongShortRatioPeriodEnum::Period4h => "4h",
-            LongShortRatioPeriodEnum::Period6h => "6h",
-            LongShortRatioPeriodEnum::Period12h => "12h",
-            LongShortRatioPeriodEnum::Period1d => "1d",
+            Self::Period5m => "5m",
+            Self::Period15m => "15m",
+            Self::Period30m => "30m",
+            Self::Period1h => "1h",
+            Self::Period2h => "2h",
+            Self::Period4h => "4h",
+            Self::Period6h => "6h",
+            Self::Period12h => "12h",
+            Self::Period1d => "1d",
+        }
+    }
+}
+
+impl std::str::FromStr for LongShortRatioPeriodEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "5m" => Ok(Self::Period5m),
+            "15m" => Ok(Self::Period15m),
+            "30m" => Ok(Self::Period30m),
+            "1h" => Ok(Self::Period1h),
+            "2h" => Ok(Self::Period2h),
+            "4h" => Ok(Self::Period4h),
+            "6h" => Ok(Self::Period6h),
+            "12h" => Ok(Self::Period12h),
+            "1d" => Ok(Self::Period1d),
+            other => Err(format!("invalid LongShortRatioPeriodEnum: {}", other).into()),
         }
     }
 }
@@ -527,21 +680,50 @@ impl MarkPriceKlineCandlestickDataIntervalEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            MarkPriceKlineCandlestickDataIntervalEnum::Interval1m => "1m",
-            MarkPriceKlineCandlestickDataIntervalEnum::Interval3m => "3m",
-            MarkPriceKlineCandlestickDataIntervalEnum::Interval5m => "5m",
-            MarkPriceKlineCandlestickDataIntervalEnum::Interval15m => "15m",
-            MarkPriceKlineCandlestickDataIntervalEnum::Interval30m => "30m",
-            MarkPriceKlineCandlestickDataIntervalEnum::Interval1h => "1h",
-            MarkPriceKlineCandlestickDataIntervalEnum::Interval2h => "2h",
-            MarkPriceKlineCandlestickDataIntervalEnum::Interval4h => "4h",
-            MarkPriceKlineCandlestickDataIntervalEnum::Interval6h => "6h",
-            MarkPriceKlineCandlestickDataIntervalEnum::Interval8h => "8h",
-            MarkPriceKlineCandlestickDataIntervalEnum::Interval12h => "12h",
-            MarkPriceKlineCandlestickDataIntervalEnum::Interval1d => "1d",
-            MarkPriceKlineCandlestickDataIntervalEnum::Interval3d => "3d",
-            MarkPriceKlineCandlestickDataIntervalEnum::Interval1w => "1w",
-            MarkPriceKlineCandlestickDataIntervalEnum::Interval1M => "1M",
+            Self::Interval1m => "1m",
+            Self::Interval3m => "3m",
+            Self::Interval5m => "5m",
+            Self::Interval15m => "15m",
+            Self::Interval30m => "30m",
+            Self::Interval1h => "1h",
+            Self::Interval2h => "2h",
+            Self::Interval4h => "4h",
+            Self::Interval6h => "6h",
+            Self::Interval8h => "8h",
+            Self::Interval12h => "12h",
+            Self::Interval1d => "1d",
+            Self::Interval3d => "3d",
+            Self::Interval1w => "1w",
+            Self::Interval1M => "1M",
+        }
+    }
+}
+
+impl std::str::FromStr for MarkPriceKlineCandlestickDataIntervalEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "1m" => Ok(Self::Interval1m),
+            "3m" => Ok(Self::Interval3m),
+            "5m" => Ok(Self::Interval5m),
+            "15m" => Ok(Self::Interval15m),
+            "30m" => Ok(Self::Interval30m),
+            "1h" => Ok(Self::Interval1h),
+            "2h" => Ok(Self::Interval2h),
+            "4h" => Ok(Self::Interval4h),
+            "6h" => Ok(Self::Interval6h),
+            "8h" => Ok(Self::Interval8h),
+            "12h" => Ok(Self::Interval12h),
+            "1d" => Ok(Self::Interval1d),
+            "3d" => Ok(Self::Interval3d),
+            "1w" => Ok(Self::Interval1w),
+            "1M" => Ok(Self::Interval1M),
+            other => Err(format!(
+                "invalid MarkPriceKlineCandlestickDataIntervalEnum: {}",
+                other
+            )
+            .into()),
         }
     }
 }
@@ -573,15 +755,34 @@ impl OpenInterestStatisticsPeriodEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            OpenInterestStatisticsPeriodEnum::Period5m => "5m",
-            OpenInterestStatisticsPeriodEnum::Period15m => "15m",
-            OpenInterestStatisticsPeriodEnum::Period30m => "30m",
-            OpenInterestStatisticsPeriodEnum::Period1h => "1h",
-            OpenInterestStatisticsPeriodEnum::Period2h => "2h",
-            OpenInterestStatisticsPeriodEnum::Period4h => "4h",
-            OpenInterestStatisticsPeriodEnum::Period6h => "6h",
-            OpenInterestStatisticsPeriodEnum::Period12h => "12h",
-            OpenInterestStatisticsPeriodEnum::Period1d => "1d",
+            Self::Period5m => "5m",
+            Self::Period15m => "15m",
+            Self::Period30m => "30m",
+            Self::Period1h => "1h",
+            Self::Period2h => "2h",
+            Self::Period4h => "4h",
+            Self::Period6h => "6h",
+            Self::Period12h => "12h",
+            Self::Period1d => "1d",
+        }
+    }
+}
+
+impl std::str::FromStr for OpenInterestStatisticsPeriodEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "5m" => Ok(Self::Period5m),
+            "15m" => Ok(Self::Period15m),
+            "30m" => Ok(Self::Period30m),
+            "1h" => Ok(Self::Period1h),
+            "2h" => Ok(Self::Period2h),
+            "4h" => Ok(Self::Period4h),
+            "6h" => Ok(Self::Period6h),
+            "12h" => Ok(Self::Period12h),
+            "1d" => Ok(Self::Period1d),
+            other => Err(format!("invalid OpenInterestStatisticsPeriodEnum: {}", other).into()),
         }
     }
 }
@@ -625,21 +826,46 @@ impl PremiumIndexKlineDataIntervalEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            PremiumIndexKlineDataIntervalEnum::Interval1m => "1m",
-            PremiumIndexKlineDataIntervalEnum::Interval3m => "3m",
-            PremiumIndexKlineDataIntervalEnum::Interval5m => "5m",
-            PremiumIndexKlineDataIntervalEnum::Interval15m => "15m",
-            PremiumIndexKlineDataIntervalEnum::Interval30m => "30m",
-            PremiumIndexKlineDataIntervalEnum::Interval1h => "1h",
-            PremiumIndexKlineDataIntervalEnum::Interval2h => "2h",
-            PremiumIndexKlineDataIntervalEnum::Interval4h => "4h",
-            PremiumIndexKlineDataIntervalEnum::Interval6h => "6h",
-            PremiumIndexKlineDataIntervalEnum::Interval8h => "8h",
-            PremiumIndexKlineDataIntervalEnum::Interval12h => "12h",
-            PremiumIndexKlineDataIntervalEnum::Interval1d => "1d",
-            PremiumIndexKlineDataIntervalEnum::Interval3d => "3d",
-            PremiumIndexKlineDataIntervalEnum::Interval1w => "1w",
-            PremiumIndexKlineDataIntervalEnum::Interval1M => "1M",
+            Self::Interval1m => "1m",
+            Self::Interval3m => "3m",
+            Self::Interval5m => "5m",
+            Self::Interval15m => "15m",
+            Self::Interval30m => "30m",
+            Self::Interval1h => "1h",
+            Self::Interval2h => "2h",
+            Self::Interval4h => "4h",
+            Self::Interval6h => "6h",
+            Self::Interval8h => "8h",
+            Self::Interval12h => "12h",
+            Self::Interval1d => "1d",
+            Self::Interval3d => "3d",
+            Self::Interval1w => "1w",
+            Self::Interval1M => "1M",
+        }
+    }
+}
+
+impl std::str::FromStr for PremiumIndexKlineDataIntervalEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "1m" => Ok(Self::Interval1m),
+            "3m" => Ok(Self::Interval3m),
+            "5m" => Ok(Self::Interval5m),
+            "15m" => Ok(Self::Interval15m),
+            "30m" => Ok(Self::Interval30m),
+            "1h" => Ok(Self::Interval1h),
+            "2h" => Ok(Self::Interval2h),
+            "4h" => Ok(Self::Interval4h),
+            "6h" => Ok(Self::Interval6h),
+            "8h" => Ok(Self::Interval8h),
+            "12h" => Ok(Self::Interval12h),
+            "1d" => Ok(Self::Interval1d),
+            "3d" => Ok(Self::Interval3d),
+            "1w" => Ok(Self::Interval1w),
+            "1M" => Ok(Self::Interval1M),
+            other => Err(format!("invalid PremiumIndexKlineDataIntervalEnum: {}", other).into()),
         }
     }
 }
@@ -671,15 +897,34 @@ impl TakerBuySellVolumePeriodEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            TakerBuySellVolumePeriodEnum::Period5m => "5m",
-            TakerBuySellVolumePeriodEnum::Period15m => "15m",
-            TakerBuySellVolumePeriodEnum::Period30m => "30m",
-            TakerBuySellVolumePeriodEnum::Period1h => "1h",
-            TakerBuySellVolumePeriodEnum::Period2h => "2h",
-            TakerBuySellVolumePeriodEnum::Period4h => "4h",
-            TakerBuySellVolumePeriodEnum::Period6h => "6h",
-            TakerBuySellVolumePeriodEnum::Period12h => "12h",
-            TakerBuySellVolumePeriodEnum::Period1d => "1d",
+            Self::Period5m => "5m",
+            Self::Period15m => "15m",
+            Self::Period30m => "30m",
+            Self::Period1h => "1h",
+            Self::Period2h => "2h",
+            Self::Period4h => "4h",
+            Self::Period6h => "6h",
+            Self::Period12h => "12h",
+            Self::Period1d => "1d",
+        }
+    }
+}
+
+impl std::str::FromStr for TakerBuySellVolumePeriodEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "5m" => Ok(Self::Period5m),
+            "15m" => Ok(Self::Period15m),
+            "30m" => Ok(Self::Period30m),
+            "1h" => Ok(Self::Period1h),
+            "2h" => Ok(Self::Period2h),
+            "4h" => Ok(Self::Period4h),
+            "6h" => Ok(Self::Period6h),
+            "12h" => Ok(Self::Period12h),
+            "1d" => Ok(Self::Period1d),
+            other => Err(format!("invalid TakerBuySellVolumePeriodEnum: {}", other).into()),
         }
     }
 }
@@ -711,15 +956,38 @@ impl TopTraderLongShortRatioAccountsPeriodEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            TopTraderLongShortRatioAccountsPeriodEnum::Period5m => "5m",
-            TopTraderLongShortRatioAccountsPeriodEnum::Period15m => "15m",
-            TopTraderLongShortRatioAccountsPeriodEnum::Period30m => "30m",
-            TopTraderLongShortRatioAccountsPeriodEnum::Period1h => "1h",
-            TopTraderLongShortRatioAccountsPeriodEnum::Period2h => "2h",
-            TopTraderLongShortRatioAccountsPeriodEnum::Period4h => "4h",
-            TopTraderLongShortRatioAccountsPeriodEnum::Period6h => "6h",
-            TopTraderLongShortRatioAccountsPeriodEnum::Period12h => "12h",
-            TopTraderLongShortRatioAccountsPeriodEnum::Period1d => "1d",
+            Self::Period5m => "5m",
+            Self::Period15m => "15m",
+            Self::Period30m => "30m",
+            Self::Period1h => "1h",
+            Self::Period2h => "2h",
+            Self::Period4h => "4h",
+            Self::Period6h => "6h",
+            Self::Period12h => "12h",
+            Self::Period1d => "1d",
+        }
+    }
+}
+
+impl std::str::FromStr for TopTraderLongShortRatioAccountsPeriodEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "5m" => Ok(Self::Period5m),
+            "15m" => Ok(Self::Period15m),
+            "30m" => Ok(Self::Period30m),
+            "1h" => Ok(Self::Period1h),
+            "2h" => Ok(Self::Period2h),
+            "4h" => Ok(Self::Period4h),
+            "6h" => Ok(Self::Period6h),
+            "12h" => Ok(Self::Period12h),
+            "1d" => Ok(Self::Period1d),
+            other => Err(format!(
+                "invalid TopTraderLongShortRatioAccountsPeriodEnum: {}",
+                other
+            )
+            .into()),
         }
     }
 }
@@ -751,15 +1019,38 @@ impl TopTraderLongShortRatioPositionsPeriodEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            TopTraderLongShortRatioPositionsPeriodEnum::Period5m => "5m",
-            TopTraderLongShortRatioPositionsPeriodEnum::Period15m => "15m",
-            TopTraderLongShortRatioPositionsPeriodEnum::Period30m => "30m",
-            TopTraderLongShortRatioPositionsPeriodEnum::Period1h => "1h",
-            TopTraderLongShortRatioPositionsPeriodEnum::Period2h => "2h",
-            TopTraderLongShortRatioPositionsPeriodEnum::Period4h => "4h",
-            TopTraderLongShortRatioPositionsPeriodEnum::Period6h => "6h",
-            TopTraderLongShortRatioPositionsPeriodEnum::Period12h => "12h",
-            TopTraderLongShortRatioPositionsPeriodEnum::Period1d => "1d",
+            Self::Period5m => "5m",
+            Self::Period15m => "15m",
+            Self::Period30m => "30m",
+            Self::Period1h => "1h",
+            Self::Period2h => "2h",
+            Self::Period4h => "4h",
+            Self::Period6h => "6h",
+            Self::Period12h => "12h",
+            Self::Period1d => "1d",
+        }
+    }
+}
+
+impl std::str::FromStr for TopTraderLongShortRatioPositionsPeriodEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "5m" => Ok(Self::Period5m),
+            "15m" => Ok(Self::Period15m),
+            "30m" => Ok(Self::Period30m),
+            "1h" => Ok(Self::Period1h),
+            "2h" => Ok(Self::Period2h),
+            "4h" => Ok(Self::Period4h),
+            "6h" => Ok(Self::Period6h),
+            "12h" => Ok(Self::Period12h),
+            "1d" => Ok(Self::Period1d),
+            other => Err(format!(
+                "invalid TopTraderLongShortRatioPositionsPeriodEnum: {}",
+                other
+            )
+            .into()),
         }
     }
 }

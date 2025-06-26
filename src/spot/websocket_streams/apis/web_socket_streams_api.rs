@@ -117,9 +117,26 @@ impl AllMarketRollingWindowTickerWindowSizeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            AllMarketRollingWindowTickerWindowSizeEnum::WindowSize1h => "1h",
-            AllMarketRollingWindowTickerWindowSizeEnum::WindowSize4h => "4h",
-            AllMarketRollingWindowTickerWindowSizeEnum::WindowSize1d => "1d",
+            Self::WindowSize1h => "1h",
+            Self::WindowSize4h => "4h",
+            Self::WindowSize1d => "1d",
+        }
+    }
+}
+
+impl std::str::FromStr for AllMarketRollingWindowTickerWindowSizeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "1h" => Ok(Self::WindowSize1h),
+            "4h" => Ok(Self::WindowSize4h),
+            "1d" => Ok(Self::WindowSize1d),
+            other => Err(format!(
+                "invalid AllMarketRollingWindowTickerWindowSizeEnum: {}",
+                other
+            )
+            .into()),
         }
     }
 }
@@ -165,22 +182,48 @@ impl KlineIntervalEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            KlineIntervalEnum::Interval1s => "1s",
-            KlineIntervalEnum::Interval1m => "1m",
-            KlineIntervalEnum::Interval3m => "3m",
-            KlineIntervalEnum::Interval5m => "5m",
-            KlineIntervalEnum::Interval15m => "15m",
-            KlineIntervalEnum::Interval30m => "30m",
-            KlineIntervalEnum::Interval1h => "1h",
-            KlineIntervalEnum::Interval2h => "2h",
-            KlineIntervalEnum::Interval4h => "4h",
-            KlineIntervalEnum::Interval6h => "6h",
-            KlineIntervalEnum::Interval8h => "8h",
-            KlineIntervalEnum::Interval12h => "12h",
-            KlineIntervalEnum::Interval1d => "1d",
-            KlineIntervalEnum::Interval3d => "3d",
-            KlineIntervalEnum::Interval1w => "1w",
-            KlineIntervalEnum::Interval1M => "1M",
+            Self::Interval1s => "1s",
+            Self::Interval1m => "1m",
+            Self::Interval3m => "3m",
+            Self::Interval5m => "5m",
+            Self::Interval15m => "15m",
+            Self::Interval30m => "30m",
+            Self::Interval1h => "1h",
+            Self::Interval2h => "2h",
+            Self::Interval4h => "4h",
+            Self::Interval6h => "6h",
+            Self::Interval8h => "8h",
+            Self::Interval12h => "12h",
+            Self::Interval1d => "1d",
+            Self::Interval3d => "3d",
+            Self::Interval1w => "1w",
+            Self::Interval1M => "1M",
+        }
+    }
+}
+
+impl std::str::FromStr for KlineIntervalEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "1s" => Ok(Self::Interval1s),
+            "1m" => Ok(Self::Interval1m),
+            "3m" => Ok(Self::Interval3m),
+            "5m" => Ok(Self::Interval5m),
+            "15m" => Ok(Self::Interval15m),
+            "30m" => Ok(Self::Interval30m),
+            "1h" => Ok(Self::Interval1h),
+            "2h" => Ok(Self::Interval2h),
+            "4h" => Ok(Self::Interval4h),
+            "6h" => Ok(Self::Interval6h),
+            "8h" => Ok(Self::Interval8h),
+            "12h" => Ok(Self::Interval12h),
+            "1d" => Ok(Self::Interval1d),
+            "3d" => Ok(Self::Interval3d),
+            "1w" => Ok(Self::Interval1w),
+            "1M" => Ok(Self::Interval1M),
+            other => Err(format!("invalid KlineIntervalEnum: {}", other).into()),
         }
     }
 }
@@ -226,22 +269,48 @@ impl KlineOffsetIntervalEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            KlineOffsetIntervalEnum::Interval1s => "1s",
-            KlineOffsetIntervalEnum::Interval1m => "1m",
-            KlineOffsetIntervalEnum::Interval3m => "3m",
-            KlineOffsetIntervalEnum::Interval5m => "5m",
-            KlineOffsetIntervalEnum::Interval15m => "15m",
-            KlineOffsetIntervalEnum::Interval30m => "30m",
-            KlineOffsetIntervalEnum::Interval1h => "1h",
-            KlineOffsetIntervalEnum::Interval2h => "2h",
-            KlineOffsetIntervalEnum::Interval4h => "4h",
-            KlineOffsetIntervalEnum::Interval6h => "6h",
-            KlineOffsetIntervalEnum::Interval8h => "8h",
-            KlineOffsetIntervalEnum::Interval12h => "12h",
-            KlineOffsetIntervalEnum::Interval1d => "1d",
-            KlineOffsetIntervalEnum::Interval3d => "3d",
-            KlineOffsetIntervalEnum::Interval1w => "1w",
-            KlineOffsetIntervalEnum::Interval1M => "1M",
+            Self::Interval1s => "1s",
+            Self::Interval1m => "1m",
+            Self::Interval3m => "3m",
+            Self::Interval5m => "5m",
+            Self::Interval15m => "15m",
+            Self::Interval30m => "30m",
+            Self::Interval1h => "1h",
+            Self::Interval2h => "2h",
+            Self::Interval4h => "4h",
+            Self::Interval6h => "6h",
+            Self::Interval8h => "8h",
+            Self::Interval12h => "12h",
+            Self::Interval1d => "1d",
+            Self::Interval3d => "3d",
+            Self::Interval1w => "1w",
+            Self::Interval1M => "1M",
+        }
+    }
+}
+
+impl std::str::FromStr for KlineOffsetIntervalEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "1s" => Ok(Self::Interval1s),
+            "1m" => Ok(Self::Interval1m),
+            "3m" => Ok(Self::Interval3m),
+            "5m" => Ok(Self::Interval5m),
+            "15m" => Ok(Self::Interval15m),
+            "30m" => Ok(Self::Interval30m),
+            "1h" => Ok(Self::Interval1h),
+            "2h" => Ok(Self::Interval2h),
+            "4h" => Ok(Self::Interval4h),
+            "6h" => Ok(Self::Interval6h),
+            "8h" => Ok(Self::Interval8h),
+            "12h" => Ok(Self::Interval12h),
+            "1d" => Ok(Self::Interval1d),
+            "3d" => Ok(Self::Interval3d),
+            "1w" => Ok(Self::Interval1w),
+            "1M" => Ok(Self::Interval1M),
+            other => Err(format!("invalid KlineOffsetIntervalEnum: {}", other).into()),
         }
     }
 }
@@ -261,9 +330,22 @@ impl PartialBookDepthLevelsEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            PartialBookDepthLevelsEnum::Levels5 => "5",
-            PartialBookDepthLevelsEnum::Levels10 => "10",
-            PartialBookDepthLevelsEnum::Levels20 => "20",
+            Self::Levels5 => "5",
+            Self::Levels10 => "10",
+            Self::Levels20 => "20",
+        }
+    }
+}
+
+impl std::str::FromStr for PartialBookDepthLevelsEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "5" => Ok(Self::Levels5),
+            "10" => Ok(Self::Levels10),
+            "20" => Ok(Self::Levels20),
+            other => Err(format!("invalid PartialBookDepthLevelsEnum: {}", other).into()),
         }
     }
 }
@@ -283,9 +365,22 @@ impl RollingWindowTickerWindowSizeEnum {
     #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
-            RollingWindowTickerWindowSizeEnum::WindowSize1h => "1h",
-            RollingWindowTickerWindowSizeEnum::WindowSize4h => "4h",
-            RollingWindowTickerWindowSizeEnum::WindowSize1d => "1d",
+            Self::WindowSize1h => "1h",
+            Self::WindowSize4h => "4h",
+            Self::WindowSize1d => "1d",
+        }
+    }
+}
+
+impl std::str::FromStr for RollingWindowTickerWindowSizeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "1h" => Ok(Self::WindowSize1h),
+            "4h" => Ok(Self::WindowSize4h),
+            "1d" => Ok(Self::WindowSize1d),
+            other => Err(format!("invalid RollingWindowTickerWindowSizeEnum: {}", other).into()),
         }
     }
 }

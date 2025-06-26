@@ -26,6 +26,16 @@ pub struct OrderCancelReplaceResponseDataNewOrderResponse {
     pub code: Option<i64>,
     #[serde(rename = "msg", skip_serializing_if = "Option::is_none")]
     pub msg: Option<String>,
+    #[serde(rename = "symbol", skip_serializing_if = "Option::is_none")]
+    pub symbol: Option<String>,
+    #[serde(rename = "orderId", skip_serializing_if = "Option::is_none")]
+    pub order_id: Option<i64>,
+    #[serde(rename = "orderListId", skip_serializing_if = "Option::is_none")]
+    pub order_list_id: Option<i64>,
+    #[serde(rename = "clientOrderId", skip_serializing_if = "Option::is_none")]
+    pub client_order_id: Option<String>,
+    #[serde(rename = "transactTime", skip_serializing_if = "Option::is_none")]
+    pub transact_time: Option<i64>,
 }
 
 impl OrderCancelReplaceResponseDataNewOrderResponse {
@@ -34,6 +44,11 @@ impl OrderCancelReplaceResponseDataNewOrderResponse {
         OrderCancelReplaceResponseDataNewOrderResponse {
             code: None,
             msg: None,
+            symbol: None,
+            order_id: None,
+            order_list_id: None,
+            client_order_id: None,
+            transact_time: None,
         }
     }
 }
