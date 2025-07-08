@@ -229,6 +229,47 @@ To enhance security, you can use certificate pinning with the `agent` option in 
 
 Specify the time unit for WebSocket API timestamps (e.g., milliseconds or microseconds). See the [Time Unit example](./docs/websocket_api/time-unit.md) for detailed usage.
 
+#### Subscribe to User Data Streams
+
+You can consume the user data stream, which sends account-level events such as account and order updates. First do a `logon` to the websocket connection via WebSocket API; then:
+
+```rust
+use tracing::info;
+use binance_sdk::config::ConfigurationWebsocketApi;
+use binance_sdk::spot::{SpotWsApi, websocket_api::{SessionLogonParams, UserDataStreamSubscribeParams, UserDataStreamEventsResponse}};
+
+let configuration = ConfigurationWebsocketApi::builder().build()?;
+
+let client = SpotWsApi::production(configuration);
+let connection = client.connect().await?;
+
+let params = SessionLogonParams::default();
+
+// Make the WS API call
+let response = connection
+  .session_logon(SessionLogonParams::default())
+  .await?;
+
+let (response, stream) = connection
+  .user_data_stream_subscribe(UserDataStreamSubscribeParams::default())
+  .await?;
+
+stream.on_message(|data: UserDataStreamEventsResponse| {
+  match data {
+    UserDataStreamEventsResponse::OutboundAccountPosition(data) => {
+      info!("outbound account position stream {:?}", data);
+    }
+    UserDataStreamEventsResponse::BalanceUpdate(data) => {
+      info!("balance update stream {:?}", data);
+    }
+    UserDataStreamEventsResponse::Other(data) => {
+      info!("unknown stream {:?}", data);
+    }
+    // …handle other variants…
+  }
+});
+```
+
 #### Testnet
 
 For testing purposes, the Websocket API also supports a testnet environment:

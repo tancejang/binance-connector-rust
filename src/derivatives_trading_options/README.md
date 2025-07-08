@@ -8,7 +8,6 @@
 This module provides the official Rust client for Binance's Derivatives Trading Options API, enabling developers to interact programmatically with Binance's API to suit their derivative trading needs, through three distinct endpoints:
 
 - [REST API](./rest_api/mod.rs)
-- [Websocket API](./websocket_api/mod.rs)
 - [Websocket Stream](./websocket_streams/mod.rs)
 
 ## Table of Contents
@@ -189,6 +188,37 @@ Choose between `Single` and `Pool` connection modes for WebSocket connections. T
 
 To enhance security, you can use certificate pinning with the `agent` option in the configuration. This ensures the client only communicates with servers using specific certificates. See the [Certificate Pinning example](./docs/websocket_streams/certificate-pinning.md) for detailed usage.
 
+#### Subscribe to User Data Streams
+
+You can consume the user data stream, which sends account-level events such as account and order updates. First create a listen-key via REST API; then:
+
+```rust
+use tracing::info;
+use binance_sdk::config::ConfigurationWebsocketStreams;
+use binance_sdk::derivatives_trading_options::{DerivativesTradingOptionsWsStreams, websocket_streams::UserDataStreamEventsResponse};
+
+let configuration = ConfigurationWebsocketStreams::builder().build()?;
+
+let client = DerivativesTradingOptionsWsStreams::production(configuration);
+let connection = client.connect().await?;
+let stream = connection.user_data("listen_key".to_string(), Some("custom_id".to_string())).await?;
+
+stream.on_message(|data: UserDataStreamEventsResponse| {
+  match data {
+    UserDataStreamEventsResponse::AccountUpdate(data) => {
+      info!("account update stream {:?}", data);
+    }
+    UserDataStreamEventsResponse::OrderTradeUpdate(data) => {
+      info!("order trade update stream {:?}", data);
+    }
+    UserDataStreamEventsResponse::Other(data) => {
+      info!("unknown stream {:?}", data);
+    }
+    // …handle other variants…
+  }
+});
+```
+
 #### Unsubscribing from Streams
 
 You can unsubscribe from specific WebSocket streams using the `unsubscribe` method. This is useful for managing active subscriptions without closing the connection.
@@ -213,19 +243,6 @@ stream.on_message(|data| {
 sleep(Duration::from_secs(10)).await;
 
 stream.unsubscribe().await;
-```
-
-#### Testnet
-
-For testing purposes, the Websocket Streams also supports a testnet environment:
-
-```rust
-use binance_sdk::config::ConfigurationWebsocketStreams;
-use binance_sdk::derivatives_trading_options;
-
-let configuration = ConfigurationWebsocketStreams::builder().build()?;
-
-let client = derivatives_trading_options::DerivativesTradingOptionsWsStreams::production(configuration);
 ```
 
 ### Automatic Connection Renewal

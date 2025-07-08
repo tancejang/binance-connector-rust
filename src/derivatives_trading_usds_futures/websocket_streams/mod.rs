@@ -18,7 +18,8 @@ use tokio::spawn;
 
 use crate::common::config::ConfigurationWebsocketStreams;
 use crate::common::websocket::{
-    Subscription, WebsocketStream, WebsocketStreams as WebsocketStreamsBase,
+    Subscription, WebsocketBase, WebsocketStream, WebsocketStreams as WebsocketStreamsBase,
+    create_stream_handler,
 };
 use crate::models::{WebsocketEvent, WebsocketMode};
 
@@ -47,6 +48,7 @@ impl WebsocketStreams {
         if let Some(m) = mode {
             cfg.mode = m;
         }
+
         if !HAS_TIME_UNIT {
             cfg.time_unit = None;
         }
@@ -220,6 +222,41 @@ impl WebsocketStreams {
     /// This method checks the subscription status of a specific WebSocket stream.
     pub async fn is_subscribed(&self, stream: &str) -> bool {
         self.websocket_streams_base.is_subscribed(stream).await
+    }
+
+    /// User Data Stream
+    ///
+    /// Establishes a WebSocket stream for user-specific data events.
+    ///
+    /// # Arguments
+    ///
+    /// - `listen_key`: A unique key for identifying the user's data stream
+    /// - `id`: An optional identifier for the stream request
+    ///
+    /// # Returns
+    ///
+    /// [`Arc<WebsocketStream<UserDataStreamEventsResponse>>`] on success.
+    ///
+    /// # Errors
+    ///
+    /// Returns an [`anyhow::Error`] if the stream creation fails or if parsing the response encounters issues.
+    ///
+    /// # Examples
+    ///
+    ///
+    /// let `user_stream` = `websocket_streams.user_data(listen_key`, None).await?;
+    ///
+    pub async fn user_data(
+        &self,
+        listen_key: String,
+        id: Option<String>,
+    ) -> anyhow::Result<Arc<WebsocketStream<UserDataStreamEventsResponse>>> {
+        Ok(create_stream_handler::<UserDataStreamEventsResponse>(
+            WebsocketBase::WebsocketStreams(self.websocket_streams_base.clone()),
+            listen_key,
+            id,
+        )
+        .await)
     }
 
     /// Aggregate Trade Streams

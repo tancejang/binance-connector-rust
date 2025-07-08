@@ -1756,7 +1756,7 @@ pub struct PlaceMultipleOrdersParams {
     ///
     /// This field is **required.
     #[builder(setter(into))]
-    pub batch_orders: Vec<models::ModifyMultipleOrdersBatchOrdersParameterInner>,
+    pub batch_orders: Vec<models::PlaceMultipleOrdersBatchOrdersParameterInner>,
     ///
     /// The `recv_window` parameter.
     ///
@@ -1774,7 +1774,7 @@ impl PlaceMultipleOrdersParams {
     ///
     #[must_use]
     pub fn builder(
-        batch_orders: Vec<models::ModifyMultipleOrdersBatchOrdersParameterInner>,
+        batch_orders: Vec<models::PlaceMultipleOrdersBatchOrdersParameterInner>,
     ) -> PlaceMultipleOrdersParamsBuilder {
         PlaceMultipleOrdersParamsBuilder::default().batch_orders(batch_orders)
     }

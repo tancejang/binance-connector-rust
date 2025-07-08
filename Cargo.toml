@@ -1,6 +1,6 @@
 [package]
 name = "binance-sdk"
-version = "6.0.0"
+version = "7.0.0"
 authors = [ "Binance" ]
 edition = "2024"
 resolver = "3"
@@ -9,6 +9,9 @@ readme = "README.md"
 repository = "https://github.com/binance/binance-connector-rust"
 license = "MIT"
 include = [ "**/*.rs" ]
+
+[package.metadata.docs.rs]
+all-features = true
 
 [lints.clippy]
 uninlined_format_args = "allow"

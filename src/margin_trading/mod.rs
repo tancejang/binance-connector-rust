@@ -1,7 +1,11 @@
 pub mod rest_api;
 
+pub mod websocket_streams;
+
 use crate::common::{
-    config::ConfigurationRestApi, constants::MARGIN_TRADING_REST_API_PROD_URL, logger,
+    config::{ConfigurationRestApi, ConfigurationWebsocketStreams},
+    constants::{MARGIN_TRADING_REST_API_PROD_URL, MARGIN_TRADING_WS_STREAMS_PROD_URL},
+    logger,
     utils::build_user_agent,
 };
 
@@ -46,5 +50,53 @@ impl MarginTradingRestApi {
     pub fn production(mut config: ConfigurationRestApi) -> rest_api::RestApi {
         config.base_path = Some(MARGIN_TRADING_REST_API_PROD_URL.to_string());
         MarginTradingRestApi::from_config(config)
+    }
+}
+
+/// Represents the `MarginTrading` WebSocket Streams client for interacting with the Binance `MarginTrading` WebSocket Streams.
+///
+/// This struct provides methods to create WebSocket Streams clients for the production environment.
+pub struct MarginTradingWsStreams {}
+
+impl MarginTradingWsStreams {
+    /// Creates a WebSocket streams client configured with the given settings.
+    ///
+    /// If no WS URL is specified in the configuration, defaults to the production `MarginTrading` WebSocket Streams URL.
+    ///
+    /// # Arguments
+    ///
+    /// * `config` - Configuration for the WebSocket streams client
+    ///
+    /// # Returns
+    ///
+    /// A new WebSocket streams client configured with the provided settings
+    #[must_use]
+    pub fn from_config(
+        mut config: ConfigurationWebsocketStreams,
+    ) -> websocket_streams::WebsocketStreamsHandle {
+        logger::init();
+
+        config.user_agent = build_user_agent("margin-trading");
+        if config.ws_url.is_none() {
+            config.ws_url = Some(MARGIN_TRADING_WS_STREAMS_PROD_URL.to_string());
+        }
+        websocket_streams::WebsocketStreamsHandle::new(config)
+    }
+
+    /// Creates a WebSocket streams client configured for the production environment.
+    ///
+    /// # Arguments
+    ///
+    /// * `config` - Configuration for the WebSocket streams client
+    ///
+    /// # Returns
+    ///
+    /// A new WebSocket streams client configured for the production environment
+    #[must_use]
+    pub fn production(
+        mut config: ConfigurationWebsocketStreams,
+    ) -> websocket_streams::WebsocketStreamsHandle {
+        config.ws_url = Some(MARGIN_TRADING_WS_STREAMS_PROD_URL.to_string());
+        MarginTradingWsStreams::from_config(config)
     }
 }

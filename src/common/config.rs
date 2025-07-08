@@ -1,5 +1,6 @@
 use derive_builder::Builder;
 use reqwest::{Client, ClientBuilder};
+use std::collections::HashMap;
 use std::fmt;
 use std::sync::Arc;
 use tokio_tungstenite::Connector;
@@ -77,6 +78,9 @@ pub struct ConfigurationRestApi {
 
     #[builder(setter(strip_option), default)]
     pub proxy: Option<ProxyConfig>,
+
+    #[builder(setter(strip_option, into), default)]
+    pub custom_headers: Option<HashMap<String, String>>,
 
     #[builder(setter(strip_option), default)]
     pub agent: Option<HttpAgent>,

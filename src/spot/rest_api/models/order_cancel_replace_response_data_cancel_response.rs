@@ -36,6 +36,8 @@ pub struct OrderCancelReplaceResponseDataCancelResponse {
     pub order_list_id: Option<i64>,
     #[serde(rename = "clientOrderId", skip_serializing_if = "Option::is_none")]
     pub client_order_id: Option<String>,
+    #[serde(rename = "transactTime", skip_serializing_if = "Option::is_none")]
+    pub transact_time: Option<i64>,
     #[serde(rename = "price", skip_serializing_if = "Option::is_none")]
     pub price: Option<String>,
     #[serde(rename = "origQty", skip_serializing_if = "Option::is_none")]
@@ -62,8 +64,6 @@ pub struct OrderCancelReplaceResponseDataCancelResponse {
         skip_serializing_if = "Option::is_none"
     )]
     pub self_trade_prevention_mode: Option<String>,
-    #[serde(rename = "transactTime", skip_serializing_if = "Option::is_none")]
-    pub transact_time: Option<i64>,
 }
 
 impl OrderCancelReplaceResponseDataCancelResponse {
@@ -77,6 +77,7 @@ impl OrderCancelReplaceResponseDataCancelResponse {
             order_id: None,
             order_list_id: None,
             client_order_id: None,
+            transact_time: None,
             price: None,
             orig_qty: None,
             executed_qty: None,
@@ -87,7 +88,6 @@ impl OrderCancelReplaceResponseDataCancelResponse {
             r#type: None,
             side: None,
             self_trade_prevention_mode: None,
-            transact_time: None,
         }
     }
 }

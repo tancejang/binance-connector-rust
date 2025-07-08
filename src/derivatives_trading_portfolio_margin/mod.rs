@@ -1,10 +1,14 @@
 pub mod rest_api;
 
+pub mod websocket_streams;
+
 use crate::common::{
-    config::ConfigurationRestApi,
+    config::{ConfigurationRestApi, ConfigurationWebsocketStreams},
     constants::{
         DERIVATIVES_TRADING_PORTFOLIO_MARGIN_REST_API_PROD_URL,
         DERIVATIVES_TRADING_PORTFOLIO_MARGIN_REST_API_TESTNET_URL,
+        DERIVATIVES_TRADING_PORTFOLIO_MARGIN_WS_STREAMS_PROD_URL,
+        DERIVATIVES_TRADING_PORTFOLIO_MARGIN_WS_STREAMS_TESTNET_URL,
     },
     logger,
     utils::build_user_agent,
@@ -68,5 +72,72 @@ impl DerivativesTradingPortfolioMarginRestApi {
         config.base_path =
             Some(DERIVATIVES_TRADING_PORTFOLIO_MARGIN_REST_API_TESTNET_URL.to_string());
         DerivativesTradingPortfolioMarginRestApi::from_config(config)
+    }
+}
+
+/// Represents the `DerivativesTradingPortfolioMargin` WebSocket Streams client for interacting with the Binance `DerivativesTradingPortfolioMargin` WebSocket Streams.
+///
+/// This struct provides methods to create WebSocket Streams clients for both production and testnet environments.
+pub struct DerivativesTradingPortfolioMarginWsStreams {}
+
+impl DerivativesTradingPortfolioMarginWsStreams {
+    /// Creates a WebSocket streams client configured with the given settings.
+    ///
+    /// If no WS URL is specified in the configuration, defaults to the production `DerivativesTradingPortfolioMargin` WebSocket Streams URL.
+    ///
+    /// # Arguments
+    ///
+    /// * `config` - Configuration for the WebSocket streams client
+    ///
+    /// # Returns
+    ///
+    /// A new WebSocket streams client configured with the provided settings
+    #[must_use]
+    pub fn from_config(
+        mut config: ConfigurationWebsocketStreams,
+    ) -> websocket_streams::WebsocketStreamsHandle {
+        logger::init();
+
+        config.user_agent = build_user_agent("derivatives-trading-portfolio-margin");
+        if config.ws_url.is_none() {
+            config.ws_url =
+                Some(DERIVATIVES_TRADING_PORTFOLIO_MARGIN_WS_STREAMS_PROD_URL.to_string());
+        }
+        websocket_streams::WebsocketStreamsHandle::new(config)
+    }
+
+    /// Creates a WebSocket streams client configured for the production environment.
+    ///
+    /// # Arguments
+    ///
+    /// * `config` - Configuration for the WebSocket streams client
+    ///
+    /// # Returns
+    ///
+    /// A new WebSocket streams client configured for the production environment
+    #[must_use]
+    pub fn production(
+        mut config: ConfigurationWebsocketStreams,
+    ) -> websocket_streams::WebsocketStreamsHandle {
+        config.ws_url = Some(DERIVATIVES_TRADING_PORTFOLIO_MARGIN_WS_STREAMS_PROD_URL.to_string());
+        DerivativesTradingPortfolioMarginWsStreams::from_config(config)
+    }
+
+    /// Creates a WebSocket streams client configured for the testnet environment.
+    ///
+    /// # Arguments
+    ///
+    /// * `config` - Configuration for the WebSocket streams client
+    ///
+    /// # Returns
+    ///
+    /// A new WebSocket streams client configured for the testnet environment
+    #[must_use]
+    pub fn testnet(
+        mut config: ConfigurationWebsocketStreams,
+    ) -> websocket_streams::WebsocketStreamsHandle {
+        config.ws_url =
+            Some(DERIVATIVES_TRADING_PORTFOLIO_MARGIN_WS_STREAMS_TESTNET_URL.to_string());
+        DerivativesTradingPortfolioMarginWsStreams::from_config(config)
     }
 }

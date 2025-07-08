@@ -1568,7 +1568,7 @@ impl RestApi {
     ///
     /// Query index price constituents
     ///
-    /// Weight: 2
+    /// Weight: 1
     ///
     /// # Arguments
     ///
