@@ -13,5 +13,7 @@
 
 pub mod eth_staking_api;
 pub use eth_staking_api::*;
+pub mod on_chain_yields_api;
+pub use on_chain_yields_api::*;
 pub mod sol_staking_api;
 pub use sol_staking_api::*;

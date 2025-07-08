@@ -1820,13 +1820,13 @@ impl WebsocketApi {
         params: UserDataStreamSubscribeParams,
     ) -> anyhow::Result<(
         WebsocketApiResponse<serde_json::Value>,
-        Arc<WebsocketStream<serde_json::Value>>,
+        Arc<WebsocketStream<UserDataStreamEventsResponse>>,
     )> {
         let response = self
             .user_data_stream_api_client
             .user_data_stream_subscribe(params)
             .await?;
-        let stream = create_stream_handler(
+        let stream = create_stream_handler::<UserDataStreamEventsResponse>(
             WebsocketBase::WebsocketApi(self.websocket_api_base.clone()),
             random_string(),
             None,

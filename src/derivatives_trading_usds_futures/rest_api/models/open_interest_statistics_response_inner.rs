@@ -26,6 +26,11 @@ pub struct OpenInterestStatisticsResponseInner {
         skip_serializing_if = "Option::is_none"
     )]
     pub sum_open_interest_value: Option<String>,
+    #[serde(
+        rename = "CMCCirculatingSupply",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub cmc_circulating_supply: Option<String>,
     #[serde(rename = "timestamp", skip_serializing_if = "Option::is_none")]
     pub timestamp: Option<String>,
 }
@@ -37,6 +42,7 @@ impl OpenInterestStatisticsResponseInner {
             symbol: None,
             sum_open_interest: None,
             sum_open_interest_value: None,
+            cmc_circulating_supply: None,
             timestamp: None,
         }
     }

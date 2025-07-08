@@ -7,6 +7,7 @@ use flate2::read::GzDecoder;
 use hex;
 use hmac::{Hmac, Mac};
 use http::HeaderMap;
+use http::HeaderValue;
 use http::header::ACCEPT_ENCODING;
 use once_cell::sync::OnceCell;
 use openssl::{hash::MessageDigest, pkey::PKey, sign::Signer as OpenSslSigner};
@@ -158,16 +159,14 @@ impl SignatureGenerator {
     /// Returns an error if:
     /// - The key cannot be base64 decoded
     /// - The key cannot be parsed from PKCS8 DER format
-    fn get_ed25519_signing_key(&self) -> Result<&SigningKey> {
+    fn get_ed25519_signing_key(
+        &self,
+        key_obj: &PKey<openssl::pkey::Private>,
+    ) -> Result<&SigningKey> {
         self.ed25519_signing_key.get_or_try_init(|| {
-            let key_data = self.get_raw_key_data()?;
-            let b64 = key_data
-                .lines()
-                .filter(|l| !l.starts_with("-----"))
-                .collect::<String>();
-            let der = general_purpose::STANDARD
-                .decode(b64)
-                .context("Failed to base64 decode Ed25519 PEM")?;
+            let der = key_obj
+                .private_key_to_der()
+                .context("Failed to export Ed25519 key to DER")?;
             SigningKey::from_pkcs8_der(&der)
                 .map_err(|e| anyhow::anyhow!("Failed to parse Ed25519 key: {}", e))
         })
@@ -221,7 +220,7 @@ impl SignatureGenerator {
                     return Ok(general_purpose::STANDARD.encode(sig));
                 }
                 openssl::pkey::Id::ED25519 => {
-                    let signing_key = self.get_ed25519_signing_key()?;
+                    let signing_key = self.get_ed25519_signing_key(key_obj)?;
                     let signature = signing_key.sign(params.as_bytes());
                     return Ok(general_purpose::STANDARD.encode(signature.to_bytes()));
                 }
@@ -778,10 +777,31 @@ pub async fn send_request<T: DeserializeOwned + Send + 'static>(
     }
 
     let mut headers = HeaderMap::new();
-    headers.insert("Content-Type", "application/json".parse().unwrap());
+
+    let forbidden = ["host", "authorization", "cookie", ":method", ":path"]
+        .into_iter()
+        .map(str::to_ascii_lowercase)
+        .collect::<std::collections::HashSet<_>>();
+
+    if let Some(custom) = &configuration.custom_headers {
+        for (raw_name, raw_val) in custom {
+            let name = raw_name.trim();
+            if forbidden.contains(&name.to_ascii_lowercase()) {
+                continue;
+            }
+            if let (Ok(header_name), Ok(header_val)) = (
+                name.parse::<reqwest::header::HeaderName>(),
+                HeaderValue::from_str(raw_val),
+            ) {
+                headers.append(header_name, header_val);
+            }
+        }
+    }
+
+    headers.insert("Content-Type", HeaderValue::from_static("application/json"));
     headers.insert("User-Agent", configuration.user_agent.parse().unwrap());
     if let Some(api_key) = &configuration.api_key {
-        headers.insert("X-MBX-APIKEY", api_key.parse().unwrap());
+        headers.insert("X-MBX-APIKEY", HeaderValue::from_str(api_key)?);
     }
 
     if configuration.compression {
@@ -1967,7 +1987,7 @@ mod tests {
         use reqwest::Method;
         use serde::Deserialize;
         use serde_json::json;
-        use std::collections::BTreeMap;
+        use std::collections::{BTreeMap, HashMap};
 
         use crate::{
             common::{models::TimeUnit, utils::send_request},
@@ -2244,6 +2264,143 @@ mod tests {
 
                 let data = result.data().await.unwrap();
                 assert_eq!(data.message, "time unit applied");
+
+                Ok(())
+            })
+        }
+
+        #[test]
+        fn custom_headers_are_sent() -> Result<()> {
+            TOKIO_SHARED_RT.block_on(async {
+                let server = MockServer::start();
+
+                server.mock(|when, then| {
+                    when.method(GET)
+                        .path("/api/v1/test")
+                        .header("X-My-Test", "all-clear");
+                    then.status(200)
+                        .header("content-type", "application/json")
+                        .body(r#"{"message":"ok"}"#);
+                });
+
+                let mut custom = HashMap::new();
+                custom.insert("X-My-Test".to_string(), "all-clear".to_string());
+
+                let configuration = ConfigurationRestApi::builder()
+                    .api_key("key")
+                    .api_secret("secret")
+                    .base_path(server.base_url())
+                    .compression(false)
+                    .custom_headers(custom)
+                    .build()
+                    .expect("Failed to build configuration");
+
+                let params = BTreeMap::new();
+                let res = send_request::<TestResponse>(
+                    &configuration,
+                    "/api/v1/test",
+                    Method::GET,
+                    params,
+                    None,
+                    false,
+                )
+                .await?;
+
+                let data = res.data().await.unwrap();
+                assert_eq!(data.message, "ok");
+
+                Ok(())
+            })
+        }
+
+        #[test]
+        fn custom_header_override_prevention() -> Result<()> {
+            TOKIO_SHARED_RT.block_on(async {
+                let server = MockServer::start();
+
+                server.mock(|when, then| {
+                    when.method(GET)
+                        .path("/api/v1/test")
+                        .header("content-type", "application/json")
+                        .header("x-mbx-apikey", "key")
+                        .header("X-My-Test", "ok");
+                    then.status(200)
+                        .header("content-type", "application/json")
+                        .body(r#"{"message":"defaults intact"}"#);
+                });
+
+                let mut custom = HashMap::new();
+                custom.insert("Content-Type".to_string(), "text/plain".to_string());
+                custom.insert("X-MBX-APIKEY".to_string(), "BAD".to_string());
+                custom.insert("X-My-Test".to_string(), "ok".to_string());
+
+                let configuration = ConfigurationRestApi::builder()
+                    .api_key("key")
+                    .api_secret("secret")
+                    .base_path(server.base_url())
+                    .compression(false)
+                    .custom_headers(custom)
+                    .build()
+                    .expect("Failed to build configuration");
+
+                let params = BTreeMap::new();
+                let res = send_request::<TestResponse>(
+                    &configuration,
+                    "/api/v1/test",
+                    Method::GET,
+                    params,
+                    None,
+                    false,
+                )
+                .await?;
+
+                let data = res.data().await.unwrap();
+                assert_eq!(data.message, "defaults intact");
+
+                Ok(())
+            })
+        }
+
+        #[test]
+        fn crlf_in_header_values_are_dropped() -> Result<()> {
+            TOKIO_SHARED_RT.block_on(async {
+                let server = MockServer::start();
+
+                server.mock(|when, then| {
+                    when.method(GET)
+                        .path("/api/v1/test")
+                        .header("X-Good", "safe");
+                    then.status(200)
+                        .header("content-type", "application/json")
+                        .body(r#"{"message":"clean only"}"#);
+                });
+
+                let mut custom = HashMap::new();
+                custom.insert("X-Bad".to_string(), "evil\r\ninject".to_string());
+                custom.insert("X-Good".to_string(), "safe".to_string());
+
+                let configuration = ConfigurationRestApi::builder()
+                    .api_key("key")
+                    .api_secret("secret")
+                    .base_path(server.base_url())
+                    .compression(false)
+                    .custom_headers(custom)
+                    .build()
+                    .expect("Failed to build configuration");
+
+                let params = BTreeMap::new();
+                let res = send_request::<TestResponse>(
+                    &configuration,
+                    "/api/v1/test",
+                    Method::GET,
+                    params,
+                    None,
+                    false,
+                )
+                .await?;
+
+                let data = res.data().await.unwrap();
+                assert_eq!(data.message, "clean only");
 
                 Ok(())
             })

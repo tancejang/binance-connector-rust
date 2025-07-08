@@ -1144,7 +1144,7 @@ impl RestApi {
     ///   - `BadRequestError`
     ///
     ///
-    /// For full API details, see the [Binance API Documentation](https://developers.binance.com/docs/derivatives/usds-margined-futures/convert/List-All-Convert-Pairs).
+    /// For full API details, see the [Binance API Documentation](https://developers.binance.com/docs/derivatives/usds-margined-futures/convert/).
     ///
     pub async fn list_all_convert_pairs(
         &self,

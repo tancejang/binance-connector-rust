@@ -29,17 +29,20 @@ pub use models::*;
 pub struct RestApi {
     configuration: ConfigurationRestApi,
     eth_staking_api_client: EthStakingApiClient,
+    on_chain_yields_api_client: OnChainYieldsApiClient,
     sol_staking_api_client: SolStakingApiClient,
 }
 
 impl RestApi {
     pub fn new(configuration: ConfigurationRestApi) -> Self {
         let eth_staking_api_client = EthStakingApiClient::new(configuration.clone());
+        let on_chain_yields_api_client = OnChainYieldsApiClient::new(configuration.clone());
         let sol_staking_api_client = SolStakingApiClient::new(configuration.clone());
 
         Self {
             configuration,
             eth_staking_api_client,
+            on_chain_yields_api_client,
             sol_staking_api_client,
         }
     }
@@ -617,6 +620,573 @@ impl RestApi {
         params: WrapBethParams,
     ) -> anyhow::Result<RestApiResponse<models::WrapBethResponse>> {
         self.eth_staking_api_client.wrap_beth(params).await
+    }
+
+    /// Get On-chain Yields Locked Personal Left Quota (`USER_DATA`)
+    ///
+    /// Get On-chain Yields Locked Personal Left Quota
+    ///
+    /// Weight: 50
+    ///
+    /// # Arguments
+    ///
+    /// - `params`: [`GetOnChainYieldsLockedPersonalLeftQuotaParams`]
+    ///   The parameters for this operation.
+    ///
+    /// # Returns
+    ///
+    /// [`RestApiResponse<models::GetOnChainYieldsLockedPersonalLeftQuotaResponse>`] on success.
+    ///
+    /// # Errors
+    ///
+    /// This function will return an [`anyhow::Error`] if:
+    /// - the HTTP request fails
+    /// - any parameter is invalid
+    /// - the response cannot be parsed
+    /// - or one of the following occurs:
+    ///   - `RequiredError`
+    ///   - `ConnectorClientError`
+    ///   - `UnauthorizedError`
+    ///   - `ForbiddenError`
+    ///   - `TooManyRequestsError`
+    ///   - `RateLimitBanError`
+    ///   - `ServerError`
+    ///   - `NotFoundError`
+    ///   - `NetworkError`
+    ///   - `BadRequestError`
+    ///
+    ///
+    /// For full API details, see the [Binance API Documentation](https://developers.binance.com/docs/staking/on-chain-yields/account/Get-Onchain-Locked-Personal-Left-Quota).
+    ///
+    pub async fn get_on_chain_yields_locked_personal_left_quota(
+        &self,
+        params: GetOnChainYieldsLockedPersonalLeftQuotaParams,
+    ) -> anyhow::Result<RestApiResponse<models::GetOnChainYieldsLockedPersonalLeftQuotaResponse>>
+    {
+        self.on_chain_yields_api_client
+            .get_on_chain_yields_locked_personal_left_quota(params)
+            .await
+    }
+
+    /// Get On-chain Yields Locked Product List (`USER_DATA`)
+    ///
+    /// Get available On-chain Yields Locked product list
+    ///
+    /// * Get available On-chain Yields Locked product list
+    ///
+    /// Weight: 50
+    ///
+    /// # Arguments
+    ///
+    /// - `params`: [`GetOnChainYieldsLockedProductListParams`]
+    ///   The parameters for this operation.
+    ///
+    /// # Returns
+    ///
+    /// [`RestApiResponse<models::GetOnChainYieldsLockedProductListResponse>`] on success.
+    ///
+    /// # Errors
+    ///
+    /// This function will return an [`anyhow::Error`] if:
+    /// - the HTTP request fails
+    /// - any parameter is invalid
+    /// - the response cannot be parsed
+    /// - or one of the following occurs:
+    ///   - `RequiredError`
+    ///   - `ConnectorClientError`
+    ///   - `UnauthorizedError`
+    ///   - `ForbiddenError`
+    ///   - `TooManyRequestsError`
+    ///   - `RateLimitBanError`
+    ///   - `ServerError`
+    ///   - `NotFoundError`
+    ///   - `NetworkError`
+    ///   - `BadRequestError`
+    ///
+    ///
+    /// For full API details, see the [Binance API Documentation](https://developers.binance.com/docs/staking/on-chain-yields/account/).
+    ///
+    pub async fn get_on_chain_yields_locked_product_list(
+        &self,
+        params: GetOnChainYieldsLockedProductListParams,
+    ) -> anyhow::Result<RestApiResponse<models::GetOnChainYieldsLockedProductListResponse>> {
+        self.on_chain_yields_api_client
+            .get_on_chain_yields_locked_product_list(params)
+            .await
+    }
+
+    /// Get On-chain Yields Locked Product Position (`USER_DATA`)
+    ///
+    /// Get On-chain Yields Locked Product Position
+    ///
+    /// Weight: 50
+    ///
+    /// # Arguments
+    ///
+    /// - `params`: [`GetOnChainYieldsLockedProductPositionParams`]
+    ///   The parameters for this operation.
+    ///
+    /// # Returns
+    ///
+    /// [`RestApiResponse<models::GetOnChainYieldsLockedProductPositionResponse>`] on success.
+    ///
+    /// # Errors
+    ///
+    /// This function will return an [`anyhow::Error`] if:
+    /// - the HTTP request fails
+    /// - any parameter is invalid
+    /// - the response cannot be parsed
+    /// - or one of the following occurs:
+    ///   - `RequiredError`
+    ///   - `ConnectorClientError`
+    ///   - `UnauthorizedError`
+    ///   - `ForbiddenError`
+    ///   - `TooManyRequestsError`
+    ///   - `RateLimitBanError`
+    ///   - `ServerError`
+    ///   - `NotFoundError`
+    ///   - `NetworkError`
+    ///   - `BadRequestError`
+    ///
+    ///
+    /// For full API details, see the [Binance API Documentation](https://developers.binance.com/docs/staking/on-chain-yields/account/Get-Onchain-Locked-Product-Position).
+    ///
+    pub async fn get_on_chain_yields_locked_product_position(
+        &self,
+        params: GetOnChainYieldsLockedProductPositionParams,
+    ) -> anyhow::Result<RestApiResponse<models::GetOnChainYieldsLockedProductPositionResponse>>
+    {
+        self.on_chain_yields_api_client
+            .get_on_chain_yields_locked_product_position(params)
+            .await
+    }
+
+    /// Get On-chain Yields Locked Redemption Record (`USER_DATA`)
+    ///
+    /// Get On-chain Yields Locked Redemption Record
+    ///
+    /// * The time between `startTime` and `endTime` cannot be longer than 3 months.
+    /// * If `startTime` and `endTime` are both not sent, then the last 30 days' data will be returned.
+    /// * If `startTime` is sent but `endTime` is not sent, the next 30 days' data beginning from `startTime` will be returned.
+    /// * If `endTime` is sent but `startTime` is not sent, the 30 days' data before `endTime` will be returned.
+    ///
+    /// Weight: 50
+    ///
+    /// # Arguments
+    ///
+    /// - `params`: [`GetOnChainYieldsLockedRedemptionRecordParams`]
+    ///   The parameters for this operation.
+    ///
+    /// # Returns
+    ///
+    /// [`RestApiResponse<models::GetOnChainYieldsLockedRedemptionRecordResponse>`] on success.
+    ///
+    /// # Errors
+    ///
+    /// This function will return an [`anyhow::Error`] if:
+    /// - the HTTP request fails
+    /// - any parameter is invalid
+    /// - the response cannot be parsed
+    /// - or one of the following occurs:
+    ///   - `RequiredError`
+    ///   - `ConnectorClientError`
+    ///   - `UnauthorizedError`
+    ///   - `ForbiddenError`
+    ///   - `TooManyRequestsError`
+    ///   - `RateLimitBanError`
+    ///   - `ServerError`
+    ///   - `NotFoundError`
+    ///   - `NetworkError`
+    ///   - `BadRequestError`
+    ///
+    ///
+    /// For full API details, see the [Binance API Documentation](https://developers.binance.com/docs/staking/on-chain-yields/history/Get-Onchain-Locked-Redemption-Record).
+    ///
+    pub async fn get_on_chain_yields_locked_redemption_record(
+        &self,
+        params: GetOnChainYieldsLockedRedemptionRecordParams,
+    ) -> anyhow::Result<RestApiResponse<models::GetOnChainYieldsLockedRedemptionRecordResponse>>
+    {
+        self.on_chain_yields_api_client
+            .get_on_chain_yields_locked_redemption_record(params)
+            .await
+    }
+
+    /// Get On-chain Yields Locked Rewards History (`USER_DATA`)
+    ///
+    /// Get On-chain Yields Locked Rewards History
+    ///
+    /// * The time between `startTime` and `endTime` cannot be longer than 3 months.
+    /// * If `startTime` and `endTime` are both not sent, then the last 30 days' data will be returned.
+    /// * If `startTime` is sent but `endTime` is not sent, the next 30 days' data beginning from `startTime` will be returned.
+    /// * If `endTime` is sent but `startTime` is not sent, the 30 days' data before `endTime` will be returned.
+    ///
+    /// Weight: 50
+    ///
+    /// # Arguments
+    ///
+    /// - `params`: [`GetOnChainYieldsLockedRewardsHistoryParams`]
+    ///   The parameters for this operation.
+    ///
+    /// # Returns
+    ///
+    /// [`RestApiResponse<models::GetOnChainYieldsLockedRewardsHistoryResponse>`] on success.
+    ///
+    /// # Errors
+    ///
+    /// This function will return an [`anyhow::Error`] if:
+    /// - the HTTP request fails
+    /// - any parameter is invalid
+    /// - the response cannot be parsed
+    /// - or one of the following occurs:
+    ///   - `RequiredError`
+    ///   - `ConnectorClientError`
+    ///   - `UnauthorizedError`
+    ///   - `ForbiddenError`
+    ///   - `TooManyRequestsError`
+    ///   - `RateLimitBanError`
+    ///   - `ServerError`
+    ///   - `NotFoundError`
+    ///   - `NetworkError`
+    ///   - `BadRequestError`
+    ///
+    ///
+    /// For full API details, see the [Binance API Documentation](https://developers.binance.com/docs/staking/on-chain-yields/history/Get-Onchain-Locked-Rewards-History).
+    ///
+    pub async fn get_on_chain_yields_locked_rewards_history(
+        &self,
+        params: GetOnChainYieldsLockedRewardsHistoryParams,
+    ) -> anyhow::Result<RestApiResponse<models::GetOnChainYieldsLockedRewardsHistoryResponse>> {
+        self.on_chain_yields_api_client
+            .get_on_chain_yields_locked_rewards_history(params)
+            .await
+    }
+
+    /// Get On-chain Yields Locked Subscription Preview (`USER_DATA`)
+    ///
+    /// Get On-chain Yields Locked Subscription Preview
+    ///
+    /// Weight: 50
+    ///
+    /// # Arguments
+    ///
+    /// - `params`: [`GetOnChainYieldsLockedSubscriptionPreviewParams`]
+    ///   The parameters for this operation.
+    ///
+    /// # Returns
+    ///
+    /// [`RestApiResponse<models::GetOnChainYieldsLockedSubscriptionPreviewResponse>`] on success.
+    ///
+    /// # Errors
+    ///
+    /// This function will return an [`anyhow::Error`] if:
+    /// - the HTTP request fails
+    /// - any parameter is invalid
+    /// - the response cannot be parsed
+    /// - or one of the following occurs:
+    ///   - `RequiredError`
+    ///   - `ConnectorClientError`
+    ///   - `UnauthorizedError`
+    ///   - `ForbiddenError`
+    ///   - `TooManyRequestsError`
+    ///   - `RateLimitBanError`
+    ///   - `ServerError`
+    ///   - `NotFoundError`
+    ///   - `NetworkError`
+    ///   - `BadRequestError`
+    ///
+    ///
+    /// For full API details, see the [Binance API Documentation](https://developers.binance.com/docs/staking/on-chain-yields/earn/).
+    ///
+    pub async fn get_on_chain_yields_locked_subscription_preview(
+        &self,
+        params: GetOnChainYieldsLockedSubscriptionPreviewParams,
+    ) -> anyhow::Result<RestApiResponse<models::GetOnChainYieldsLockedSubscriptionPreviewResponse>>
+    {
+        self.on_chain_yields_api_client
+            .get_on_chain_yields_locked_subscription_preview(params)
+            .await
+    }
+
+    /// Get On-chain Yields Locked Subscription Record (`USER_DATA`)
+    ///
+    /// Get On-chain Yields Locked Subscription Record
+    ///
+    /// * The time between `startTime` and `endTime` cannot be longer than 3 months.
+    /// * If `startTime` and `endTime` are both not sent, then the last 30 days' data will be returned.
+    /// * If `startTime` is sent but `endTime` is not sent, the next 30 days' data beginning from `startTime` will be returned.
+    /// * If `endTime` is sent but `startTime` is not sent, the 30 days' data before `endTime` will be returned.
+    ///
+    /// Weight: 50
+    ///
+    /// # Arguments
+    ///
+    /// - `params`: [`GetOnChainYieldsLockedSubscriptionRecordParams`]
+    ///   The parameters for this operation.
+    ///
+    /// # Returns
+    ///
+    /// [`RestApiResponse<models::GetOnChainYieldsLockedSubscriptionRecordResponse>`] on success.
+    ///
+    /// # Errors
+    ///
+    /// This function will return an [`anyhow::Error`] if:
+    /// - the HTTP request fails
+    /// - any parameter is invalid
+    /// - the response cannot be parsed
+    /// - or one of the following occurs:
+    ///   - `RequiredError`
+    ///   - `ConnectorClientError`
+    ///   - `UnauthorizedError`
+    ///   - `ForbiddenError`
+    ///   - `TooManyRequestsError`
+    ///   - `RateLimitBanError`
+    ///   - `ServerError`
+    ///   - `NotFoundError`
+    ///   - `NetworkError`
+    ///   - `BadRequestError`
+    ///
+    ///
+    /// For full API details, see the [Binance API Documentation](https://developers.binance.com/docs/staking/on-chain-yields/history/).
+    ///
+    pub async fn get_on_chain_yields_locked_subscription_record(
+        &self,
+        params: GetOnChainYieldsLockedSubscriptionRecordParams,
+    ) -> anyhow::Result<RestApiResponse<models::GetOnChainYieldsLockedSubscriptionRecordResponse>>
+    {
+        self.on_chain_yields_api_client
+            .get_on_chain_yields_locked_subscription_record(params)
+            .await
+    }
+
+    /// On-chain Yields Account (`USER_DATA`)
+    ///
+    /// On-chain Yields Account query
+    ///
+    /// Weight: 50
+    ///
+    /// # Arguments
+    ///
+    /// - `params`: [`OnChainYieldsAccountParams`]
+    ///   The parameters for this operation.
+    ///
+    /// # Returns
+    ///
+    /// [`RestApiResponse<models::OnChainYieldsAccountResponse>`] on success.
+    ///
+    /// # Errors
+    ///
+    /// This function will return an [`anyhow::Error`] if:
+    /// - the HTTP request fails
+    /// - any parameter is invalid
+    /// - the response cannot be parsed
+    /// - or one of the following occurs:
+    ///   - `RequiredError`
+    ///   - `ConnectorClientError`
+    ///   - `UnauthorizedError`
+    ///   - `ForbiddenError`
+    ///   - `TooManyRequestsError`
+    ///   - `RateLimitBanError`
+    ///   - `ServerError`
+    ///   - `NotFoundError`
+    ///   - `NetworkError`
+    ///   - `BadRequestError`
+    ///
+    ///
+    /// For full API details, see the [Binance API Documentation](https://developers.binance.com/docs/staking/on-chain-yields/account/Onchain-Account).
+    ///
+    pub async fn on_chain_yields_account(
+        &self,
+        params: OnChainYieldsAccountParams,
+    ) -> anyhow::Result<RestApiResponse<models::OnChainYieldsAccountResponse>> {
+        self.on_chain_yields_api_client
+            .on_chain_yields_account(params)
+            .await
+    }
+
+    /// Redeem On-chain Yields Locked Product (TRADE)
+    ///
+    /// Redeem On-chain Yields Locked Product
+    ///
+    /// * You need to open `Enable Spot & Margin Trading` permission for the API Key which requests this endpoint.
+    ///
+    /// Weight: 1/3s per account
+    ///
+    /// # Arguments
+    ///
+    /// - `params`: [`RedeemOnChainYieldsLockedProductParams`]
+    ///   The parameters for this operation.
+    ///
+    /// # Returns
+    ///
+    /// [`RestApiResponse<models::RedeemOnChainYieldsLockedProductResponse>`] on success.
+    ///
+    /// # Errors
+    ///
+    /// This function will return an [`anyhow::Error`] if:
+    /// - the HTTP request fails
+    /// - any parameter is invalid
+    /// - the response cannot be parsed
+    /// - or one of the following occurs:
+    ///   - `RequiredError`
+    ///   - `ConnectorClientError`
+    ///   - `UnauthorizedError`
+    ///   - `ForbiddenError`
+    ///   - `TooManyRequestsError`
+    ///   - `RateLimitBanError`
+    ///   - `ServerError`
+    ///   - `NotFoundError`
+    ///   - `NetworkError`
+    ///   - `BadRequestError`
+    ///
+    ///
+    /// For full API details, see the [Binance API Documentation](https://developers.binance.com/docs/staking/on-chain-yields/earn/Redeem-Onchain-Locked-Product).
+    ///
+    pub async fn redeem_on_chain_yields_locked_product(
+        &self,
+        params: RedeemOnChainYieldsLockedProductParams,
+    ) -> anyhow::Result<RestApiResponse<models::RedeemOnChainYieldsLockedProductResponse>> {
+        self.on_chain_yields_api_client
+            .redeem_on_chain_yields_locked_product(params)
+            .await
+    }
+
+    /// Set On-chain Yields Locked Auto `Subscribe(USER_DATA)`
+    ///
+    /// Set On-chain Yield locked auto subscribe
+    ///
+    /// Weight: 50
+    ///
+    /// # Arguments
+    ///
+    /// - `params`: [`SetOnChainYieldsLockedAutoSubscribeParams`]
+    ///   The parameters for this operation.
+    ///
+    /// # Returns
+    ///
+    /// [`RestApiResponse<models::SetOnChainYieldsLockedAutoSubscribeResponse>`] on success.
+    ///
+    /// # Errors
+    ///
+    /// This function will return an [`anyhow::Error`] if:
+    /// - the HTTP request fails
+    /// - any parameter is invalid
+    /// - the response cannot be parsed
+    /// - or one of the following occurs:
+    ///   - `RequiredError`
+    ///   - `ConnectorClientError`
+    ///   - `UnauthorizedError`
+    ///   - `ForbiddenError`
+    ///   - `TooManyRequestsError`
+    ///   - `RateLimitBanError`
+    ///   - `ServerError`
+    ///   - `NotFoundError`
+    ///   - `NetworkError`
+    ///   - `BadRequestError`
+    ///
+    ///
+    /// For full API details, see the [Binance API Documentation](https://developers.binance.com/docs/staking/on-chain-yields/earn/Set-Onchain-Locked-Auto-Subscribe).
+    ///
+    pub async fn set_on_chain_yields_locked_auto_subscribe(
+        &self,
+        params: SetOnChainYieldsLockedAutoSubscribeParams,
+    ) -> anyhow::Result<RestApiResponse<models::SetOnChainYieldsLockedAutoSubscribeResponse>> {
+        self.on_chain_yields_api_client
+            .set_on_chain_yields_locked_auto_subscribe(params)
+            .await
+    }
+
+    /// Set On-chain Yields Locked Product Redeem `Option(USER_DATA)`
+    ///
+    /// Set On-chain Yields redeem option for Locked product
+    ///
+    /// Weight: 50
+    ///
+    /// # Arguments
+    ///
+    /// - `params`: [`SetOnChainYieldsLockedProductRedeemOptionParams`]
+    ///   The parameters for this operation.
+    ///
+    /// # Returns
+    ///
+    /// [`RestApiResponse<models::SetOnChainYieldsLockedProductRedeemOptionResponse>`] on success.
+    ///
+    /// # Errors
+    ///
+    /// This function will return an [`anyhow::Error`] if:
+    /// - the HTTP request fails
+    /// - any parameter is invalid
+    /// - the response cannot be parsed
+    /// - or one of the following occurs:
+    ///   - `RequiredError`
+    ///   - `ConnectorClientError`
+    ///   - `UnauthorizedError`
+    ///   - `ForbiddenError`
+    ///   - `TooManyRequestsError`
+    ///   - `RateLimitBanError`
+    ///   - `ServerError`
+    ///   - `NotFoundError`
+    ///   - `NetworkError`
+    ///   - `BadRequestError`
+    ///
+    ///
+    /// For full API details, see the [Binance API Documentation](https://developers.binance.com/docs/staking/on-chain-yields/earn/Set-Onchain-Locked-Redeem-Option).
+    ///
+    pub async fn set_on_chain_yields_locked_product_redeem_option(
+        &self,
+        params: SetOnChainYieldsLockedProductRedeemOptionParams,
+    ) -> anyhow::Result<RestApiResponse<models::SetOnChainYieldsLockedProductRedeemOptionResponse>>
+    {
+        self.on_chain_yields_api_client
+            .set_on_chain_yields_locked_product_redeem_option(params)
+            .await
+    }
+
+    /// Subscribe On-chain Yields Locked Product(TRADE)
+    ///
+    /// Subscribe On-chain Yields Locked Product
+    ///
+    /// * You need to open `Enable Spot & Margin Trading` permission for the API Key which requests this endpoint.
+    ///
+    /// Weight: 200
+    ///
+    /// # Arguments
+    ///
+    /// - `params`: [`SubscribeOnChainYieldsLockedProductParams`]
+    ///   The parameters for this operation.
+    ///
+    /// # Returns
+    ///
+    /// [`RestApiResponse<models::SubscribeOnChainYieldsLockedProductResponse>`] on success.
+    ///
+    /// # Errors
+    ///
+    /// This function will return an [`anyhow::Error`] if:
+    /// - the HTTP request fails
+    /// - any parameter is invalid
+    /// - the response cannot be parsed
+    /// - or one of the following occurs:
+    ///   - `RequiredError`
+    ///   - `ConnectorClientError`
+    ///   - `UnauthorizedError`
+    ///   - `ForbiddenError`
+    ///   - `TooManyRequestsError`
+    ///   - `RateLimitBanError`
+    ///   - `ServerError`
+    ///   - `NotFoundError`
+    ///   - `NetworkError`
+    ///   - `BadRequestError`
+    ///
+    ///
+    /// For full API details, see the [Binance API Documentation](https://developers.binance.com/docs/staking/on-chain-yields/earn/Subscribe-Onchain-Locked-Product).
+    ///
+    pub async fn subscribe_on_chain_yields_locked_product(
+        &self,
+        params: SubscribeOnChainYieldsLockedProductParams,
+    ) -> anyhow::Result<RestApiResponse<models::SubscribeOnChainYieldsLockedProductResponse>> {
+        self.on_chain_yields_api_client
+            .subscribe_on_chain_yields_locked_product(params)
+            .await
     }
 
     /// Claim Boost Rewards(TRADE)

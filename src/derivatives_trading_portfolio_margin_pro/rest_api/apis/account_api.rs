@@ -406,7 +406,7 @@ pub struct MintBfusdForPortfolioMarginParams {
     /// This field is **required.
     #[builder(setter(into))]
     pub from_asset: String,
-    /// `USDT` only
+    /// `USDT` `USDC`
     ///
     /// This field is **required.
     #[builder(setter(into))]
@@ -431,7 +431,7 @@ impl MintBfusdForPortfolioMarginParams {
     /// Required parameters:
     ///
     /// * `from_asset` — `BFUSD` only
-    /// * `target_asset` — `USDT` only
+    /// * `target_asset` — `USDT` `USDC`
     /// * `amount` — `rust_decimal::Decimal`
     ///
     #[must_use]
@@ -600,7 +600,7 @@ pub struct RedeemBfusdForPortfolioMarginParams {
     /// This field is **required.
     #[builder(setter(into))]
     pub from_asset: String,
-    /// `USDT` only
+    /// `USDT` `USDC`
     ///
     /// This field is **required.
     #[builder(setter(into))]
@@ -625,7 +625,7 @@ impl RedeemBfusdForPortfolioMarginParams {
     /// Required parameters:
     ///
     /// * `from_asset` — `BFUSD` only
-    /// * `target_asset` — `USDT` only
+    /// * `target_asset` — `USDT` `USDC`
     /// * `amount` — `rust_decimal::Decimal`
     ///
     #[must_use]

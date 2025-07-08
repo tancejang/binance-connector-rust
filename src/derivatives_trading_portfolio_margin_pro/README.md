@@ -8,6 +8,7 @@
 This module provides the official Rust client for Binance's Derivatives Trading Portfolio Margin Pro API, enabling developers to interact programmatically with Binance's API to suit their derivative trading needs, through three distinct endpoints:
 
 - [REST API](./rest_api/mod.rs)
+- [Websocket Stream](./websocket_streams/mod.rs)
 
 ## Table of Contents
 
@@ -15,6 +16,7 @@ This module provides the official Rust client for Binance's Derivatives Trading 
 - [Installation](#installation)
 - [Documentation](#documentation)
 - [REST APIs](#rest-apis)
+- [Websocket Streams](#websocket-streams)
 - [Testing](#testing)
 - [Migration Guide](#migration-guide)
 - [Contributing](#contributing)
@@ -137,21 +139,84 @@ Errors are represented by the following types:
 
 See the [Error Handling example](./docs/rest_api/error-handling.md) for detailed usage. Refer to the [`error`](../common/errors.rs) module for more information.
 
-#### Testnet
+### Websocket Streams
 
-For testing purposes, the REST APIs also supports a testnet environment:
+The WebSocket Streams for `derivatives_trading_portfolio_margin_pro` is used for subscribing to user data streams. Use the [`websocket_streams`](./websocket_streams/mod.rs) module to interact with it.
+
+#### Configuration Options
+
+The `derivatives_trading_portfolio_margin_pro` module can be configured with the following options via the `ConfigurationWebsocketStreams` builder pattern:
+
+- `reconnect_delay` (u64): Specify the delay between reconnection attempts in milliseconds (default: 5000)
+- `mode` (WebsocketMode): Choose between `single` and `pool` connection modes
+  - `Single`: A single WebSocket connection
+  - `Pool`: A pool of WebSocket connections
+- `agent` (AgentConnector): Customize the WebSocket agent for advanced configurations
+
+Refer to the [`configuration`](../common/config.rs) for more details.
+
+#### Subscribe to User Data Streams
+
+You can consume the user data stream, which sends account-level events such as account and order updates. First create a listen-key via REST API; then:
 
 ```rust
-use binance_sdk::config::ConfigurationRestApi;
-use binance_sdk::derivatives_trading_portfolio_margin_pro;
+use tracing::info;
+use binance_sdk::config::ConfigurationWebsocketStreams;
+use binance_sdk::derivatives_trading_portfolio_margin_pro::{DerivativesTradingPortfolioMarginProWsStreams, websocket_streams::UserDataStreamEventsResponse};
 
-let configuration = ConfigurationRestApi::builder()
-  .api_key("YOUR_API_KEY")
-  .api_secret("YOUR_SECRET_KEY")
-  .build()?;
+let configuration = ConfigurationWebsocketStreams::builder().build()?;
 
-let client = derivatives_trading_portfolio_margin_pro::DerivativesTradingPortfolioMarginProRestApi::testnet(configuration);
+let client = DerivativesTradingPortfolioMarginProWsStreams::production(configuration);
+let connection = client.connect().await?;
+let stream = connection.user_data("listen_key".to_string(), Some("custom_id".to_string())).await?;
+
+stream.on_message(|data: UserDataStreamEventsResponse| {
+  match data {
+    UserDataStreamEventsResponse::RiskLevelChange(data) => {
+      info!("risk level change stream {:?}", data);
+    }
+    UserDataStreamEventsResponse::Other(data) => {
+      info!("unknown stream {:?}", data);
+    }
+  }
+});
 ```
+
+#### Unsubscribing from User Data Streams
+
+You can unsubscribe from the user data streams using the `unsubscribe` method. This is useful for managing active subscriptions without closing the connection.
+
+```rust
+use tokio::time::{Duration, sleep};
+
+use binance_sdk::config::ConfigurationWebsocketStreams;
+use binance_sdk::derivatives_trading_portfolio_margin_pro::{DerivativesTradingPortfolioMarginProWsStreams, websocket_streams::UserDataStreamEventsResponse};
+
+let configuration = ConfigurationWebsocketStreams::builder().build()?;
+
+let client = DerivativesTradingPortfolioMarginProWsStreams::production(configuration);
+let connection = client.connect().await?;
+let stream = connection.user_data("listen_key".to_string(), Some("custom_id".to_string())).await?;
+
+stream.on_message(|data: UserDataStreamEventsResponse| {
+  match data {
+    UserDataStreamEventsResponse::RiskLevelChange(data) => {
+      info!("risk level change stream {:?}", data);
+    }
+    UserDataStreamEventsResponse::Other(data) => {
+      info!("unknown stream {:?}", data);
+    }
+  }
+});
+
+sleep(Duration::from_secs(10)).await;
+
+user_data_stream.unsubscribe().await;
+```
+
+### Automatic Connection Renewal
+
+The WebSocket connection is automatically renewed for WebSocket Streams connections, before the 24 hours expiration of the API key. This ensures continuous connectivity.
 
 ## Testing
 

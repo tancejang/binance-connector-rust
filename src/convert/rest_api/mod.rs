@@ -129,7 +129,7 @@ impl RestApi {
     ///   - `BadRequestError`
     ///
     ///
-    /// For full API details, see the [Binance API Documentation](https://developers.binance.com/docs/convert/market-data/List-All-Convert-Pairs).
+    /// For full API details, see the [Binance API Documentation](https://developers.binance.com/docs/convert/market-data/).
     ///
     pub async fn list_all_convert_pairs(
         &self,

@@ -282,6 +282,37 @@ Choose between `Single` and `Pool` connection modes for WebSocket connections. T
 
 To enhance security, you can use certificate pinning with the `agent` option in the configuration. This ensures the client only communicates with servers using specific certificates. See the [Certificate Pinning example](./docs/websocket_streams/certificate-pinning.md) for detailed usage.
 
+#### Subscribe to User Data Streams
+
+You can consume the user data stream, which sends account-level events such as account and order updates. First create a listen-key via REST or WebSocket API; then:
+
+```rust
+use tracing::info;
+use binance_sdk::config::ConfigurationWebsocketStreams;
+use binance_sdk::derivatives_trading_coin_futures::{DerivativesTradingCoinFuturesWsStreams, websocket_streams::UserDataStreamEventsResponse};
+
+let configuration = ConfigurationWebsocketStreams::builder().build()?;
+
+let client = DerivativesTradingCoinFuturesWsStreams::production(configuration);
+let connection = client.connect().await?;
+let stream = connection.user_data("listen_key".to_string(), Some("custom_id".to_string())).await?;
+
+stream.on_message(|data: UserDataStreamEventsResponse| {
+  match data {
+    UserDataStreamEventsResponse::AccountConfigUpdate(data) => {
+      info!("account config update stream {:?}", data);
+    }
+    UserDataStreamEventsResponse::AccountUpdate(data) => {
+      info!("account update stream {:?}", data);
+    }
+    UserDataStreamEventsResponse::Other(data) => {
+      info!("unknown stream {:?}", data);
+    }
+    // …handle other variants…
+  }
+});
+```
+
 #### Unsubscribing from Streams
 
 You can unsubscribe from specific WebSocket streams using the `unsubscribe` method. This is useful for managing active subscriptions without closing the connection.

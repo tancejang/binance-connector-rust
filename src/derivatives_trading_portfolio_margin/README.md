@@ -8,6 +8,7 @@
 This module provides the official Rust client for Binance's Derivatives Trading Portfolio Margin API, enabling developers to interact programmatically with Binance's API to suit their derivative trading needs, through three distinct endpoints:
 
 - [REST API](./rest_api/mod.rs)
+- [Websocket Stream](./websocket_streams/mod.rs)
 
 ## Table of Contents
 
@@ -15,6 +16,7 @@ This module provides the official Rust client for Binance's Derivatives Trading 
 - [Installation](#installation)
 - [Documentation](#documentation)
 - [REST APIs](#rest-apis)
+- [Websocket Streams](#websocket-streams)
 - [Testing](#testing)
 - [Migration Guide](#migration-guide)
 - [Contributing](#contributing)
@@ -152,6 +154,106 @@ let configuration = ConfigurationRestApi::builder()
 
 let client = derivatives_trading_portfolio_margin::DerivativesTradingPortfolioMarginRestApi::testnet(configuration);
 ```
+
+### Websocket Streams
+
+The WebSocket Streams for `derivatives_trading_portfolio_margin` is used for subscribing to user data streams. Use the [`websocket_streams`](./websocket_streams/mod.rs) module to interact with it.
+
+#### Configuration Options
+
+The `derivatives_trading_portfolio_margin` module can be configured with the following options via the `ConfigurationWebsocketStreams` builder pattern:
+
+- `reconnect_delay` (u64): Specify the delay between reconnection attempts in milliseconds (default: 5000)
+- `mode` (WebsocketMode): Choose between `single` and `pool` connection modes
+  - `Single`: A single WebSocket connection
+  - `Pool`: A pool of WebSocket connections
+- `agent` (AgentConnector): Customize the WebSocket agent for advanced configurations
+
+Refer to the [`configuration`](../common/config.rs) for more details.
+
+#### Subscribe to User Data Streams
+
+You can consume the user data stream, which sends account-level events such as account and order updates. First create a listen-key via REST API; then:
+
+```rust
+use tracing::info;
+use binance_sdk::config::ConfigurationWebsocketStreams;
+use binance_sdk::derivatives_trading_portfolio_margin::{DerivativesTradingPortfolioMarginWsStreams, websocket_streams::UserDataStreamEventsResponse};
+
+let configuration = ConfigurationWebsocketStreams::builder().build()?;
+
+let client = DerivativesTradingPortfolioMarginWsStreams::production(configuration);
+let connection = client.connect().await?;
+let stream = connection.user_data("listen_key".to_string(), Some("custom_id".to_string())).await?;
+
+stream.on_message(|data: UserDataStreamEventsResponse| {
+  match data {
+    UserDataStreamEventsResponse::AccountConfigUpdate(data) => {
+      info!("account config update stream {:?}", data);
+    }
+    UserDataStreamEventsResponse::ConditionalOrderTradeUpdate(data) => {
+      info!("conditional order trade update stream {:?}", data);
+    }
+    UserDataStreamEventsResponse::Other(data) => {
+      info!("unknown stream {:?}", data);
+    }
+    // …handle other variants…
+  }
+});
+```
+
+#### Unsubscribing from User Data Streams
+
+You can unsubscribe from the user data streams using the `unsubscribe` method. This is useful for managing active subscriptions without closing the connection.
+
+```rust
+use tokio::time::{Duration, sleep};
+
+use binance_sdk::config::ConfigurationWebsocketStreams;
+use binance_sdk::derivatives_trading_portfolio_margin::{DerivativesTradingPortfolioMarginWsStreams, websocket_streams::UserDataStreamEventsResponse};
+
+let configuration = ConfigurationWebsocketStreams::builder().build()?;
+
+let client = DerivativesTradingPortfolioMarginWsStreams::production(configuration);
+let connection = client.connect().await?;
+let stream = connection.user_data("listen_key".to_string(), Some("custom_id".to_string())).await?;
+
+stream.on_message(|data: UserDataStreamEventsResponse| {
+  match data {
+    UserDataStreamEventsResponse::AccountConfigUpdate(data) => {
+      info!("account config update stream {:?}", data);
+    }
+    UserDataStreamEventsResponse::ConditionalOrderTradeUpdate(data) => {
+      info!("conditional order trade update stream {:?}", data);
+    }
+    UserDataStreamEventsResponse::Other(data) => {
+      info!("unknown stream {:?}", data);
+    }
+    // …handle other variants…
+  }
+});
+
+sleep(Duration::from_secs(10)).await;
+
+stream.unsubscribe().await;
+```
+
+#### Testnet
+
+For testing purposes, the Websocket Streams also supports a testnet environment:
+
+```rust
+use binance_sdk::config::ConfigurationWebsocketStreams;
+use binance_sdk::derivatives_trading_portfolio_margin;
+
+let configuration = ConfigurationWebsocketStreams::builder().build()?;
+
+let client = derivatives_trading_portfolio_margin::DerivativesTradingPortfolioMarginWsStreams::testnet(configuration);
+```
+
+### Automatic Connection Renewal
+
+The WebSocket connection is automatically renewed for WebSocket Streams connections, before the 24 hours expiration of the API key. This ensures continuous connectivity.
 
 ## Testing
 
