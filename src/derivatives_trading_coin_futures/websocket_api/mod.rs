@@ -36,6 +36,7 @@ pub use models::*;
 
 const HAS_TIME_UNIT: bool = false;
 
+#[derive(Clone)]
 pub struct WebsocketApi {
     websocket_api_base: Arc<WebsocketApiBase>,
 
@@ -198,15 +199,11 @@ impl WebsocketApi {
         payload: BTreeMap<String, Value>,
     ) -> Result<WebsocketApiResponse<R>, WebsocketError> {
         self.websocket_api_base
-            .send_message::<R>(
-                method,
-                payload,
-                WebsocketMessageSendOptions {
-                    with_api_key: false,
-                    is_signed: false,
-                },
-            )
-            .await
+            .send_message::<R>(method, payload, WebsocketMessageSendOptions::new())
+            .await?
+            .into_iter()
+            .next()
+            .ok_or(WebsocketError::NoResponse)
     }
 
     /// Sends a signed WebSocket message with the specified method and payload.
@@ -239,15 +236,11 @@ impl WebsocketApi {
         payload: BTreeMap<String, Value>,
     ) -> Result<WebsocketApiResponse<R>, WebsocketError> {
         self.websocket_api_base
-            .send_message::<R>(
-                method,
-                payload,
-                WebsocketMessageSendOptions {
-                    with_api_key: false,
-                    is_signed: true,
-                },
-            )
-            .await
+            .send_message::<R>(method, payload, WebsocketMessageSendOptions::new().signed())
+            .await?
+            .into_iter()
+            .next()
+            .ok_or(WebsocketError::NoResponse)
     }
 
     /// Account `Information(USER_DATA)`

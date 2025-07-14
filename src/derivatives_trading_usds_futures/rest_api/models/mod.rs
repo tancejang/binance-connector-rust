@@ -167,6 +167,8 @@ pub mod order_book_response;
 pub use self::order_book_response::OrderBookResponse;
 pub mod order_status_response;
 pub use self::order_status_response::OrderStatusResponse;
+pub mod place_multiple_orders_batch_orders_parameter_inner;
+pub use self::place_multiple_orders_batch_orders_parameter_inner::PlaceMultipleOrdersBatchOrdersParameterInner;
 pub mod place_multiple_orders_response_inner;
 pub use self::place_multiple_orders_response_inner::PlaceMultipleOrdersResponseInner;
 pub mod position_adl_quantile_estimation_response_inner;

@@ -1,5 +1,53 @@
 # Changelog
 
+## 8.0.0 - 2025-07-14
+
+### Added (1)
+
+- Support session management for WebSocket API (where supported), with auto session re-logon (`auto_session_relogon` option on `ConfigurationWebSocketApi`).
+
+### Changed (2)
+
+- Fixed bug on URL query params generation function.
+
+**Wallet**
+
+- Modified response for `all_coins_information()` method (`GET /sapi/v1/capital/config/getall`):
+
+## 7.0.0 - 2025-07-08
+
+### Added (14)
+
+- Support User, Risk and Trade Data Stream Events for Derivatives, Margin Trading and Spot.
+- Support custom headers on REST API requests (`custom_headers` option on `ConfigurationRestApi`).
+
+**Staking**
+
+- `get_on_chain_yields_locked_personal_left_quota()` (`GET /sapi/v1/onchain-yields/locked/personalLeftQuota`)
+- `get_on_chain_yields_locked_product_list()` (`GET /sapi/v1/onchain-yields/locked/list`)
+- `get_on_chain_yields_locked_product_position()` (`GET /sapi/v1/onchain-yields/locked/position`)
+- `get_on_chain_yields_locked_redemption_record()` (`GET /sapi/v1/onchain-yields/locked/history/redemptionRecord`)
+- `get_on_chain_yields_locked_rewards_history()` (`GET /sapi/v1/onchain-yields/locked/history/rewardsRecord`)
+- `get_on_chain_yields_locked_subscription_preview()` (`GET /sapi/v1/onchain-yields/locked/subscriptionPreview`)
+- `get_on_chain_yields_locked_subscription_record()` (`GET /sapi/v1/onchain-yields/locked/history/subscriptionRecord`)
+- `on_chain_yields_account()` (`GET /sapi/v1/onchain-yields/account`)
+- `redeem_on_chain_yields_locked_product()` (`POST /sapi/v1/onchain-yields/locked/redeem`)
+- `set_on_chain_yields_locked_auto_subscribe()` (`POST /sapi/v1/onchain-yields/locked/setAutoSubscribe`)
+- `set_on_chain_yields_locked_product_redeem_option()` (`POST /sapi/v1/onchain-yields/locked/setRedeemOption`)
+- `subscribe_on_chain_yields_locked_product()` (`POST /sapi/v1/onchain-yields/locked/subscribe`)
+
+### Changed (3)
+
+- Fixed bug with Ed25519 Private Keys passphrase.
+
+**Derivatives Trading Usds Futures**
+
+#### REST API
+
+- Modified response for `open_interest_statistics()` method (`GET /futures/data/openInterestHist`):
+  - item property `CMCCirculatingSupply` added
+- Fixed bug with duplicated `batchOrders` parameters.
+
 ## 6.0.0 - 2025-06-26
 
 ### Added (1)

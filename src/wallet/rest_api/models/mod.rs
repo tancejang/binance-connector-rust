@@ -25,8 +25,6 @@ pub mod all_coins_information_response_inner;
 pub use self::all_coins_information_response_inner::AllCoinsInformationResponseInner;
 pub mod all_coins_information_response_inner_network_list_inner;
 pub use self::all_coins_information_response_inner_network_list_inner::AllCoinsInformationResponseInnerNetworkListInner;
-pub mod all_coins_information_response_inner_network_list_inner_network_list_inner;
-pub use self::all_coins_information_response_inner_network_list_inner_network_list_inner::AllCoinsInformationResponseInnerNetworkListInnerNetworkListInner;
 pub mod asset_detail_response;
 pub use self::asset_detail_response::AssetDetailResponse;
 pub mod asset_detail_response_ctr;

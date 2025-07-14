@@ -18,7 +18,8 @@
 
 #![allow(unused_imports)]
 use crate::spot::websocket_api::models;
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Deserializer, Serialize, de::Error};
+use serde_json::Value;
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct SorOrderPlaceResponseResultInnerFillsInner {

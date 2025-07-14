@@ -26,6 +26,7 @@ use serde_json::Value;
 use std::{collections::BTreeMap, sync::Arc};
 
 use crate::common::{
+    errors::WebsocketError,
     models::{ParamBuildError, WebsocketApiResponse},
     utils::remove_empty_value,
     websocket::{WebsocketApi, WebsocketMessageSendOptions},
@@ -88,6 +89,7 @@ pub trait AccountApi: Send + Sync {
     ) -> anyhow::Result<WebsocketApiResponse<Box<models::OrderStatusResponseResult>>>;
 }
 
+#[derive(Clone)]
 pub struct AccountApiClient {
     websocket_api_base: Arc<WebsocketApi>,
 }
@@ -705,12 +707,13 @@ impl AccountApi for AccountApiClient {
             .send_message::<Box<models::AccountCommissionResponseResult>>(
                 "/account.commission".trim_start_matches('/'),
                 payload,
-                WebsocketMessageSendOptions {
-                    is_signed: true,
-                    with_api_key: false,
-                },
+                WebsocketMessageSendOptions::new().signed(),
             )
             .await
+            .map_err(anyhow::Error::from)?
+            .into_iter()
+            .next()
+            .ok_or(WebsocketError::NoResponse)
             .map_err(anyhow::Error::from)
     }
 
@@ -734,12 +737,13 @@ impl AccountApi for AccountApiClient {
             .send_message::<Vec<models::AccountRateLimitsOrdersResponseResultInner>>(
                 "/account.rateLimits.orders".trim_start_matches('/'),
                 payload,
-                WebsocketMessageSendOptions {
-                    is_signed: true,
-                    with_api_key: false,
-                },
+                WebsocketMessageSendOptions::new().signed(),
             )
             .await
+            .map_err(anyhow::Error::from)?
+            .into_iter()
+            .next()
+            .ok_or(WebsocketError::NoResponse)
             .map_err(anyhow::Error::from)
     }
 
@@ -769,12 +773,13 @@ impl AccountApi for AccountApiClient {
             .send_message::<Box<models::AccountStatusResponseResult>>(
                 "/account.status".trim_start_matches('/'),
                 payload,
-                WebsocketMessageSendOptions {
-                    is_signed: true,
-                    with_api_key: false,
-                },
+                WebsocketMessageSendOptions::new().signed(),
             )
             .await
+            .map_err(anyhow::Error::from)?
+            .into_iter()
+            .next()
+            .ok_or(WebsocketError::NoResponse)
             .map_err(anyhow::Error::from)
     }
 
@@ -816,12 +821,13 @@ impl AccountApi for AccountApiClient {
             .send_message::<Vec<models::AllOrderListsResponseResultInner>>(
                 "/allOrderLists".trim_start_matches('/'),
                 payload,
-                WebsocketMessageSendOptions {
-                    is_signed: true,
-                    with_api_key: false,
-                },
+                WebsocketMessageSendOptions::new().signed(),
             )
             .await
+            .map_err(anyhow::Error::from)?
+            .into_iter()
+            .next()
+            .ok_or(WebsocketError::NoResponse)
             .map_err(anyhow::Error::from)
     }
 
@@ -865,12 +871,13 @@ impl AccountApi for AccountApiClient {
             .send_message::<Vec<models::AllOrdersResponseResultInner>>(
                 "/allOrders".trim_start_matches('/'),
                 payload,
-                WebsocketMessageSendOptions {
-                    is_signed: true,
-                    with_api_key: false,
-                },
+                WebsocketMessageSendOptions::new().signed(),
             )
             .await
+            .map_err(anyhow::Error::from)?
+            .into_iter()
+            .next()
+            .ok_or(WebsocketError::NoResponse)
             .map_err(anyhow::Error::from)
     }
 
@@ -918,12 +925,13 @@ impl AccountApi for AccountApiClient {
             .send_message::<Vec<models::MyAllocationsResponseResultInner>>(
                 "/myAllocations".trim_start_matches('/'),
                 payload,
-                WebsocketMessageSendOptions {
-                    is_signed: true,
-                    with_api_key: false,
-                },
+                WebsocketMessageSendOptions::new().signed(),
             )
             .await
+            .map_err(anyhow::Error::from)?
+            .into_iter()
+            .next()
+            .ok_or(WebsocketError::NoResponse)
             .map_err(anyhow::Error::from)
     }
 
@@ -968,12 +976,13 @@ impl AccountApi for AccountApiClient {
             .send_message::<Vec<models::MyPreventedMatchesResponseResultInner>>(
                 "/myPreventedMatches".trim_start_matches('/'),
                 payload,
-                WebsocketMessageSendOptions {
-                    is_signed: true,
-                    with_api_key: false,
-                },
+                WebsocketMessageSendOptions::new().signed(),
             )
             .await
+            .map_err(anyhow::Error::from)?
+            .into_iter()
+            .next()
+            .ok_or(WebsocketError::NoResponse)
             .map_err(anyhow::Error::from)
     }
 
@@ -1021,12 +1030,13 @@ impl AccountApi for AccountApiClient {
             .send_message::<Vec<models::MyTradesResponseResultInner>>(
                 "/myTrades".trim_start_matches('/'),
                 payload,
-                WebsocketMessageSendOptions {
-                    is_signed: true,
-                    with_api_key: false,
-                },
+                WebsocketMessageSendOptions::new().signed(),
             )
             .await
+            .map_err(anyhow::Error::from)?
+            .into_iter()
+            .next()
+            .ok_or(WebsocketError::NoResponse)
             .map_err(anyhow::Error::from)
     }
 
@@ -1050,12 +1060,13 @@ impl AccountApi for AccountApiClient {
             .send_message::<Vec<models::OpenOrderListsStatusResponseResultInner>>(
                 "/openOrderLists.status".trim_start_matches('/'),
                 payload,
-                WebsocketMessageSendOptions {
-                    is_signed: true,
-                    with_api_key: false,
-                },
+                WebsocketMessageSendOptions::new().signed(),
             )
             .await
+            .map_err(anyhow::Error::from)?
+            .into_iter()
+            .next()
+            .ok_or(WebsocketError::NoResponse)
             .map_err(anyhow::Error::from)
     }
 
@@ -1086,12 +1097,13 @@ impl AccountApi for AccountApiClient {
             .send_message::<Vec<models::OpenOrdersStatusResponseResultInner>>(
                 "/openOrders.status".trim_start_matches('/'),
                 payload,
-                WebsocketMessageSendOptions {
-                    is_signed: true,
-                    with_api_key: false,
-                },
+                WebsocketMessageSendOptions::new().signed(),
             )
             .await
+            .map_err(anyhow::Error::from)?
+            .into_iter()
+            .next()
+            .ok_or(WebsocketError::NoResponse)
             .map_err(anyhow::Error::from)
     }
 
@@ -1129,12 +1141,13 @@ impl AccountApi for AccountApiClient {
             .send_message::<Vec<models::OrderAmendmentsResponseResultInner>>(
                 "/order.amendments".trim_start_matches('/'),
                 payload,
-                WebsocketMessageSendOptions {
-                    is_signed: true,
-                    with_api_key: false,
-                },
+                WebsocketMessageSendOptions::new().signed(),
             )
             .await
+            .map_err(anyhow::Error::from)?
+            .into_iter()
+            .next()
+            .ok_or(WebsocketError::NoResponse)
             .map_err(anyhow::Error::from)
     }
 
@@ -1168,12 +1181,13 @@ impl AccountApi for AccountApiClient {
             .send_message::<Box<models::AllOrderListsResponseResultInner>>(
                 "/orderList.status".trim_start_matches('/'),
                 payload,
-                WebsocketMessageSendOptions {
-                    is_signed: true,
-                    with_api_key: false,
-                },
+                WebsocketMessageSendOptions::new().signed(),
             )
             .await
+            .map_err(anyhow::Error::from)?
+            .into_iter()
+            .next()
+            .ok_or(WebsocketError::NoResponse)
             .map_err(anyhow::Error::from)
     }
 
@@ -1209,12 +1223,13 @@ impl AccountApi for AccountApiClient {
             .send_message::<Box<models::OrderStatusResponseResult>>(
                 "/order.status".trim_start_matches('/'),
                 payload,
-                WebsocketMessageSendOptions {
-                    is_signed: true,
-                    with_api_key: false,
-                },
+                WebsocketMessageSendOptions::new().signed(),
             )
             .await
+            .map_err(anyhow::Error::from)?
+            .into_iter()
+            .next()
+            .ok_or(WebsocketError::NoResponse)
             .map_err(anyhow::Error::from)
     }
 }
@@ -1292,6 +1307,7 @@ mod tests {
             WebsocketHandler::on_message(&*ws_api, resp_json.to_string(), conn.clone()).await;
 
             let response = timeout(Duration::from_secs(1), handle).await.expect("task done").expect("no panic").expect("no error");
+
 
             let response_rate_limits = response.rate_limits.clone();
             let response_data = response.data().expect("deserialize data");
@@ -1423,6 +1439,7 @@ mod tests {
 
             let response = timeout(Duration::from_secs(1), handle).await.expect("task done").expect("no panic").expect("no error");
 
+
             let response_rate_limits = response.rate_limits.clone();
             let response_data = response.data().expect("deserialize data");
 
@@ -1550,6 +1567,7 @@ mod tests {
             WebsocketHandler::on_message(&*ws_api, resp_json.to_string(), conn.clone()).await;
 
             let response = timeout(Duration::from_secs(1), handle).await.expect("task done").expect("no panic").expect("no error");
+
 
             let response_rate_limits = response.rate_limits.clone();
             let response_data = response.data().expect("deserialize data");
@@ -1679,6 +1697,7 @@ mod tests {
 
             let response = timeout(Duration::from_secs(1), handle).await.expect("task done").expect("no panic").expect("no error");
 
+
             let response_rate_limits = response.rate_limits.clone();
             let response_data = response.data().expect("deserialize data");
 
@@ -1806,6 +1825,7 @@ mod tests {
             WebsocketHandler::on_message(&*ws_api, resp_json.to_string(), conn.clone()).await;
 
             let response = timeout(Duration::from_secs(1), handle).await.expect("task done").expect("no panic").expect("no error");
+
 
             let response_rate_limits = response.rate_limits.clone();
             let response_data = response.data().expect("deserialize data");
@@ -1937,6 +1957,7 @@ mod tests {
 
             let response = timeout(Duration::from_secs(1), handle).await.expect("task done").expect("no panic").expect("no error");
 
+
             let response_rate_limits = response.rate_limits.clone();
             let response_data = response.data().expect("deserialize data");
 
@@ -2066,6 +2087,7 @@ mod tests {
             WebsocketHandler::on_message(&*ws_api, resp_json.to_string(), conn.clone()).await;
 
             let response = timeout(Duration::from_secs(1), handle).await.expect("task done").expect("no panic").expect("no error");
+
 
             let response_rate_limits = response.rate_limits.clone();
             let response_data = response.data().expect("deserialize data");
@@ -2197,6 +2219,7 @@ mod tests {
 
             let response = timeout(Duration::from_secs(1), handle).await.expect("task done").expect("no panic").expect("no error");
 
+
             let response_rate_limits = response.rate_limits.clone();
             let response_data = response.data().expect("deserialize data");
 
@@ -2327,6 +2350,7 @@ mod tests {
 
             let response = timeout(Duration::from_secs(1), handle).await.expect("task done").expect("no panic").expect("no error");
 
+
             let response_rate_limits = response.rate_limits.clone();
             let response_data = response.data().expect("deserialize data");
 
@@ -2455,6 +2479,7 @@ mod tests {
 
             let response = timeout(Duration::from_secs(1), handle).await.expect("task done").expect("no panic").expect("no error");
 
+
             let response_rate_limits = response.rate_limits.clone();
             let response_data = response.data().expect("deserialize data");
 
@@ -2582,6 +2607,7 @@ mod tests {
             WebsocketHandler::on_message(&*ws_api, resp_json.to_string(), conn.clone()).await;
 
             let response = timeout(Duration::from_secs(1), handle).await.expect("task done").expect("no panic").expect("no error");
+
 
             let response_rate_limits = response.rate_limits.clone();
             let response_data = response.data().expect("deserialize data");
@@ -2713,6 +2739,7 @@ mod tests {
 
             let response = timeout(Duration::from_secs(1), handle).await.expect("task done").expect("no panic").expect("no error");
 
+
             let response_rate_limits = response.rate_limits.clone();
             let response_data = response.data().expect("deserialize data");
 
@@ -2840,6 +2867,7 @@ mod tests {
             WebsocketHandler::on_message(&*ws_api, resp_json.to_string(), conn.clone()).await;
 
             let response = timeout(Duration::from_secs(1), handle).await.expect("task done").expect("no panic").expect("no error");
+
 
             let response_rate_limits = response.rate_limits.clone();
             let response_data = response.data().expect("deserialize data");

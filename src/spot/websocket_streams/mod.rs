@@ -23,7 +23,8 @@ use tokio::spawn;
 
 use crate::common::config::ConfigurationWebsocketStreams;
 use crate::common::websocket::{
-    Subscription, WebsocketStream, WebsocketStreams as WebsocketStreamsBase,
+    Subscription, WebsocketBase, WebsocketStream, WebsocketStreams as WebsocketStreamsBase,
+    create_stream_handler,
 };
 use crate::models::{WebsocketEvent, WebsocketMode};
 
@@ -52,6 +53,7 @@ impl WebsocketStreams {
         if let Some(m) = mode {
             cfg.mode = m;
         }
+
         if !HAS_TIME_UNIT {
             cfg.time_unit = None;
         }

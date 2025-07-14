@@ -17,48 +17,57 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct AllCoinsInformationResponseInnerNetworkListInner {
-    #[serde(rename = "addressRegex", skip_serializing_if = "Option::is_none")]
-    pub address_regex: Option<String>,
-    #[serde(rename = "coin", skip_serializing_if = "Option::is_none")]
-    pub coin: Option<String>,
-    #[serde(rename = "depositDesc", skip_serializing_if = "Option::is_none")]
-    pub deposit_desc: Option<String>,
-    #[serde(rename = "depositEnable", skip_serializing_if = "Option::is_none")]
-    pub deposit_enable: Option<bool>,
-    #[serde(rename = "isDefault", skip_serializing_if = "Option::is_none")]
-    pub is_default: Option<bool>,
-    #[serde(rename = "memoRegex", skip_serializing_if = "Option::is_none")]
-    pub memo_regex: Option<String>,
-    #[serde(rename = "minConfirm", skip_serializing_if = "Option::is_none")]
-    pub min_confirm: Option<i64>,
-    #[serde(rename = "name", skip_serializing_if = "Option::is_none")]
-    pub name: Option<String>,
     #[serde(rename = "network", skip_serializing_if = "Option::is_none")]
     pub network: Option<String>,
-    #[serde(rename = "specialTips", skip_serializing_if = "Option::is_none")]
-    pub special_tips: Option<String>,
-    #[serde(rename = "unLockConfirm", skip_serializing_if = "Option::is_none")]
-    pub un_lock_confirm: Option<i64>,
-    #[serde(rename = "withdrawDesc", skip_serializing_if = "Option::is_none")]
-    pub withdraw_desc: Option<String>,
-    #[serde(rename = "withdrawEnable", skip_serializing_if = "Option::is_none")]
-    pub withdraw_enable: Option<bool>,
-    #[serde(rename = "withdrawFee", skip_serializing_if = "Option::is_none")]
-    pub withdraw_fee: Option<String>,
+    #[serde(rename = "coin", skip_serializing_if = "Option::is_none")]
+    pub coin: Option<String>,
     #[serde(
         rename = "withdrawIntegerMultiple",
         skip_serializing_if = "Option::is_none"
     )]
     pub withdraw_integer_multiple: Option<String>,
-    #[serde(rename = "withdrawMax", skip_serializing_if = "Option::is_none")]
-    pub withdraw_max: Option<String>,
+    #[serde(rename = "isDefault", skip_serializing_if = "Option::is_none")]
+    pub is_default: Option<bool>,
+    #[serde(rename = "depositEnable", skip_serializing_if = "Option::is_none")]
+    pub deposit_enable: Option<bool>,
+    #[serde(rename = "withdrawEnable", skip_serializing_if = "Option::is_none")]
+    pub withdraw_enable: Option<bool>,
+    #[serde(rename = "depositDesc", skip_serializing_if = "Option::is_none")]
+    pub deposit_desc: Option<String>,
+    #[serde(rename = "withdrawDesc", skip_serializing_if = "Option::is_none")]
+    pub withdraw_desc: Option<String>,
+    #[serde(rename = "specialTips", skip_serializing_if = "Option::is_none")]
+    pub special_tips: Option<String>,
+    #[serde(
+        rename = "specialWithdrawTips",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub special_withdraw_tips: Option<String>,
+    #[serde(rename = "name", skip_serializing_if = "Option::is_none")]
+    pub name: Option<String>,
+    #[serde(rename = "resetAddressStatus", skip_serializing_if = "Option::is_none")]
+    pub reset_address_status: Option<bool>,
+    #[serde(rename = "addressRegex", skip_serializing_if = "Option::is_none")]
+    pub address_regex: Option<String>,
+    #[serde(rename = "memoRegex", skip_serializing_if = "Option::is_none")]
+    pub memo_regex: Option<String>,
+    #[serde(rename = "withdrawFee", skip_serializing_if = "Option::is_none")]
+    pub withdraw_fee: Option<String>,
     #[serde(rename = "withdrawMin", skip_serializing_if = "Option::is_none")]
     pub withdraw_min: Option<String>,
+    #[serde(rename = "withdrawMax", skip_serializing_if = "Option::is_none")]
+    pub withdraw_max: Option<String>,
     #[serde(
         rename = "withdrawInternalMin",
         skip_serializing_if = "Option::is_none"
     )]
     pub withdraw_internal_min: Option<String>,
+    #[serde(rename = "depositDust", skip_serializing_if = "Option::is_none")]
+    pub deposit_dust: Option<String>,
+    #[serde(rename = "minConfirm", skip_serializing_if = "Option::is_none")]
+    pub min_confirm: Option<i64>,
+    #[serde(rename = "unLockConfirm", skip_serializing_if = "Option::is_none")]
+    pub un_lock_confirm: Option<i64>,
     #[serde(rename = "sameAddress", skip_serializing_if = "Option::is_none")]
     pub same_address: Option<bool>,
     #[serde(
@@ -72,72 +81,41 @@ pub struct AllCoinsInformationResponseInnerNetworkListInner {
     pub contract_address_url: Option<String>,
     #[serde(rename = "contractAddress", skip_serializing_if = "Option::is_none")]
     pub contract_address: Option<String>,
-    #[serde(rename = "depositAllEnable", skip_serializing_if = "Option::is_none")]
-    pub deposit_all_enable: Option<bool>,
-    #[serde(rename = "withdrawAllEnable", skip_serializing_if = "Option::is_none")]
-    pub withdraw_all_enable: Option<bool>,
-    #[serde(rename = "free", skip_serializing_if = "Option::is_none")]
-    pub free: Option<String>,
-    #[serde(rename = "locked", skip_serializing_if = "Option::is_none")]
-    pub locked: Option<String>,
-    #[serde(rename = "freeze", skip_serializing_if = "Option::is_none")]
-    pub freeze: Option<String>,
-    #[serde(rename = "withdrawing", skip_serializing_if = "Option::is_none")]
-    pub withdrawing: Option<String>,
-    #[serde(rename = "ipoing", skip_serializing_if = "Option::is_none")]
-    pub ipoing: Option<String>,
-    #[serde(rename = "ipoable", skip_serializing_if = "Option::is_none")]
-    pub ipoable: Option<String>,
-    #[serde(rename = "storage", skip_serializing_if = "Option::is_none")]
-    pub storage: Option<String>,
-    #[serde(rename = "isLegalMoney", skip_serializing_if = "Option::is_none")]
-    pub is_legal_money: Option<bool>,
-    #[serde(rename = "trading", skip_serializing_if = "Option::is_none")]
-    pub trading: Option<bool>,
-    #[serde(rename = "networkList", skip_serializing_if = "Option::is_none")]
-    pub network_list:
-        Option<Vec<models::AllCoinsInformationResponseInnerNetworkListInnerNetworkListInner>>,
+    #[serde(rename = "denomination", skip_serializing_if = "Option::is_none")]
+    pub denomination: Option<i64>,
 }
 
 impl AllCoinsInformationResponseInnerNetworkListInner {
     #[must_use]
     pub fn new() -> AllCoinsInformationResponseInnerNetworkListInner {
         AllCoinsInformationResponseInnerNetworkListInner {
-            address_regex: None,
-            coin: None,
-            deposit_desc: None,
-            deposit_enable: None,
-            is_default: None,
-            memo_regex: None,
-            min_confirm: None,
-            name: None,
             network: None,
-            special_tips: None,
-            un_lock_confirm: None,
-            withdraw_desc: None,
-            withdraw_enable: None,
-            withdraw_fee: None,
+            coin: None,
             withdraw_integer_multiple: None,
-            withdraw_max: None,
+            is_default: None,
+            deposit_enable: None,
+            withdraw_enable: None,
+            deposit_desc: None,
+            withdraw_desc: None,
+            special_tips: None,
+            special_withdraw_tips: None,
+            name: None,
+            reset_address_status: None,
+            address_regex: None,
+            memo_regex: None,
+            withdraw_fee: None,
             withdraw_min: None,
+            withdraw_max: None,
             withdraw_internal_min: None,
+            deposit_dust: None,
+            min_confirm: None,
+            un_lock_confirm: None,
             same_address: None,
             estimated_arrival_time: None,
             busy: None,
             contract_address_url: None,
             contract_address: None,
-            deposit_all_enable: None,
-            withdraw_all_enable: None,
-            free: None,
-            locked: None,
-            freeze: None,
-            withdrawing: None,
-            ipoing: None,
-            ipoable: None,
-            storage: None,
-            is_legal_money: None,
-            trading: None,
-            network_list: None,
+            denomination: None,
         }
     }
 }

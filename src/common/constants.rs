@@ -46,12 +46,18 @@ pub const DERIVATIVES_TRADING_OPTIONS_WS_STREAMS_PROD_URL: &str =
 pub const DERIVATIVES_TRADING_PORTFOLIO_MARGIN_REST_API_PROD_URL: &str = "https://papi.binance.com";
 pub const DERIVATIVES_TRADING_PORTFOLIO_MARGIN_REST_API_TESTNET_URL: &str =
     "https://testnet.binancefuture.com";
+pub const DERIVATIVES_TRADING_PORTFOLIO_MARGIN_WS_STREAMS_PROD_URL: &str =
+    "wss://fstream.binance.com/pm";
+pub const DERIVATIVES_TRADING_PORTFOLIO_MARGIN_WS_STREAMS_TESTNET_URL: &str =
+    "wss://fstream.binancefuture.com/pm";
 
 // Derivatives Trading (Portfolio Margin Pro) constants
 pub const DERIVATIVES_TRADING_PORTFOLIO_MARGIN_PRO_REST_API_PROD_URL: &str =
     "https://fapi.binance.com";
 pub const DERIVATIVES_TRADING_PORTFOLIO_MARGIN_PRO_REST_API_TESTNET_URL: &str =
     "https://testnet.binancefuture.com";
+pub const DERIVATIVES_TRADING_PORTFOLIO_MARGIN_PRO_WS_STREAMS_PROD_URL: &str =
+    "wss://fstream.binance.com/pm-classic";
 
 // Dual Investment constants
 pub const DUAL_INVESTMENT_REST_API_PROD_URL: &str = "https://api.binance.com";
@@ -64,6 +70,8 @@ pub const GIFT_CARD_REST_API_PROD_URL: &str = "https://api.binance.com";
 
 // Margin Trading constants
 pub const MARGIN_TRADING_REST_API_PROD_URL: &str = "https://api.binance.com";
+pub const MARGIN_TRADING_WS_STREAMS_PROD_URL: &str = "wss://stream.binance.com:9443";
+pub const MARGIN_TRADING_RISK_WS_STREAMS_PROD_URL: &str = "wss://margin-stream.binance.com";
 
 // Mining constants
 pub const MINING_REST_API_PROD_URL: &str = "https://api.binance.com";

@@ -26,6 +26,7 @@ use serde_json::Value;
 use std::{collections::BTreeMap, sync::Arc};
 
 use crate::common::{
+    errors::WebsocketError,
     models::{ParamBuildError, WebsocketApiResponse},
     utils::remove_empty_value,
     websocket::{WebsocketApi, WebsocketMessageSendOptions},
@@ -48,6 +49,7 @@ pub trait GeneralApi: Send + Sync {
     ) -> anyhow::Result<WebsocketApiResponse<Box<models::TimeResponseResult>>>;
 }
 
+#[derive(Clone)]
 pub struct GeneralApiClient {
     websocket_api_base: Arc<WebsocketApi>,
 }
@@ -236,12 +238,13 @@ impl GeneralApi for GeneralApiClient {
             .send_message::<Box<models::ExchangeInfoResponseResult>>(
                 "/exchangeInfo".trim_start_matches('/'),
                 payload,
-                WebsocketMessageSendOptions {
-                    is_signed: false,
-                    with_api_key: false,
-                },
+                WebsocketMessageSendOptions::new(),
             )
             .await
+            .map_err(anyhow::Error::from)?
+            .into_iter()
+            .next()
+            .ok_or(WebsocketError::NoResponse)
             .map_err(anyhow::Error::from)
     }
 
@@ -261,12 +264,13 @@ impl GeneralApi for GeneralApiClient {
             .send_message::<serde_json::Value>(
                 "/ping".trim_start_matches('/'),
                 payload,
-                WebsocketMessageSendOptions {
-                    is_signed: false,
-                    with_api_key: false,
-                },
+                WebsocketMessageSendOptions::new(),
             )
             .await
+            .map_err(anyhow::Error::from)?
+            .into_iter()
+            .next()
+            .ok_or(WebsocketError::NoResponse)
             .map_err(anyhow::Error::from)
     }
 
@@ -286,12 +290,13 @@ impl GeneralApi for GeneralApiClient {
             .send_message::<Box<models::TimeResponseResult>>(
                 "/time".trim_start_matches('/'),
                 payload,
-                WebsocketMessageSendOptions {
-                    is_signed: false,
-                    with_api_key: false,
-                },
+                WebsocketMessageSendOptions::new(),
             )
             .await
+            .map_err(anyhow::Error::from)?
+            .into_iter()
+            .next()
+            .ok_or(WebsocketError::NoResponse)
             .map_err(anyhow::Error::from)
     }
 }
@@ -369,6 +374,7 @@ mod tests {
             WebsocketHandler::on_message(&*ws_api, resp_json.to_string(), conn.clone()).await;
 
             let response = timeout(Duration::from_secs(1), handle).await.expect("task done").expect("no panic").expect("no error");
+
 
             let response_rate_limits = response.rate_limits.clone();
             let response_data = response.data().expect("deserialize data");
@@ -498,6 +504,7 @@ mod tests {
 
             let response = timeout(Duration::from_secs(1), handle).await.expect("task done").expect("no panic").expect("no error");
 
+
             let response_rate_limits = response.rate_limits.clone();
             let response_data = response.data().expect("deserialize data");
 
@@ -625,6 +632,7 @@ mod tests {
             WebsocketHandler::on_message(&*ws_api, resp_json.to_string(), conn.clone()).await;
 
             let response = timeout(Duration::from_secs(1), handle).await.expect("task done").expect("no panic").expect("no error");
+
 
             let response_rate_limits = response.rate_limits.clone();
             let response_data = response.data().expect("deserialize data");

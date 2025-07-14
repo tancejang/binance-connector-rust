@@ -8,6 +8,7 @@
 This module provides the official Rust client for Binance's Margin Trading API, enabling developers to interact programmatically with Binance's Margin Trading trading platform. The library provides tools to use funds provided by a third party to conduct asset transactions through the REST API:
 
 - [REST API](./rest_api/mod.rs)
+- [Websocket Stream](./websocket_streams/mod.rs)
 
 ## Table of Contents
 
@@ -15,6 +16,7 @@ This module provides the official Rust client for Binance's Margin Trading API, 
 - [Installation](#installation)
 - [Documentation](#documentation)
 - [REST APIs](#rest-apis)
+- [Websocket Streams](#websocket-streams)
 - [Testing](#testing)
 - [Migration Guide](#migration-guide)
 - [Contributing](#contributing)
@@ -138,6 +140,108 @@ Errors are represented by the following types:
 - `BadRequestError`: Invalid request parameters
 
 See the [Error Handling example](./docs/rest_api/error-handling.md) for detailed usage. Refer to the [`error`](../common/errors.rs) module for more information.
+
+### Websocket Streams
+
+The WebSocket Streams for `margin_trading` is used for subscribing to risk and trade data streams. Use the [`websocket_streams`](./websocket_streams/mod.rs) module to interact with it.
+
+#### Configuration Options
+
+The `margin_trading` module can be configured with the following options via the `ConfigurationWebsocketStreams` builder pattern:
+
+- `reconnect_delay` (u64): Specify the delay between reconnection attempts in milliseconds (default: 5000)
+- `mode` (WebsocketMode): Choose between `single` and `pool` connection modes
+  - `Single`: A single WebSocket connection
+  - `Pool`: A pool of WebSocket connections
+- `agent` (AgentConnector): Customize the WebSocket agent for advanced configurations
+
+Refer to the [`configuration`](../common/config.rs) for more details.
+
+#### Subscribe to Risk and Trade Data Streams
+
+You can consume the risk and trade data streams, which sends account-level events such as account and order updates. First create a listen-key via REST API; then:
+
+```rust
+use binance_sdk::config::ConfigurationWebsocketStreams;
+use binance_sdk::margin_trading::{MarginTradingWsStreams, websocket_streams::{RiskDataStreamEventsResponse, TradeDataStreamEventsResponse}};
+
+let configuration = ConfigurationWebsocketStreams::builder().build()?;
+
+let client = MarginTradingWsStreams::production(configuration);
+let connection = client.connect().await?;
+let risk_stream = connection.risk_data("listen_key".to_string(), Some("custom_id".to_string())).await?;
+
+risk_stream.on_message(|data: RiskDataStreamEventsResponse| {
+  match data {
+    RiskDataStreamEventsResponse::UserLiabilityChange(data) => {
+      info!("user liability change stream {:?}", data);
+    }
+    RiskDataStreamEventsResponse::MarginLevelStatusChange(data) => {
+      info!("margin level status change stream {:?}", data);
+    }
+    RiskDataStreamEventsResponse::Other(data) => {
+      info!("unknown stream {:?}", data);
+    }
+  }
+});
+
+let trade_stream = connection.trade_data("listen_key".to_string(), Some("custom_id".to_string())).await?;
+
+trade_stream.on_message(|data: TradeDataStreamEventsResponse| {
+  match data {
+    TradeDataStreamEventsResponse::OutboundAccountPosition(data) => {
+      info!("outbound account position stream {:?}", data);
+    }
+    TradeDataStreamEventsResponse::BalanceUpdate(data) => {
+      info!("balance update stream {:?}", data);
+    }
+    TradeDataStreamEventsResponse::Other(data) => {
+      info!("unknown stream {:?}", data);
+    }
+    // …handle other variants…
+  }
+});
+```
+
+#### Unsubscribing from Risk and Trade Data Streams
+
+You can unsubscribe from the risk and trade data streams using the `unsubscribe` method. This is useful for managing active subscriptions without closing the connection.
+
+```rust
+use tokio::time::{Duration, sleep};
+
+use binance_sdk::config::ConfigurationWebsocketStreams;
+use binance_sdk::margin_trading::{MarginTradingWsStreams, websocket_streams::{RiskDataStreamEventsResponse, TradeDataStreamEventsResponse}};
+
+let configuration = ConfigurationWebsocketStreams::builder().build()?;
+
+let client = MarginTradingWsStreams::production(configuration);
+let connection = client.connect().await?;
+let risk_stream = connection.risk_data("listen_key".to_string(), Some("custom_id".to_string())).await?;
+
+trade_stream.on_message(|data: TradeDataStreamEventsResponse| {
+  match data {
+    TradeDataStreamEventsResponse::OutboundAccountPosition(data) => {
+      info!("outbound account position stream {:?}", data);
+    }
+    TradeDataStreamEventsResponse::BalanceUpdate(data) => {
+      info!("balance update stream {:?}", data);
+    }
+    TradeDataStreamEventsResponse::Other(data) => {
+      info!("unknown stream {:?}", data);
+    }
+    // …handle other variants…
+  }
+});
+
+sleep(Duration::from_secs(10)).await;
+
+trade_stream.unsubscribe().await;
+```
+
+### Automatic Connection Renewal
+
+The WebSocket connection is automatically renewed for WebSocket Streams connections, before the 24 hours expiration of the API key. This ensures continuous connectivity.
 
 ## Testing
 

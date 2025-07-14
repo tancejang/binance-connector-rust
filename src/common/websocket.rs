@@ -2,7 +2,6 @@ use async_trait::async_trait;
 use flate2::read::ZlibDecoder;
 use futures::{SinkExt, StreamExt, stream::FuturesUnordered};
 use http::header::USER_AGENT;
-use regex::Regex;
 use serde::de::DeserializeOwned;
 use serde_json::{Value, json};
 use std::{
@@ -11,7 +10,7 @@ use std::{
     marker::PhantomData,
     mem::take,
     sync::{
-        Arc, LazyLock,
+        Arc,
         atomic::{AtomicUsize, Ordering},
     },
     time::Duration,
@@ -38,16 +37,12 @@ use tokio_tungstenite::{
 use tokio_util::time::DelayQueue;
 use tracing::{debug, error, info, warn};
 
-use crate::common::utils::{remove_empty_value, sort_object_params};
-
 use super::{
     config::{AgentConnector, ConfigurationWebsocketApi, ConfigurationWebsocketStreams},
     errors::WebsocketError,
     models::{WebsocketApiResponse, WebsocketEvent, WebsocketMode},
-    utils::{get_timestamp, random_string, validate_time_unit},
+    utils::{ID_REGEX, build_websocket_api_message, random_string, validate_time_unit},
 };
-
-static ID_REGEX: LazyLock<Regex> = LazyLock::new(|| Regex::new(r"^[0-9a-f]{32}$").unwrap());
 
 pub type WebSocketClient = WebSocketStream<MaybeTlsStream<TcpStream>>;
 
@@ -202,6 +197,13 @@ pub struct PendingRequest {
     pub completion: oneshot::Sender<Result<Value, WebsocketError>>,
 }
 
+#[derive(Clone)]
+pub struct WebsocketSessionLogonReq {
+    pub method: String,
+    pub payload: BTreeMap<String, Value>,
+    pub options: WebsocketMessageSendOptions,
+}
+
 pub struct WebsocketConnectionState {
     pub reconnection_pending: bool,
     pub renewal_pending: bool,
@@ -209,6 +211,8 @@ pub struct WebsocketConnectionState {
     pub pending_requests: HashMap<String, PendingRequest>,
     pub pending_subscriptions: VecDeque<String>,
     pub stream_callbacks: HashMap<String, Vec<Arc<dyn Fn(&Value) + Send + Sync + 'static>>>,
+    pub is_session_logged_on: bool,
+    pub session_logon_req: Option<WebsocketSessionLogonReq>,
     pub handler: Option<Arc<dyn WebsocketHandler>>,
     pub ws_write_tx: Option<UnboundedSender<Message>>,
 }
@@ -229,6 +233,8 @@ impl WebsocketConnectionState {
             pending_requests: HashMap::new(),
             pending_subscriptions: VecDeque::new(),
             stream_callbacks: HashMap::new(),
+            is_session_logged_on: false,
+            session_logon_req: None,
             handler: None,
             ws_write_tx: None,
         }
@@ -435,7 +441,6 @@ impl WebsocketCommon {
     ///
     /// A connection is considered ready if:
     /// - It has a write channel (unless `allow_non_established` is true)
-    /// - No renewal is pending
     /// - No reconnection is pending
     /// - No close has been initiated
     pub async fn is_connection_ready(
@@ -445,7 +450,6 @@ impl WebsocketCommon {
     ) -> bool {
         let conn_state = connection.state.lock().await;
         (allow_non_established || conn_state.ws_write_tx.is_some())
-            && !conn_state.renewal_pending
             && !conn_state.reconnection_pending
             && !conn_state.close_initiated
     }
@@ -479,6 +483,39 @@ impl WebsocketCommon {
         false
     }
 
+    /// Retrieves available WebSocket connections from the connection pool.
+    ///
+    /// # Arguments
+    ///
+    /// * `allow_non_established` - If `true`, includes connections that are not fully established
+    ///
+    /// # Returns
+    ///
+    /// A vector of `Arc<WebsocketConnection>` that are ready based on the `allow_non_established` flag
+    ///
+    /// # Behavior
+    ///
+    /// - For single connection mode, returns the first connection
+    /// - For multi-connection mode, filters connections based on readiness
+    /// - Uses `is_connection_ready` to determine connection availability
+    async fn get_available_connections(
+        &self,
+        allow_non_established: bool,
+    ) -> Vec<Arc<WebsocketConnection>> {
+        if let WebsocketMode::Single = self.mode {
+            return vec![Arc::clone(&self.connection_pool[0])];
+        }
+
+        let mut ready = Vec::new();
+        for conn in &self.connection_pool {
+            if self.is_connection_ready(conn, allow_non_established).await {
+                ready.push(Arc::clone(conn));
+            }
+        }
+
+        ready
+    }
+
     /// Retrieves a WebSocket connection from the connection pool.
     ///
     /// # Arguments
@@ -502,16 +539,7 @@ impl WebsocketCommon {
         &self,
         allow_non_established: bool,
     ) -> Result<Arc<WebsocketConnection>, WebsocketError> {
-        if let WebsocketMode::Single = self.mode {
-            return Ok(Arc::clone(&self.connection_pool[0]));
-        }
-
-        let mut ready = Vec::new();
-        for conn in &self.connection_pool {
-            if self.is_connection_ready(conn, allow_non_established).await {
-                ready.push(Arc::clone(conn));
-            }
-        }
+        let ready = self.get_available_connections(allow_non_established).await;
 
         if ready.is_empty() {
             return Err(WebsocketError::NotConnected);
@@ -843,6 +871,8 @@ impl WebsocketCommon {
             if is_renewal {
                 conn_state.renewal_pending = true;
             }
+
+            conn_state.is_session_logged_on = false;
         }
 
         let ws = Self::create_websocket(url, self.agent.clone(), self.user_agent.clone())
@@ -866,104 +896,114 @@ impl WebsocketCommon {
             conn_state.ws_write_tx.replace(tx.clone())
         };
 
-        let wconn = conn.clone();
-
-        spawn(async move {
-            let mut sink = write_half;
-            while let Some(msg) = rx.recv().await {
-                if sink.send(msg).await.is_err() {
-                    error!("Write error {}", wconn.id);
-                    break;
-                }
-            }
-            debug!("Writer {} exit", wconn.id);
-        });
-
-        self.on_open(url.to_string(), conn.clone(), old_writer)
-            .await;
-
-        let common = self.clone();
-        let reader_conn = conn.clone();
-        let read_url = url.to_string();
-
-        spawn(async move {
-            while let Some(item) = read_half.next().await {
-                match item {
-                    Ok(Message::Text(msg)) => {
-                        common
-                            .on_message(msg.to_string(), Arc::clone(&reader_conn))
-                            .await;
-                    }
-                    Ok(Message::Binary(bin)) => {
-                        let mut decoder = ZlibDecoder::new(&bin[..]);
-                        let mut decompressed = String::new();
-                        if let Err(err) = decoder.read_to_string(&mut decompressed) {
-                            error!("Binary message decompress failed: {:?}", err);
-                            continue;
-                        }
-                        common
-                            .on_message(decompressed, Arc::clone(&reader_conn))
-                            .await;
-                    }
-                    Ok(Message::Ping(payload)) => {
-                        info!("PING received from server on {}", reader_conn.id);
-                        common.events.emit(&WebsocketEvent::Ping);
-                        if let Some(tx) = reader_conn.state.lock().await.ws_write_tx.clone() {
-                            let _ = tx.send(Message::Pong(payload));
-                            info!(
-                                "Responded PONG to server's PING message on {}",
-                                reader_conn.id
-                            );
-                        }
-                    }
-                    Ok(Message::Pong(_)) => {
-                        info!("Received PONG from server on {}", reader_conn.id);
-                        common.events.emit(&WebsocketEvent::Pong);
-                    }
-                    Ok(Message::Close(frame)) => {
-                        let (code, reason) = frame
-                            .map_or((1000, String::new()), |CloseFrame { code, reason }| {
-                                (code.into(), reason.to_string())
-                            });
-                        common
-                            .events
-                            .emit(&WebsocketEvent::Close(code, reason.clone()));
-
-                        let mut conn_state = reader_conn.state.lock().await;
-                        if !conn_state.close_initiated
-                            && !is_renewal
-                            && CloseCode::from(code) != CloseCode::Normal
-                        {
-                            warn!(
-                                "Connection {} closed due to {}: {}",
-                                reader_conn.id, code, reason
-                            );
-                            conn_state.reconnection_pending = true;
-                            drop(conn_state);
-                            let reconnect_url = common
-                                .get_reconnect_url(&read_url, Arc::clone(&reader_conn))
-                                .await;
-
-                            let _ = common
-                                .reconnect_tx
-                                .send(ReconnectEntry {
-                                    connection_id: reader_conn.id.clone(),
-                                    url: reconnect_url,
-                                    is_renewal: false,
-                                })
-                                .await;
-                        }
+        {
+            let wconn = conn.clone();
+            spawn(async move {
+                let mut sink = write_half;
+                while let Some(msg) = rx.recv().await {
+                    if sink.send(msg).await.is_err() {
+                        error!("Write error {}", wconn.id);
                         break;
                     }
-                    Err(e) => {
-                        error!("WebSocket error on {}: {:?}", reader_conn.id, e);
-                        common.events.emit(&WebsocketEvent::Error(e.to_string()));
-                    }
-                    _ => {}
                 }
-            }
-            debug!("Reader actor for {} exiting", reader_conn.id);
-        });
+                debug!("Writer {} exit", wconn.id);
+            });
+        }
+
+        {
+            let common = self.clone();
+            let conn = conn.clone();
+            let url = url.to_string();
+            spawn(async move {
+                common.on_open(url, conn, old_writer).await;
+            });
+        }
+
+        {
+            let common = self.clone();
+            let reader_conn = conn.clone();
+            let read_url = url.to_string();
+
+            spawn(async move {
+                while let Some(item) = read_half.next().await {
+                    match item {
+                        Ok(Message::Text(msg)) => {
+                            common
+                                .on_message(msg.to_string(), Arc::clone(&reader_conn))
+                                .await;
+                        }
+                        Ok(Message::Binary(bin)) => {
+                            let mut decoder = ZlibDecoder::new(&bin[..]);
+                            let mut decompressed = String::new();
+                            if let Err(err) = decoder.read_to_string(&mut decompressed) {
+                                error!("Binary message decompress failed: {:?}", err);
+                                continue;
+                            }
+                            common
+                                .on_message(decompressed, Arc::clone(&reader_conn))
+                                .await;
+                        }
+                        Ok(Message::Ping(payload)) => {
+                            info!("PING received from server on {}", reader_conn.id);
+                            common.events.emit(&WebsocketEvent::Ping);
+                            if let Some(tx) = reader_conn.state.lock().await.ws_write_tx.clone() {
+                                let _ = tx.send(Message::Pong(payload));
+                                info!(
+                                    "Responded PONG to server's PING message on {}",
+                                    reader_conn.id
+                                );
+                            }
+                        }
+                        Ok(Message::Pong(_)) => {
+                            info!("Received PONG from server on {}", reader_conn.id);
+                            common.events.emit(&WebsocketEvent::Pong);
+                        }
+                        Ok(Message::Close(frame)) => {
+                            let (code, reason) = frame
+                                .map_or((1000, String::new()), |CloseFrame { code, reason }| {
+                                    (code.into(), reason.to_string())
+                                });
+                            common
+                                .events
+                                .emit(&WebsocketEvent::Close(code, reason.clone()));
+
+                            let mut conn_state = reader_conn.state.lock().await;
+                            if !conn_state.close_initiated
+                                && !is_renewal
+                                && CloseCode::from(code) != CloseCode::Normal
+                            {
+                                warn!(
+                                    "Connection {} closed due to {}: {}",
+                                    reader_conn.id, code, reason
+                                );
+                                conn_state.reconnection_pending = true;
+                                conn_state.is_session_logged_on = false;
+                                drop(conn_state);
+                                let reconnect_url = common
+                                    .get_reconnect_url(&read_url, Arc::clone(&reader_conn))
+                                    .await;
+
+                                let _ = common
+                                    .reconnect_tx
+                                    .send(ReconnectEntry {
+                                        connection_id: reader_conn.id.clone(),
+                                        url: reconnect_url,
+                                        is_renewal: false,
+                                    })
+                                    .await;
+                            }
+                            break;
+                        }
+                        Err(e) => {
+                            error!("WebSocket error on {}: {:?}", reader_conn.id, e);
+                            common.events.emit(&WebsocketEvent::Error(e.to_string()));
+                        }
+                        _ => {}
+                    }
+                }
+                debug!("Reader actor for {} exiting", reader_conn.id);
+            });
+        }
 
         Ok(())
     }
@@ -1008,6 +1048,11 @@ impl WebsocketCommon {
         match timeout(Duration::from_secs(30), close_all).await {
             Ok(Ok(())) => {
                 info!("Disconnected all WebSocket connections successfully.");
+                for conn in &self.connection_pool {
+                    let mut st = conn.state.lock().await;
+                    st.is_session_logged_on = false;
+                    st.session_logon_req = None;
+                }
                 Ok(())
             }
             Ok(Err(err)) => {
@@ -1150,9 +1195,61 @@ impl WebsocketCommon {
     }
 }
 
+#[derive(Debug, Default, Clone)]
 pub struct WebsocketMessageSendOptions {
     pub with_api_key: bool,
     pub is_signed: bool,
+    pub is_session_logon: Option<bool>,
+    pub is_session_logout: Option<bool>,
+}
+
+impl WebsocketMessageSendOptions {
+    #[must_use]
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    #[must_use]
+    pub fn with_api_key(mut self) -> Self {
+        self.with_api_key = true;
+        self
+    }
+
+    #[must_use]
+    pub fn signed(mut self) -> Self {
+        self.is_signed = true;
+        self
+    }
+
+    #[must_use]
+    pub fn session_logon(mut self) -> Self {
+        self.is_session_logon = Some(true);
+        self
+    }
+
+    #[must_use]
+    pub fn session_logout(mut self) -> Self {
+        self.is_session_logout = Some(true);
+        self
+    }
+}
+
+#[derive(Debug)]
+pub enum SendWebsocketMessageResult<R> {
+    Single(WebsocketApiResponse<R>),
+    Multiple(Vec<WebsocketApiResponse<R>>),
+}
+
+impl<R> IntoIterator for SendWebsocketMessageResult<R> {
+    type Item = WebsocketApiResponse<R>;
+    type IntoIter = std::vec::IntoIter<Self::Item>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        match self {
+            SendWebsocketMessageResult::Single(resp) => vec![resp].into_iter(),
+            SendWebsocketMessageResult::Multiple(v) => v.into_iter(),
+        }
+    }
 }
 
 pub struct WebsocketApi {
@@ -1328,9 +1425,9 @@ impl WebsocketApi {
     pub async fn send_message<R>(
         &self,
         method: &str,
-        mut payload: BTreeMap<String, Value>,
+        payload: BTreeMap<String, Value>,
         options: WebsocketMessageSendOptions,
-    ) -> Result<WebsocketApiResponse<R>, WebsocketError>
+    ) -> Result<SendWebsocketMessageResult<R>, WebsocketError>
     where
         R: DeserializeOwned + Send + Sync + 'static,
     {
@@ -1338,88 +1435,100 @@ impl WebsocketApi {
             return Err(WebsocketError::NotConnected);
         }
 
-        let id = payload
-            .get("id")
-            .and_then(Value::as_str)
-            .filter(|s| ID_REGEX.is_match(s))
-            .map_or_else(random_string, String::from);
+        let do_multi =
+            options.is_session_logon.unwrap_or(false) || options.is_session_logout.unwrap_or(false);
 
-        payload.remove("id");
+        let connections = if do_multi {
+            self.common.get_available_connections(false).await
+        } else {
+            vec![self.common.get_connection(false).await?]
+        };
 
-        let mut params = remove_empty_value(payload.into_iter());
-        if options.with_api_key || options.is_signed {
-            params.insert(
-                "apiKey".into(),
-                Value::String(
-                    self.configuration
-                        .api_key
-                        .clone()
-                        .expect("API key must be set"),
-                ),
-            );
-        }
-        if options.is_signed {
-            let ts = get_timestamp();
-            let ts_i64 = i64::try_from(ts).map_err(|e| WebsocketError::Protocol(e.to_string()))?;
-            params.insert(
-                "timestamp".into(),
-                Value::Number(serde_json::Number::from(ts_i64)),
-            );
-            let mut sorted_params = sort_object_params(&params);
-            let sig = self
-                .configuration
-                .signature_gen
-                .get_signature(&sorted_params)
-                .map_err(|e| WebsocketError::Protocol(e.to_string()))?;
-            sorted_params.insert("signature".into(), Value::String(sig));
-            params = sorted_params.into_iter().collect();
-        }
+        let skip_auth = if do_multi {
+            false
+        } else {
+            let connection = &connections[0];
+            let conn_state = connection.state.lock().await;
+            self.configuration.auto_session_relogon && conn_state.is_session_logged_on
+        };
 
-        let request = json!({
-            "id": id,
-            "method": method,
-            "params": params,
-        });
+        let payload_clone = payload.clone();
+
+        let (id, request) =
+            build_websocket_api_message(&self.configuration, method, payload, &options, skip_auth);
+        let raw_payload = serde_json::to_string(&request).unwrap();
         debug!("Sending message to WebSocket API: {:?}", request);
 
         let timeout = Duration::from_millis(self.configuration.timeout);
-        let maybe_rx = self
-            .common
-            .send(
-                serde_json::to_string(&request).unwrap(),
-                Some(id.clone()),
-                true,
-                timeout,
-                None,
-            )
-            .await?;
 
-        let msg: Value = if let Some(rx) = maybe_rx {
-            rx.await.unwrap_or(Err(WebsocketError::Timeout))?
+        let mut receivers = Vec::with_capacity(connections.len());
+        for connection in &connections {
+            let opt_rx = self
+                .common
+                .send(
+                    raw_payload.clone(),
+                    Some(id.clone()),
+                    true,
+                    timeout,
+                    Some(connection.clone()),
+                )
+                .await?;
+            receivers.push((connection.clone(), opt_rx));
+        }
+
+        let mut raw_msgs = Vec::with_capacity(receivers.len());
+        for (_conn, opt_rx) in receivers {
+            let rx = opt_rx.ok_or(WebsocketError::NoResponse)?;
+            let msg = rx.await.unwrap_or(Err(WebsocketError::Timeout))?;
+            raw_msgs.push(msg);
+        }
+
+        let mut responses = Vec::with_capacity(raw_msgs.len());
+        for msg in raw_msgs {
+            let raw = msg
+                .get("result")
+                .or_else(|| msg.get("response"))
+                .cloned()
+                .unwrap_or(Value::Null);
+
+            let rate_limits = msg
+                .get("rateLimits")
+                .and_then(Value::as_array)
+                .map(|arr| {
+                    arr.iter()
+                        .filter_map(|v| serde_json::from_value(v.clone()).ok())
+                        .collect()
+                })
+                .unwrap_or_default();
+
+            responses.push(WebsocketApiResponse {
+                raw,
+                rate_limits,
+                _marker: PhantomData,
+            });
+        }
+
+        if do_multi && self.configuration.auto_session_relogon {
+            for connection in &connections {
+                let mut state = connection.state.lock().await;
+                if options.is_session_logon.unwrap_or(false) {
+                    state.is_session_logged_on = true;
+                    state.session_logon_req = Some(WebsocketSessionLogonReq {
+                        method: method.to_string(),
+                        payload: payload_clone.clone(),
+                        options: options.clone(),
+                    });
+                } else {
+                    state.is_session_logged_on = false;
+                    state.session_logon_req = None;
+                }
+            }
+        }
+
+        Ok(if responses.len() == 1 && !do_multi {
+            SendWebsocketMessageResult::Single(responses.into_iter().next().unwrap())
         } else {
-            return Err(WebsocketError::NoResponse);
-        };
-
-        let raw = msg
-            .get("result")
-            .or_else(|| msg.get("response"))
-            .cloned()
-            .unwrap_or(Value::Null);
-
-        let rate_limits = msg
-            .get("rateLimits")
-            .and_then(Value::as_array)
-            .map(|arr| {
-                arr.iter()
-                    .filter_map(|v| serde_json::from_value(v.clone()).ok())
-                    .collect()
-            })
-            .unwrap_or_default();
-
-        Ok(WebsocketApiResponse {
-            raw,
-            rate_limits,
-            _marker: PhantomData,
+            SendWebsocketMessageResult::Multiple(responses)
         })
     }
 
@@ -1464,22 +1573,135 @@ impl WebsocketApi {
 
 #[async_trait]
 impl WebsocketHandler for WebsocketApi {
-    /// Callback method invoked when a WebSocket connection is successfully opened.
+    /// Handles the WebSocket connection opening event, attempting to re-establish a session logon if needed.
     ///
-    /// This method is called after a WebSocket connection is established. Currently,
-    /// it does not perform any actions and serves as a placeholder for potential
-    /// connection initialization or logging.
+    /// This method checks if a session logon request exists and has not already been logged on.
+    /// If conditions are met, it attempts to send a session re-logon message and update the connection state.
     ///
     /// # Arguments
     ///
-    /// * `_url` - The URL of the WebSocket connection that was opened
-    /// * `_connection` - An Arc-wrapped WebSocket connection context
+    /// * `_url` - The WebSocket connection URL (unused)
+    /// * `connection` - The WebSocket connection context
     ///
-    /// # Remarks
+    /// # Behavior
     ///
-    /// This method can be overridden by implementations to add custom logic
-    /// when a WebSocket connection is first opened.
-    async fn on_open(&self, _url: String, _connection: Arc<WebsocketConnection>) {}
+    /// - Checks for an existing session logon request
+    /// - Verifies the session is not already logged on
+    /// - Attempts to send a re-logon message
+    /// - Updates connection state upon successful re-logon
+    /// - Logs errors if re-logon dispatch fails
+    async fn on_open(&self, _url: String, connection: Arc<WebsocketConnection>) {
+        let session_req = {
+            let conn_state = connection.state.lock().await;
+            conn_state.session_logon_req.clone()
+        };
+
+        let Some(req) = session_req else {
+            return;
+        };
+
+        let already_logged_on = {
+            let conn_state = connection.state.lock().await;
+            conn_state.is_session_logged_on
+        };
+
+        if already_logged_on {
+            debug!(
+                "Connection {} already logged on, skipping re-logon",
+                connection.id
+            );
+            return;
+        }
+
+        let conn = connection.clone();
+        let common = Arc::clone(&self.common);
+        let configuration = self.configuration.clone();
+        let method = req.method.clone();
+        let payload = req.payload.clone();
+        let options = req.options.clone();
+
+        spawn(async move {
+            let (id, json_msg) =
+                build_websocket_api_message(&configuration, &method, payload, &options, false);
+
+            let raw_message = match serde_json::to_string(&json_msg) {
+                Ok(msg) => msg,
+                Err(e) => {
+                    warn!(
+                        "Failed to serialize session logon message for connection {}: {}",
+                        conn.id, e
+                    );
+                    return;
+                }
+            };
+
+            debug!(
+                "Session re-logon on connection {}: {}",
+                conn.id, raw_message
+            );
+
+            let rx = match common
+                .send(
+                    raw_message,
+                    Some(id.clone()),
+                    true,
+                    Duration::from_millis(configuration.timeout),
+                    Some(conn.clone()),
+                )
+                .await
+            {
+                Ok(Some(rx)) => rx,
+                Ok(None) => {
+                    warn!(
+                        "Session re-logon dispatch returned None for connection {}",
+                        conn.id
+                    );
+                    return;
+                }
+                Err(e) => {
+                    warn!(
+                        "Session re-logon dispatch failed on connection {}: {}",
+                        conn.id, e
+                    );
+                    return;
+                }
+            };
+
+            let Ok(result) = timeout(Duration::from_millis(configuration.timeout), rx).await else {
+                warn!("Session re-logon timed out on connection {}", conn.id);
+                return;
+            };
+
+            let final_result = match result {
+                Ok(final_result) => final_result,
+                Err(e) => {
+                    warn!(
+                        "Session re-logon receiver error on connection {}: {}",
+                        conn.id, e
+                    );
+                    return;
+                }
+            };
+
+            let payload = match final_result {
+                Ok(payload) => payload,
+                Err(e) => {
+                    warn!(
+                        "Session re-logon payload error on connection {}: {}",
+                        conn.id, e
+                    );
+                    return;
+                }
+            };
+
+            debug!(
+                "Session re-logon succeeded on connection {}: {}",
+                conn.id, payload
+            );
+            let mut conn_state = conn.state.lock().await;
+            conn_state.is_session_logged_on = true;
+        });
+    }
 
     /// Handles incoming WebSocket messages by parsing the JSON payload and processing pending requests.
     ///
@@ -2370,10 +2592,10 @@ mod tests {
     use crate::TOKIO_SHARED_RT;
     use crate::common::utils::{SignatureGenerator, build_user_agent};
     use crate::common::websocket::{
-        PendingRequest, ReconnectEntry, WebsocketApi, WebsocketBase, WebsocketCommon,
-        WebsocketConnection, WebsocketEvent, WebsocketEventEmitter, WebsocketHandler,
-        WebsocketMessageSendOptions, WebsocketMode, WebsocketStream, WebsocketStreams,
-        create_stream_handler,
+        PendingRequest, ReconnectEntry, SendWebsocketMessageResult, WebsocketApi, WebsocketBase,
+        WebsocketCommon, WebsocketConnection, WebsocketEvent, WebsocketEventEmitter,
+        WebsocketHandler, WebsocketMessageSendOptions, WebsocketMode, WebsocketSessionLogonReq,
+        WebsocketStream, WebsocketStreams, create_stream_handler,
     };
     use crate::config::{ConfigurationWebsocketApi, ConfigurationWebsocketStreams, PrivateKey};
     use crate::errors::WebsocketError;
@@ -2434,7 +2656,13 @@ mod tests {
         conn
     }
 
-    fn create_websocket_api(time_unit: Option<TimeUnit>) -> Arc<WebsocketApi> {
+    fn create_websocket_api(
+        time_unit: Option<TimeUnit>,
+        mode: Option<WebsocketMode>,
+        auto_session_relogon: Option<bool>,
+    ) -> Arc<WebsocketApi> {
+        let mode = mode.unwrap_or(WebsocketMode::Single);
+        let auto_session_relogon = auto_session_relogon.unwrap_or(true);
         let sig_gen = SignatureGenerator::new(
             Some("api_secret".into()),
             None::<PrivateKey>,
@@ -2446,16 +2674,18 @@ mod tests {
             private_key: None,
             private_key_passphrase: None,
             ws_url: Some("wss://example.com".into()),
-            mode: WebsocketMode::Single,
+            mode,
             reconnect_delay: 1000,
             signature_gen: sig_gen,
             timeout: 500,
             time_unit,
+            auto_session_relogon,
             agent: None,
             user_agent: build_user_agent("product"),
         };
-        let conn = WebsocketConnection::new("c1");
-        WebsocketApi::new(config, vec![conn])
+        let conn1 = WebsocketConnection::new("c1");
+        let conn2 = WebsocketConnection::new("c2");
+        WebsocketApi::new(config, vec![conn1, conn2])
     }
 
     fn create_websocket_streams(
@@ -2775,7 +3005,6 @@ mod tests {
                     .await
                     .unwrap();
                 advance(Duration::from_secs(23 * 60 * 60 + 1)).await;
-
                 resume();
             }
 
@@ -2863,7 +3092,7 @@ mod tests {
                     );
 
                     assert!(!common.is_connection_ready(&conn1, false).await);
-                    assert!(!common.is_connection_ready(&conn2, false).await);
+                    assert!(common.is_connection_ready(&conn2, false).await);
                     assert!(!common.is_connection_ready(&conn3, false).await);
                 });
             }
@@ -2922,6 +3151,46 @@ mod tests {
 
                     assert!(common.is_connected(None).await);
                     assert!(!common.is_connected(Some(&closed)).await);
+                });
+            }
+        }
+
+        mod get_available_connections_tests {
+            use super::*;
+
+            #[test]
+            fn single_mode() {
+                TOKIO_SHARED_RT.block_on(async {
+                    let common = WebsocketCommon::new(vec![], WebsocketMode::Single, 0, None, None);
+                    let connections = common.get_available_connections(false).await;
+                    assert_eq!(connections[0].id, common.connection_pool[0].id);
+                });
+            }
+
+            #[test]
+            fn pool_mode_not_ready() {
+                TOKIO_SHARED_RT.block_on(async {
+                    let common =
+                        WebsocketCommon::new(vec![], WebsocketMode::Pool(2), 0, None, None);
+                    let connections = common.get_available_connections(false).await;
+                    assert!(connections.is_empty());
+                });
+            }
+
+            #[test]
+            fn pool_mode_with_ready() {
+                TOKIO_SHARED_RT.block_on(async {
+                    let conn1 = WebsocketConnection::new("c1");
+                    let conn2 = WebsocketConnection::new("c2");
+                    let (tx1, _rx1) = unbounded_channel();
+                    {
+                        let mut s1 = conn1.state.lock().await;
+                        s1.ws_write_tx = Some(tx1);
+                    }
+                    let pool = vec![conn1.clone(), conn2.clone()];
+                    let common = WebsocketCommon::new(pool, WebsocketMode::Pool(2), 0, None, None);
+                    let connections = common.get_available_connections(false).await;
+                    assert!(connections.len() == 1);
                 });
             }
         }
@@ -3707,9 +3976,23 @@ mod tests {
                         .await;
 
                     assert!(res.is_ok());
+
+                    {
+                        let st = conn.state.lock().await;
+                        assert!(st.ws_write_tx.is_some(), "writer should be set");
+                        assert!(
+                            st.renewal_pending,
+                            "renewal_pending must be true until on_open"
+                        );
+                    }
+
+                    common.on_open(url.clone(), conn.clone(), None).await;
+
                     let st = conn.state.lock().await;
-                    assert!(st.ws_write_tx.is_some());
-                    assert!(!st.renewal_pending);
+                    assert!(
+                        !st.renewal_pending,
+                        "renewal_pending should be cleared in on_open"
+                    );
                 });
             }
 
@@ -3834,9 +4117,20 @@ mod tests {
                     assert!(conn1.state.lock().await.close_initiated);
                     assert!(conn2.state.lock().await.close_initiated);
 
+                    {
+                        let st = conn1.state.lock().await;
+                        assert!(!st.is_session_logged_on, "conn1 should be logged out");
+                        assert!(st.session_logon_req.is_none(), "conn1 req cleared");
+                    }
+                    {
+                        let st = conn2.state.lock().await;
+                        assert!(!st.is_session_logged_on, "conn2 should be logged out");
+                        assert!(st.session_logon_req.is_none(), "conn2 req cleared");
+                    }
+
                     match (rx1.try_recv(), rx2.try_recv()) {
                         (Ok(Message::Close(_)), Ok(Message::Close(_))) => {}
-                        other => panic!("expected two Closes, got {other:?}"),
+                        other => panic!("expected two Close frames, got {other:?}"),
                     }
                 });
             }
@@ -4401,6 +4695,7 @@ mod tests {
                         signature_gen: sig_gen,
                         timeout: 500,
                         time_unit: None,
+                        auto_session_relogon: false,
                         agent: None,
                         user_agent: build_user_agent("product"),
                     };
@@ -4443,6 +4738,7 @@ mod tests {
                         signature_gen: sig,
                         timeout: 10,
                         time_unit: None,
+                        auto_session_relogon: false,
                         agent: None,
                         user_agent: build_user_agent("product"),
                     };
@@ -4477,6 +4773,7 @@ mod tests {
                         signature_gen: sig,
                         timeout: 10,
                         time_unit: None,
+                        auto_session_relogon: false,
                         agent: None,
                         user_agent: build_user_agent("product"),
                     };
@@ -4506,6 +4803,7 @@ mod tests {
                         signature_gen: sig,
                         timeout: 10,
                         time_unit: None,
+                        auto_session_relogon: false,
                         agent: None,
                         user_agent: build_user_agent("product"),
                     };
@@ -4535,6 +4833,7 @@ mod tests {
                         signature_gen: sig,
                         timeout: 10,
                         time_unit: None,
+                        auto_session_relogon: false,
                         agent: None,
                         user_agent: build_user_agent("product"),
                     };
@@ -4569,6 +4868,7 @@ mod tests {
                         signature_gen: sig,
                         timeout: 10,
                         time_unit: None,
+                        auto_session_relogon: false,
                         agent: None,
                         user_agent: build_user_agent("product"),
                     };
@@ -4588,7 +4888,7 @@ mod tests {
             #[test]
             fn unsigned_message() {
                 TOKIO_SHARED_RT.block_on(async {
-                    let api = create_websocket_api(None);
+                    let api = create_websocket_api(None, None, None);
                     let conn = &api.common.connection_pool[0];
                     let (tx, mut rx) = unbounded_channel::<Message>();
                     {
@@ -4601,24 +4901,34 @@ mod tests {
                         async move {
                             let mut params = BTreeMap::new();
                             params.insert("foo".into(), Value::String("bar".into()));
-                            api.send_message::<Value>(
-                                "mymethod",
-                                params,
-                                WebsocketMessageSendOptions {
-                                    with_api_key: false,
-                                    is_signed: false,
-                                },
-                            )
-                            .await
-                            .unwrap()
+                            let send_res = api
+                                .send_message::<Value>(
+                                    "method",
+                                    params,
+                                    WebsocketMessageSendOptions {
+                                        with_api_key: false,
+                                        is_signed: false,
+                                        ..Default::default()
+                                    },
+                                )
+                                .await
+                                .unwrap();
+
+                            match send_res {
+                                SendWebsocketMessageResult::Single(resp) => resp,
+                                SendWebsocketMessageResult::Multiple(_) => {
+                                    panic!("expected single response")
+                                }
+                            }
                         }
                     });
 
-                    let sent = rx.recv().await.unwrap();
-                    let Message::Text(txt) = sent else { panic!() };
+                    let Message::Text(txt) = rx.recv().await.unwrap() else {
+                        panic!()
+                    };
                     let req: Value = serde_json::from_str(&txt).unwrap();
-                    assert_eq!(req["method"], "mymethod");
-                    assert!(req["params"]["foo"] == "bar");
+                    assert_eq!(req["method"], "method");
+                    assert_eq!(req["params"]["foo"], "bar");
                     assert!(req["params"].get("apiKey").is_none());
                     assert!(req["params"].get("timestamp").is_none());
                     assert!(req["params"].get("signature").is_none());
@@ -4644,7 +4954,7 @@ mod tests {
             #[test]
             fn with_api_key_only() {
                 TOKIO_SHARED_RT.block_on(async {
-                    let api = create_websocket_api(None);
+                    let api = create_websocket_api(None, None, None);
                     let conn = &api.common.connection_pool[0];
                     let (tx, mut rx) = unbounded_channel::<Message>();
                     {
@@ -4656,16 +4966,25 @@ mod tests {
                         let api = api.clone();
                         async move {
                             let params = BTreeMap::new();
-                            api.send_message::<Value>(
-                                "foo",
-                                params,
-                                WebsocketMessageSendOptions {
-                                    with_api_key: true,
-                                    is_signed: false,
-                                },
-                            )
-                            .await
-                            .unwrap()
+                            let send_res = api
+                                .send_message::<Value>(
+                                    "method",
+                                    params,
+                                    WebsocketMessageSendOptions {
+                                        with_api_key: true,
+                                        is_signed: false,
+                                        ..Default::default()
+                                    },
+                                )
+                                .await
+                                .unwrap();
+
+                            match send_res {
+                                SendWebsocketMessageResult::Single(resp) => resp,
+                                SendWebsocketMessageResult::Multiple(_) => {
+                                    panic!("expected single response")
+                                }
+                            }
                         }
                     });
 
@@ -4697,7 +5016,7 @@ mod tests {
             #[test]
             fn signed_message_has_timestamp_and_signature() {
                 TOKIO_SHARED_RT.block_on(async {
-                    let api = create_websocket_api(None);
+                    let api = create_websocket_api(None, None, None);
                     let conn = &api.common.connection_pool[0];
                     let (tx, mut rx) = unbounded_channel::<Message>();
                     {
@@ -4710,16 +5029,25 @@ mod tests {
                         async move {
                             let mut params = BTreeMap::new();
                             params.insert("foo".into(), Value::String("bar".into()));
-                            api.send_message::<Value>(
-                                "method",
-                                params,
-                                WebsocketMessageSendOptions {
-                                    with_api_key: true,
-                                    is_signed: true,
-                                },
-                            )
-                            .await
-                            .unwrap()
+                            let send_res = api
+                                .send_message::<Value>(
+                                    "method",
+                                    params,
+                                    WebsocketMessageSendOptions {
+                                        with_api_key: true,
+                                        is_signed: true,
+                                        ..Default::default()
+                                    },
+                                )
+                                .await
+                                .unwrap();
+
+                            match send_res {
+                                SendWebsocketMessageResult::Single(resp) => resp,
+                                SendWebsocketMessageResult::Multiple(_) => {
+                                    panic!("expected single response")
+                                }
+                            }
                         }
                     });
 
@@ -4728,7 +5056,7 @@ mod tests {
                     };
                     let req: Value = serde_json::from_str(&txt).unwrap();
                     let p = &req["params"];
-                    assert!(p["apiKey"] == "api_key");
+                    assert_eq!(p["apiKey"], "api_key");
                     assert!(p["timestamp"].is_number());
                     assert!(p["signature"].is_string());
 
@@ -4750,9 +5078,341 @@ mod tests {
             }
 
             #[test]
+            fn multi_session_logon() {
+                TOKIO_SHARED_RT.block_on(async {
+                    let api = create_websocket_api(None, Some(WebsocketMode::Pool(2)), None);
+                    let conn0 = &api.common.connection_pool[0];
+                    let conn1 = &api.common.connection_pool[1];
+
+                    let (tx0, mut rx0) = unbounded_channel::<Message>();
+                    let (tx1, mut rx1) = unbounded_channel::<Message>();
+                    {
+                        let mut st0 = conn0.state.lock().await;
+                        st0.ws_write_tx = Some(tx0);
+                    }
+                    {
+                        let mut st1 = conn1.state.lock().await;
+                        st1.ws_write_tx = Some(tx1);
+                    }
+
+                    let fut = tokio::spawn({
+                        let api = api.clone();
+                        async move {
+                            let params = BTreeMap::new();
+                            let send_res = api
+                                .send_message::<Value>(
+                                    "method",
+                                    params,
+                                    WebsocketMessageSendOptions {
+                                        is_session_logon: Some(true),
+                                        ..Default::default()
+                                    },
+                                )
+                                .await
+                                .unwrap();
+
+                            match send_res {
+                                SendWebsocketMessageResult::Multiple(v) => v,
+                                SendWebsocketMessageResult::Single(_) => {
+                                    panic!("expected multiple responses")
+                                }
+                            }
+                        }
+                    });
+
+                    let Message::Text(txt0) = rx0.recv().await.unwrap() else {
+                        panic!()
+                    };
+                    let Message::Text(txt1) = rx1.recv().await.unwrap() else {
+                        panic!()
+                    };
+                    let req0: Value = serde_json::from_str(&txt0).unwrap();
+                    let req1: Value = serde_json::from_str(&txt1).unwrap();
+                    assert_eq!(req0["method"], "method");
+                    assert_eq!(req1["method"], "method");
+                    let id = req0["id"].as_str().unwrap().to_string();
+                    assert_eq!(req1["id"].as_str().unwrap(), &id);
+
+                    {
+                        let mut st0 = conn0.state.lock().await;
+                        let pending0 = st0.pending_requests.remove(&id).unwrap();
+                        pending0
+                            .completion
+                            .send(Ok(json!({
+                                "id": id,
+                                "result": { "ok": true },
+                                "rateLimits": []
+                            })))
+                            .unwrap();
+                    }
+                    {
+                        let mut st1 = conn1.state.lock().await;
+                        let pending1 = st1.pending_requests.remove(&id).unwrap();
+                        pending1
+                            .completion
+                            .send(Ok(json!({
+                                "id": id,
+                                "result": { "ok": true },
+                                "rateLimits": []
+                            })))
+                            .unwrap();
+                    }
+
+                    let results = fut.await.unwrap();
+                    assert_eq!(results.len(), 2);
+
+                    for conn in &api.common.connection_pool {
+                        let st = conn.state.lock().await;
+                        assert!(st.is_session_logged_on, "should be logged out");
+                        assert!(st.session_logon_req.is_some(), "req cleared");
+
+                        // let req = st
+                        //     .session_logon_req
+                        //     .as_ref()
+                        //     .expect("session_logon_req should be Some(_)");
+                        // assert_eq!(req.method, "method");
+                        // let mut expected = BTreeMap::new();
+                        // expected.insert("ok".to_string(), Value::Bool(true));
+                        // assert_eq!(
+                        //     req.payload, expected,
+                        //     "stored payload should be {{ \"ok\": true }}"
+                        // );
+                        // assert!(
+                        //     req.options.is_session_logon.unwrap_or(false),
+                        //     "expected options.is_session_logon = true"
+                        // );
+                    }
+                });
+            }
+
+            #[test]
+            fn multi_session_logout() {
+                TOKIO_SHARED_RT.block_on(async {
+                    let api = create_websocket_api(None, Some(WebsocketMode::Pool(2)), None);
+
+                    for conn in &api.common.connection_pool {
+                        let (tx, _rx) = unbounded_channel::<Message>();
+                        let mut st = conn.state.lock().await;
+                        st.ws_write_tx = Some(tx);
+                        st.is_session_logged_on = true;
+                        st.session_logon_req = Some(WebsocketSessionLogonReq {
+                            method: "method".into(),
+                            payload: BTreeMap::new(),
+                            options: WebsocketMessageSendOptions::default(),
+                        });
+                    }
+
+                    let mut rxs = Vec::new();
+                    for conn in &api.common.connection_pool {
+                        let rx = {
+                            let (tx, rx) = unbounded_channel::<Message>();
+                            conn.state.lock().await.ws_write_tx = Some(tx);
+                            rx
+                        };
+                        rxs.push(rx);
+                    }
+
+                    let fut = tokio::spawn({
+                        let api = api.clone();
+                        async move {
+                            let send_res = api
+                                .send_message::<Value>(
+                                    "method",
+                                    BTreeMap::new(),
+                                    WebsocketMessageSendOptions {
+                                        is_signed: false,
+                                        with_api_key: false,
+                                        is_session_logout: Some(true),
+                                        ..Default::default()
+                                    },
+                                )
+                                .await
+                                .unwrap();
+
+                            match send_res {
+                                SendWebsocketMessageResult::Multiple(v) => v,
+                                SendWebsocketMessageResult::Single(_) => panic!("expected multi"),
+                            }
+                        }
+                    });
+
+                    let mut ids = Vec::new();
+                    for mut rx in rxs {
+                        let Message::Text(txt) = rx.recv().await.unwrap() else {
+                            panic!()
+                        };
+                        let req: Value = serde_json::from_str(&txt).unwrap();
+                        assert_eq!(req["method"], "method");
+                        ids.push(req["id"].as_str().unwrap().to_string());
+                    }
+
+                    assert_eq!(ids[0], ids[1]);
+
+                    for conn in &api.common.connection_pool {
+                        let id = &ids[0];
+                        let mut st = conn.state.lock().await;
+                        let pending = st.pending_requests.remove(id).unwrap();
+                        pending
+                            .completion
+                            .send(Ok(json!({
+                                "id": id,
+                                "result": {},
+                                "rateLimits": []
+                            })))
+                            .unwrap();
+                    }
+
+                    let results = fut.await.unwrap();
+                    assert_eq!(results.len(), 2);
+
+                    for conn in &api.common.connection_pool {
+                        let st = conn.state.lock().await;
+                        assert!(!st.is_session_logged_on, "should be logged out");
+                        assert!(st.session_logon_req.is_none(), "req cleared");
+                    }
+                });
+            }
+
+            #[test]
+            fn skip_signature_when_logged_on_and_auto_relogon() {
+                TOKIO_SHARED_RT.block_on(async {
+                    let api = create_websocket_api(None, Some(WebsocketMode::Single), None);
+                    let conn = &api.common.connection_pool[0];
+                    {
+                        let mut st = conn.state.lock().await;
+                        st.ws_write_tx = Some(unbounded_channel::<Message>().0);
+                        st.is_session_logged_on = true;
+                    }
+
+                    let mut rx;
+                    {
+                        let mut st = conn.state.lock().await;
+                        let (tx, new_rx) = unbounded_channel::<Message>();
+                        st.ws_write_tx = Some(tx);
+                        rx = new_rx;
+                    }
+
+                    let fut = tokio::spawn({
+                        let api = api.clone();
+                        async move {
+                            let send_res = api
+                                .send_message::<Value>(
+                                    "method",
+                                    BTreeMap::new(),
+                                    WebsocketMessageSendOptions {
+                                        is_signed: true,
+                                        ..Default::default()
+                                    },
+                                )
+                                .await
+                                .unwrap();
+
+                            match send_res {
+                                SendWebsocketMessageResult::Single(resp) => resp,
+                                SendWebsocketMessageResult::Multiple(_) => {
+                                    panic!("expected single")
+                                }
+                            }
+                        }
+                    });
+
+                    let Message::Text(txt) = rx.recv().await.unwrap() else {
+                        panic!()
+                    };
+                    let req: Value = serde_json::from_str(&txt).unwrap();
+                    let p = &req["params"];
+                    assert!(p.get("timestamp").is_some());
+                    assert!(p.get("signature").is_none());
+
+                    let id = req["id"].as_str().unwrap();
+                    let mut st = conn.state.lock().await;
+                    let pending = st.pending_requests.remove(id).unwrap();
+                    pending
+                        .completion
+                        .send(Ok(json!({
+                            "id": id,
+                            "result": {},
+                            "rateLimits": []
+                        })))
+                        .unwrap();
+
+                    let resp = fut.await.unwrap();
+                    assert_eq!(resp.raw, json!({}));
+                });
+            }
+
+            #[test]
+            fn include_signature_when_logged_on_and_no_auto_relogon() {
+                TOKIO_SHARED_RT.block_on(async {
+                    let api = create_websocket_api(None, Some(WebsocketMode::Single), Some(false));
+                    let conn = &api.common.connection_pool[0];
+                    {
+                        let mut st = conn.state.lock().await;
+                        st.ws_write_tx = Some(unbounded_channel::<Message>().0);
+                        st.is_session_logged_on = true;
+                    }
+
+                    let mut rx;
+                    {
+                        let mut st = conn.state.lock().await;
+                        let (tx, new_rx) = unbounded_channel::<Message>();
+                        st.ws_write_tx = Some(tx);
+                        rx = new_rx;
+                    }
+
+                    let fut = tokio::spawn({
+                        let api = api.clone();
+                        async move {
+                            let send_res = api
+                                .send_message::<Value>(
+                                    "method",
+                                    BTreeMap::new(),
+                                    WebsocketMessageSendOptions {
+                                        is_signed: true,
+                                        ..Default::default()
+                                    },
+                                )
+                                .await
+                                .unwrap();
+
+                            match send_res {
+                                SendWebsocketMessageResult::Single(resp) => resp,
+                                SendWebsocketMessageResult::Multiple(_) => {
+                                    panic!("expected single")
+                                }
+                            }
+                        }
+                    });
+
+                    let Message::Text(txt) = rx.recv().await.unwrap() else {
+                        panic!()
+                    };
+                    let req: Value = serde_json::from_str(&txt).unwrap();
+                    let p = &req["params"];
+                    assert!(p.get("timestamp").is_some());
+                    assert!(p.get("signature").is_some());
+
+                    let id = req["id"].as_str().unwrap();
+                    let mut st = conn.state.lock().await;
+                    let pending = st.pending_requests.remove(id).unwrap();
+                    pending
+                        .completion
+                        .send(Ok(json!({
+                            "id": id,
+                            "result": {},
+                            "rateLimits": []
+                        })))
+                        .unwrap();
+
+                    let resp = fut.await.unwrap();
+                    assert_eq!(resp.raw, json!({}));
+                });
+            }
+
+            #[test]
             fn error_if_not_connected() {
                 TOKIO_SHARED_RT.block_on(async {
-                    let api = create_websocket_api(None);
+                    let api = create_websocket_api(None, None, None);
                     let conn = &api.common.connection_pool[0];
                     {
                         let mut st = conn.state.lock().await;
@@ -4766,6 +5426,7 @@ mod tests {
                             WebsocketMessageSendOptions {
                                 with_api_key: false,
                                 is_signed: false,
+                                ..Default::default()
                             },
                         )
                         .await
@@ -4781,7 +5442,7 @@ mod tests {
             #[test]
             fn no_time_unit() {
                 TOKIO_SHARED_RT.block_on(async {
-                    let api = create_websocket_api(None);
+                    let api = create_websocket_api(None, None, None);
                     let url = "wss://example.com/ws".to_string();
                     assert_eq!(api.prepare_url(&url), url);
                 });
@@ -4790,7 +5451,7 @@ mod tests {
             #[test]
             fn appends_time_unit() {
                 TOKIO_SHARED_RT.block_on(async {
-                    let api = create_websocket_api(Some(TimeUnit::Millisecond));
+                    let api = create_websocket_api(Some(TimeUnit::Millisecond), None, None);
                     let base = "wss://example.com/ws".to_string();
                     let got = api.prepare_url(&base);
                     assert_eq!(got, format!("{base}?timeUnit=millisecond"));
@@ -4800,10 +5461,182 @@ mod tests {
             #[test]
             fn handles_existing_query() {
                 TOKIO_SHARED_RT.block_on(async {
-                    let api = create_websocket_api(Some(TimeUnit::Microsecond));
+                    let api = create_websocket_api(Some(TimeUnit::Microsecond), None, None);
                     let base = "wss://example.com/ws?foo=bar".to_string();
                     let got = api.prepare_url(&base);
                     assert_eq!(got, format!("{base}&timeUnit=microsecond"));
+                });
+            }
+        }
+
+        mod on_open {
+            use super::*;
+
+            fn create_websocket_api_and_conn() -> (Arc<WebsocketApi>, Arc<WebsocketConnection>) {
+                let sig_gen = SignatureGenerator::new(
+                    Some("api_secret".to_string()),
+                    None::<_>,
+                    None::<String>,
+                );
+                let config = ConfigurationWebsocketApi {
+                    api_key: Some("api_key".to_string()),
+                    api_secret: Some("api_secret".to_string()),
+                    private_key: None,
+                    private_key_passphrase: None,
+                    ws_url: Some("wss://example".to_string()),
+                    mode: WebsocketMode::Single,
+                    reconnect_delay: 0,
+                    signature_gen: sig_gen,
+                    timeout: 1000,
+                    time_unit: None,
+                    auto_session_relogon: true,
+                    agent: None,
+                    user_agent: build_user_agent("product"),
+                };
+                let conn = WebsocketConnection::new("test-conn");
+                let api = WebsocketApi::new(config, vec![conn.clone()]);
+                (api, conn)
+            }
+
+            #[test]
+            fn session_relogon_on_open() {
+                TOKIO_SHARED_RT.block_on(async {
+                    let (api, conn) = create_websocket_api_and_conn();
+
+                    let req = WebsocketSessionLogonReq {
+                        method: "method".into(),
+                        payload: {
+                            let mut m = BTreeMap::new();
+                            m.insert("foo".into(), Value::String("bar".into()));
+                            m
+                        },
+                        options: WebsocketMessageSendOptions {
+                            with_api_key: true,
+                            is_signed: true,
+                            is_session_logon: Some(true),
+                            ..Default::default()
+                        },
+                    };
+
+                    let (tx, mut rx) = unbounded_channel::<Message>();
+                    {
+                        let mut st = conn.state.lock().await;
+                        st.session_logon_req = Some(req.clone());
+                        st.is_session_logged_on = false;
+                        st.ws_write_tx = Some(tx);
+                    }
+
+                    api.on_open("wss://example".to_string(), conn.clone()).await;
+
+                    let Message::Text(raw) = rx.recv().await.unwrap() else {
+                        panic!("expected a Text message");
+                    };
+                    let msg: Value = serde_json::from_str(&raw).unwrap();
+                    assert_eq!(msg["method"], "method");
+                    assert_eq!(msg["params"]["foo"], "bar");
+
+                    let id = msg["id"].as_str().unwrap().to_string();
+                    {
+                        let mut st = conn.state.lock().await;
+                        let pending = st.pending_requests.remove(&id).expect("pending request");
+                        pending
+                            .completion
+                            .send(Ok(json!({
+                                "id": id,
+                                "result": {},
+                                "rateLimits": []
+                            })))
+                            .unwrap();
+                    }
+
+                    sleep(Duration::from_millis(10)).await;
+
+                    let st = conn.state.lock().await;
+                    assert!(st.is_session_logged_on, "should now be logged on");
+                });
+            }
+
+            #[test]
+            fn no_relogon_if_already_logged_on() {
+                TOKIO_SHARED_RT.block_on(async {
+                    let (api, conn) = create_websocket_api_and_conn();
+
+                    let req = WebsocketSessionLogonReq {
+                        method: "method".into(),
+                        payload: BTreeMap::new(),
+                        options: WebsocketMessageSendOptions {
+                            is_session_logon: Some(true),
+                            ..Default::default()
+                        },
+                    };
+
+                    let (tx, mut rx) = unbounded_channel::<Message>();
+                    {
+                        let mut st = conn.state.lock().await;
+                        st.session_logon_req = Some(req);
+                        st.is_session_logged_on = true;
+                        st.ws_write_tx = Some(tx);
+                    }
+
+                    api.on_open("wss://example".to_string(), conn.clone()).await;
+
+                    assert!(rx.try_recv().is_err(), "no re‐logon when already on");
+
+                    let st = conn.state.lock().await;
+                    assert!(st.is_session_logged_on);
+                });
+            }
+
+            #[test]
+            fn session_relogon_fails_gracefully() {
+                TOKIO_SHARED_RT.block_on(async {
+                    let (api, conn) = create_websocket_api_and_conn();
+
+                    let req = WebsocketSessionLogonReq {
+                        method: "method".into(),
+                        payload: {
+                            let mut m = BTreeMap::new();
+                            m.insert("x".into(), Value::Number(1.into()));
+                            m
+                        },
+                        options: WebsocketMessageSendOptions {
+                            is_session_logon: Some(true),
+                            ..Default::default()
+                        },
+                    };
+                    {
+                        let mut st = conn.state.lock().await;
+                        st.session_logon_req = Some(req);
+                        st.is_session_logged_on = false;
+                        st.ws_write_tx = None;
+                    }
+
+                    api.on_open("wss://example".into(), conn.clone()).await;
+
+                    let st = conn.state.lock().await;
+                    assert!(
+                        !st.is_session_logged_on,
+                        "should remain logged‐off on failure"
+                    );
+                });
+            }
+
+            #[test]
+            fn session_relogon_noop_when_no_req() {
+                TOKIO_SHARED_RT.block_on(async {
+                    let (api, conn) = create_websocket_api_and_conn();
+
+                    {
+                        let mut st = conn.state.lock().await;
+                        st.session_logon_req = None;
+                        st.is_session_logged_on = false;
+                        st.ws_write_tx = Some(unbounded_channel::<Message>().0);
+                    }
+
+                    api.on_open("wss://example".into(), conn.clone()).await;
+
+                    let st = conn.state.lock().await;
+                    assert!(!st.is_session_logged_on, "still logged‐off");
                 });
             }
         }
@@ -4828,6 +5661,7 @@ mod tests {
                     signature_gen: sig_gen,
                     timeout: 1000,
                     time_unit: None,
+                    auto_session_relogon: false,
                     agent: None,
                     user_agent: build_user_agent("product"),
                 };
@@ -5004,28 +5838,18 @@ mod tests {
             #[test]
             fn new_initializes_fields() {
                 TOKIO_SHARED_RT.block_on(async {
-                    let sig_gen = SignatureGenerator::new(
-                        Some("api_secret".to_string()),
-                        None::<PrivateKey>,
-                        None::<String>,
-                    );
-                    let config = ConfigurationWebsocketApi {
-                        api_key: Some("api_key".to_string()),
-                        api_secret: Some("api_secret".to_string()),
-                        private_key: None,
-                        private_key_passphrase: None,
+                    let config = ConfigurationWebsocketStreams {
                         ws_url: Some("wss://example".to_string()),
-                        mode: WebsocketMode::Single,
-                        reconnect_delay: 1000,
-                        signature_gen: sig_gen.clone(),
-                        timeout: 500,
+                        mode: WebsocketMode::Pool(2),
+                        reconnect_delay: 500,
                         time_unit: None,
                         agent: None,
                         user_agent: build_user_agent("product"),
                     };
                     let conn1 = WebsocketConnection::new("c1");
                     let conn2 = WebsocketConnection::new("c2");
-                    let api = WebsocketApi::new(config.clone(), vec![conn1.clone(), conn2.clone()]);
+                    let api =
+                        WebsocketStreams::new(config.clone(), vec![conn1.clone(), conn2.clone()]);
 
                     assert_eq!(api.common.connection_pool.len(), 2);
                     assert!(Arc::ptr_eq(&api.common.connection_pool[0], &conn1));
@@ -6003,7 +6827,7 @@ mod tests {
             #[test]
             fn registers_callback_and_stream_callback_for_websocket_api() {
                 TOKIO_SHARED_RT.block_on(async {
-                    let ws_base = create_websocket_api(None);
+                    let ws_base = create_websocket_api(None, None, None);
 
                     {
                         let mut stream_callbacks = ws_base.stream_callbacks.lock().await;
@@ -6039,7 +6863,7 @@ mod tests {
             #[test]
             fn message_twice_registers_two_wrappers_for_websocket_api() {
                 TOKIO_SHARED_RT.block_on(async {
-                    let ws_base = create_websocket_api(None);
+                    let ws_base = create_websocket_api(None, None, None);
 
                     let stream = Arc::new(WebsocketStream::<Value> {
                         websocket_base: WebsocketBase::WebsocketApi(ws_base.clone()),
@@ -6061,7 +6885,7 @@ mod tests {
             #[test]
             fn ignores_non_message_event_for_websocket_api() {
                 TOKIO_SHARED_RT.block_on(async {
-                    let ws_base = create_websocket_api(None);
+                    let ws_base = create_websocket_api(None, None, None);
 
                     let stream = Arc::new(WebsocketStream::<Value> {
                         websocket_base: WebsocketBase::WebsocketApi(ws_base.clone()),
@@ -6148,7 +6972,7 @@ mod tests {
             #[test]
             fn on_message_registers_callback_for_websocket_api() {
                 TOKIO_SHARED_RT.block_on(async {
-                    let ws_base = create_websocket_api(None);
+                    let ws_base = create_websocket_api(None, None, None);
                     let identifier = "id1".to_string();
 
                     let stream = Arc::new(WebsocketStream::<Value> {
@@ -6170,7 +6994,7 @@ mod tests {
             #[test]
             fn on_message_twice_registers_two_callbacks_for_websocket_api() {
                 TOKIO_SHARED_RT.block_on(async {
-                    let ws_base = create_websocket_api(None);
+                    let ws_base = create_websocket_api(None, None, None);
                     let identifier = "id2".to_string();
 
                     let stream = Arc::new(WebsocketStream::<Value> {
@@ -6265,7 +7089,7 @@ mod tests {
             #[test]
             fn without_callback_does_nothing_for_websocket_api() {
                 TOKIO_SHARED_RT.block_on(async {
-                    let ws_base = create_websocket_api(None);
+                    let ws_base = create_websocket_api(None, None, None);
                     let identifier = "id1".to_string();
 
                     {
@@ -6293,7 +7117,7 @@ mod tests {
             #[test]
             fn removes_registered_callback_and_clears_state_for_websocket_api() {
                 TOKIO_SHARED_RT.block_on(async {
-                    let ws_base = create_websocket_api(None);
+                    let ws_base = create_websocket_api(None, None, None);
                     let identifier = "id2".to_string();
 
                     {
@@ -6381,7 +7205,7 @@ mod tests {
         #[test]
         fn create_stream_handler_without_id_registers_api_stream() {
             TOKIO_SHARED_RT.block_on(async {
-                let ws_base = create_websocket_api(None);
+                let ws_base = create_websocket_api(None, None, None);
                 let identifier = "foo-api".to_string();
 
                 let handler = create_stream_handler::<Value>(
@@ -6399,7 +7223,7 @@ mod tests {
         #[test]
         fn create_stream_handler_with_custom_id_registers_api_stream_and_id() {
             TOKIO_SHARED_RT.block_on(async {
-                let ws_base = create_websocket_api(None);
+                let ws_base = create_websocket_api(None, None, None);
                 let identifier = "bar-api".to_string();
                 let custom_id = Some("custom-123".to_string());
 
