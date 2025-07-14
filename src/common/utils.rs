@@ -1,4 +1,4 @@
-use anyhow::{Context, Result, bail};
+use anyhow::{Context, Result};
 use base64::{Engine as _, engine::general_purpose};
 use ed25519_dalek::Signer as Ed25519Signer;
 use ed25519_dalek::SigningKey;
@@ -36,13 +36,15 @@ use tokio::time::sleep;
 use tracing::info;
 use url::{Url, form_urlencoded::Serializer};
 
-use super::config::HttpAgent;
-use super::config::ProxyConfig;
-use super::config::{ConfigurationRestApi, PrivateKey};
+use super::config::{
+    ConfigurationRestApi, ConfigurationWebsocketApi, HttpAgent, PrivateKey, ProxyConfig,
+};
 use super::errors::ConnectorError;
-use super::models::TimeUnit;
-use super::models::{Interval, RateLimitType, RestApiRateLimit, RestApiResponse};
+use super::models::{Interval, RateLimitType, RestApiRateLimit, RestApiResponse, TimeUnit};
+use super::websocket::WebsocketMessageSendOptions;
 
+pub(crate) static ID_REGEX: LazyLock<Regex> =
+    LazyLock::new(|| Regex::new(r"^[0-9a-f]{32}$").unwrap());
 static PLACEHOLDER_RE: LazyLock<Regex> = LazyLock::new(|| Regex::new(r"(@)?<([^>]+)>").unwrap());
 
 /// A generator for creating cryptographic signatures with support for various key types and configurations.
@@ -431,52 +433,22 @@ pub fn build_query_string(params: &BTreeMap<String, Value>) -> Result<String, an
     let mut segments = Vec::with_capacity(params.len());
 
     for (key, value) in params {
-        match value {
-            Value::Null => {}
-            Value::String(s) => {
-                let mut ser = Serializer::new(String::new());
-                ser.append_pair(key, s);
-                segments.push(ser.finish());
-            }
-            Value::Bool(b) => {
-                let val = b.to_string();
-                let mut ser = Serializer::new(String::new());
-                ser.append_pair(key, &val);
-                segments.push(ser.finish());
-            }
-            Value::Number(n) => {
-                let val = n.to_string();
-                let mut ser = Serializer::new(String::new());
-                ser.append_pair(key, &val);
-                segments.push(ser.finish());
-            }
-            Value::Array(arr)
-                if arr
-                    .iter()
-                    .all(|v| matches!(v, Value::String(_) | Value::Bool(_) | Value::Number(_))) =>
-            {
-                let mut parts = Vec::with_capacity(arr.len());
-                for v in arr {
-                    match v {
-                        Value::String(s) => parts.push(s.clone()),
-                        Value::Bool(b) => parts.push(b.to_string()),
-                        Value::Number(n) => parts.push(n.to_string()),
-                        _ => unreachable!(),
-                    }
-                }
-                segments.push(format!("{}={}", key, parts.join(",")));
-            }
-            Value::Array(arr) => {
-                let json =
-                    serde_json::to_string(arr).context("Failed to JSON-serialize nested array")?;
-                let mut ser = Serializer::new(String::new());
-                ser.append_pair(key, &json);
-                segments.push(ser.finish());
-            }
-            Value::Object(_) => {
-                bail!("Cannot serialize object for key `{}` in query params", key);
-            }
+        if value.is_null() {
+            continue;
         }
+
+        let value_str = match value {
+            Value::String(s) => s.clone(),
+            Value::Bool(b) => b.to_string(),
+            Value::Number(n) => n.to_string(),
+            Value::Array(_) | Value::Object(_) => serde_json::to_string(value)
+                .with_context(|| format!("failed to JSON-serialize `{}`", key))?,
+            Value::Null => unreachable!(),
+        };
+
+        let mut ser = Serializer::new(String::new());
+        ser.append_pair(key, &value_str);
+        segments.push(ser.finish());
     }
 
     Ok(segments.join("&"))
@@ -993,6 +965,72 @@ where
     result
 }
 
+/// Builds a WebSocket API message with optional authentication and signature generation.
+///
+/// # Arguments
+///
+/// * `configuration` - Configuration for the WebSocket API
+/// * `method` - The API method to be called
+/// * `payload` - A map of parameters for the API request
+/// * `options` - Options for sending the WebSocket message
+/// * `skip_auth` - Flag to skip authentication if true
+///
+/// # Returns
+///
+/// A tuple containing the message ID and the constructed JSON request
+///
+/// # Panics
+///
+/// Panics if an API key is required but not set, or if signature generation fails
+pub fn build_websocket_api_message(
+    configuration: &ConfigurationWebsocketApi,
+    method: &str,
+    mut payload: BTreeMap<String, Value>,
+    options: &WebsocketMessageSendOptions,
+    skip_auth: bool,
+) -> (String, serde_json::Value) {
+    let id = payload
+        .get("id")
+        .and_then(Value::as_str)
+        .filter(|s| ID_REGEX.is_match(s))
+        .map_or_else(random_string, String::from);
+
+    payload.remove("id");
+
+    let mut params = remove_empty_value(payload);
+
+    if (options.with_api_key || options.is_signed) && !skip_auth {
+        params.insert(
+            "apiKey".into(),
+            Value::String(configuration.api_key.clone().expect("API key must be set")),
+        );
+    }
+
+    if options.is_signed {
+        let ts = get_timestamp();
+        let ts_i64 = i64::try_from(ts).expect("timestamp fits in i64");
+        params.insert("timestamp".into(), Value::Number(ts_i64.into()));
+
+        let mut sorted = sort_object_params(&params);
+        if !skip_auth {
+            let sig = configuration
+                .signature_gen
+                .get_signature(&sorted)
+                .expect("signature generation");
+            sorted.insert("signature".into(), Value::String(sig));
+        }
+        params = sorted.into_iter().collect();
+    }
+
+    let request = json!({
+        "id": id,
+        "method": method,
+        "params": params,
+    });
+
+    (id, request)
+}
+
 #[cfg(test)]
 mod tests {
     use crate::TOKIO_SHARED_RT;
@@ -1241,15 +1279,19 @@ mod tests {
         }
 
         #[test]
-        fn string_and_number() -> Result<()> {
-            let params = mk_map(vec![("foo", json!("bar")), ("num", json!(42))]);
+        fn string_and_number_and_bool() -> Result<()> {
+            let params = mk_map(vec![
+                ("foo", json!("bar")),
+                ("num", json!(42)),
+                ("flag", json!(true)),
+            ]);
             let qs = build_query_string(&params)?;
-            assert_eq!(qs, "foo=bar&num=42");
+            assert_eq!(qs, "flag=true&foo=bar&num=42");
             Ok(())
         }
 
         #[test]
-        fn bool_and_null_skipped() -> Result<()> {
+        fn null_is_skipped() -> Result<()> {
             let params = mk_map(vec![("a", json!(true)), ("b", Value::Null)]);
             let qs = build_query_string(&params)?;
             assert_eq!(qs, "a=true");
@@ -1257,10 +1299,42 @@ mod tests {
         }
 
         #[test]
-        fn flat_array() -> Result<()> {
-            let params = mk_map(vec![("list", json!(vec!["x", "y", "z"]))]);
+        fn percent_encode_special_chars() -> Result<()> {
+            let params = mk_map(vec![
+                ("space", json!("hello world")),
+                ("symbols", json!("a/b?c")),
+            ]);
             let qs = build_query_string(&params)?;
-            assert_eq!(qs, "list=x,y,z");
+            let mut parts = vec![];
+            let mut ser = Serializer::new(String::new());
+            ser.append_pair("space", "hello world");
+            parts.push(ser.finish());
+            let mut ser = Serializer::new(String::new());
+            ser.append_pair("symbols", "a/b?c");
+            parts.push(ser.finish());
+            let expected = parts.join("&");
+            assert_eq!(qs, expected);
+            Ok(())
+        }
+
+        #[test]
+        fn primitive_array_json_encoded() -> Result<()> {
+            let params = mk_map(vec![
+                ("strs", json!(["a", "b", "c"])),
+                ("nums", json!([1, 2, 3])),
+                ("bools", json!([true, false])),
+            ]);
+            let qs = build_query_string(&params)?;
+
+            let mut parts = Vec::new();
+            for (k, v) in &params {
+                let json = serde_json::to_string(v)?;
+                let mut ser = Serializer::new(String::new());
+                ser.append_pair(k, &json);
+                parts.push(ser.finish());
+            }
+            let expected = parts.join("&");
+            assert_eq!(qs, expected);
             Ok(())
         }
 
@@ -1279,11 +1353,127 @@ mod tests {
         }
 
         #[test]
-        fn object_not_supported() {
-            let params = mk_map(vec![("obj", json!({"k":1}))]);
-            let err = build_query_string(&params).unwrap_err();
-            let msg = format!("{err}");
-            assert!(msg.contains("Cannot serialize object for key `obj`"));
+        fn object_json_encoded() -> Result<()> {
+            let params = mk_map(vec![("obj", json!({"k":1, "v":"two"}))]);
+            let qs = build_query_string(&params)?;
+
+            let obj_json = serde_json::to_string(&json!({"k":1, "v":"two"}))?;
+            let mut ser = Serializer::new(String::new());
+            ser.append_pair("obj", &obj_json);
+            let expected = ser.finish();
+
+            assert_eq!(qs, expected);
+            Ok(())
+        }
+
+        #[test]
+        fn empty_array() {
+            let params = mk_map(vec![("foo", json!([]))]);
+            let qs = build_query_string(&params).unwrap();
+
+            let json = serde_json::to_string(&json!([])).unwrap();
+            let expected = Serializer::new(String::new())
+                .append_pair("foo", &json)
+                .finish();
+            assert_eq!(qs, expected);
+        }
+
+        #[test]
+        fn mixed_array() {
+            let params = mk_map(vec![("mix", json!([1, "x", false]))]);
+            let qs = build_query_string(&params).unwrap();
+
+            let json = serde_json::to_string(&json!([1, "x", false])).unwrap();
+            let expected = Serializer::new(String::new())
+                .append_pair("mix", &json)
+                .finish();
+            assert_eq!(qs, expected);
+        }
+
+        #[test]
+        fn array_of_objects() {
+            let params = mk_map(vec![("objs", json!([{"a":1}, {"b":2}]))]);
+            let qs = build_query_string(&params).unwrap();
+
+            let json = serde_json::to_string(&json!([{"a":1}, {"b":2}])).unwrap();
+            let expected = Serializer::new(String::new())
+                .append_pair("objs", &json)
+                .finish();
+            assert_eq!(qs, expected);
+        }
+
+        #[test]
+        fn empty_object() {
+            let params = mk_map(vec![("emp", json!({}))]);
+            let qs = build_query_string(&params).unwrap();
+
+            let json = serde_json::to_string(&json!({})).unwrap();
+            let expected = Serializer::new(String::new())
+                .append_pair("emp", &json)
+                .finish();
+            assert_eq!(qs, expected);
+        }
+
+        #[test]
+        fn floats_and_negatives() {
+            let params = mk_map(vec![("fl", json!(1.23456)), ("neg", json!(-0.001))]);
+            let qs = build_query_string(&params).unwrap();
+            assert_eq!(qs, "fl=1.23456&neg=-0.001");
+        }
+
+        #[test]
+        fn unicode_and_special_key() {
+            let params = mk_map(vec![
+                ("こんにちは", json!("世界")),
+                ("weird key/?=", json!("val")),
+            ]);
+            let qs = build_query_string(&params).unwrap();
+
+            let mut parts = Vec::new();
+            for (k, v) in &params {
+                let mut ser = Serializer::new(String::new());
+                ser.append_pair(k, v.as_str().unwrap());
+                parts.push(ser.finish());
+            }
+            let expected = parts.join("&");
+            assert_eq!(qs, expected);
+        }
+
+        #[test]
+        fn empty_string_value() {
+            let params = mk_map(vec![("empty", json!(""))]);
+            let qs = build_query_string(&params).unwrap();
+            assert_eq!(qs, "empty=");
+        }
+
+        #[test]
+        fn nulls_in_array() {
+            let params = mk_map(vec![("a", json!([null, 1, "x"]))]);
+            let qs = build_query_string(&params).unwrap();
+
+            let json = serde_json::to_string(&json!([null, 1, "x"])).unwrap();
+            let expected = Serializer::new(String::new())
+                .append_pair("a", &json)
+                .finish();
+            assert_eq!(qs, expected);
+        }
+
+        #[test]
+        fn special_chars_in_key() {
+            let params = mk_map(vec![("a=b&c%", json!("val"))]);
+            let qs = build_query_string(&params).unwrap();
+
+            let expected = Serializer::new(String::new())
+                .append_pair("a=b&c%", "val")
+                .finish();
+            assert_eq!(qs, expected);
+        }
+
+        #[test]
+        fn empty_key() {
+            let params = mk_map(vec![("", json!("v"))]);
+            let qs = build_query_string(&params).unwrap();
+            assert_eq!(qs, "=v");
         }
     }
 
@@ -2703,6 +2893,263 @@ mod tests {
                 replace_websocket_streams_placeholders(input, &vars),
                 "pre-ABC-post"
             );
+        }
+    }
+
+    mod build_websocket_api_message {
+        use serde_json::{Value, json};
+        use std::collections::BTreeMap;
+
+        use crate::{
+            common::{
+                utils::{ID_REGEX, build_websocket_api_message, remove_empty_value},
+                websocket::WebsocketMessageSendOptions,
+            },
+            config::ConfigurationWebsocketApi,
+        };
+
+        fn make_config() -> ConfigurationWebsocketApi {
+            ConfigurationWebsocketApi::builder()
+                .api_key("api-key".to_string())
+                .api_secret("api-secret".to_string())
+                .build()
+                .unwrap()
+        }
+
+        #[test]
+        fn no_auth_or_sign_with_skip_auth() {
+            let mut payload = BTreeMap::new();
+            payload.insert("foo".into(), Value::String("bar".into()));
+            let cfg = make_config();
+
+            let (id, req) = build_websocket_api_message(
+                &cfg,
+                "method",
+                payload.clone(),
+                &WebsocketMessageSendOptions {
+                    with_api_key: true,
+                    is_signed: true,
+                    ..Default::default()
+                },
+                true,
+            );
+
+            assert!(ID_REGEX.is_match(&id));
+            assert_eq!(req["method"], "method");
+            assert_eq!(req["params"]["foo"], "bar");
+            assert!(req["params"].get("apiKey").is_none());
+            assert!(req["params"].get("signature").is_none());
+            assert!(req["params"]["timestamp"].is_number());
+        }
+
+        #[test]
+        fn only_api_key_when_not_signed() {
+            let cfg = make_config();
+
+            let (id, req) = build_websocket_api_message(
+                &cfg,
+                "method",
+                BTreeMap::new(),
+                &WebsocketMessageSendOptions {
+                    with_api_key: true,
+                    is_signed: false,
+                    ..Default::default()
+                },
+                false,
+            );
+
+            assert!(ID_REGEX.is_match(&id));
+            assert_eq!(req["method"], "method");
+            assert_eq!(req["params"]["apiKey"], "api-key");
+            assert!(req["params"].get("timestamp").is_none());
+            assert!(req["params"].get("signature").is_none());
+        }
+
+        #[test]
+        fn signed_includes_timestamp_and_signature() {
+            let mut payload = BTreeMap::new();
+            payload.insert("foo".into(), Value::String("bar".into()));
+            let cfg = make_config();
+
+            let (id, req) = build_websocket_api_message(
+                &cfg,
+                "method",
+                payload.clone(),
+                &WebsocketMessageSendOptions {
+                    with_api_key: true,
+                    is_signed: true,
+                    ..Default::default()
+                },
+                false,
+            );
+
+            assert!(ID_REGEX.is_match(&id));
+            assert_eq!(req["method"], "method");
+
+            let params = &req["params"];
+            assert_eq!(params["apiKey"], "api-key");
+
+            let timestamp = params["timestamp"].as_i64().unwrap();
+            assert!(timestamp > 0, "timestamp should not be empty");
+
+            let sig = params["signature"].as_str().unwrap();
+            assert!(!sig.is_empty(), "signature should not be empty");
+        }
+
+        #[test]
+        fn respects_provided_valid_id_and_removes_from_params() {
+            let mut payload = BTreeMap::new();
+            let custom = "0123456789abcdef0123456789abcdef".to_string();
+            payload.insert("id".into(), Value::String(custom.clone()));
+            payload.insert("foo".into(), Value::Number(123.into()));
+
+            let cfg = make_config();
+            let (id, req) = build_websocket_api_message(
+                &cfg,
+                "method",
+                payload.clone(),
+                &WebsocketMessageSendOptions::default(),
+                true,
+            );
+
+            assert_eq!(id, custom);
+            assert!(req["params"].get("id").is_none());
+            assert_eq!(req["params"]["foo"], 123);
+        }
+
+        #[test]
+        fn skip_auth_blocks_api_and_signature_but_keeps_timestamp() {
+            let mut payload = BTreeMap::new();
+            payload.insert("foo".into(), Value::String("bar".into()));
+            let cfg = make_config();
+
+            let (_id, req) = build_websocket_api_message(
+                &cfg,
+                "method",
+                payload.clone(),
+                &WebsocketMessageSendOptions {
+                    with_api_key: true,
+                    is_signed: true,
+                    ..Default::default()
+                },
+                true,
+            );
+
+            let p = &req["params"];
+            assert_eq!(p["foo"], "bar");
+            assert!(p.get("apiKey").is_none());
+            assert!(p.get("signature").is_none());
+            assert!(p["timestamp"].is_number());
+        }
+
+        #[test]
+        fn random_id_changes_each_call() {
+            let cfg = make_config();
+            let (id1, _) = build_websocket_api_message(
+                &cfg,
+                "method",
+                BTreeMap::new(),
+                &WebsocketMessageSendOptions::default(),
+                true,
+            );
+            let (id2, _) = build_websocket_api_message(
+                &cfg,
+                "method",
+                BTreeMap::new(),
+                &WebsocketMessageSendOptions::default(),
+                true,
+            );
+            assert!(ID_REGEX.is_match(&id1));
+            assert!(ID_REGEX.is_match(&id2));
+            assert_ne!(id1, id2, "IDs should be random and not equal");
+        }
+
+        #[test]
+        fn null_and_empty_values_are_stripped() {
+            let mut payload = BTreeMap::new();
+            payload.insert("a".into(), Value::Null);
+            payload.insert("b".into(), Value::String(String::new()));
+            payload.insert("c".into(), Value::String("ok".into()));
+
+            let cleaned = remove_empty_value(payload.clone());
+            assert!(!cleaned.contains_key("a"), "Null should be stripped");
+            assert!(
+                !cleaned.contains_key("b"),
+                "Empty string should be stripped"
+            );
+            assert!(cleaned.contains_key("c"), "Non-empty string should be kept");
+
+            let cfg = make_config();
+            let (_id, req) = build_websocket_api_message(
+                &cfg,
+                "method",
+                payload,
+                &WebsocketMessageSendOptions::default(),
+                true,
+            );
+            let params = &req["params"];
+            assert!(params.get("a").is_none(), "`a` should not appear");
+            assert!(params.get("b").is_none(), "`b` should not appear");
+            assert_eq!(params["c"], "ok", "`c` should be present with value \"ok\"");
+        }
+
+        #[test]
+        fn provided_invalid_id_gets_replaced() {
+            let mut payload = BTreeMap::new();
+            payload.insert("id".into(), Value::String("not-hex-32-chars".into()));
+            let cfg = make_config();
+            let (id, _req) = build_websocket_api_message(
+                &cfg,
+                "method",
+                payload,
+                &WebsocketMessageSendOptions::default(),
+                true,
+            );
+
+            assert!(ID_REGEX.is_match(&id));
+            assert_ne!(id, "not-hex-32-chars");
+        }
+
+        #[test]
+        fn sign_only_includes_api_key_even_when_with_api_key_false() {
+            let mut payload = BTreeMap::new();
+            payload.insert("x".into(), json!(1));
+
+            let cfg = make_config();
+            let (_id, req) = build_websocket_api_message(
+                &cfg,
+                "method",
+                payload,
+                &WebsocketMessageSendOptions {
+                    with_api_key: false,
+                    is_signed: true,
+                    ..Default::default()
+                },
+                false,
+            );
+            let params = &req["params"];
+
+            assert_eq!(params["apiKey"], "api-key");
+            assert!(params["timestamp"].is_number());
+            assert!(params["signature"].is_string());
+        }
+
+        #[test]
+        fn skip_auth_false_without_any_auth_flags() {
+            let cfg = make_config();
+            let (_id, req) = build_websocket_api_message(
+                &cfg,
+                "method",
+                BTreeMap::new(),
+                &WebsocketMessageSendOptions {
+                    with_api_key: false,
+                    is_signed: false,
+                    ..Default::default()
+                },
+                false,
+            );
+            let params = &req["params"];
+            assert!(params.as_object().unwrap().is_empty());
         }
     }
 }

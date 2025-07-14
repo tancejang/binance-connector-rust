@@ -21,30 +21,30 @@ pub struct AllCoinsInformationResponseInner {
     pub coin: Option<String>,
     #[serde(rename = "depositAllEnable", skip_serializing_if = "Option::is_none")]
     pub deposit_all_enable: Option<bool>,
-    #[serde(rename = "free", skip_serializing_if = "Option::is_none")]
-    pub free: Option<String>,
-    #[serde(rename = "freeze", skip_serializing_if = "Option::is_none")]
-    pub freeze: Option<String>,
-    #[serde(rename = "ipoable", skip_serializing_if = "Option::is_none")]
-    pub ipoable: Option<String>,
-    #[serde(rename = "ipoing", skip_serializing_if = "Option::is_none")]
-    pub ipoing: Option<String>,
-    #[serde(rename = "isLegalMoney", skip_serializing_if = "Option::is_none")]
-    pub is_legal_money: Option<bool>,
-    #[serde(rename = "locked", skip_serializing_if = "Option::is_none")]
-    pub locked: Option<String>,
-    #[serde(rename = "name", skip_serializing_if = "Option::is_none")]
-    pub name: Option<String>,
-    #[serde(rename = "networkList", skip_serializing_if = "Option::is_none")]
-    pub network_list: Option<Vec<models::AllCoinsInformationResponseInnerNetworkListInner>>,
-    #[serde(rename = "storage", skip_serializing_if = "Option::is_none")]
-    pub storage: Option<String>,
-    #[serde(rename = "trading", skip_serializing_if = "Option::is_none")]
-    pub trading: Option<bool>,
     #[serde(rename = "withdrawAllEnable", skip_serializing_if = "Option::is_none")]
     pub withdraw_all_enable: Option<bool>,
+    #[serde(rename = "name", skip_serializing_if = "Option::is_none")]
+    pub name: Option<String>,
+    #[serde(rename = "free", skip_serializing_if = "Option::is_none")]
+    pub free: Option<String>,
+    #[serde(rename = "locked", skip_serializing_if = "Option::is_none")]
+    pub locked: Option<String>,
+    #[serde(rename = "freeze", skip_serializing_if = "Option::is_none")]
+    pub freeze: Option<String>,
     #[serde(rename = "withdrawing", skip_serializing_if = "Option::is_none")]
     pub withdrawing: Option<String>,
+    #[serde(rename = "ipoing", skip_serializing_if = "Option::is_none")]
+    pub ipoing: Option<String>,
+    #[serde(rename = "ipoable", skip_serializing_if = "Option::is_none")]
+    pub ipoable: Option<String>,
+    #[serde(rename = "storage", skip_serializing_if = "Option::is_none")]
+    pub storage: Option<String>,
+    #[serde(rename = "isLegalMoney", skip_serializing_if = "Option::is_none")]
+    pub is_legal_money: Option<bool>,
+    #[serde(rename = "trading", skip_serializing_if = "Option::is_none")]
+    pub trading: Option<bool>,
+    #[serde(rename = "networkList", skip_serializing_if = "Option::is_none")]
+    pub network_list: Option<Vec<models::AllCoinsInformationResponseInnerNetworkListInner>>,
 }
 
 impl AllCoinsInformationResponseInner {
@@ -53,18 +53,18 @@ impl AllCoinsInformationResponseInner {
         AllCoinsInformationResponseInner {
             coin: None,
             deposit_all_enable: None,
-            free: None,
-            freeze: None,
-            ipoable: None,
-            ipoing: None,
-            is_legal_money: None,
-            locked: None,
-            name: None,
-            network_list: None,
-            storage: None,
-            trading: None,
             withdraw_all_enable: None,
+            name: None,
+            free: None,
+            locked: None,
+            freeze: None,
             withdrawing: None,
+            ipoing: None,
+            ipoable: None,
+            storage: None,
+            is_legal_money: None,
+            trading: None,
+            network_list: None,
         }
     }
 }
