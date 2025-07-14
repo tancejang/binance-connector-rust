@@ -175,6 +175,9 @@ pub struct ConfigurationWebsocketApi {
     #[builder(setter(strip_option), default)]
     pub time_unit: Option<TimeUnit>,
 
+    #[builder(default = "true")]
+    pub auto_session_relogon: bool,
+
     #[builder(setter(skip))]
     pub(crate) user_agent: String,
 

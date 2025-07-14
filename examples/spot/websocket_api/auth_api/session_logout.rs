@@ -35,9 +35,11 @@ async fn main() -> Result<()> {
         .await
         .context("session_logout request failed")?;
 
-    info!(?response.rate_limits, "session_logout rate limits");
-    let data = response.data()?;
-    info!(?data, "session_logout data");
+    for (idx, resp) in response.into_iter().enumerate() {
+        info!(response_index = idx, ?resp.rate_limits, "session_logon rate limits");
+        let data = resp.data()?;
+        info!(response_index = idx, ?data, "session_logon data");
+    }
 
     // Cleanly disconnect
     connection

@@ -1,5 +1,19 @@
 # Changelog
 
+## 8.0.0 - 2025-07-14
+
+### Added (1)
+
+- Support session management for WebSocket API (where supported), with auto session re-logon (`auto_session_relogon` option on `ConfigurationWebSocketApi`).
+
+### Changed (2)
+
+- Fixed bug on URL query params generation function.
+
+**Wallet**
+
+- Modified response for `all_coins_information()` method (`GET /sapi/v1/capital/config/getall`):
+
 ## 7.0.0 - 2025-07-08
 
 ### Added (14)

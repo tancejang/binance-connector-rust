@@ -41,6 +41,7 @@ pub use models::*;
 
 const HAS_TIME_UNIT: bool = true;
 
+#[derive(Clone)]
 pub struct WebsocketApi {
     websocket_api_base: Arc<WebsocketApiBase>,
 
@@ -209,15 +210,11 @@ impl WebsocketApi {
         payload: BTreeMap<String, Value>,
     ) -> Result<WebsocketApiResponse<R>, WebsocketError> {
         self.websocket_api_base
-            .send_message::<R>(
-                method,
-                payload,
-                WebsocketMessageSendOptions {
-                    with_api_key: false,
-                    is_signed: false,
-                },
-            )
-            .await
+            .send_message::<R>(method, payload, WebsocketMessageSendOptions::new())
+            .await?
+            .into_iter()
+            .next()
+            .ok_or(WebsocketError::NoResponse)
     }
 
     /// Sends a signed WebSocket message with the specified method and payload.
@@ -250,15 +247,11 @@ impl WebsocketApi {
         payload: BTreeMap<String, Value>,
     ) -> Result<WebsocketApiResponse<R>, WebsocketError> {
         self.websocket_api_base
-            .send_message::<R>(
-                method,
-                payload,
-                WebsocketMessageSendOptions {
-                    with_api_key: false,
-                    is_signed: true,
-                },
-            )
-            .await
+            .send_message::<R>(method, payload, WebsocketMessageSendOptions::new().signed())
+            .await?
+            .into_iter()
+            .next()
+            .ok_or(WebsocketError::NoResponse)
     }
 
     /// WebSocket Account Commission Rates
@@ -693,7 +686,7 @@ impl WebsocketApi {
     pub async fn session_logon(
         &self,
         params: SessionLogonParams,
-    ) -> anyhow::Result<WebsocketApiResponse<Box<models::SessionLogonResponseResult>>> {
+    ) -> anyhow::Result<Vec<WebsocketApiResponse<Box<models::SessionLogonResponseResult>>>> {
         self.auth_api_client.session_logon(params).await
     }
 
@@ -726,7 +719,7 @@ impl WebsocketApi {
     pub async fn session_logout(
         &self,
         params: SessionLogoutParams,
-    ) -> anyhow::Result<WebsocketApiResponse<Box<models::SessionLogoutResponseResult>>> {
+    ) -> anyhow::Result<Vec<WebsocketApiResponse<Box<models::SessionLogoutResponseResult>>>> {
         self.auth_api_client.session_logout(params).await
     }
 

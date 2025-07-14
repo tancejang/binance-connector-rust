@@ -26,6 +26,7 @@ use serde_json::Value;
 use std::{collections::BTreeMap, sync::Arc};
 
 use crate::common::{
+    errors::WebsocketError,
     models::{ParamBuildError, WebsocketApiResponse},
     utils::remove_empty_value,
     websocket::{WebsocketApi, WebsocketMessageSendOptions},
@@ -37,17 +38,18 @@ pub trait AuthApi: Send + Sync {
     async fn session_logon(
         &self,
         params: SessionLogonParams,
-    ) -> anyhow::Result<WebsocketApiResponse<Box<models::SessionLogonResponseResult>>>;
+    ) -> anyhow::Result<Vec<WebsocketApiResponse<Box<models::SessionLogonResponseResult>>>>;
     async fn session_logout(
         &self,
         params: SessionLogoutParams,
-    ) -> anyhow::Result<WebsocketApiResponse<Box<models::SessionLogoutResponseResult>>>;
+    ) -> anyhow::Result<Vec<WebsocketApiResponse<Box<models::SessionLogoutResponseResult>>>>;
     async fn session_status(
         &self,
         params: SessionStatusParams,
     ) -> anyhow::Result<WebsocketApiResponse<Box<models::SessionStatusResponseResult>>>;
 }
 
+#[derive(Clone)]
 pub struct AuthApiClient {
     websocket_api_base: Arc<WebsocketApi>,
 }
@@ -135,7 +137,7 @@ impl AuthApi for AuthApiClient {
     async fn session_logon(
         &self,
         params: SessionLogonParams,
-    ) -> anyhow::Result<WebsocketApiResponse<Box<models::SessionLogonResponseResult>>> {
+    ) -> anyhow::Result<Vec<WebsocketApiResponse<Box<models::SessionLogonResponseResult>>>> {
         let SessionLogonParams { id, recv_window } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
@@ -147,23 +149,25 @@ impl AuthApi for AuthApiClient {
         }
         let payload = remove_empty_value(payload);
 
-        self.websocket_api_base
+        let response = self
+            .websocket_api_base
             .send_message::<Box<models::SessionLogonResponseResult>>(
                 "/session.logon".trim_start_matches('/'),
                 payload,
-                WebsocketMessageSendOptions {
-                    is_signed: true,
-                    with_api_key: false,
-                },
+                WebsocketMessageSendOptions::new().signed().session_logon(),
             )
             .await
-            .map_err(anyhow::Error::from)
+            .map_err(anyhow::Error::from)?
+            .into_iter()
+            .collect();
+
+        Ok(response)
     }
 
     async fn session_logout(
         &self,
         params: SessionLogoutParams,
-    ) -> anyhow::Result<WebsocketApiResponse<Box<models::SessionLogoutResponseResult>>> {
+    ) -> anyhow::Result<Vec<WebsocketApiResponse<Box<models::SessionLogoutResponseResult>>>> {
         let SessionLogoutParams { id } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
@@ -172,17 +176,19 @@ impl AuthApi for AuthApiClient {
         }
         let payload = remove_empty_value(payload);
 
-        self.websocket_api_base
+        let response = self
+            .websocket_api_base
             .send_message::<Box<models::SessionLogoutResponseResult>>(
                 "/session.logout".trim_start_matches('/'),
                 payload,
-                WebsocketMessageSendOptions {
-                    is_signed: false,
-                    with_api_key: false,
-                },
+                WebsocketMessageSendOptions::new().session_logout(),
             )
             .await
-            .map_err(anyhow::Error::from)
+            .map_err(anyhow::Error::from)?
+            .into_iter()
+            .collect();
+
+        Ok(response)
     }
 
     async fn session_status(
@@ -201,12 +207,13 @@ impl AuthApi for AuthApiClient {
             .send_message::<Box<models::SessionStatusResponseResult>>(
                 "/session.status".trim_start_matches('/'),
                 payload,
-                WebsocketMessageSendOptions {
-                    is_signed: false,
-                    with_api_key: false,
-                },
+                WebsocketMessageSendOptions::new(),
             )
             .await
+            .map_err(anyhow::Error::from)?
+            .into_iter()
+            .next()
+            .ok_or(WebsocketError::NoResponse)
             .map_err(anyhow::Error::from)
     }
 }
@@ -284,6 +291,7 @@ mod tests {
             WebsocketHandler::on_message(&*ws_api, resp_json.to_string(), conn.clone()).await;
 
             let response = timeout(Duration::from_secs(1), handle).await.expect("task done").expect("no panic").expect("no error");
+let response = response.into_iter().next().expect("should have response");
 
             let response_rate_limits = response.rate_limits.clone();
             let response_data = response.data().expect("deserialize data");
@@ -412,6 +420,7 @@ mod tests {
             WebsocketHandler::on_message(&*ws_api, resp_json.to_string(), conn.clone()).await;
 
             let response = timeout(Duration::from_secs(1), handle).await.expect("task done").expect("no panic").expect("no error");
+let response = response.into_iter().next().expect("should have response");
 
             let response_rate_limits = response.rate_limits.clone();
             let response_data = response.data().expect("deserialize data");
@@ -540,6 +549,7 @@ mod tests {
             WebsocketHandler::on_message(&*ws_api, resp_json.to_string(), conn.clone()).await;
 
             let response = timeout(Duration::from_secs(1), handle).await.expect("task done").expect("no panic").expect("no error");
+
 
             let response_rate_limits = response.rate_limits.clone();
             let response_data = response.data().expect("deserialize data");

@@ -21,6 +21,7 @@ use serde_json::Value;
 use std::{collections::BTreeMap, sync::Arc};
 
 use crate::common::{
+    errors::WebsocketError,
     models::{ParamBuildError, WebsocketApiResponse},
     utils::remove_empty_value,
     websocket::{WebsocketApi, WebsocketMessageSendOptions},
@@ -43,6 +44,7 @@ pub trait UserDataStreamsApi: Send + Sync {
     ) -> anyhow::Result<WebsocketApiResponse<Box<models::StartUserDataStreamResponseResult>>>;
 }
 
+#[derive(Clone)]
 pub struct UserDataStreamsApiClient {
     websocket_api_base: Arc<WebsocketApi>,
 }
@@ -138,12 +140,13 @@ impl UserDataStreamsApi for UserDataStreamsApiClient {
             .send_message::<serde_json::Value>(
                 "/userDataStream.stop".trim_start_matches('/'),
                 payload,
-                WebsocketMessageSendOptions {
-                    is_signed: false,
-                    with_api_key: true,
-                },
+                WebsocketMessageSendOptions::new().with_api_key(),
             )
             .await
+            .map_err(anyhow::Error::from)?
+            .into_iter()
+            .next()
+            .ok_or(WebsocketError::NoResponse)
             .map_err(anyhow::Error::from)
     }
 
@@ -164,12 +167,13 @@ impl UserDataStreamsApi for UserDataStreamsApiClient {
             .send_message::<Box<models::KeepaliveUserDataStreamResponseResult>>(
                 "/userDataStream.ping".trim_start_matches('/'),
                 payload,
-                WebsocketMessageSendOptions {
-                    is_signed: false,
-                    with_api_key: true,
-                },
+                WebsocketMessageSendOptions::new().with_api_key(),
             )
             .await
+            .map_err(anyhow::Error::from)?
+            .into_iter()
+            .next()
+            .ok_or(WebsocketError::NoResponse)
             .map_err(anyhow::Error::from)
     }
 
@@ -189,12 +193,13 @@ impl UserDataStreamsApi for UserDataStreamsApiClient {
             .send_message::<Box<models::StartUserDataStreamResponseResult>>(
                 "/userDataStream.start".trim_start_matches('/'),
                 payload,
-                WebsocketMessageSendOptions {
-                    is_signed: false,
-                    with_api_key: true,
-                },
+                WebsocketMessageSendOptions::new().with_api_key(),
             )
             .await
+            .map_err(anyhow::Error::from)?
+            .into_iter()
+            .next()
+            .ok_or(WebsocketError::NoResponse)
             .map_err(anyhow::Error::from)
     }
 }
@@ -272,6 +277,7 @@ mod tests {
             WebsocketHandler::on_message(&*ws_api, resp_json.to_string(), conn.clone()).await;
 
             let response = timeout(Duration::from_secs(1), handle).await.expect("task done").expect("no panic").expect("no error");
+
 
             let response_rate_limits = response.rate_limits.clone();
             let response_data = response.data().expect("deserialize data");
@@ -401,6 +407,7 @@ mod tests {
 
             let response = timeout(Duration::from_secs(1), handle).await.expect("task done").expect("no panic").expect("no error");
 
+
             let response_rate_limits = response.rate_limits.clone();
             let response_data = response.data().expect("deserialize data");
 
@@ -528,6 +535,7 @@ mod tests {
             WebsocketHandler::on_message(&*ws_api, resp_json.to_string(), conn.clone()).await;
 
             let response = timeout(Duration::from_secs(1), handle).await.expect("task done").expect("no panic").expect("no error");
+
 
             let response_rate_limits = response.rate_limits.clone();
             let response_data = response.data().expect("deserialize data");
