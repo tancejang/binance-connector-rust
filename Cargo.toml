@@ -1,6 +1,6 @@
 [package]
 name = "binance-sdk"
-version = "8.0.0"
+version = "9.0.0"
 authors = [ "Binance" ]
 edition = "2024"
 resolver = "3"
@@ -850,6 +850,11 @@ path = "examples/derivatives_trading_options/rest_api/account_api/option_account
 required-features = [ "derivatives_trading_options" ]
 
 [[example]]
+name = "derivatives_trading_options_rest_api_account_api_option_margin_account_information"
+path = "examples/derivatives_trading_options/rest_api/account_api/option_margin_account_information.rs"
+required-features = [ "derivatives_trading_options" ]
+
+[[example]]
 name = "derivatives_trading_options_rest_api_market_data_api_check_server_time"
 path = "examples/derivatives_trading_options/rest_api/market_data_api/check_server_time.rs"
 required-features = [ "derivatives_trading_options" ]
@@ -962,11 +967,6 @@ required-features = [ "derivatives_trading_options" ]
 [[example]]
 name = "derivatives_trading_options_rest_api_market_maker_endpoints_api_get_market_maker_protection_config"
 path = "examples/derivatives_trading_options/rest_api/market_maker_endpoints_api/get_market_maker_protection_config.rs"
-required-features = [ "derivatives_trading_options" ]
-
-[[example]]
-name = "derivatives_trading_options_rest_api_market_maker_endpoints_api_option_margin_account_information"
-path = "examples/derivatives_trading_options/rest_api/market_maker_endpoints_api/option_margin_account_information.rs"
 required-features = [ "derivatives_trading_options" ]
 
 [[example]]
@@ -3990,13 +3990,18 @@ path = "examples/wallet/rest_api/travel_rule_api/broker_withdraw.rs"
 required-features = [ "wallet" ]
 
 [[example]]
+name = "wallet_rest_api_travel_rule_api_check_questionnaire_requirements"
+path = "examples/wallet/rest_api/travel_rule_api/check_questionnaire_requirements.rs"
+required-features = [ "wallet" ]
+
+[[example]]
 name = "wallet_rest_api_travel_rule_api_deposit_history_travel_rule"
 path = "examples/wallet/rest_api/travel_rule_api/deposit_history_travel_rule.rs"
 required-features = [ "wallet" ]
 
 [[example]]
-name = "wallet_rest_api_travel_rule_api_onboarded_vasp_list"
-path = "examples/wallet/rest_api/travel_rule_api/onboarded_vasp_list.rs"
+name = "wallet_rest_api_travel_rule_api_fetch_address_verification_list"
+path = "examples/wallet/rest_api/travel_rule_api/fetch_address_verification_list.rs"
 required-features = [ "wallet" ]
 
 [[example]]
@@ -4007,6 +4012,11 @@ required-features = [ "wallet" ]
 [[example]]
 name = "wallet_rest_api_travel_rule_api_submit_deposit_questionnaire"
 path = "examples/wallet/rest_api/travel_rule_api/submit_deposit_questionnaire.rs"
+required-features = [ "wallet" ]
+
+[[example]]
+name = "wallet_rest_api_travel_rule_api_vasp_list"
+path = "examples/wallet/rest_api/travel_rule_api/vasp_list.rs"
 required-features = [ "wallet" ]
 
 [[example]]

@@ -3,10 +3,7 @@ use std::env;
 use tracing::info;
 
 use binance_sdk::config::ConfigurationRestApi;
-use binance_sdk::spot::{
-    SpotRestApi,
-    rest_api::{OrderTestParams, OrderTestSideEnum, OrderTestTypeEnum},
-};
+use binance_sdk::wallet::{WalletRestApi, rest_api::CheckQuestionnaireRequirementsParams};
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -20,26 +17,21 @@ async fn main() -> Result<()> {
         .api_secret(api_secret)
         .build()?;
 
-    // Create the Spot REST API client
-    let rest_client = SpotRestApi::production(rest_conf);
+    // Create the Wallet REST API client
+    let rest_client = WalletRestApi::production(rest_conf);
 
     // Setup the API parameters
-    let params = OrderTestParams::builder(
-        "BNBUSDT".to_string(),
-        OrderTestSideEnum::Buy,
-        OrderTestTypeEnum::Market,
-    )
-    .build()?;
+    let params = CheckQuestionnaireRequirementsParams::default();
 
     // Make the API call
     let response = rest_client
-        .order_test(params)
+        .check_questionnaire_requirements(params)
         .await
-        .context("order_test request failed")?;
+        .context("check_questionnaire_requirements request failed")?;
 
-    info!(?response.rate_limits, "order_test rate limits");
+    info!(?response.rate_limits, "check_questionnaire_requirements rate limits");
     let data = response.data().await?;
-    info!(?data, "order_test data");
+    info!(?data, "check_questionnaire_requirements data");
 
     Ok(())
 }

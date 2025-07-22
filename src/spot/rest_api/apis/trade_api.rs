@@ -1773,6 +1773,221 @@ impl std::str::FromStr for OrderOcoSelfTradePreventionModeEnum {
 
 #[allow(non_camel_case_types)]
 #[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum OrderTestSideEnum {
+    #[serde(rename = "BUY")]
+    Buy,
+    #[serde(rename = "SELL")]
+    Sell,
+}
+
+impl OrderTestSideEnum {
+    #[must_use]
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::Buy => "BUY",
+            Self::Sell => "SELL",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderTestSideEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "BUY" => Ok(Self::Buy),
+            "SELL" => Ok(Self::Sell),
+            other => Err(format!("invalid OrderTestSideEnum: {}", other).into()),
+        }
+    }
+}
+
+#[allow(non_camel_case_types)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum OrderTestTypeEnum {
+    #[serde(rename = "MARKET")]
+    Market,
+    #[serde(rename = "LIMIT")]
+    Limit,
+    #[serde(rename = "STOP_LOSS")]
+    StopLoss,
+    #[serde(rename = "STOP_LOSS_LIMIT")]
+    StopLossLimit,
+    #[serde(rename = "TAKE_PROFIT")]
+    TakeProfit,
+    #[serde(rename = "TAKE_PROFIT_LIMIT")]
+    TakeProfitLimit,
+    #[serde(rename = "LIMIT_MAKER")]
+    LimitMaker,
+    #[serde(rename = "NON_REPRESENTABLE")]
+    NonRepresentable,
+}
+
+impl OrderTestTypeEnum {
+    #[must_use]
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::Market => "MARKET",
+            Self::Limit => "LIMIT",
+            Self::StopLoss => "STOP_LOSS",
+            Self::StopLossLimit => "STOP_LOSS_LIMIT",
+            Self::TakeProfit => "TAKE_PROFIT",
+            Self::TakeProfitLimit => "TAKE_PROFIT_LIMIT",
+            Self::LimitMaker => "LIMIT_MAKER",
+            Self::NonRepresentable => "NON_REPRESENTABLE",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderTestTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "MARKET" => Ok(Self::Market),
+            "LIMIT" => Ok(Self::Limit),
+            "STOP_LOSS" => Ok(Self::StopLoss),
+            "STOP_LOSS_LIMIT" => Ok(Self::StopLossLimit),
+            "TAKE_PROFIT" => Ok(Self::TakeProfit),
+            "TAKE_PROFIT_LIMIT" => Ok(Self::TakeProfitLimit),
+            "LIMIT_MAKER" => Ok(Self::LimitMaker),
+            "NON_REPRESENTABLE" => Ok(Self::NonRepresentable),
+            other => Err(format!("invalid OrderTestTypeEnum: {}", other).into()),
+        }
+    }
+}
+
+#[allow(non_camel_case_types)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum OrderTestTimeInForceEnum {
+    #[serde(rename = "GTC")]
+    Gtc,
+    #[serde(rename = "IOC")]
+    Ioc,
+    #[serde(rename = "FOK")]
+    Fok,
+    #[serde(rename = "NON_REPRESENTABLE")]
+    NonRepresentable,
+}
+
+impl OrderTestTimeInForceEnum {
+    #[must_use]
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::Gtc => "GTC",
+            Self::Ioc => "IOC",
+            Self::Fok => "FOK",
+            Self::NonRepresentable => "NON_REPRESENTABLE",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderTestTimeInForceEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "GTC" => Ok(Self::Gtc),
+            "IOC" => Ok(Self::Ioc),
+            "FOK" => Ok(Self::Fok),
+            "NON_REPRESENTABLE" => Ok(Self::NonRepresentable),
+            other => Err(format!("invalid OrderTestTimeInForceEnum: {}", other).into()),
+        }
+    }
+}
+
+#[allow(non_camel_case_types)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum OrderTestNewOrderRespTypeEnum {
+    #[serde(rename = "ACK")]
+    Ack,
+    #[serde(rename = "RESULT")]
+    Result,
+    #[serde(rename = "FULL")]
+    Full,
+    #[serde(rename = "MARKET")]
+    Market,
+    #[serde(rename = "LIMIT")]
+    Limit,
+}
+
+impl OrderTestNewOrderRespTypeEnum {
+    #[must_use]
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::Ack => "ACK",
+            Self::Result => "RESULT",
+            Self::Full => "FULL",
+            Self::Market => "MARKET",
+            Self::Limit => "LIMIT",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderTestNewOrderRespTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "ACK" => Ok(Self::Ack),
+            "RESULT" => Ok(Self::Result),
+            "FULL" => Ok(Self::Full),
+            "MARKET" => Ok(Self::Market),
+            "LIMIT" => Ok(Self::Limit),
+            other => Err(format!("invalid OrderTestNewOrderRespTypeEnum: {}", other).into()),
+        }
+    }
+}
+
+#[allow(non_camel_case_types)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum OrderTestSelfTradePreventionModeEnum {
+    #[serde(rename = "NONE")]
+    None,
+    #[serde(rename = "EXPIRE_TAKER")]
+    ExpireTaker,
+    #[serde(rename = "EXPIRE_MAKER")]
+    ExpireMaker,
+    #[serde(rename = "EXPIRE_BOTH")]
+    ExpireBoth,
+    #[serde(rename = "DECREMENT")]
+    Decrement,
+    #[serde(rename = "NON_REPRESENTABLE")]
+    NonRepresentable,
+}
+
+impl OrderTestSelfTradePreventionModeEnum {
+    #[must_use]
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::None => "NONE",
+            Self::ExpireTaker => "EXPIRE_TAKER",
+            Self::ExpireMaker => "EXPIRE_MAKER",
+            Self::ExpireBoth => "EXPIRE_BOTH",
+            Self::Decrement => "DECREMENT",
+            Self::NonRepresentable => "NON_REPRESENTABLE",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderTestSelfTradePreventionModeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "NONE" => Ok(Self::None),
+            "EXPIRE_TAKER" => Ok(Self::ExpireTaker),
+            "EXPIRE_MAKER" => Ok(Self::ExpireMaker),
+            "EXPIRE_BOTH" => Ok(Self::ExpireBoth),
+            "DECREMENT" => Ok(Self::Decrement),
+            "NON_REPRESENTABLE" => Ok(Self::NonRepresentable),
+            other => Err(format!("invalid OrderTestSelfTradePreventionModeEnum: {}", other).into()),
+        }
+    }
+}
+
+#[allow(non_camel_case_types)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum SorOrderSideEnum {
     #[serde(rename = "BUY")]
     Buy,
@@ -3186,22 +3401,125 @@ impl OrderOcoParams {
 ///
 /// This struct holds all of the inputs you can pass when calling
 /// [`order_test`](#method.order_test).
-#[derive(Clone, Debug, Builder, Default)]
+#[derive(Clone, Debug, Builder)]
 #[builder(pattern = "owned", build_fn(error = "ParamBuildError"))]
 pub struct OrderTestParams {
+    ///
+    /// The `symbol` parameter.
+    ///
+    /// This field is **required.
+    #[builder(setter(into))]
+    pub symbol: String,
+    ///
+    /// The `side` parameter.
+    ///
+    /// This field is **required.
+    #[builder(setter(into))]
+    pub side: OrderTestSideEnum,
+    ///
+    /// The `r#type` parameter.
+    ///
+    /// This field is **required.
+    #[builder(setter(into))]
+    pub r#type: OrderTestTypeEnum,
     /// Default: `false`
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
     pub compute_commission_rates: Option<bool>,
+    ///
+    /// The `time_in_force` parameter.
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub time_in_force: Option<OrderTestTimeInForceEnum>,
+    ///
+    /// The `quantity` parameter.
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub quantity: Option<rust_decimal::Decimal>,
+    ///
+    /// The `quote_order_qty` parameter.
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub quote_order_qty: Option<rust_decimal::Decimal>,
+    ///
+    /// The `price` parameter.
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub price: Option<rust_decimal::Decimal>,
+    /// A unique id among open orders. Automatically generated if not sent.<br/> Orders with the same `newClientOrderID` can be accepted only when the previous one is filled, otherwise the order will be rejected.
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub new_client_order_id: Option<String>,
+    ///
+    /// The `strategy_id` parameter.
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub strategy_id: Option<i64>,
+    /// The value cannot be less than `1000000`.
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub strategy_type: Option<i32>,
+    /// Used with `STOP_LOSS`, `STOP_LOSS_LIMIT`, `TAKE_PROFIT`, and `TAKE_PROFIT_LIMIT` orders.
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub stop_price: Option<rust_decimal::Decimal>,
+    /// See [Trailing Stop order FAQ](faqs/trailing-stop-faq.md).
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub trailing_delta: Option<i64>,
+    /// Used with `LIMIT`, `STOP_LOSS_LIMIT`, and `TAKE_PROFIT_LIMIT` to create an iceberg order.
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub iceberg_qty: Option<rust_decimal::Decimal>,
+    ///
+    /// The `new_order_resp_type` parameter.
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub new_order_resp_type: Option<OrderTestNewOrderRespTypeEnum>,
+    ///
+    /// The `self_trade_prevention_mode` parameter.
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub self_trade_prevention_mode: Option<OrderTestSelfTradePreventionModeEnum>,
+    /// The value cannot be greater than `60000`
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub recv_window: Option<i64>,
 }
 
 impl OrderTestParams {
     /// Create a builder for [`order_test`].
     ///
+    /// Required parameters:
+    ///
+    /// * `symbol` — String
+    /// * `side` — String
+    /// * `r#type` — String
+    ///
     #[must_use]
-    pub fn builder() -> OrderTestParamsBuilder {
+    pub fn builder(
+        symbol: String,
+        side: OrderTestSideEnum,
+        r#type: OrderTestTypeEnum,
+    ) -> OrderTestParamsBuilder {
         OrderTestParamsBuilder::default()
+            .symbol(symbol)
+            .side(side)
+            .r#type(r#type)
     }
 }
 /// Request parameters for the [`sor_order`] operation.
@@ -4310,13 +4628,87 @@ impl TradeApi for TradeApiClient {
         params: OrderTestParams,
     ) -> anyhow::Result<RestApiResponse<models::OrderTestResponse>> {
         let OrderTestParams {
+            symbol,
+            side,
+            r#type,
             compute_commission_rates,
+            time_in_force,
+            quantity,
+            quote_order_qty,
+            price,
+            new_client_order_id,
+            strategy_id,
+            strategy_type,
+            stop_price,
+            trailing_delta,
+            iceberg_qty,
+            new_order_resp_type,
+            self_trade_prevention_mode,
+            recv_window,
         } = params;
 
         let mut query_params = BTreeMap::new();
 
+        query_params.insert("symbol".to_string(), json!(symbol));
+
+        query_params.insert("side".to_string(), json!(side));
+
+        query_params.insert("type".to_string(), json!(r#type));
+
         if let Some(rw) = compute_commission_rates {
             query_params.insert("computeCommissionRates".to_string(), json!(rw));
+        }
+
+        if let Some(rw) = time_in_force {
+            query_params.insert("timeInForce".to_string(), json!(rw));
+        }
+
+        if let Some(rw) = quantity {
+            query_params.insert("quantity".to_string(), json!(rw));
+        }
+
+        if let Some(rw) = quote_order_qty {
+            query_params.insert("quoteOrderQty".to_string(), json!(rw));
+        }
+
+        if let Some(rw) = price {
+            query_params.insert("price".to_string(), json!(rw));
+        }
+
+        if let Some(rw) = new_client_order_id {
+            query_params.insert("newClientOrderId".to_string(), json!(rw));
+        }
+
+        if let Some(rw) = strategy_id {
+            query_params.insert("strategyId".to_string(), json!(rw));
+        }
+
+        if let Some(rw) = strategy_type {
+            query_params.insert("strategyType".to_string(), json!(rw));
+        }
+
+        if let Some(rw) = stop_price {
+            query_params.insert("stopPrice".to_string(), json!(rw));
+        }
+
+        if let Some(rw) = trailing_delta {
+            query_params.insert("trailingDelta".to_string(), json!(rw));
+        }
+
+        if let Some(rw) = iceberg_qty {
+            query_params.insert("icebergQty".to_string(), json!(rw));
+        }
+
+        if let Some(rw) = new_order_resp_type {
+            query_params.insert("newOrderRespType".to_string(), json!(rw));
+        }
+
+        if let Some(rw) = self_trade_prevention_mode {
+            query_params.insert("selfTradePreventionMode".to_string(), json!(rw));
+        }
+
+        if let Some(rw) = recv_window {
+            query_params.insert("recvWindow".to_string(), json!(rw));
         }
 
         send_request::<models::OrderTestResponse>(
@@ -5367,7 +5759,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = OrderTestParams::builder().build().unwrap();
+            let params = OrderTestParams::builder("BNBUSDT".to_string(),OrderTestSideEnum::Buy,OrderTestTypeEnum::Market,).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"standardCommissionForOrder":{"maker":"0.00000112","taker":"0.00000114"},"taxCommissionForOrder":{"maker":"0.00000112","taker":"0.00000114"},"discount":{"enabledForAccount":true,"enabledForSymbol":true,"discountAsset":"BNB","discount":"0.25000000"}}"#).unwrap();
             let expected_response : models::OrderTestResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::OrderTestResponse");
@@ -5384,7 +5776,7 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: false };
 
-            let params = OrderTestParams::builder().compute_commission_rates(false).build().unwrap();
+            let params = OrderTestParams::builder("BNBUSDT".to_string(),OrderTestSideEnum::Buy,OrderTestTypeEnum::Market,).compute_commission_rates(false).time_in_force(OrderTestTimeInForceEnum::Gtc).quantity(dec!(1.0)).quote_order_qty(dec!(1.0)).price(dec!(400.0)).new_client_order_id("new_client_order_id_example".to_string()).strategy_id(1).strategy_type(1).stop_price(dec!(1.0)).trailing_delta(1).iceberg_qty(dec!(1.0)).new_order_resp_type(OrderTestNewOrderRespTypeEnum::Ack).self_trade_prevention_mode(OrderTestSelfTradePreventionModeEnum::None).recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"{"standardCommissionForOrder":{"maker":"0.00000112","taker":"0.00000114"},"taxCommissionForOrder":{"maker":"0.00000112","taker":"0.00000114"},"discount":{"enabledForAccount":true,"enabledForSymbol":true,"discountAsset":"BNB","discount":"0.25000000"}}"#).unwrap();
             let expected_response : models::OrderTestResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::OrderTestResponse");
@@ -5401,7 +5793,13 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTradeApiClient { force_error: true };
 
-            let params = OrderTestParams::builder().build().unwrap();
+            let params = OrderTestParams::builder(
+                "BNBUSDT".to_string(),
+                OrderTestSideEnum::Buy,
+                OrderTestTypeEnum::Market,
+            )
+            .build()
+            .unwrap();
 
             match client.order_test(params).await {
                 Ok(_) => panic!("Expected an error"),

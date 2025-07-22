@@ -35,6 +35,8 @@ pub struct ExchangeInformationResponseOptionSymbolsInner {
     pub maker_fee_rate: Option<String>,
     #[serde(rename = "takerFeeRate", skip_serializing_if = "Option::is_none")]
     pub taker_fee_rate: Option<String>,
+    #[serde(rename = "liquidationFeeRate", skip_serializing_if = "Option::is_none")]
+    pub liquidation_fee_rate: Option<String>,
     #[serde(rename = "minQty", skip_serializing_if = "Option::is_none")]
     pub min_qty: Option<String>,
     #[serde(rename = "maxQty", skip_serializing_if = "Option::is_none")]
@@ -71,6 +73,7 @@ impl ExchangeInformationResponseOptionSymbolsInner {
             unit: None,
             maker_fee_rate: None,
             taker_fee_rate: None,
+            liquidation_fee_rate: None,
             min_qty: None,
             max_qty: None,
             initial_margin: None,
