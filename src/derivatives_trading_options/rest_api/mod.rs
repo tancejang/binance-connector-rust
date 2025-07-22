@@ -291,6 +291,51 @@ impl RestApi {
             .await
     }
 
+    /// Option Margin Account Information (`USER_DATA`)
+    ///
+    /// Get current account information.
+    ///
+    /// Weight: 3
+    ///
+    /// # Arguments
+    ///
+    /// - `params`: [`OptionMarginAccountInformationParams`]
+    ///   The parameters for this operation.
+    ///
+    /// # Returns
+    ///
+    /// [`RestApiResponse<models::OptionMarginAccountInformationResponse>`] on success.
+    ///
+    /// # Errors
+    ///
+    /// This function will return an [`anyhow::Error`] if:
+    /// - the HTTP request fails
+    /// - any parameter is invalid
+    /// - the response cannot be parsed
+    /// - or one of the following occurs:
+    ///   - `RequiredError`
+    ///   - `ConnectorClientError`
+    ///   - `UnauthorizedError`
+    ///   - `ForbiddenError`
+    ///   - `TooManyRequestsError`
+    ///   - `RateLimitBanError`
+    ///   - `ServerError`
+    ///   - `NotFoundError`
+    ///   - `NetworkError`
+    ///   - `BadRequestError`
+    ///
+    ///
+    /// For full API details, see the [Binance API Documentation](https://developers.binance.com/docs/derivatives/option/account/Option-Margin-Account-Information).
+    ///
+    pub async fn option_margin_account_information(
+        &self,
+        params: OptionMarginAccountInformationParams,
+    ) -> anyhow::Result<RestApiResponse<models::OptionMarginAccountInformationResponse>> {
+        self.account_api_client
+            .option_margin_account_information(params)
+            .await
+    }
+
     /// Check Server Time
     ///
     /// Test connectivity to the Rest API and get the current server time.
@@ -1317,51 +1362,6 @@ impl RestApi {
     ) -> anyhow::Result<RestApiResponse<models::GetMarketMakerProtectionConfigResponse>> {
         self.market_maker_endpoints_api_client
             .get_market_maker_protection_config(params)
-            .await
-    }
-
-    /// Option Margin Account Information (`USER_DATA`)
-    ///
-    /// Get current account information.
-    ///
-    /// Weight: 3
-    ///
-    /// # Arguments
-    ///
-    /// - `params`: [`OptionMarginAccountInformationParams`]
-    ///   The parameters for this operation.
-    ///
-    /// # Returns
-    ///
-    /// [`RestApiResponse<models::OptionMarginAccountInformationResponse>`] on success.
-    ///
-    /// # Errors
-    ///
-    /// This function will return an [`anyhow::Error`] if:
-    /// - the HTTP request fails
-    /// - any parameter is invalid
-    /// - the response cannot be parsed
-    /// - or one of the following occurs:
-    ///   - `RequiredError`
-    ///   - `ConnectorClientError`
-    ///   - `UnauthorizedError`
-    ///   - `ForbiddenError`
-    ///   - `TooManyRequestsError`
-    ///   - `RateLimitBanError`
-    ///   - `ServerError`
-    ///   - `NotFoundError`
-    ///   - `NetworkError`
-    ///   - `BadRequestError`
-    ///
-    ///
-    /// For full API details, see the [Binance API Documentation](https://developers.binance.com/docs/derivatives/option/market-maker-endpoints/Option-Margin-Account-Information).
-    ///
-    pub async fn option_margin_account_information(
-        &self,
-        params: OptionMarginAccountInformationParams,
-    ) -> anyhow::Result<RestApiResponse<models::OptionMarginAccountInformationResponse>> {
-        self.market_maker_endpoints_api_client
-            .option_margin_account_information(params)
             .await
     }
 

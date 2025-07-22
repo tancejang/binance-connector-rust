@@ -21,7 +21,7 @@ use crate::spot::rest_api::models;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
-pub struct RateLimitsInner {
+pub struct RateLimits {
     #[serde(rename = "rateLimitType", skip_serializing_if = "Option::is_none")]
     pub rate_limit_type: Option<String>,
     #[serde(rename = "interval", skip_serializing_if = "Option::is_none")]
@@ -34,10 +34,10 @@ pub struct RateLimitsInner {
     pub count: Option<i64>,
 }
 
-impl RateLimitsInner {
+impl RateLimits {
     #[must_use]
-    pub fn new() -> RateLimitsInner {
-        RateLimitsInner {
+    pub fn new() -> RateLimits {
+        RateLimits {
             rate_limit_type: None,
             interval: None,
             interval_num: None,

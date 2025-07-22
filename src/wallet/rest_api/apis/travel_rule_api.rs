@@ -35,16 +35,18 @@ pub trait TravelRuleApi: Send + Sync {
         &self,
         params: BrokerWithdrawParams,
     ) -> anyhow::Result<RestApiResponse<models::BrokerWithdrawResponse>>;
+    async fn check_questionnaire_requirements(
+        &self,
+        params: CheckQuestionnaireRequirementsParams,
+    ) -> anyhow::Result<RestApiResponse<models::CheckQuestionnaireRequirementsResponse>>;
     async fn deposit_history_travel_rule(
         &self,
         params: DepositHistoryTravelRuleParams,
     ) -> anyhow::Result<RestApiResponse<Vec<models::DepositHistoryTravelRuleResponseInner>>>;
     async fn fetch_address_verification_list(
         &self,
+        params: FetchAddressVerificationListParams,
     ) -> anyhow::Result<RestApiResponse<Vec<models::FetchAddressVerificationListResponseInner>>>;
-    async fn onboarded_vasp_list(
-        &self,
-    ) -> anyhow::Result<RestApiResponse<Vec<models::OnboardedVaspListResponseInner>>>;
     async fn submit_deposit_questionnaire(
         &self,
         params: SubmitDepositQuestionnaireParams,
@@ -53,6 +55,10 @@ pub trait TravelRuleApi: Send + Sync {
         &self,
         params: SubmitDepositQuestionnaireTravelRuleParams,
     ) -> anyhow::Result<RestApiResponse<models::SubmitDepositQuestionnaireTravelRuleResponse>>;
+    async fn vasp_list(
+        &self,
+        params: VaspListParams,
+    ) -> anyhow::Result<RestApiResponse<Vec<models::VaspListResponseInner>>>;
     async fn withdraw_history_v1(
         &self,
         params: WithdrawHistoryV1Params,
@@ -184,6 +190,29 @@ impl BrokerWithdrawParams {
             .signature(signature)
     }
 }
+/// Request parameters for the [`check_questionnaire_requirements`] operation.
+///
+/// This struct holds all of the inputs you can pass when calling
+/// [`check_questionnaire_requirements`](#method.check_questionnaire_requirements).
+#[derive(Clone, Debug, Builder, Default)]
+#[builder(pattern = "owned", build_fn(error = "ParamBuildError"))]
+pub struct CheckQuestionnaireRequirementsParams {
+    ///
+    /// The `recv_window` parameter.
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub recv_window: Option<i64>,
+}
+
+impl CheckQuestionnaireRequirementsParams {
+    /// Create a builder for [`check_questionnaire_requirements`].
+    ///
+    #[must_use]
+    pub fn builder() -> CheckQuestionnaireRequirementsParamsBuilder {
+        CheckQuestionnaireRequirementsParamsBuilder::default()
+    }
+}
 /// Request parameters for the [`deposit_history_travel_rule`] operation.
 ///
 /// This struct holds all of the inputs you can pass when calling
@@ -259,6 +288,29 @@ impl DepositHistoryTravelRuleParams {
     #[must_use]
     pub fn builder() -> DepositHistoryTravelRuleParamsBuilder {
         DepositHistoryTravelRuleParamsBuilder::default()
+    }
+}
+/// Request parameters for the [`fetch_address_verification_list`] operation.
+///
+/// This struct holds all of the inputs you can pass when calling
+/// [`fetch_address_verification_list`](#method.fetch_address_verification_list).
+#[derive(Clone, Debug, Builder, Default)]
+#[builder(pattern = "owned", build_fn(error = "ParamBuildError"))]
+pub struct FetchAddressVerificationListParams {
+    ///
+    /// The `recv_window` parameter.
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub recv_window: Option<i64>,
+}
+
+impl FetchAddressVerificationListParams {
+    /// Create a builder for [`fetch_address_verification_list`].
+    ///
+    #[must_use]
+    pub fn builder() -> FetchAddressVerificationListParamsBuilder {
+        FetchAddressVerificationListParamsBuilder::default()
     }
 }
 /// Request parameters for the [`submit_deposit_questionnaire`] operation.
@@ -386,6 +438,29 @@ impl SubmitDepositQuestionnaireTravelRuleParams {
         SubmitDepositQuestionnaireTravelRuleParamsBuilder::default()
             .tran_id(tran_id)
             .questionnaire(questionnaire)
+    }
+}
+/// Request parameters for the [`vasp_list`] operation.
+///
+/// This struct holds all of the inputs you can pass when calling
+/// [`vasp_list`](#method.vasp_list).
+#[derive(Clone, Debug, Builder, Default)]
+#[builder(pattern = "owned", build_fn(error = "ParamBuildError"))]
+pub struct VaspListParams {
+    ///
+    /// The `recv_window` parameter.
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub recv_window: Option<i64>,
+}
+
+impl VaspListParams {
+    /// Create a builder for [`vasp_list`].
+    ///
+    #[must_use]
+    pub fn builder() -> VaspListParamsBuilder {
+        VaspListParamsBuilder::default()
     }
 }
 /// Request parameters for the [`withdraw_history_v1`] operation.
@@ -710,6 +785,33 @@ impl TravelRuleApi for TravelRuleApiClient {
         .await
     }
 
+    async fn check_questionnaire_requirements(
+        &self,
+        params: CheckQuestionnaireRequirementsParams,
+    ) -> anyhow::Result<RestApiResponse<models::CheckQuestionnaireRequirementsResponse>> {
+        let CheckQuestionnaireRequirementsParams { recv_window } = params;
+
+        let mut query_params = BTreeMap::new();
+
+        if let Some(rw) = recv_window {
+            query_params.insert("recvWindow".to_string(), json!(rw));
+        }
+
+        send_request::<models::CheckQuestionnaireRequirementsResponse>(
+            &self.configuration,
+            "/sapi/v1/localentity/questionnaire-requirements",
+            reqwest::Method::GET,
+            query_params,
+            if HAS_TIME_UNIT {
+                self.configuration.time_unit
+            } else {
+                None
+            },
+            true,
+        )
+        .await
+    }
+
     async fn deposit_history_travel_rule(
         &self,
         params: DepositHistoryTravelRuleParams,
@@ -791,33 +893,20 @@ impl TravelRuleApi for TravelRuleApiClient {
 
     async fn fetch_address_verification_list(
         &self,
+        params: FetchAddressVerificationListParams,
     ) -> anyhow::Result<RestApiResponse<Vec<models::FetchAddressVerificationListResponseInner>>>
     {
-        let query_params = BTreeMap::new();
+        let FetchAddressVerificationListParams { recv_window } = params;
+
+        let mut query_params = BTreeMap::new();
+
+        if let Some(rw) = recv_window {
+            query_params.insert("recvWindow".to_string(), json!(rw));
+        }
 
         send_request::<Vec<models::FetchAddressVerificationListResponseInner>>(
             &self.configuration,
             "/sapi/v1/addressVerify/list",
-            reqwest::Method::GET,
-            query_params,
-            if HAS_TIME_UNIT {
-                self.configuration.time_unit
-            } else {
-                None
-            },
-            true,
-        )
-        .await
-    }
-
-    async fn onboarded_vasp_list(
-        &self,
-    ) -> anyhow::Result<RestApiResponse<Vec<models::OnboardedVaspListResponseInner>>> {
-        let query_params = BTreeMap::new();
-
-        send_request::<Vec<models::OnboardedVaspListResponseInner>>(
-            &self.configuration,
-            "/sapi/v1/localentity/vasp",
             reqwest::Method::GET,
             query_params,
             if HAS_TIME_UNIT {
@@ -913,6 +1002,33 @@ impl TravelRuleApi for TravelRuleApiClient {
             &self.configuration,
             "/sapi/v1/localentity/deposit/provide-info",
             reqwest::Method::PUT,
+            query_params,
+            if HAS_TIME_UNIT {
+                self.configuration.time_unit
+            } else {
+                None
+            },
+            true,
+        )
+        .await
+    }
+
+    async fn vasp_list(
+        &self,
+        params: VaspListParams,
+    ) -> anyhow::Result<RestApiResponse<Vec<models::VaspListResponseInner>>> {
+        let VaspListParams { recv_window } = params;
+
+        let mut query_params = BTreeMap::new();
+
+        if let Some(rw) = recv_window {
+            query_params.insert("recvWindow".to_string(), json!(rw));
+        }
+
+        send_request::<Vec<models::VaspListResponseInner>>(
+            &self.configuration,
+            "/sapi/v1/localentity/vasp",
+            reqwest::Method::GET,
             query_params,
             if HAS_TIME_UNIT {
                 self.configuration.time_unit
@@ -1214,6 +1330,33 @@ mod tests {
             Ok(dummy.into())
         }
 
+        async fn check_questionnaire_requirements(
+            &self,
+            _params: CheckQuestionnaireRequirementsParams,
+        ) -> anyhow::Result<RestApiResponse<models::CheckQuestionnaireRequirementsResponse>>
+        {
+            if self.force_error {
+                return Err(
+                    ConnectorError::ConnectorClientError("ResponseError".to_string()).into(),
+                );
+            }
+
+            let resp_json: Value =
+                serde_json::from_str(r#"{"questionnaireCountryCode":"AE"}"#).unwrap();
+            let dummy_response: models::CheckQuestionnaireRequirementsResponse =
+                serde_json::from_value(resp_json.clone())
+                    .expect("should parse into models::CheckQuestionnaireRequirementsResponse");
+
+            let dummy = DummyRestApiResponse {
+                inner: Box::new(move || Box::pin(async move { Ok(dummy_response) })),
+                status: 200,
+                headers: HashMap::new(),
+                rate_limits: None,
+            };
+
+            Ok(dummy.into())
+        }
+
         async fn deposit_history_travel_rule(
             &self,
             _params: DepositHistoryTravelRuleParams,
@@ -1242,6 +1385,7 @@ mod tests {
 
         async fn fetch_address_verification_list(
             &self,
+            _params: FetchAddressVerificationListParams,
         ) -> anyhow::Result<RestApiResponse<Vec<models::FetchAddressVerificationListResponseInner>>>
         {
             if self.force_error {
@@ -1255,30 +1399,6 @@ mod tests {
                 serde_json::from_value(resp_json.clone()).expect(
                     "should parse into Vec<models::FetchAddressVerificationListResponseInner>",
                 );
-
-            let dummy = DummyRestApiResponse {
-                inner: Box::new(move || Box::pin(async move { Ok(dummy_response) })),
-                status: 200,
-                headers: HashMap::new(),
-                rate_limits: None,
-            };
-
-            Ok(dummy.into())
-        }
-
-        async fn onboarded_vasp_list(
-            &self,
-        ) -> anyhow::Result<RestApiResponse<Vec<models::OnboardedVaspListResponseInner>>> {
-            if self.force_error {
-                return Err(
-                    ConnectorError::ConnectorClientError("ResponseError".to_string()).into(),
-                );
-            }
-
-            let resp_json: Value = serde_json::from_str(r#"[{"vaspName":"Binance","vaspCode":"BINANCE"},{"vaspName":"HashKeyGlobal","vaspCode":"NVBH3Z_nNEHjvqbUfkaL"}]"#).unwrap();
-            let dummy_response: Vec<models::OnboardedVaspListResponseInner> =
-                serde_json::from_value(resp_json.clone())
-                    .expect("should parse into Vec<models::OnboardedVaspListResponseInner>");
 
             let dummy = DummyRestApiResponse {
                 inner: Box::new(move || Box::pin(async move { Ok(dummy_response) })),
@@ -1337,6 +1457,31 @@ mod tests {
                 serde_json::from_value(resp_json.clone()).expect(
                     "should parse into models::SubmitDepositQuestionnaireTravelRuleResponse",
                 );
+
+            let dummy = DummyRestApiResponse {
+                inner: Box::new(move || Box::pin(async move { Ok(dummy_response) })),
+                status: 200,
+                headers: HashMap::new(),
+                rate_limits: None,
+            };
+
+            Ok(dummy.into())
+        }
+
+        async fn vasp_list(
+            &self,
+            _params: VaspListParams,
+        ) -> anyhow::Result<RestApiResponse<Vec<models::VaspListResponseInner>>> {
+            if self.force_error {
+                return Err(
+                    ConnectorError::ConnectorClientError("ResponseError".to_string()).into(),
+                );
+            }
+
+            let resp_json: Value = serde_json::from_str(r#"[{"vaspName":"Binance","vaspCode":"BINANCE"},{"vaspName":"HashKeyGlobal","vaspCode":"NVBH3Z_nNEHjvqbUfkaL"}]"#).unwrap();
+            let dummy_response: Vec<models::VaspListResponseInner> =
+                serde_json::from_value(resp_json.clone())
+                    .expect("should parse into Vec<models::VaspListResponseInner>");
 
             let dummy = DummyRestApiResponse {
                 inner: Box::new(move || Box::pin(async move { Ok(dummy_response) })),
@@ -1529,6 +1674,75 @@ mod tests {
     }
 
     #[test]
+    fn check_questionnaire_requirements_required_params_success() {
+        TOKIO_SHARED_RT.block_on(async {
+            let client = MockTravelRuleApiClient { force_error: false };
+
+            let params = CheckQuestionnaireRequirementsParams::builder()
+                .build()
+                .unwrap();
+
+            let resp_json: Value =
+                serde_json::from_str(r#"{"questionnaireCountryCode":"AE"}"#).unwrap();
+            let expected_response: models::CheckQuestionnaireRequirementsResponse =
+                serde_json::from_value(resp_json.clone())
+                    .expect("should parse into models::CheckQuestionnaireRequirementsResponse");
+
+            let resp = client
+                .check_questionnaire_requirements(params)
+                .await
+                .expect("Expected a response");
+            let data_future = resp.data();
+            let actual_response = data_future.await.unwrap();
+            assert_eq!(actual_response, expected_response);
+        });
+    }
+
+    #[test]
+    fn check_questionnaire_requirements_optional_params_success() {
+        TOKIO_SHARED_RT.block_on(async {
+            let client = MockTravelRuleApiClient { force_error: false };
+
+            let params = CheckQuestionnaireRequirementsParams::builder()
+                .recv_window(5000)
+                .build()
+                .unwrap();
+
+            let resp_json: Value =
+                serde_json::from_str(r#"{"questionnaireCountryCode":"AE"}"#).unwrap();
+            let expected_response: models::CheckQuestionnaireRequirementsResponse =
+                serde_json::from_value(resp_json.clone())
+                    .expect("should parse into models::CheckQuestionnaireRequirementsResponse");
+
+            let resp = client
+                .check_questionnaire_requirements(params)
+                .await
+                .expect("Expected a response");
+            let data_future = resp.data();
+            let actual_response = data_future.await.unwrap();
+            assert_eq!(actual_response, expected_response);
+        });
+    }
+
+    #[test]
+    fn check_questionnaire_requirements_response_error() {
+        TOKIO_SHARED_RT.block_on(async {
+            let client = MockTravelRuleApiClient { force_error: true };
+
+            let params = CheckQuestionnaireRequirementsParams::builder()
+                .build()
+                .unwrap();
+
+            match client.check_questionnaire_requirements(params).await {
+                Ok(_) => panic!("Expected an error"),
+                Err(err) => {
+                    assert_eq!(err.to_string(), "Connector client error: ResponseError");
+                }
+            }
+        });
+    }
+
+    #[test]
     fn deposit_history_travel_rule_required_params_success() {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTravelRuleApiClient { force_error: false };
@@ -1583,11 +1797,12 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTravelRuleApiClient { force_error: false };
 
+            let params = FetchAddressVerificationListParams::builder().build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"[{"status":"PENDING","token":"AVAX","network":"AVAXC","walletAddress":"0xc03a6aa728a8dde7464c33828424ede7553a0021","addressQuestionnaire":{"sendTo":1,"satoshiToken":"AVAX","isAddressOwner":1,"verifyMethod":1}}]"#).unwrap();
             let expected_response : Vec<models::FetchAddressVerificationListResponseInner> = serde_json::from_value(resp_json.clone()).expect("should parse into Vec<models::FetchAddressVerificationListResponseInner>");
 
-            let resp = client.fetch_address_verification_list().await.expect("Expected a response");
+            let resp = client.fetch_address_verification_list(params).await.expect("Expected a response");
             let data_future = resp.data();
             let actual_response = data_future.await.unwrap();
             assert_eq!(actual_response, expected_response);
@@ -1599,11 +1814,12 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTravelRuleApiClient { force_error: false };
 
+            let params = FetchAddressVerificationListParams::builder().recv_window(5000).build().unwrap();
 
             let resp_json: Value = serde_json::from_str(r#"[{"status":"PENDING","token":"AVAX","network":"AVAXC","walletAddress":"0xc03a6aa728a8dde7464c33828424ede7553a0021","addressQuestionnaire":{"sendTo":1,"satoshiToken":"AVAX","isAddressOwner":1,"verifyMethod":1}}]"#).unwrap();
             let expected_response : Vec<models::FetchAddressVerificationListResponseInner> = serde_json::from_value(resp_json.clone()).expect("should parse into Vec<models::FetchAddressVerificationListResponseInner>");
 
-            let resp = client.fetch_address_verification_list().await.expect("Expected a response");
+            let resp = client.fetch_address_verification_list(params).await.expect("Expected a response");
             let data_future = resp.data();
             let actual_response = data_future.await.unwrap();
             assert_eq!(actual_response, expected_response);
@@ -1615,53 +1831,11 @@ mod tests {
         TOKIO_SHARED_RT.block_on(async {
             let client = MockTravelRuleApiClient { force_error: true };
 
-            match client.fetch_address_verification_list().await {
-                Ok(_) => panic!("Expected an error"),
-                Err(err) => {
-                    assert_eq!(err.to_string(), "Connector client error: ResponseError");
-                }
-            }
-        });
-    }
+            let params = FetchAddressVerificationListParams::builder()
+                .build()
+                .unwrap();
 
-    #[test]
-    fn onboarded_vasp_list_required_params_success() {
-        TOKIO_SHARED_RT.block_on(async {
-            let client = MockTravelRuleApiClient { force_error: false };
-
-
-            let resp_json: Value = serde_json::from_str(r#"[{"vaspName":"Binance","vaspCode":"BINANCE"},{"vaspName":"HashKeyGlobal","vaspCode":"NVBH3Z_nNEHjvqbUfkaL"}]"#).unwrap();
-            let expected_response : Vec<models::OnboardedVaspListResponseInner> = serde_json::from_value(resp_json.clone()).expect("should parse into Vec<models::OnboardedVaspListResponseInner>");
-
-            let resp = client.onboarded_vasp_list().await.expect("Expected a response");
-            let data_future = resp.data();
-            let actual_response = data_future.await.unwrap();
-            assert_eq!(actual_response, expected_response);
-        });
-    }
-
-    #[test]
-    fn onboarded_vasp_list_optional_params_success() {
-        TOKIO_SHARED_RT.block_on(async {
-            let client = MockTravelRuleApiClient { force_error: false };
-
-
-            let resp_json: Value = serde_json::from_str(r#"[{"vaspName":"Binance","vaspCode":"BINANCE"},{"vaspName":"HashKeyGlobal","vaspCode":"NVBH3Z_nNEHjvqbUfkaL"}]"#).unwrap();
-            let expected_response : Vec<models::OnboardedVaspListResponseInner> = serde_json::from_value(resp_json.clone()).expect("should parse into Vec<models::OnboardedVaspListResponseInner>");
-
-            let resp = client.onboarded_vasp_list().await.expect("Expected a response");
-            let data_future = resp.data();
-            let actual_response = data_future.await.unwrap();
-            assert_eq!(actual_response, expected_response);
-        });
-    }
-
-    #[test]
-    fn onboarded_vasp_list_response_error() {
-        TOKIO_SHARED_RT.block_on(async {
-            let client = MockTravelRuleApiClient { force_error: true };
-
-            match client.onboarded_vasp_list().await {
+            match client.fetch_address_verification_list(params).await {
                 Ok(_) => panic!("Expected an error"),
                 Err(err) => {
                     assert_eq!(err.to_string(), "Connector client error: ResponseError");
@@ -1843,6 +2017,56 @@ mod tests {
                 .submit_deposit_questionnaire_travel_rule(params)
                 .await
             {
+                Ok(_) => panic!("Expected an error"),
+                Err(err) => {
+                    assert_eq!(err.to_string(), "Connector client error: ResponseError");
+                }
+            }
+        });
+    }
+
+    #[test]
+    fn vasp_list_required_params_success() {
+        TOKIO_SHARED_RT.block_on(async {
+            let client = MockTravelRuleApiClient { force_error: false };
+
+            let params = VaspListParams::builder().build().unwrap();
+
+            let resp_json: Value = serde_json::from_str(r#"[{"vaspName":"Binance","vaspCode":"BINANCE"},{"vaspName":"HashKeyGlobal","vaspCode":"NVBH3Z_nNEHjvqbUfkaL"}]"#).unwrap();
+            let expected_response : Vec<models::VaspListResponseInner> = serde_json::from_value(resp_json.clone()).expect("should parse into Vec<models::VaspListResponseInner>");
+
+            let resp = client.vasp_list(params).await.expect("Expected a response");
+            let data_future = resp.data();
+            let actual_response = data_future.await.unwrap();
+            assert_eq!(actual_response, expected_response);
+        });
+    }
+
+    #[test]
+    fn vasp_list_optional_params_success() {
+        TOKIO_SHARED_RT.block_on(async {
+            let client = MockTravelRuleApiClient { force_error: false };
+
+            let params = VaspListParams::builder().recv_window(5000).build().unwrap();
+
+            let resp_json: Value = serde_json::from_str(r#"[{"vaspName":"Binance","vaspCode":"BINANCE"},{"vaspName":"HashKeyGlobal","vaspCode":"NVBH3Z_nNEHjvqbUfkaL"}]"#).unwrap();
+            let expected_response : Vec<models::VaspListResponseInner> = serde_json::from_value(resp_json.clone()).expect("should parse into Vec<models::VaspListResponseInner>");
+
+            let resp = client.vasp_list(params).await.expect("Expected a response");
+            let data_future = resp.data();
+            let actual_response = data_future.await.unwrap();
+            assert_eq!(actual_response, expected_response);
+        });
+    }
+
+    #[test]
+    fn vasp_list_response_error() {
+        TOKIO_SHARED_RT.block_on(async {
+            let client = MockTravelRuleApiClient { force_error: true };
+
+            let params = VaspListParams::builder().build().unwrap();
+
+            match client.vasp_list(params).await {
                 Ok(_) => panic!("Expected an error"),
                 Err(err) => {
                     assert_eq!(err.to_string(), "Connector client error: ResponseError");

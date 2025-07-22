@@ -31,8 +31,8 @@ pub struct OptionMarginAccountInformationResponseAssetInner {
     pub maint_margin: Option<String>,
     #[serde(rename = "unrealizedPNL", skip_serializing_if = "Option::is_none")]
     pub unrealized_pnl: Option<String>,
-    #[serde(rename = "lpProfit", skip_serializing_if = "Option::is_none")]
-    pub lp_profit: Option<String>,
+    #[serde(rename = "adjustedEquity", skip_serializing_if = "Option::is_none")]
+    pub adjusted_equity: Option<String>,
 }
 
 impl OptionMarginAccountInformationResponseAssetInner {
@@ -46,7 +46,7 @@ impl OptionMarginAccountInformationResponseAssetInner {
             initial_margin: None,
             maint_margin: None,
             unrealized_pnl: None,
-            lp_profit: None,
+            adjusted_equity: None,
         }
     }
 }

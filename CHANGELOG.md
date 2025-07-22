@@ -1,5 +1,39 @@
 # Changelog
 
+## 9.0.0 - 2025-07-22
+
+### Added (1)
+
+**Wallet**
+
+- `check_questionnaire_requirements()` (`GET /sapi/v1/localentity/questionnaire-requirements`)
+
+### Changed (4)
+
+**Derivatives Trading Options**
+
+#### REST API
+
+- Modified response for `exchange_information()` method (`GET /eapi/v1/exchangeInfo`):
+  - `optionSymbols`: item property `liquidationFeeRate` added
+
+- Modified response for `option_margin_account_information()` method (`GET /eapi/v1/marginAccount`):
+  - `asset`: item property `adjustedEquity` added
+  - `asset`: item property `lpProfit` deleted
+
+**Wallet**
+
+- Added parameter `recvWindow`
+  - affected methods:
+    - `fetch_address_verification_list()` (`GET /sapi/v1/addressVerify/list`)
+    - `vasp_list()` (`GET /sapi/v1/localentity/vasp`)
+
+**Spot**
+
+#### REST API
+
+- Added missing parameters for `order_test()` (`POST /api/v3/order/test`)
+
 ## 8.0.0 - 2025-07-14
 
 ### Added (1)

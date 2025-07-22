@@ -16,19 +16,19 @@ use crate::wallet::rest_api::models;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
-pub struct OnboardedVaspListResponseInner {
-    #[serde(rename = "vaspName", skip_serializing_if = "Option::is_none")]
-    pub vasp_name: Option<String>,
-    #[serde(rename = "vaspCode", skip_serializing_if = "Option::is_none")]
-    pub vasp_code: Option<String>,
+pub struct CheckQuestionnaireRequirementsResponse {
+    #[serde(
+        rename = "questionnaireCountryCode",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub questionnaire_country_code: Option<String>,
 }
 
-impl OnboardedVaspListResponseInner {
+impl CheckQuestionnaireRequirementsResponse {
     #[must_use]
-    pub fn new() -> OnboardedVaspListResponseInner {
-        OnboardedVaspListResponseInner {
-            vasp_name: None,
-            vasp_code: None,
+    pub fn new() -> CheckQuestionnaireRequirementsResponse {
+        CheckQuestionnaireRequirementsResponse {
+            questionnaire_country_code: None,
         }
     }
 }

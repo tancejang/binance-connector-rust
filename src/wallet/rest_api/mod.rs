@@ -1692,6 +1692,57 @@ impl RestApi {
         self.travel_rule_api_client.broker_withdraw(params).await
     }
 
+    /// Check Questionnaire Requirements (for local entities that require travel rule) (supporting network) (`USER_DATA`)
+    ///
+    /// This API will return user-specific Travel Rule questionnaire requirement information in reference to the current API key.
+    ///
+    /// * This endpoint specifically uses per second IP rate limit, user's total second level IP rate
+    ///
+    /// Weight: 18000
+    /// Request limit: 10 requests per second
+    /// > * This endpoint specifically uses per second IP rate limit, user's total second level IP rate
+    /// limit is 180000/second. Response from the endpoint contains header
+    /// key X-SAPI-USED-IP-WEIGHT-1S, which defines weight used by the current IP.
+    ///
+    /// # Arguments
+    ///
+    /// - `params`: [`CheckQuestionnaireRequirementsParams`]
+    ///   The parameters for this operation.
+    ///
+    /// # Returns
+    ///
+    /// [`RestApiResponse<models::CheckQuestionnaireRequirementsResponse>`] on success.
+    ///
+    /// # Errors
+    ///
+    /// This function will return an [`anyhow::Error`] if:
+    /// - the HTTP request fails
+    /// - any parameter is invalid
+    /// - the response cannot be parsed
+    /// - or one of the following occurs:
+    ///   - `RequiredError`
+    ///   - `ConnectorClientError`
+    ///   - `UnauthorizedError`
+    ///   - `ForbiddenError`
+    ///   - `TooManyRequestsError`
+    ///   - `RateLimitBanError`
+    ///   - `ServerError`
+    ///   - `NotFoundError`
+    ///   - `NetworkError`
+    ///   - `BadRequestError`
+    ///
+    ///
+    /// For full API details, see the [Binance API Documentation](https://developers.binance.com/docs/wallet/travel-rule/questionnaire-requirements).
+    ///
+    pub async fn check_questionnaire_requirements(
+        &self,
+        params: CheckQuestionnaireRequirementsParams,
+    ) -> anyhow::Result<RestApiResponse<models::CheckQuestionnaireRequirementsResponse>> {
+        self.travel_rule_api_client
+            .check_questionnaire_requirements(params)
+            .await
+    }
+
     /// Deposit History (for local entities that required travel rule) (supporting network) (`USER_DATA`)
     ///
     /// Fetch deposit history for local entities that required travel rule.
@@ -1778,59 +1829,12 @@ impl RestApi {
     ///
     pub async fn fetch_address_verification_list(
         &self,
+        params: FetchAddressVerificationListParams,
     ) -> anyhow::Result<RestApiResponse<Vec<models::FetchAddressVerificationListResponseInner>>>
     {
         self.travel_rule_api_client
-            .fetch_address_verification_list()
+            .fetch_address_verification_list(params)
             .await
-    }
-
-    /// Onboarded VASP list (for local entities that require travel rule) (supporting network) (`USER_DATA`)
-    ///
-    /// Fetch the onboarded VASP list for local entities that required travel rule.
-    ///
-    /// * This endpoint specifically uses per second IP rate limit, user's total second level IP rate
-    ///
-    /// Weight: 18000
-    /// Request limit: 10 requests per second
-    /// > * This endpoint specifically uses per second IP rate limit, user's total second level IP rate
-    /// limit is 180000/second. Response from the endpoint contains header
-    /// key X-SAPI-USED-IP-WEIGHT-1S, which defines weight used by the current IP.
-    ///
-    /// # Arguments
-    ///
-    /// - `params`: [`OnboardedVaspListParams`]
-    ///   The parameters for this operation.
-    ///
-    /// # Returns
-    ///
-    /// [`RestApiResponse<Vec<models::OnboardedVaspListResponseInner>>`] on success.
-    ///
-    /// # Errors
-    ///
-    /// This function will return an [`anyhow::Error`] if:
-    /// - the HTTP request fails
-    /// - any parameter is invalid
-    /// - the response cannot be parsed
-    /// - or one of the following occurs:
-    ///   - `RequiredError`
-    ///   - `ConnectorClientError`
-    ///   - `UnauthorizedError`
-    ///   - `ForbiddenError`
-    ///   - `TooManyRequestsError`
-    ///   - `RateLimitBanError`
-    ///   - `ServerError`
-    ///   - `NotFoundError`
-    ///   - `NetworkError`
-    ///   - `BadRequestError`
-    ///
-    ///
-    /// For full API details, see the [Binance API Documentation](https://developers.binance.com/docs/wallet/travel-rule/Onboarded-VASP-list).
-    ///
-    pub async fn onboarded_vasp_list(
-        &self,
-    ) -> anyhow::Result<RestApiResponse<Vec<models::OnboardedVaspListResponseInner>>> {
-        self.travel_rule_api_client.onboarded_vasp_list().await
     }
 
     /// Submit Deposit Questionnaire (For local entities that require travel rule) (supporting network) (`USER_DATA`)
@@ -1931,6 +1935,55 @@ impl RestApi {
         self.travel_rule_api_client
             .submit_deposit_questionnaire_travel_rule(params)
             .await
+    }
+
+    /// VASP list (for local entities that require travel rule) (supporting network) (`USER_DATA`)
+    ///
+    /// Fetch the VASP list for local entities.
+    ///
+    /// * This endpoint specifically uses per second IP rate limit, user's total second level IP rate
+    ///
+    /// Weight: 18000
+    /// Request limit: 10 requests per second
+    /// > * This endpoint specifically uses per second IP rate limit, user's total second level IP rate
+    /// limit is 180000/second. Response from the endpoint contains header
+    /// key X-SAPI-USED-IP-WEIGHT-1S, which defines weight used by the current IP.
+    ///
+    /// # Arguments
+    ///
+    /// - `params`: [`VaspListParams`]
+    ///   The parameters for this operation.
+    ///
+    /// # Returns
+    ///
+    /// [`RestApiResponse<Vec<models::VaspListResponseInner>>`] on success.
+    ///
+    /// # Errors
+    ///
+    /// This function will return an [`anyhow::Error`] if:
+    /// - the HTTP request fails
+    /// - any parameter is invalid
+    /// - the response cannot be parsed
+    /// - or one of the following occurs:
+    ///   - `RequiredError`
+    ///   - `ConnectorClientError`
+    ///   - `UnauthorizedError`
+    ///   - `ForbiddenError`
+    ///   - `TooManyRequestsError`
+    ///   - `RateLimitBanError`
+    ///   - `ServerError`
+    ///   - `NotFoundError`
+    ///   - `NetworkError`
+    ///   - `BadRequestError`
+    ///
+    ///
+    /// For full API details, see the [Binance API Documentation](https://developers.binance.com/docs/wallet/travel-rule/onboarded-vasp-list).
+    ///
+    pub async fn vasp_list(
+        &self,
+        params: VaspListParams,
+    ) -> anyhow::Result<RestApiResponse<Vec<models::VaspListResponseInner>>> {
+        self.travel_rule_api_client.vasp_list(params).await
     }
 
     /// Withdraw History (for local entities that require travel rule) (supporting network) (`USER_DATA`)

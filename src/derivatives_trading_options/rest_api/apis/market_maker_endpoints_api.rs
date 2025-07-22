@@ -43,10 +43,6 @@ pub trait MarketMakerEndpointsApi: Send + Sync {
         &self,
         params: GetMarketMakerProtectionConfigParams,
     ) -> anyhow::Result<RestApiResponse<models::GetMarketMakerProtectionConfigResponse>>;
-    async fn option_margin_account_information(
-        &self,
-        params: OptionMarginAccountInformationParams,
-    ) -> anyhow::Result<RestApiResponse<models::OptionMarginAccountInformationResponse>>;
     async fn reset_market_maker_protection_config(
         &self,
         params: ResetMarketMakerProtectionConfigParams,
@@ -158,29 +154,6 @@ impl GetMarketMakerProtectionConfigParams {
     #[must_use]
     pub fn builder() -> GetMarketMakerProtectionConfigParamsBuilder {
         GetMarketMakerProtectionConfigParamsBuilder::default()
-    }
-}
-/// Request parameters for the [`option_margin_account_information`] operation.
-///
-/// This struct holds all of the inputs you can pass when calling
-/// [`option_margin_account_information`](#method.option_margin_account_information).
-#[derive(Clone, Debug, Builder, Default)]
-#[builder(pattern = "owned", build_fn(error = "ParamBuildError"))]
-pub struct OptionMarginAccountInformationParams {
-    ///
-    /// The `recv_window` parameter.
-    ///
-    /// This field is **optional.
-    #[builder(setter(into), default)]
-    pub recv_window: Option<i64>,
-}
-
-impl OptionMarginAccountInformationParams {
-    /// Create a builder for [`option_margin_account_information`].
-    ///
-    #[must_use]
-    pub fn builder() -> OptionMarginAccountInformationParamsBuilder {
-        OptionMarginAccountInformationParamsBuilder::default()
     }
 }
 /// Request parameters for the [`reset_market_maker_protection_config`] operation.
@@ -393,33 +366,6 @@ impl MarketMakerEndpointsApi for MarketMakerEndpointsApiClient {
         send_request::<models::GetMarketMakerProtectionConfigResponse>(
             &self.configuration,
             "/eapi/v1/mmp",
-            reqwest::Method::GET,
-            query_params,
-            if HAS_TIME_UNIT {
-                self.configuration.time_unit
-            } else {
-                None
-            },
-            true,
-        )
-        .await
-    }
-
-    async fn option_margin_account_information(
-        &self,
-        params: OptionMarginAccountInformationParams,
-    ) -> anyhow::Result<RestApiResponse<models::OptionMarginAccountInformationResponse>> {
-        let OptionMarginAccountInformationParams { recv_window } = params;
-
-        let mut query_params = BTreeMap::new();
-
-        if let Some(rw) = recv_window {
-            query_params.insert("recvWindow".to_string(), json!(rw));
-        }
-
-        send_request::<models::OptionMarginAccountInformationResponse>(
-            &self.configuration,
-            "/eapi/v1/marginAccount",
             reqwest::Method::GET,
             query_params,
             if HAS_TIME_UNIT {
@@ -655,32 +601,6 @@ mod tests {
             let dummy_response: models::GetMarketMakerProtectionConfigResponse =
                 serde_json::from_value(resp_json.clone())
                     .expect("should parse into models::GetMarketMakerProtectionConfigResponse");
-
-            let dummy = DummyRestApiResponse {
-                inner: Box::new(move || Box::pin(async move { Ok(dummy_response) })),
-                status: 200,
-                headers: HashMap::new(),
-                rate_limits: None,
-            };
-
-            Ok(dummy.into())
-        }
-
-        async fn option_margin_account_information(
-            &self,
-            _params: OptionMarginAccountInformationParams,
-        ) -> anyhow::Result<RestApiResponse<models::OptionMarginAccountInformationResponse>>
-        {
-            if self.force_error {
-                return Err(
-                    ConnectorError::ConnectorClientError("ResponseError".to_string()).into(),
-                );
-            }
-
-            let resp_json: Value = serde_json::from_str(r#"{"asset":[{"asset":"USDT","marginBalance":"10099.448","equity":"10094.44662","available":"8725.92524","initialMargin":"1084.52138","maintMargin":"151.00138","unrealizedPNL":"-5.00138","lpProfit":"-5.00138"}],"greek":[{"underlying":"BTCUSDT","delta":"-0.05","gamma":"-0.002","theta":"-0.05","vega":"-0.002"}],"time":1592449455993}"#).unwrap();
-            let dummy_response: models::OptionMarginAccountInformationResponse =
-                serde_json::from_value(resp_json.clone())
-                    .expect("should parse into models::OptionMarginAccountInformationResponse");
 
             let dummy = DummyRestApiResponse {
                 inner: Box::new(move || Box::pin(async move { Ok(dummy_response) })),
@@ -950,58 +870,6 @@ mod tests {
                 .unwrap();
 
             match client.get_market_maker_protection_config(params).await {
-                Ok(_) => panic!("Expected an error"),
-                Err(err) => {
-                    assert_eq!(err.to_string(), "Connector client error: ResponseError");
-                }
-            }
-        });
-    }
-
-    #[test]
-    fn option_margin_account_information_required_params_success() {
-        TOKIO_SHARED_RT.block_on(async {
-            let client = MockMarketMakerEndpointsApiClient { force_error: false };
-
-            let params = OptionMarginAccountInformationParams::builder().build().unwrap();
-
-            let resp_json: Value = serde_json::from_str(r#"{"asset":[{"asset":"USDT","marginBalance":"10099.448","equity":"10094.44662","available":"8725.92524","initialMargin":"1084.52138","maintMargin":"151.00138","unrealizedPNL":"-5.00138","lpProfit":"-5.00138"}],"greek":[{"underlying":"BTCUSDT","delta":"-0.05","gamma":"-0.002","theta":"-0.05","vega":"-0.002"}],"time":1592449455993}"#).unwrap();
-            let expected_response : models::OptionMarginAccountInformationResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::OptionMarginAccountInformationResponse");
-
-            let resp = client.option_margin_account_information(params).await.expect("Expected a response");
-            let data_future = resp.data();
-            let actual_response = data_future.await.unwrap();
-            assert_eq!(actual_response, expected_response);
-        });
-    }
-
-    #[test]
-    fn option_margin_account_information_optional_params_success() {
-        TOKIO_SHARED_RT.block_on(async {
-            let client = MockMarketMakerEndpointsApiClient { force_error: false };
-
-            let params = OptionMarginAccountInformationParams::builder().recv_window(5000).build().unwrap();
-
-            let resp_json: Value = serde_json::from_str(r#"{"asset":[{"asset":"USDT","marginBalance":"10099.448","equity":"10094.44662","available":"8725.92524","initialMargin":"1084.52138","maintMargin":"151.00138","unrealizedPNL":"-5.00138","lpProfit":"-5.00138"}],"greek":[{"underlying":"BTCUSDT","delta":"-0.05","gamma":"-0.002","theta":"-0.05","vega":"-0.002"}],"time":1592449455993}"#).unwrap();
-            let expected_response : models::OptionMarginAccountInformationResponse = serde_json::from_value(resp_json.clone()).expect("should parse into models::OptionMarginAccountInformationResponse");
-
-            let resp = client.option_margin_account_information(params).await.expect("Expected a response");
-            let data_future = resp.data();
-            let actual_response = data_future.await.unwrap();
-            assert_eq!(actual_response, expected_response);
-        });
-    }
-
-    #[test]
-    fn option_margin_account_information_response_error() {
-        TOKIO_SHARED_RT.block_on(async {
-            let client = MockMarketMakerEndpointsApiClient { force_error: true };
-
-            let params = OptionMarginAccountInformationParams::builder()
-                .build()
-                .unwrap();
-
-            match client.option_margin_account_information(params).await {
                 Ok(_) => panic!("Expected an error"),
                 Err(err) => {
                     assert_eq!(err.to_string(), "Connector client error: ResponseError");

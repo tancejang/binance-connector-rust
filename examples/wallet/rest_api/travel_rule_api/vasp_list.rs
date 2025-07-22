@@ -3,7 +3,7 @@ use std::env;
 use tracing::info;
 
 use binance_sdk::config::ConfigurationRestApi;
-use binance_sdk::wallet::WalletRestApi;
+use binance_sdk::wallet::{WalletRestApi, rest_api::VaspListParams};
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -20,15 +20,18 @@ async fn main() -> Result<()> {
     // Create the Wallet REST API client
     let rest_client = WalletRestApi::production(rest_conf);
 
+    // Setup the API parameters
+    let params = VaspListParams::default();
+
     // Make the API call
     let response = rest_client
-        .onboarded_vasp_list()
+        .vasp_list(params)
         .await
-        .context("onboarded_vasp_list request failed")?;
+        .context("vasp_list request failed")?;
 
-    info!(?response.rate_limits, "onboarded_vasp_list rate limits");
+    info!(?response.rate_limits, "vasp_list rate limits");
     let data = response.data().await?;
-    info!(?data, "onboarded_vasp_list data");
+    info!(?data, "vasp_list data");
 
     Ok(())
 }

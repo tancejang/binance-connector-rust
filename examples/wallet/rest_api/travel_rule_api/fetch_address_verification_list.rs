@@ -3,7 +3,7 @@ use std::env;
 use tracing::info;
 
 use binance_sdk::config::ConfigurationRestApi;
-use binance_sdk::wallet::WalletRestApi;
+use binance_sdk::wallet::{WalletRestApi, rest_api::FetchAddressVerificationListParams};
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -20,9 +20,12 @@ async fn main() -> Result<()> {
     // Create the Wallet REST API client
     let rest_client = WalletRestApi::production(rest_conf);
 
+    // Setup the API parameters
+    let params = FetchAddressVerificationListParams::default();
+
     // Make the API call
     let response = rest_client
-        .fetch_address_verification_list()
+        .fetch_address_verification_list(params)
         .await
         .context("fetch_address_verification_list request failed")?;
 

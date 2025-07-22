@@ -21,7 +21,7 @@ use crate::spot::rest_api::models;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
-pub struct ExchangeFiltersInner {
+pub struct ExchangeFilters {
     #[serde(rename = "filterType", skip_serializing_if = "Option::is_none")]
     pub filter_type: Option<String>,
     #[serde(rename = "minPrice", skip_serializing_if = "Option::is_none")]
@@ -95,10 +95,10 @@ pub struct ExchangeFiltersInner {
     pub max_trailing_below_delta: Option<i64>,
 }
 
-impl ExchangeFiltersInner {
+impl ExchangeFilters {
     #[must_use]
-    pub fn new() -> ExchangeFiltersInner {
-        ExchangeFiltersInner {
+    pub fn new() -> ExchangeFilters {
+        ExchangeFilters {
             filter_type: None,
             min_price: None,
             max_price: None,
