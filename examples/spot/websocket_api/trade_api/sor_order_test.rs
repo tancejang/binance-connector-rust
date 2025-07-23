@@ -1,9 +1,13 @@
 use anyhow::{Context, Result};
+use rust_decimal::prelude::*;
 use std::env;
 use tracing::info;
 
 use binance_sdk::config::ConfigurationWebsocketApi;
-use binance_sdk::spot::{SpotWsApi, websocket_api::SorOrderTestParams};
+use binance_sdk::spot::{
+    SpotWsApi,
+    websocket_api::{SorOrderTestParams, SorOrderTestSideEnum, SorOrderTestTypeEnum},
+};
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -27,7 +31,13 @@ async fn main() -> Result<()> {
         .context("Failed to connect to WebSocket API")?;
 
     // Setup the WS API parameters
-    let params = SorOrderTestParams::default();
+    let params = SorOrderTestParams::builder(
+        "BNBUSDT".to_string(),
+        SorOrderTestSideEnum::Buy,
+        SorOrderTestTypeEnum::Market,
+        dec!(1.0),
+    )
+    .build()?;
 
     // Make the WS API call
     let response = connection

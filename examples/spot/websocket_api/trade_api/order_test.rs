@@ -3,7 +3,10 @@ use std::env;
 use tracing::info;
 
 use binance_sdk::config::ConfigurationWebsocketApi;
-use binance_sdk::spot::{SpotWsApi, websocket_api::OrderTestParams};
+use binance_sdk::spot::{
+    SpotWsApi,
+    websocket_api::{OrderTestParams, OrderTestSideEnum, OrderTestTypeEnum},
+};
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -27,7 +30,12 @@ async fn main() -> Result<()> {
         .context("Failed to connect to WebSocket API")?;
 
     // Setup the WS API parameters
-    let params = OrderTestParams::default();
+    let params = OrderTestParams::builder(
+        "BNBUSDT".to_string(),
+        OrderTestSideEnum::Buy,
+        OrderTestTypeEnum::Market,
+    )
+    .build()?;
 
     // Make the WS API call
     let response = connection
