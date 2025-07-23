@@ -15,11 +15,11 @@
 - Added missing parameters to `order_test()`
 
 - Modified parameter `cancelOrderId`:
-  - format `` → `int64`
+  - format `int32` → `int64`
   - affected methods:
     - `order_cancel_replace()` (`order.cancelReplace` method)
 - Modified parameter `orderId`:
-  - format `` → `int64`
+  - format `int32` → `int64`
   - affected methods:
     - `all_orders()` (`allOrders` method)
     - `my_trades()` (`myTrades` method)
