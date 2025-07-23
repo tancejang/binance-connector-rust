@@ -1,9 +1,13 @@
 use anyhow::{Context, Result};
+use rust_decimal::prelude::*;
 use std::env;
 use tracing::info;
 
 use binance_sdk::config::ConfigurationRestApi;
-use binance_sdk::spot::{SpotRestApi, rest_api::SorOrderTestParams};
+use binance_sdk::spot::{
+    SpotRestApi,
+    rest_api::{SorOrderTestParams, SorOrderTestSideEnum, SorOrderTestTypeEnum},
+};
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -21,7 +25,13 @@ async fn main() -> Result<()> {
     let rest_client = SpotRestApi::production(rest_conf);
 
     // Setup the API parameters
-    let params = SorOrderTestParams::default();
+    let params = SorOrderTestParams::builder(
+        "BNBUSDT".to_string(),
+        SorOrderTestSideEnum::Buy,
+        SorOrderTestTypeEnum::Market,
+        dec!(1.0),
+    )
+    .build()?;
 
     // Make the API call
     let response = rest_client

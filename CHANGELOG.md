@@ -1,5 +1,31 @@
 # Changelog
 
+## 10.0.0 - 2025-07-23
+
+**Spot**
+
+### Changed (4)
+
+#### REST API
+
+- Added missing parameters to `order_test()` (`POST /api/v3/order/test`)
+
+#### WebSocket API
+
+- Added missing parameters to `order_test()`
+
+- Modified parameter `cancelOrderId`:
+  - format `int32` → `int64`
+  - affected methods:
+    - `order_cancel_replace()` (`order.cancelReplace` method)
+- Modified parameter `orderId`:
+  - format `int32` → `int64`
+  - affected methods:
+    - `all_orders()` (`allOrders` method)
+    - `my_trades()` (`myTrades` method)
+    - `order_cancel()` (`order.cancel` method)
+    - `order_status()` (`order.status` method)
+
 ## 9.0.0 - 2025-07-22
 
 ### Added (1)

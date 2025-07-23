@@ -1804,6 +1804,221 @@ impl std::str::FromStr for OrderPlaceSelfTradePreventionModeEnum {
 
 #[allow(non_camel_case_types)]
 #[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum OrderTestSideEnum {
+    #[serde(rename = "BUY")]
+    Buy,
+    #[serde(rename = "SELL")]
+    Sell,
+}
+
+impl OrderTestSideEnum {
+    #[must_use]
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::Buy => "BUY",
+            Self::Sell => "SELL",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderTestSideEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "BUY" => Ok(Self::Buy),
+            "SELL" => Ok(Self::Sell),
+            other => Err(format!("invalid OrderTestSideEnum: {}", other).into()),
+        }
+    }
+}
+
+#[allow(non_camel_case_types)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum OrderTestTypeEnum {
+    #[serde(rename = "MARKET")]
+    Market,
+    #[serde(rename = "LIMIT")]
+    Limit,
+    #[serde(rename = "STOP_LOSS")]
+    StopLoss,
+    #[serde(rename = "STOP_LOSS_LIMIT")]
+    StopLossLimit,
+    #[serde(rename = "TAKE_PROFIT")]
+    TakeProfit,
+    #[serde(rename = "TAKE_PROFIT_LIMIT")]
+    TakeProfitLimit,
+    #[serde(rename = "LIMIT_MAKER")]
+    LimitMaker,
+    #[serde(rename = "NON_REPRESENTABLE")]
+    NonRepresentable,
+}
+
+impl OrderTestTypeEnum {
+    #[must_use]
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::Market => "MARKET",
+            Self::Limit => "LIMIT",
+            Self::StopLoss => "STOP_LOSS",
+            Self::StopLossLimit => "STOP_LOSS_LIMIT",
+            Self::TakeProfit => "TAKE_PROFIT",
+            Self::TakeProfitLimit => "TAKE_PROFIT_LIMIT",
+            Self::LimitMaker => "LIMIT_MAKER",
+            Self::NonRepresentable => "NON_REPRESENTABLE",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderTestTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "MARKET" => Ok(Self::Market),
+            "LIMIT" => Ok(Self::Limit),
+            "STOP_LOSS" => Ok(Self::StopLoss),
+            "STOP_LOSS_LIMIT" => Ok(Self::StopLossLimit),
+            "TAKE_PROFIT" => Ok(Self::TakeProfit),
+            "TAKE_PROFIT_LIMIT" => Ok(Self::TakeProfitLimit),
+            "LIMIT_MAKER" => Ok(Self::LimitMaker),
+            "NON_REPRESENTABLE" => Ok(Self::NonRepresentable),
+            other => Err(format!("invalid OrderTestTypeEnum: {}", other).into()),
+        }
+    }
+}
+
+#[allow(non_camel_case_types)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum OrderTestTimeInForceEnum {
+    #[serde(rename = "GTC")]
+    Gtc,
+    #[serde(rename = "IOC")]
+    Ioc,
+    #[serde(rename = "FOK")]
+    Fok,
+    #[serde(rename = "NON_REPRESENTABLE")]
+    NonRepresentable,
+}
+
+impl OrderTestTimeInForceEnum {
+    #[must_use]
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::Gtc => "GTC",
+            Self::Ioc => "IOC",
+            Self::Fok => "FOK",
+            Self::NonRepresentable => "NON_REPRESENTABLE",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderTestTimeInForceEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "GTC" => Ok(Self::Gtc),
+            "IOC" => Ok(Self::Ioc),
+            "FOK" => Ok(Self::Fok),
+            "NON_REPRESENTABLE" => Ok(Self::NonRepresentable),
+            other => Err(format!("invalid OrderTestTimeInForceEnum: {}", other).into()),
+        }
+    }
+}
+
+#[allow(non_camel_case_types)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum OrderTestNewOrderRespTypeEnum {
+    #[serde(rename = "ACK")]
+    Ack,
+    #[serde(rename = "RESULT")]
+    Result,
+    #[serde(rename = "FULL")]
+    Full,
+    #[serde(rename = "MARKET")]
+    Market,
+    #[serde(rename = "LIMIT")]
+    Limit,
+}
+
+impl OrderTestNewOrderRespTypeEnum {
+    #[must_use]
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::Ack => "ACK",
+            Self::Result => "RESULT",
+            Self::Full => "FULL",
+            Self::Market => "MARKET",
+            Self::Limit => "LIMIT",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderTestNewOrderRespTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "ACK" => Ok(Self::Ack),
+            "RESULT" => Ok(Self::Result),
+            "FULL" => Ok(Self::Full),
+            "MARKET" => Ok(Self::Market),
+            "LIMIT" => Ok(Self::Limit),
+            other => Err(format!("invalid OrderTestNewOrderRespTypeEnum: {}", other).into()),
+        }
+    }
+}
+
+#[allow(non_camel_case_types)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum OrderTestSelfTradePreventionModeEnum {
+    #[serde(rename = "NONE")]
+    None,
+    #[serde(rename = "EXPIRE_TAKER")]
+    ExpireTaker,
+    #[serde(rename = "EXPIRE_MAKER")]
+    ExpireMaker,
+    #[serde(rename = "EXPIRE_BOTH")]
+    ExpireBoth,
+    #[serde(rename = "DECREMENT")]
+    Decrement,
+    #[serde(rename = "NON_REPRESENTABLE")]
+    NonRepresentable,
+}
+
+impl OrderTestSelfTradePreventionModeEnum {
+    #[must_use]
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::None => "NONE",
+            Self::ExpireTaker => "EXPIRE_TAKER",
+            Self::ExpireMaker => "EXPIRE_MAKER",
+            Self::ExpireBoth => "EXPIRE_BOTH",
+            Self::Decrement => "DECREMENT",
+            Self::NonRepresentable => "NON_REPRESENTABLE",
+        }
+    }
+}
+
+impl std::str::FromStr for OrderTestSelfTradePreventionModeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "NONE" => Ok(Self::None),
+            "EXPIRE_TAKER" => Ok(Self::ExpireTaker),
+            "EXPIRE_MAKER" => Ok(Self::ExpireMaker),
+            "EXPIRE_BOTH" => Ok(Self::ExpireBoth),
+            "DECREMENT" => Ok(Self::Decrement),
+            "NON_REPRESENTABLE" => Ok(Self::NonRepresentable),
+            other => Err(format!("invalid OrderTestSelfTradePreventionModeEnum: {}", other).into()),
+        }
+    }
+}
+
+#[allow(non_camel_case_types)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum SorOrderPlaceSideEnum {
     #[serde(rename = "BUY")]
     Buy,
@@ -2021,6 +2236,223 @@ impl std::str::FromStr for SorOrderPlaceSelfTradePreventionModeEnum {
     }
 }
 
+#[allow(non_camel_case_types)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum SorOrderTestSideEnum {
+    #[serde(rename = "BUY")]
+    Buy,
+    #[serde(rename = "SELL")]
+    Sell,
+}
+
+impl SorOrderTestSideEnum {
+    #[must_use]
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::Buy => "BUY",
+            Self::Sell => "SELL",
+        }
+    }
+}
+
+impl std::str::FromStr for SorOrderTestSideEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "BUY" => Ok(Self::Buy),
+            "SELL" => Ok(Self::Sell),
+            other => Err(format!("invalid SorOrderTestSideEnum: {}", other).into()),
+        }
+    }
+}
+
+#[allow(non_camel_case_types)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum SorOrderTestTypeEnum {
+    #[serde(rename = "MARKET")]
+    Market,
+    #[serde(rename = "LIMIT")]
+    Limit,
+    #[serde(rename = "STOP_LOSS")]
+    StopLoss,
+    #[serde(rename = "STOP_LOSS_LIMIT")]
+    StopLossLimit,
+    #[serde(rename = "TAKE_PROFIT")]
+    TakeProfit,
+    #[serde(rename = "TAKE_PROFIT_LIMIT")]
+    TakeProfitLimit,
+    #[serde(rename = "LIMIT_MAKER")]
+    LimitMaker,
+    #[serde(rename = "NON_REPRESENTABLE")]
+    NonRepresentable,
+}
+
+impl SorOrderTestTypeEnum {
+    #[must_use]
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::Market => "MARKET",
+            Self::Limit => "LIMIT",
+            Self::StopLoss => "STOP_LOSS",
+            Self::StopLossLimit => "STOP_LOSS_LIMIT",
+            Self::TakeProfit => "TAKE_PROFIT",
+            Self::TakeProfitLimit => "TAKE_PROFIT_LIMIT",
+            Self::LimitMaker => "LIMIT_MAKER",
+            Self::NonRepresentable => "NON_REPRESENTABLE",
+        }
+    }
+}
+
+impl std::str::FromStr for SorOrderTestTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "MARKET" => Ok(Self::Market),
+            "LIMIT" => Ok(Self::Limit),
+            "STOP_LOSS" => Ok(Self::StopLoss),
+            "STOP_LOSS_LIMIT" => Ok(Self::StopLossLimit),
+            "TAKE_PROFIT" => Ok(Self::TakeProfit),
+            "TAKE_PROFIT_LIMIT" => Ok(Self::TakeProfitLimit),
+            "LIMIT_MAKER" => Ok(Self::LimitMaker),
+            "NON_REPRESENTABLE" => Ok(Self::NonRepresentable),
+            other => Err(format!("invalid SorOrderTestTypeEnum: {}", other).into()),
+        }
+    }
+}
+
+#[allow(non_camel_case_types)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum SorOrderTestTimeInForceEnum {
+    #[serde(rename = "GTC")]
+    Gtc,
+    #[serde(rename = "IOC")]
+    Ioc,
+    #[serde(rename = "FOK")]
+    Fok,
+    #[serde(rename = "NON_REPRESENTABLE")]
+    NonRepresentable,
+}
+
+impl SorOrderTestTimeInForceEnum {
+    #[must_use]
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::Gtc => "GTC",
+            Self::Ioc => "IOC",
+            Self::Fok => "FOK",
+            Self::NonRepresentable => "NON_REPRESENTABLE",
+        }
+    }
+}
+
+impl std::str::FromStr for SorOrderTestTimeInForceEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "GTC" => Ok(Self::Gtc),
+            "IOC" => Ok(Self::Ioc),
+            "FOK" => Ok(Self::Fok),
+            "NON_REPRESENTABLE" => Ok(Self::NonRepresentable),
+            other => Err(format!("invalid SorOrderTestTimeInForceEnum: {}", other).into()),
+        }
+    }
+}
+
+#[allow(non_camel_case_types)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum SorOrderTestNewOrderRespTypeEnum {
+    #[serde(rename = "ACK")]
+    Ack,
+    #[serde(rename = "RESULT")]
+    Result,
+    #[serde(rename = "FULL")]
+    Full,
+    #[serde(rename = "MARKET")]
+    Market,
+    #[serde(rename = "LIMIT")]
+    Limit,
+}
+
+impl SorOrderTestNewOrderRespTypeEnum {
+    #[must_use]
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::Ack => "ACK",
+            Self::Result => "RESULT",
+            Self::Full => "FULL",
+            Self::Market => "MARKET",
+            Self::Limit => "LIMIT",
+        }
+    }
+}
+
+impl std::str::FromStr for SorOrderTestNewOrderRespTypeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "ACK" => Ok(Self::Ack),
+            "RESULT" => Ok(Self::Result),
+            "FULL" => Ok(Self::Full),
+            "MARKET" => Ok(Self::Market),
+            "LIMIT" => Ok(Self::Limit),
+            other => Err(format!("invalid SorOrderTestNewOrderRespTypeEnum: {}", other).into()),
+        }
+    }
+}
+
+#[allow(non_camel_case_types)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum SorOrderTestSelfTradePreventionModeEnum {
+    #[serde(rename = "NONE")]
+    None,
+    #[serde(rename = "EXPIRE_TAKER")]
+    ExpireTaker,
+    #[serde(rename = "EXPIRE_MAKER")]
+    ExpireMaker,
+    #[serde(rename = "EXPIRE_BOTH")]
+    ExpireBoth,
+    #[serde(rename = "DECREMENT")]
+    Decrement,
+    #[serde(rename = "NON_REPRESENTABLE")]
+    NonRepresentable,
+}
+
+impl SorOrderTestSelfTradePreventionModeEnum {
+    #[must_use]
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::None => "NONE",
+            Self::ExpireTaker => "EXPIRE_TAKER",
+            Self::ExpireMaker => "EXPIRE_MAKER",
+            Self::ExpireBoth => "EXPIRE_BOTH",
+            Self::Decrement => "DECREMENT",
+            Self::NonRepresentable => "NON_REPRESENTABLE",
+        }
+    }
+}
+
+impl std::str::FromStr for SorOrderTestSelfTradePreventionModeEnum {
+    type Err = Box<dyn std::error::Error + Send + Sync>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "NONE" => Ok(Self::None),
+            "EXPIRE_TAKER" => Ok(Self::ExpireTaker),
+            "EXPIRE_MAKER" => Ok(Self::ExpireMaker),
+            "EXPIRE_BOTH" => Ok(Self::ExpireBoth),
+            "DECREMENT" => Ok(Self::Decrement),
+            "NON_REPRESENTABLE" => Ok(Self::NonRepresentable),
+            other => {
+                Err(format!("invalid SorOrderTestSelfTradePreventionModeEnum: {}", other).into())
+            }
+        }
+    }
+}
+
 /// Request parameters for the [`open_orders_cancel_all`] operation.
 ///
 /// This struct holds all of the inputs you can pass when calling
@@ -2139,11 +2571,11 @@ pub struct OrderCancelParams {
     /// This field is **optional.
     #[builder(setter(into), default)]
     pub id: Option<String>,
-    /// Cancel order by orderId
+    /// `orderId`or`origClientOrderId`mustbesent
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub order_id: Option<i32>,
+    pub order_id: Option<i64>,
     /// `orderId`or`origClientOrderId`mustbesent
     ///
     /// This field is **optional.
@@ -2219,7 +2651,7 @@ pub struct OrderCancelReplaceParams {
     ///
     /// This field is **optional.
     #[builder(setter(into), default)]
-    pub cancel_order_id: Option<i32>,
+    pub cancel_order_id: Option<i64>,
     ///
     /// The `cancel_orig_client_order_id` parameter.
     ///
@@ -3275,9 +3707,27 @@ impl OrderPlaceParams {
 ///
 /// This struct holds all of the inputs you can pass when calling
 /// [`order_test`](#method.order_test).
-#[derive(Clone, Debug, Builder, Default)]
+#[derive(Clone, Debug, Builder)]
 #[builder(pattern = "owned", build_fn(error = "ParamBuildError"))]
 pub struct OrderTestParams {
+    ///
+    /// The `symbol` parameter.
+    ///
+    /// This field is **required.
+    #[builder(setter(into))]
+    pub symbol: String,
+    ///
+    /// The `side` parameter.
+    ///
+    /// This field is **required.
+    #[builder(setter(into))]
+    pub side: OrderTestSideEnum,
+    ///
+    /// The `r#type` parameter.
+    ///
+    /// This field is **required.
+    #[builder(setter(into))]
+    pub r#type: OrderTestTypeEnum,
     /// Unique WebSocket request ID.
     ///
     /// This field is **optional.
@@ -3288,14 +3738,101 @@ pub struct OrderTestParams {
     /// This field is **optional.
     #[builder(setter(into), default)]
     pub compute_commission_rates: Option<bool>,
+    ///
+    /// The `time_in_force` parameter.
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub time_in_force: Option<OrderTestTimeInForceEnum>,
+    ///
+    /// The `price` parameter.
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub price: Option<rust_decimal::Decimal>,
+    ///
+    /// The `quantity` parameter.
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub quantity: Option<rust_decimal::Decimal>,
+    ///
+    /// The `quote_order_qty` parameter.
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub quote_order_qty: Option<rust_decimal::Decimal>,
+    /// The new client order ID for the order after being amended. <br> If not sent, one will be randomly generated. <br> It is possible to reuse the current clientOrderId by sending it as the `newClientOrderId`.
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub new_client_order_id: Option<String>,
+    ///
+    /// The `new_order_resp_type` parameter.
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub new_order_resp_type: Option<OrderTestNewOrderRespTypeEnum>,
+    ///
+    /// The `stop_price` parameter.
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub stop_price: Option<rust_decimal::Decimal>,
+    /// See [Trailing Stop order FAQ](faqs/trailing-stop-faq.md)
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub trailing_delta: Option<i32>,
+    ///
+    /// The `iceberg_qty` parameter.
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub iceberg_qty: Option<rust_decimal::Decimal>,
+    /// Arbitrary numeric value identifying the order within an order strategy.
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub strategy_id: Option<i64>,
+    /// Arbitrary numeric value identifying the order strategy.
+    /// Values smaller than 1000000 are reserved and cannot be used.
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub strategy_type: Option<i32>,
+    ///
+    /// The `self_trade_prevention_mode` parameter.
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub self_trade_prevention_mode: Option<OrderTestSelfTradePreventionModeEnum>,
+    /// The value cannot be greater than `60000`
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub recv_window: Option<i64>,
 }
 
 impl OrderTestParams {
     /// Create a builder for [`order_test`].
     ///
+    /// Required parameters:
+    ///
+    /// * `symbol` — String
+    /// * `side` — String
+    /// * `r#type` — String
+    ///
     #[must_use]
-    pub fn builder() -> OrderTestParamsBuilder {
+    pub fn builder(
+        symbol: String,
+        side: OrderTestSideEnum,
+        r#type: OrderTestTypeEnum,
+    ) -> OrderTestParamsBuilder {
         OrderTestParamsBuilder::default()
+            .symbol(symbol)
+            .side(side)
+            .r#type(r#type)
     }
 }
 /// Request parameters for the [`sor_order_place`] operation.
@@ -3415,9 +3952,33 @@ impl SorOrderPlaceParams {
 ///
 /// This struct holds all of the inputs you can pass when calling
 /// [`sor_order_test`](#method.sor_order_test).
-#[derive(Clone, Debug, Builder, Default)]
+#[derive(Clone, Debug, Builder)]
 #[builder(pattern = "owned", build_fn(error = "ParamBuildError"))]
 pub struct SorOrderTestParams {
+    ///
+    /// The `symbol` parameter.
+    ///
+    /// This field is **required.
+    #[builder(setter(into))]
+    pub symbol: String,
+    ///
+    /// The `side` parameter.
+    ///
+    /// This field is **required.
+    #[builder(setter(into))]
+    pub side: SorOrderTestSideEnum,
+    ///
+    /// The `r#type` parameter.
+    ///
+    /// This field is **required.
+    #[builder(setter(into))]
+    pub r#type: SorOrderTestTypeEnum,
+    ///
+    /// The `quantity` parameter.
+    ///
+    /// This field is **required.
+    #[builder(setter(into))]
+    pub quantity: rust_decimal::Decimal,
     /// Unique WebSocket request ID.
     ///
     /// This field is **optional.
@@ -3428,14 +3989,81 @@ pub struct SorOrderTestParams {
     /// This field is **optional.
     #[builder(setter(into), default)]
     pub compute_commission_rates: Option<bool>,
+    ///
+    /// The `time_in_force` parameter.
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub time_in_force: Option<SorOrderTestTimeInForceEnum>,
+    ///
+    /// The `price` parameter.
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub price: Option<rust_decimal::Decimal>,
+    /// The new client order ID for the order after being amended. <br> If not sent, one will be randomly generated. <br> It is possible to reuse the current clientOrderId by sending it as the `newClientOrderId`.
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub new_client_order_id: Option<String>,
+    ///
+    /// The `new_order_resp_type` parameter.
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub new_order_resp_type: Option<SorOrderTestNewOrderRespTypeEnum>,
+    ///
+    /// The `iceberg_qty` parameter.
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub iceberg_qty: Option<rust_decimal::Decimal>,
+    /// Arbitrary numeric value identifying the order within an order strategy.
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub strategy_id: Option<i64>,
+    /// Arbitrary numeric value identifying the order strategy.
+    /// Values smaller than 1000000 are reserved and cannot be used.
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub strategy_type: Option<i32>,
+    ///
+    /// The `self_trade_prevention_mode` parameter.
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub self_trade_prevention_mode: Option<SorOrderTestSelfTradePreventionModeEnum>,
+    /// The value cannot be greater than `60000`
+    ///
+    /// This field is **optional.
+    #[builder(setter(into), default)]
+    pub recv_window: Option<i64>,
 }
 
 impl SorOrderTestParams {
     /// Create a builder for [`sor_order_test`].
     ///
+    /// Required parameters:
+    ///
+    /// * `symbol` — String
+    /// * `side` — String
+    /// * `r#type` — String
+    /// * `quantity` — `rust_decimal::Decimal`
+    ///
     #[must_use]
-    pub fn builder() -> SorOrderTestParamsBuilder {
+    pub fn builder(
+        symbol: String,
+        side: SorOrderTestSideEnum,
+        r#type: SorOrderTestTypeEnum,
+        quantity: rust_decimal::Decimal,
+    ) -> SorOrderTestParamsBuilder {
         SorOrderTestParamsBuilder::default()
+            .symbol(symbol)
+            .side(side)
+            .r#type(r#type)
+            .quantity(quantity)
     }
 }
 
@@ -4385,11 +5013,30 @@ impl TradeApi for TradeApiClient {
         params: OrderTestParams,
     ) -> anyhow::Result<WebsocketApiResponse<Box<models::OrderTestResponseResult>>> {
         let OrderTestParams {
+            symbol,
+            side,
+            r#type,
             id,
             compute_commission_rates,
+            time_in_force,
+            price,
+            quantity,
+            quote_order_qty,
+            new_client_order_id,
+            new_order_resp_type,
+            stop_price,
+            trailing_delta,
+            iceberg_qty,
+            strategy_id,
+            strategy_type,
+            self_trade_prevention_mode,
+            recv_window,
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
+        payload.insert("symbol".to_string(), serde_json::json!(symbol));
+        payload.insert("side".to_string(), serde_json::json!(side));
+        payload.insert("type".to_string(), serde_json::json!(r#type));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
         }
@@ -4398,6 +5045,48 @@ impl TradeApi for TradeApiClient {
                 "computeCommissionRates".to_string(),
                 serde_json::json!(value),
             );
+        }
+        if let Some(value) = time_in_force {
+            payload.insert("timeInForce".to_string(), serde_json::json!(value));
+        }
+        if let Some(value) = price {
+            payload.insert("price".to_string(), serde_json::json!(value));
+        }
+        if let Some(value) = quantity {
+            payload.insert("quantity".to_string(), serde_json::json!(value));
+        }
+        if let Some(value) = quote_order_qty {
+            payload.insert("quoteOrderQty".to_string(), serde_json::json!(value));
+        }
+        if let Some(value) = new_client_order_id {
+            payload.insert("newClientOrderId".to_string(), serde_json::json!(value));
+        }
+        if let Some(value) = new_order_resp_type {
+            payload.insert("newOrderRespType".to_string(), serde_json::json!(value));
+        }
+        if let Some(value) = stop_price {
+            payload.insert("stopPrice".to_string(), serde_json::json!(value));
+        }
+        if let Some(value) = trailing_delta {
+            payload.insert("trailingDelta".to_string(), serde_json::json!(value));
+        }
+        if let Some(value) = iceberg_qty {
+            payload.insert("icebergQty".to_string(), serde_json::json!(value));
+        }
+        if let Some(value) = strategy_id {
+            payload.insert("strategyId".to_string(), serde_json::json!(value));
+        }
+        if let Some(value) = strategy_type {
+            payload.insert("strategyType".to_string(), serde_json::json!(value));
+        }
+        if let Some(value) = self_trade_prevention_mode {
+            payload.insert(
+                "selfTradePreventionMode".to_string(),
+                serde_json::json!(value),
+            );
+        }
+        if let Some(value) = recv_window {
+            payload.insert("recvWindow".to_string(), serde_json::json!(value));
         }
         let payload = remove_empty_value(payload);
 
@@ -4495,11 +5184,28 @@ impl TradeApi for TradeApiClient {
         params: SorOrderTestParams,
     ) -> anyhow::Result<WebsocketApiResponse<Box<models::OrderTestResponseResult>>> {
         let SorOrderTestParams {
+            symbol,
+            side,
+            r#type,
+            quantity,
             id,
             compute_commission_rates,
+            time_in_force,
+            price,
+            new_client_order_id,
+            new_order_resp_type,
+            iceberg_qty,
+            strategy_id,
+            strategy_type,
+            self_trade_prevention_mode,
+            recv_window,
         } = params;
 
         let mut payload: BTreeMap<String, Value> = BTreeMap::new();
+        payload.insert("symbol".to_string(), serde_json::json!(symbol));
+        payload.insert("side".to_string(), serde_json::json!(side));
+        payload.insert("type".to_string(), serde_json::json!(r#type));
+        payload.insert("quantity".to_string(), serde_json::json!(quantity));
         if let Some(value) = id {
             payload.insert("id".to_string(), serde_json::json!(value));
         }
@@ -4508,6 +5214,36 @@ impl TradeApi for TradeApiClient {
                 "computeCommissionRates".to_string(),
                 serde_json::json!(value),
             );
+        }
+        if let Some(value) = time_in_force {
+            payload.insert("timeInForce".to_string(), serde_json::json!(value));
+        }
+        if let Some(value) = price {
+            payload.insert("price".to_string(), serde_json::json!(value));
+        }
+        if let Some(value) = new_client_order_id {
+            payload.insert("newClientOrderId".to_string(), serde_json::json!(value));
+        }
+        if let Some(value) = new_order_resp_type {
+            payload.insert("newOrderRespType".to_string(), serde_json::json!(value));
+        }
+        if let Some(value) = iceberg_qty {
+            payload.insert("icebergQty".to_string(), serde_json::json!(value));
+        }
+        if let Some(value) = strategy_id {
+            payload.insert("strategyId".to_string(), serde_json::json!(value));
+        }
+        if let Some(value) = strategy_type {
+            payload.insert("strategyType".to_string(), serde_json::json!(value));
+        }
+        if let Some(value) = self_trade_prevention_mode {
+            payload.insert(
+                "selfTradePreventionMode".to_string(),
+                serde_json::json!(value),
+            );
+        }
+        if let Some(value) = recv_window {
+            payload.insert("recvWindow".to_string(), serde_json::json!(value));
         }
         let payload = remove_empty_value(payload);
 
@@ -5921,7 +6657,7 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = spawn(async move {
-                let params = OrderTestParams::builder().build().unwrap();
+                let params = OrderTestParams::builder("BNBUSDT".to_string(),OrderTestSideEnum::Buy,OrderTestTypeEnum::Market,).build().unwrap();
                 client.order_test(params).await
             });
 
@@ -5965,7 +6701,7 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = tokio::spawn(async move {
-                let params = OrderTestParams::builder().build().unwrap();
+                let params = OrderTestParams::builder("BNBUSDT".to_string(),OrderTestSideEnum::Buy,OrderTestTypeEnum::Market,).build().unwrap();
                 client.order_test(params).await
             });
 
@@ -6015,7 +6751,13 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = spawn(async move {
-                let params = OrderTestParams::builder().build().unwrap();
+                let params = OrderTestParams::builder(
+                    "BNBUSDT".to_string(),
+                    OrderTestSideEnum::Buy,
+                    OrderTestTypeEnum::Market,
+                )
+                .build()
+                .unwrap();
                 client.order_test(params).await
             });
 
@@ -6186,7 +6928,7 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = spawn(async move {
-                let params = SorOrderTestParams::builder().build().unwrap();
+                let params = SorOrderTestParams::builder("BNBUSDT".to_string(),SorOrderTestSideEnum::Buy,SorOrderTestTypeEnum::Market,dec!(1.0),).build().unwrap();
                 client.sor_order_test(params).await
             });
 
@@ -6230,7 +6972,7 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = tokio::spawn(async move {
-                let params = SorOrderTestParams::builder().build().unwrap();
+                let params = SorOrderTestParams::builder("BNBUSDT".to_string(),SorOrderTestSideEnum::Buy,SorOrderTestTypeEnum::Market,dec!(1.0),).build().unwrap();
                 client.sor_order_test(params).await
             });
 
@@ -6280,7 +7022,14 @@ mod tests {
             let client = TradeApiClient::new(ws_api.clone());
 
             let handle = spawn(async move {
-                let params = SorOrderTestParams::builder().build().unwrap();
+                let params = SorOrderTestParams::builder(
+                    "BNBUSDT".to_string(),
+                    SorOrderTestSideEnum::Buy,
+                    SorOrderTestTypeEnum::Market,
+                    dec!(1.0),
+                )
+                .build()
+                .unwrap();
                 client.sor_order_test(params).await
             });
 
