@@ -270,7 +270,7 @@ pub fn build_client(
     proxy: Option<&ProxyConfig>,
     agent: Option<HttpAgent>,
 ) -> Client {
-    let builder = Client::builder().timeout(Duration::from_millis(timeout));
+    let builder = Client::builder().use_rustls_tls().timeout(Duration::from_millis(timeout));
 
     let mut builder = if keep_alive {
         builder
